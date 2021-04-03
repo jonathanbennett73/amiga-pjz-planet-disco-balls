@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-2-1-5" TITLE="K / / Changes from the A2000 Bus / Bus Arbitration and Fairness" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Changes from the A2000 Bus / Bus Arbitration and Fairness</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0295.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0297.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The Zorro II bus is now arbitrated fairly.  The normal slot-based order of
+precedence is given to requesting devices, just as in the A2000
+implementation.  As always, once a bus master assumes bus mastership, it
+has the bus for as long as it wants the bus (of course, trouble can result
+if a device takes the bus over for too long).  Once a master gives up the
+bus, it will not be granted it back until all subsequent requests have
+been serviced.
+
+Bus arbitration at its best will be slightly slower than in the A2000
+implementation, due to the fairness logic, but it is impossible to jam the
+arbiter with  <a href="../Hardware_Manual_guide/node02A5.html">asynchronous</a>  bus requests as in the A2000.  The new style
+arbiter also holds off bus grants while hidden local bus cycles are in
+progress, so there's no guarantee of a minimum time between bus request
+and bus grant specified.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

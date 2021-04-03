@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-4-1-3" TITLE="3 / / When Picture is Larger than Display Window / Memory Allocation" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / When Picture is Larger than Display Window / Memory Allocation</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0081.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0083.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+For larger memory pictures, you need to allocate more memory. Here is a
+formula for calculating memory requirements in general:
+
+     bytes per line * lines in playfield * # of bitplanes
+
+The number of bytes must be even.  Thus, if the wide playfield described
+in this section is formed from two bitplanes, it requires:
+
+<a name="line10">            80 * 200 * 2 = 32,000 bytes of memory</a>
+
+Recall that this is the memory requirement for the playfield alone. You
+need more memory for any  <a href="../Hardware_Manual_guide/node00B9.html">sprites</a> ,  <a href="../Hardware_Manual_guide/node011D.html#line45">animation</a> ,  <a href="../Hardware_Manual_guide/node00DA.html">audio</a> , or application
+programs you are using.
+
+The amount of Chip memory is one of the basic constraints on the size of
+playfields.  For instance, a playfield 2000 by 2000 pixels with five
+bitplanes would exceed even the two megabytes of Chip memory possible on
+an Amiga 3000.  Another constraint on playfield size is the bit plane
+modulos which limit the width (but not the height) of a playfield to
+262,144 pixels.
+
+As a practical matter, the blitter size registers also limit the size of
+playfields (unless the 680x0 CPU is used for drawing operations).  With
+the original chip set the largest area the blitter can draw in is 1008 by
+1024.  With the Enhanced Chip Set (ECS), the largest area the blitter can
+draw in is increased to 16368 by 16384 pixels.  For more information on
+ECS and  <a href="../Hardware_Manual_guide/node00AA.html">blitter limits</a>  refer to Appendix C, Enhanced Chip Set.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

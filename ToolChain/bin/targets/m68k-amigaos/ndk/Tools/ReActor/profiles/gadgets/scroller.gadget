@@ -1,0 +1,12 @@
+scroller.gadget
+LABEL "Scroller"
+LIBRARY "gadgets/scroller.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+INTEGER   0x85005001 (I··NU) SCROLLER_Top "Top" 0 -32768 32767
+INTEGER   0x85005002 (I···U) SCROLLER_Visible "Visible" 0 -32768 32767
+INTEGER   0x85005003 (I···U) SCROLLER_Total "Total" 0 -32768 32767
+SELECT    0x85005004 (I····) SCROLLER_Orientation "Orientation" 2 0x0002 0x0002 "Horizontal" 0x0004 "Vertical"
+BOOLEAN   0x85005005 (I····) SCROLLER_Arrows "Arrows" TRUE "Arrows"
+BOOLEAN   0x85005006 (I····) SCROLLER_Stretch "Stretch" FALSE "Stretch"
+INTEGER   0x85005007 (I···U) SCROLLER_ArrowDelta "Arrow Delta" 0 0 32767
+END

@@ -1,0 +1,15 @@
+penmap.image
+LABEL "Penmap"
+PARENTPROFILE "Image"
+LIBRARY "images/penmap.image" 0 PRIVATE
+INTEGER  0x80020003 (ISG··) IA_Width "Width" 0 -32768 32767
+INTEGER  0x80020004 (ISG··) IA_Height "Height" 0 -32768 32767
+PEN      0x80020006 (I····) PENMAP_RenderBGPen "Background Pen" BACKGROUNDPEN
+PENMAP   0x80020007 (I····) PENMAP_RenderData "Image" 0x85018003
+PEN      0x85018001 (I····) PENMAP_SelectBGPen "Select Background Pen" FILLPEN
+PENMAP   0x85018002 (I····) PENMAP_SelectData "Select Image" 0x85018003
+SCREEN   0x85018004 (I····A) PENMAP_Screen
+BOOLEAN  0x85018006 (I····) PENMAP_Transparent "Transparent" FALSE "Tranparent"
+SELECT   0x85018008 (I····) PENMAP_Precision "Precision" 4 0 -1 "Exact" 0 "Image" 16 "Icon" 32 "GUI"
+BOOLEAN  0x8501800A (I····) PENMAP_MaskBlit "Create Transparent Mask?" FALSE "Mask"
+END

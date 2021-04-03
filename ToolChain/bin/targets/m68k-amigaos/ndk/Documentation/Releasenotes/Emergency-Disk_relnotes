@@ -1,0 +1,87 @@
+
+RCS file: RCS/Startup-Sequence
+Working file: Startup-Sequence
+head: 45.3
+branch:
+locks:
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+Startup-Sequence for AmigaOS Emergency Boot Disk
+----------------------------
+revision 45.3
+date: 2001/01/19 14:04:54;  author: Helios;  state: Exp;  lines: +15 -3
+- added automatic disabling of ROM Update for IDEFix,
+  XSurfIDE and Env var "NOSCSIUPDATE"
+----------------------------
+revision 45.2
+date: 2001/01/18 15:30:21;  author: Helios;  state: Exp;  lines: +7 -2
+- included BindDrivers: Cause it is needed on disk already
+  when it wants to boot from a X-Surf connected CD-ROM drive
+- starts "C:SquirrelSCSI" if there
+----------------------------
+revision 45.1
+date: 2001/01/18 14:48:01;  author: Helios;  state: Exp;
+Pre-RCS releasenotes:
+=====================
+
+44.2 (22.6.1999)
+- ENVARC: on floppy disk
+
+44.3 (22.6.1999)
+- now really boots from CD instead of harddisk
+- replaced occurences of "DF0:" by ":"
+
+44.4 (23.6.1999) Jürgen Haage
+- replaced CD0: by AmigaOS3.5:
+
+44.5 (27.9.1999) André "Quasselstrippe" Dörffler
+- now assigning SYS: to CD lately to get access to SYS:Prefs/Presets right
+
+44.6 (9.10.1999) Martin 'Helios' Steigerwald
+- 44.5 does not work! ;-(((( Was it tested?
+  Startup-Sequence on CD-ROM will not work correctly when the SYS:
+  assign does not point to the Emergency-Disk on CD-ROM. For example
+  the Assign Libs: SYS:Classes ADD tries to assign to floppy disk then.
+  Guess what happens. ReAction classes can not be accessed anymore.
+  Now SYS: points to CD-ROM again.
+- To get Emergency-Boot and CyberGraphX V3 / V4 happy (SYS:Prefs/Presets)
+  I now did a "Assign SYS: DF0: ADD" just before execution of CD-ROM
+  Startup-Sequence. Didn't think that this works, but it does.
+- Removed RemLibrary commands.
+- Assign is made resident now... might be a little bit faster.
+- Removed dependency to DF0: again.
+  SYS: --> emergency disk assign will be removed after execution
+  of CD-ROM Startup-Sequence.
+  Needs temporary EDISK: assign.
+- When there is a User-Startup on Emergency-Disk it will be executed.
+- Does not remove EDISK:-assign anymore, might be useful to someone.
+- Made an example User-Startup with some comments.
+- Have fun ;-)
+
+44.7 (12.10.1999)
+- Hmm, my 44.5 was not the newest one. Andre already detected the bug
+  in it and wrote a 44.6.
+  But my 44.6 (now 44.7) should also be able to fix that problem with
+  the Locale: assign. Andre just adds a LIBS: Classes add assign to the
+  Startup-Sequence on the disk.
+  Making SYS: point to CD-ROM and after this to disk is safer. Cause then
+  the Locale: assign would have been right in the first place
+  Thus bumped revision to 44.7 to avoid version conflicts. This version
+  will now be used and it fixes the Locale: assign and maybe other issues
+  still have been around when SYS: is not on CD-ROM.
+
+44.8 (18.11.2000)
+- Changes made by Juergen
+- most notably IDEFix support for Emergency Disk
+
+45.1 (18.1.2001)
+- changes by me, Martin
+- When IDEFix is in Emergency-Disk:C start "AmigaOS ROM Update"
+  with SKIPROMUPDATES "scsi.device"
+- leave EDISK: assign
+- make EBOOT: assign: EDISK: and EBOOT: allow easy referencing
+  the Emergency-Boot on CD-ROM and the Emergency-Disk
+=============================================================================

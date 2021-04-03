@@ -1,0 +1,15 @@
+
+ClassAct 44.1 (17.8.99)
+
+· This is a starter program for Reaction prefs tool. If started from CLI
+  it starts Reaction. If started from WB it opens an unlocalized Requester
+  which tells the user to use Reaction instead of ClassAct to edit
+  preferences. 
+  
+  This program should be installed in SYS:Prefs and replaces the old 
+  ClassAct prefs program. An existing icon should be deleted while 
+  installing.
+
+
+
+

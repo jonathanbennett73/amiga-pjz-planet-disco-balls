@@ -1,0 +1,25 @@
+LoadResource 45.1 (19.1.2001)
+
+- Bumped to V45.
+- LoadSeg patch was broken. It trashed the registers d2-d3 which
+  are used by the overlayed version of LoadSeg.
+- Forbid()/Permit() protection around SetFunction() was missing.
+- A dos AnchorPath was allocated on the stack. This does not
+  guarantee long word alignment as desired. The anchor path is
+  now moved into the global data including an __aligned to 
+  fix this. Optimally, it should be allocated by AllocDosObject(),
+  but the current implementation of LoadResource() must be re-
+  designed to contain allow proper error handling in case this
+  allocation would fail. "Never catch an error you don't know
+  how to handle". (-;
+- In case the init code opened only some of the libraries, the
+  code forgot to close the remaining.
+- The code uses now SysBase instead of AbsExecBase.
+
+Additional remarks: The implementation of LoadResource() is
+questionable. It installs an - completely unnecessary - patch
+into LoadSeg() to be able to pre-load segments. I have some
+ideas how to avoid this patch party by an Os friendly approach,
+but this would require somewhat more work. Conclusion:
+
+		****Avoid this program****

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-8-5" TITLE="3 / Color Selection / Color Selection in Extra Half Brite (EHB) Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Color Selection / Color Selection in Extra Half Brite (EHB) Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0097.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0099.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The Amiga has a special mode called Extra Half Brite or EHB mode which
+doubles the maximum number of colors that can be displayed at one time. To
+use EHB mode, you must set up six bitplanes.  Then set  <a href="../Hardware_Manual_guide/node0068.html#line4">BPU</a> =6 (bits 12,
+13 and 14) in the  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  register. Set  <a href="../Hardware_Manual_guide/node008F.html#line51">HOMOD</a> =0 (bit 11) and  <a href="../Hardware_Manual_guide/node007C.html">DBLPF</a> =0
+(bit 10) in  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a> .  In this mode, the information in bitplane 6
+controls an intensity reduction in the other 5 bitplanes. The color
+register output selected by the first five bitplanes is shifted to
+half-intensity by the sixth bitplane. This allows 64 colors to be
+displayed at one time instead of the usual 32.
+
+   ECS playfield registers.
+   -----------------------
+   For  <a href="../Hardware_Manual_guide/node00A1.html">information</a>  concerning the playfield hardware and the Enhanced
+   Chip Set, see Appendix C.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

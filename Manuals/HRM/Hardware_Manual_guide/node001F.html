@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-15" TITLE="A Register Summary / BLTxMOD" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / BLTxMOD</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node001E.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0020.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+BLTxMOD    064      W       A     Blitter modulo x
+
+                 This register contains the modulo for blitter
+                 source (x=A,B,C) or destination (x=D).  A modulo
+                 is a number that is automatically added to the
+                 address at the end of each line, to make the
+                 address point to the start of the next line.  Each
+                 source or destination has its own modulo, allowing
+                 each to be a different size, while an identical
+                 area of each is used in the blitter operation.
+
+                 LINE DRAW   BLTAMOD and BLTBMOD are used as slope
+                 LINE DRAW   storage registers and must be preloaded
+                 LINE DRAW   with the values (4Y-4X) and (4Y)
+                 LINE DRAW   respectively.  Y/X= line slope.
+                 LINE DRAW   BLTCMOD and BLTDMOD must both be
+                 LINE DRAW   preloaded with the width (in bytes)
+                 LINE DRAW   of the image into which the line is
+                 LINE DRAW   being drawn (normally two times the
+                 LINE DRAW   screen width in words).
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

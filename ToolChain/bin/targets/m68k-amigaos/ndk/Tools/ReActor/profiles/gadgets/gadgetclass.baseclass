@@ -1,0 +1,34 @@
+GADGETCLASS
+INTEGER  0x80030001 (I····) GA_Left "Left Edge" 0 -32768 32767
+INTEGER  0x80030002 (I····) GA_RelRight "Left Edge (from right)" 0 -32768 32767
+INTEGER  0x80030003 (I····) GA_Top "Top Edge" 0 -32768 32767
+INTEGER  0x80030004 (I····) GA_RelBottom "Top Edge (from bottom)" 0 -32768 32767
+INTEGER  0x80030005 (I····) GA_Width "Width" 0 -32768 32767
+INTEGER  0x80030006 (I····) GA_RelWidth "Width (from right)" 0 -32768 32767
+INTEGER  0x80030007 (I····) GA_Height "Height" 0 -32768 32767
+INTEGER  0x80030008 (I····) GA_RelHeight "Height (from bottom)" 0 -32768 32767
+STRING   0x80030009 (I····) GA_Text "Textlabel" ""
+IMAGE    0x8003000A (I····) GA_Image "Image"
+BOOLEAN  0x8003000E (I····) GA_Disabled "Disable" FALSE "Gadget is disabled"
+BOOLEAN  0x8003000F (I····) GA_GZZGadget "GimmeZeroZero Gadget" FALSE "Border Layer"
+INTEGER  0x80030010 (···N·) GA_ID "Gadget ID" 0 0 65535
+BOOLEAN  0x80030013 (I····) GA_Selected "Selected" FALSE "Selected"
+BOOLEAN  0x80030015 (I····) GA_Immediate "Immediate" FALSE "GadgetDown Event"
+BOOLEAN  0x80030016 (I····) GA_RelVerify "Release Verify" FALSE "GadgetUp Event"
+BOOLEAN  0x80030017 (I····) GA_FollowMouse "Follow Mouse" FALSE "Follow Mouse"
+BOOLEAN  0x80030018 (I····) GA_RightBorder "Right Border" FALSE "Right Border"
+BOOLEAN  0x80030019 (I····) GA_LeftBorder "Left Border" FALSE "Left Border"
+BOOLEAN  0x8003001A (I····) GA_TopBorder "Top Border" FALSE "Top Border"
+BOOLEAN  0x8003001B (I····) GA_BottomBorder "Bottom Border" FALSE "Bottom Border"
+BOOLEAN  0x8003001C (I····) GA_ToggleSelect "Toggle Select" FALSE "Toggle Select"
+DRAWINFO 0x80030021 (I····) GA_DrawInfo
+IMAGE    0x80030023 (I····) GA_LabelImage "Label Image"
+BOOLEAN  0x80030024 (I····) GA_TabCycle "Tabulator Cycle" FALSE "Use TabCylce"
+BOOLEAN  0x80030025 (I····) GA_GadgetHelp "Gadget Help" FALSE "GadgetHelp Event"
+IBOX     0x80030026 (I····) GA_Bounds "Gadget Bounds"
+BOOLEAN  0x80030027 (I····) GA_RelSpecial "Gadget supports GM_LAYOUT" FALSE "Handle Layout"
+TEXTATTR 0x80030028 (I····) GA_TextAttr "Text Attributes"
+BOOLEAN  0x80030029 (I····) GA_ReadOnly "Ready Only" FALSE "Non selectable"
+ICTARGET 0x80040001 (·S···) ICA_TARGET "Interconnection Target"
+ICMAP    0x80040002 (I····) ICA_MAP "Interconnetion Tag Map"
+END

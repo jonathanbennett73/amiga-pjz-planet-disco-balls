@@ -1,0 +1,16 @@
+euro_countries 44.1 (5.8.99)
+
+- Changed all currency declarations to use "Euro" as the currency
+  name, "¢" as the small currency name, "EUR" as the ISO currency
+  name and set the number of digits in the small currency to be 2.
+
+
+euro_countries 44.2 (15.8.99)
+
+- Changed the small currenty name to "Cent". "¢" was dead wrong.
+
+
+countries 44.3 (16.8.99)
+
+- Changed the short date/time format for italia.country. It now
+  formats the hour with leading zeroes.

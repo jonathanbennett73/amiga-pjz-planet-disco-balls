@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_F" NODE="F-2-1" TITLE="F / Register Functional Description / I/O Ports (PRA, PRB, DDRA, DDRB)" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>F / Register Functional Description / I/O Ports (PRA, PRB, DDRA, DDRB)</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0130.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0132.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Ports A and B each consist of an 8-bit peripheral data register (PR) and
+an 8-bit data direction register (DDR).  If a bit in the DDR is set to a
+1, the corresponding bit position in the PR becomes an output.  If a DDR
+bit is set to a 0, the corresponding PR bit is defined as an input.
+
+When you READ a PR register, you read the actual current state of the I/O
+pins (PA0-PA7, PB0-PB7, regardless of whether you have set them to be
+inputs or outputs.
+
+Ports A and B have passive pull-up devices as well as active pull-ups,
+providing both CMOS and TTL compatibility.  Both ports have two TTL load
+drive capability.
+
+In addition to their normal I/O operations, ports PB6 and PB7 also provide
+ <a href="../Hardware_Manual_guide/node0133.html">timer</a>  output functions.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

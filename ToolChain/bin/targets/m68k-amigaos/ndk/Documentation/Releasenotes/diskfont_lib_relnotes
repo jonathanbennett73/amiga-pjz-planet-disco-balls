@@ -1,0 +1,28 @@
+diskfont 44.1 (1.5.99)
+
+- Bumped to V44.
+
+- Recompiled with SAS/C 6.58
+
+- Converted to use registerized parameters
+  throughout the library, inlined static
+  functions, no longer uses A4 to reference
+  data.
+
+- Replaced the code that queries the global
+  environment variable "diskfont". It now
+  uses dos.library routines to read the
+  variable rather than reading all the
+  data on its own.
+
+- The extended library function (offset -24) now
+  returns NULL.
+
+
+diskfont 44.2 (7.9.99)
+
+- Replaced the roll-your-own case-insensitive string
+  comparison code with Stricmp().
+
+- Improved handling of soft linked objects. Their type,
+  size and protection bits are now resolved, if possible.

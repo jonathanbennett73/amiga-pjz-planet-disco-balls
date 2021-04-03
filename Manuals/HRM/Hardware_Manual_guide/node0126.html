@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-11" TITLE="6 Blitter Hardware / Zero Flag" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 Blitter Hardware / Zero Flag</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0125.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0127.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A blitter zero flag is provided that can be tested to determine if the
+logic operation selected has resulted in zero bits for all destination
+bits, even if those destination bits are not written due to the D
+ <a href="../Hardware_Manual_guide/node011B.html">DMA channel</a>  being disabled.  This feature is often useful for
+ <a href="../Hardware_Manual_guide/node015A.html">collision detection</a> , by performing a logical &#034;and&#034; on two source images
+to test for overlap. If the images do not overlap, the zero flag will stay
+true.
+
+The Zero flag is only valid after the blitter has completed its operation
+and can be read from bit (13) DMAF_BLTNZERO of the  <a href="../Hardware_Manual_guide/node0170.html">DMACONR</a>  register.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

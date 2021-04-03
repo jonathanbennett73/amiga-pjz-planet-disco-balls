@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_E" NODE="E-2-4-1" TITLE="E / / External Disk Interface Specification / Pin Assignment (J7)" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>E / / External Disk Interface Specification / Pin Assignment (J7)</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node010F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0111.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+
+<a name="line3">   PIN NAME    DIR   NOTES</a>
+   --- ----    ---   -----
+   1   RDY*    I/O   If motor on, indicates disk installed and up to
+<a name="line6">                     speed.  If motor not on,  <a href="../Hardware_Manual_guide/node0111.html">identification mode</a> . See</a>
+                     below.
+   2   DKRD*    I    MFM input data to Amiga.
+   3   GND
+   4   GND
+   5   GND
+<a name="line12">   6   GND</a>
+   7   GND
+   8   MTRXD*   OC   Motor on data, clocked into drive's motor-on
+                     flip-flop by the active transition of SELxB*.
+<a name="line16">                     Guaranteed setup time is 1.4 usec.</a>
+<a name="line17">                     Guaranteed hold time is 1.4 usec.</a>
+   9   SEL2B*   OC   Select drive 2.*
+   10  DRESB*   OC   Amiga system reset.  Drives should reset their
+<a name="line20">                     motor-on flip-flops and set their write-protect</a>
+                     flip-flops.
+   11  CHNG*   I/O   Note: Nominally used as an open collector input.
+                     Drive's change flop is set at power up or when no
+                     disk is not installed.  Flop is reset when drive is
+<a name="line25">                     selected and the head stepped, but only if a disk</a>
+                     is installed.
+   12  +5V           270 ma maximum; 410 ma surge
+<a name="line28">                     When below 3.75V, drives are required to reset their</a>
+<a name="line29">                     motor-on flops, and set their write-protect flops.</a>
+<a name="line30">   13  SIDEB*   O    Side 1 if active, side 0 if inactive</a>
+   14  WPRO*   I/O   Asserted by selected, write-protected disk.
+<a name="line32">   15  TK0*    I/O   Asserted by selected drive when read/write head</a>
+<a name="line33">                     is positioned over track 0.</a>
+<a name="line34">   16  DKWEB*   OC   Write gate (enable) to drive.</a>
+   17  DKWDB*   OC   MFM output data from Amiga.
+<a name="line36">   18  STEPB*   OC   Selected drive steps one cylinder in the direction</a>
+                     indicated by DIRB.
+<a name="line38">   19  DIRB     OC   Direction to step the head.  Inactive to step</a>
+<a name="line39">                     towards center of disk (higher-numbered tracks).</a>
+<a name="line40">   20  SEL3B*   OC   Select drive 3. *</a>
+   21  SEL1B*   OC   Select drive 1. *
+   22  INDEX*  I/O   Index is a pulse generated once per disk revolution,
+                     between the end and beginning of cylinders.  The
+                     8520 can be programmed to conditionally generate a
+<a name="line45">                     level 6 interrupt to the 680x0 whenever the INDEX*</a>
+                     input goes active.
+   23  +12V          160 ma maximum; 540 ma surge.
+
+
+   * Note: the drive select lines are shifted as they pass through
+           a string of daisy chained devices. Thus the signal that appears
+           as drive 2 select at the first drive shows up as drive 1 select
+           at the second drive and so on...
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-5-1" TITLE="2 / Using the Copper Registers / Location Registers" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / Using the Copper Registers / Location Registers</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node004F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0051.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The Copper has two sets of location registers:
+
+          COP1LCH High 3 bits of first Copper list address.
+          COP1LCL Low 16 bits of first Copper list address.
+          COP2LCH High 3 bits of second Copper list address.
+<a name="line7">          COP2LCL Low 16 bits of second Copper list address.</a>
+
+In accessing the hardware directly, you often have to write to a pair of
+registers that contains the address of some data. The register with the
+lower address always has a name ending in &#034;H&#034; and contains the most
+significant data, or high 3 bits of the address. The register with the
+higher address has a name ending in &#034;L&#034; and contains the least significant
+data, or low 15 bits of the address. Therefore, you write the 18-bit
+address by moving one long word to the register whose name ends in &#034;H.&#034;
+This is because when you write long words with the 680x0, the most
+<a name="line17">significant word goes in the lower addressed word.</a>
+
+In the case of the Copper location registers, you write the address to
+COP1LCH. In the following text, for simplicity, these addresses are
+<a name="line21">referred to as COP1LC or COP2LC.</a>
+
+The Copper location registers contain the two indirect jump addresses used
+by the Copper. The Copper fetches its instructions by using its program
+counter and increments the program counter after each fetch. When a
+ <a href="../Hardware_Manual_guide/node0051.html">jump address strobe</a>  is written, the corresponding location register is
+loaded into the Copper program counter. This causes the Copper to jump to
+a new location, from which its next instruction will be fetched.
+Instruction fetch continues sequentially until the Copper is interrupted
+by another  <a href="../Hardware_Manual_guide/node0051.html">jump address strobe</a> .
+
+   About Copper restart.
+   ---------------------
+   At the start of each  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  interval, COP1LC is
+   automatically used to start the program counter.  That is, no matter
+   what the Copper is doing, when the end of  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  occurs,
+   the Copper is automatically forced to restart its operations at the
+   address contained in COP1LC.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

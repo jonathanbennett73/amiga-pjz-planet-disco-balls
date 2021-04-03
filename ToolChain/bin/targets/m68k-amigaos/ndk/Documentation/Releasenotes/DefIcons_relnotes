@@ -1,0 +1,42 @@
+
+DefIcons 45.0 (27-10-00)
+
+- just a version bump, no functional change.
+
+
+DefIcons 45.1 (15-02-01)
+
+- implemented arexx function "Identify NAME/A", the
+  arexxport name is DEFICONS. Requires arexx.class v44.
+
+
+DefIcons 45.2 (26-02-01)
+
+- added NOREXX/S option for those who don't want
+  the arexx interface (saves ~10kb of ram:)
+
+- added a small cache that can hold upto 3 icons
+  in memory. This gives a speed increase of about 
+  20% for drawers that contain a lot of files of the
+  same type. For "mixed" drawers there will be
+  probably no speed increase or even the speed
+  will drop. Please test!
+
+
+DefIcons 45.3 (17-04-01)
+
+- removed NOREXX option and the implementation
+  of the arexx host through arexx.class. The
+  program uses the SimpleRexx.c functions, now.
+  The reason for doing this was that I got some
+  strange enforcer hits from the interface
+  although I can remember that the arexx stuff
+  worked hit free the last time I've tested it.
+
+- just for fun, the program can be terminated
+  by sending "Quit" to the host, now.
+
+
+DefIcons 45.4 (14-09-01)
+
+- better SFS support.

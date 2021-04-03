@@ -1,0 +1,22 @@
+printtofile.device 44.1 (14.9.99)
+
+- Initial release.
+
+
+printtofile.device 44.2 (14.9.99)
+
+- No longer just overwrites the output file but
+  prompts the user what to do. It also shows
+  error messages, if necessary.
+
+
+printtofile.device 44.3 (16.9.99)
+
+- Oops; CMD_WRITE with io_Length==-1 didn't work
+  properly.
+
+
+printtofile.device 44.4 (29.9.99)
+
+- Merged Jochen's devs.cd catalog descriptor with printtofile.device's
+  variant.

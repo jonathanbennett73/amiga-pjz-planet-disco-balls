@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-1-5" TITLE="8 / Controller Port Interface / Reading A Light Pen" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / Controller Port Interface / Reading A Light Pen</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0188.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node018A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A light pen can be connected to one of the  <a href="../Hardware_Manual_guide/node017D.html">controller ports</a> . On the
+A1000, the light pen must be connected to port 1. Changing ports requires
+a minor internal modification. On the A500, A2000 and A3000 the default is
+port 2. An internal jumper can select port 1.  Regardless of the port
+used, the light pen design is the same.
+
+The signal called &#034;pen-pressed-to-screen&#034; is typically actuated by a
+switch in the nose of the light pen. Note that this switch is connected to
+one of the potentiometer inputs and must be read as same as the right or
+middle  <a href="../Hardware_Manual_guide/node0182.html">mouse button</a> .
+
+The principles of light pen operation are as follows:
+
+   1. Just as the system exits  <a href="../Hardware_Manual_guide/node0169.html">vertical blank</a> , the capture circuitry
+      for the light pen is automatically enabled.
+
+   2. The video beam starts to create the picture, sweeping from left
+      to right for each horizontal line as it paints the picture from
+      the top of the screen to the bottom.
+
+   3. The sensors in the light pen see a pulse of light as the video
+      beam passes by. The pen converts this light pulse into an
+      electrical pulse on the &#034;Beam Trigger&#034; line (pin 6).
+
+   4. This trigger signal tells the internal circuitry to capture and
+      save the current contents of the beam register,  <a href="../Hardware_Manual_guide/node018A.html">VPOSR</a> . This
+      allows you to determine where the pen was placed by reading the
+      exact horizontal and vertical value of the counter beam at the
+      instant the beam passed the light pen.
+
+ <a href="../Hardware_Manual_guide/node018A.html">Reading the Light Pen Registers</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

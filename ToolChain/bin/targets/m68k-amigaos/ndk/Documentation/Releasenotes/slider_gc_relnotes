@@ -1,0 +1,13 @@
+slider.gadget 45.1 (8.11.2000)
+
+· the knob dimensions did also take the body image into account which made
+  using a custom body image nearly impossible.
+
+slider.gadget 45.2 (9.11.2000)
+
+· removed some serial debugging output
+
+slider.gadget 45.3 (18.11.2000)
+
+· setting SLIDER_Level, SLIDER_Min or SLIDER_Max does not longer return 1 but
+  renders immediatly with GREDRAW_UPDATE (reduces flicker a lot)

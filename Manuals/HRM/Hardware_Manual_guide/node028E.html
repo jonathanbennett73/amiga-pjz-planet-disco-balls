@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-1-2" TITLE="K / General / Amiga Bus History" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / General / Amiga Bus History</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node028D.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node028F.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The original Amiga computer, the Amiga 1000, was introduced in 1985. While
+it had no built-in standard for expandability, the capability for some
+form of expansion was considered extremely important; personal computer
+history up to that date had shown several times that an open hardware
+expansion capability was often critical to a personal computer's success
+and to its capability to adapt to new or unusual applications. The A1000
+was designed with a connector giving access to the internal 68000 bus and
+a few other system signals. Shortly after introduction, the formal
+expansion specification for a card chassis that would connect to the A1000
+was published.   This bus became commonly known as the Zorro bus*.  While
+the backplane specification was very easy to implement with 1985 PAL
+technology based on the existing 68000 signals, the specification did
+incorporate a number of advanced features.   Far more sophisticated than
+the IBM-XT/AT and Apple II buses in common use at the time, the Zorro bus
+allowed any slot to master the bus, and it linked expansion cards with the
+system software. Addressing jumpers were eliminated, the card's address
+instead being assigned by software, and cards could easily be identified
+by software and linked with appropriate driver programs, all with a
+<a name="line20">minimum of user intervention.</a>
+
+With the introduction of the Amiga 2000 system, the Zorro bus was changed
+slightly.  Additional discrete interrupt lines were added, replacing the
+encoded lines that couldn't easily be used by any bus resident device.  As
+it turns out, these additional encoded lines weren't any more useful, as
+<a name="line26">they couldn't be disabled by software, and as such, they're no longer</a>
+considered an official part of the Zorro II bus specification (they are
+supported as part of Zorro III).  Finally, the form factor was changed to
+match that of the IBM PC-AT card, acting as both a cost reduction and
+allowing the Zorro II bus to offer the PC-AT bus as one optional secondary
+bus extension.  This modified specification became commonly known as the
+Zorro II bus, and it's the Amiga bus standard that's been in use for most
+of the Amiga's life.  And it's a bus standard that will continue to be
+important.
+
+ * The original &#034;Zorro&#034; name comes from the code name of one of the A1000
+   prototype boards.  The &#034;Zorro&#034; board was the one that followed the
+   &#034;Lorraine,&#034; and was the board in the works when much of the expansion
+   specifications were worked up.  Since everyone uses the &#034;Zorro&#034; name,
+   and no one's suggested a better name, we've stuck with it.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

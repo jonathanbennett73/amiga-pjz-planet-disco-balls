@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_E" NODE="E-1-1" TITLE="E / Amiga I/O Connector Pins / RS232 and MIDI Port" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>E / Amiga I/O Connector Pins / RS232 and MIDI Port</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00F4.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00F6.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+RS232 and MIDI Port
+-------------------
+
+                   A500/
+                   A2000/ CBM
+PIN  RS232  A1000  A3000  PCs   HAYES  DESCRIPTION
+---------------------------------------------------
+1    GND    GND    GND    GND   GND    <a href="../Hardware_Manual_guide/node0106.html#line5">FRAME GROUND</a> 
+2    TXD    RXD    RXD    RXD   RXD    TRANSMIT DATA
+3    RXD    RXD    RXD    RXD   RXD    RECEIVE DATA
+4    RTS    RTS    RTS    RTS   -      REQUEST TO SEND
+5    CTS    CTS    CTS    CTS   CTS    CLEAR TO SEND
+6    DSR    DSR    DSR    DSR   DSR    DATA SET READY
+7    GND    GND    GND    GND   GND    <a href="../Hardware_Manual_guide/node0106.html#line11">SYSTEM GROUND</a> 
+8    CD     CD     CD     DCD   DCD    CARRIER DETECT
+9    -      -      +12v   +12v  -      + 12 VOLT POWER
+10   -      -      -12v   -12v  -      - 12 VOLT POWER
+11   -      -      AUDO   -     -      <a href="../Hardware_Manual_guide/node0106.html#line14">AUDIO OUTPUT</a>  (A500, A2000, A3000)
+12   S.SD   -      -      -     SI     SPEED INDICATE
+13   S.CTS  -      -      -     -
+14   S.TXD  -5Vdc  -      -     -      <a href="../Hardware_Manual_guide/node0106.html#line13">- 5 VOLT POWER</a> 
+15   TXC    AUDO   -      -     -      <a href="../Hardware_Manual_guide/node0106.html#line14">AUDIO OUTPUT</a>  (A1000)
+16   S.RXD  AUDI   -      -     -      <a href="../Hardware_Manual_guide/node0106.html#line16">AUDIO INPUT</a>  (A1000)
+17   RXC    EB     -      -     -      BUFFERED PORT CLOCK 716kHz
+18   -      INT2*  AUDI   -     -      INTERRUPT LINE A1000/AUDIO INPUT
+                                           (A500, 2000, 3000)
+19   S.RTS  -      -      -     -
+20   DTR    DTR    DTR    DTR DTR      DATA TERMINAL READY
+21   SQD    +5            -     -      + 5 VOLT POWER
+22   RI     -      RI     RI    RI     <a href="../Hardware_Manual_guide/node0106.html#line22">RING INDICATOR</a> 
+23   SS     +12Vdc -      -     -      +12 VOLT POWER
+24   TXC1   C2*    -      -     -      3.58 MHZ CLOCK
+25   -      RESB*  -      -     -      BUFFERED SYSTEM RESET
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

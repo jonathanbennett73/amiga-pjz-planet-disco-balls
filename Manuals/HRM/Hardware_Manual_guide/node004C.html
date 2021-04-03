@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-4-1" TITLE="2 / The WAIT Instruction / Horizontal Beam Position" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / The WAIT Instruction / Horizontal Beam Position</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node004B.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node004D.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The horizontal beam position has a value of $0 to $E2. The least
+significant bit is not used in the comparison, so there are 113 positions
+available for Copper operations. This corresponds to 4 pixels in low
+resolution and 8 pixels in high resolution. Horizontal blanking falls in
+the range of $0F to $35. The standard screen (320 pixels wide) has an
+unused horizontal portion of $04 to $47 (during which only the background
+color is displayed).
+
+All lines are not the same length in NTSC. Every other line is a long line
+(228  <a href="../Hardware_Manual_guide/node012B.html#line28">color clocks</a> , 0-$E3), with the others being 227  <a href="../Hardware_Manual_guide/node012B.html#line28">color clocks</a> 
+long. In PAL, they are all 227 long. The display sees all these lines as
+227 1/2  <a href="../Hardware_Manual_guide/node012B.html#line28">color clocks</a>  long, while the Copper sees alternating long and
+short lines.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

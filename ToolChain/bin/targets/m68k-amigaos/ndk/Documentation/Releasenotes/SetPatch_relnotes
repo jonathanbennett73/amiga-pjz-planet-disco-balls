@@ -1,0 +1,271 @@
+workbench/c/setpatch
+
+    Patch for mathieeesingbas.library Mul/Div FPU handling.
+    Patch for the OS copyright.
+    Patch for WritePixelLine8() trashing the source.
+    Froze 43.4.
+    Fixed V39 ScreenQuiet patch.
+    Froze 43.5.
+    Added BOOL CheckIO() patch to help WB and others
+    Froze 43.6.
+    Now features NSDPatch functionality based on NSDPatch 43.20.
+    Froze 43.8.
+    Slight improvement to make a smart SegTracker happy.
+    Froze 43.9.
+    Added disk based rom update functionality.
+    Froze 43.12.
+    Fixed bug in WPA8 patch that I introduced myself when trying to
+    make the patch better. SetPatch turns into a "doitall" due to
+    requests from H&P. I don't like it. It can now try to
+    selectively "soft" disable ROM modules. You can even skip ROM
+    updates by name now. *sigh*
+    Froze 43.13.
+    The pathological cases for SetPatch had a few problems. With
+    all updates skipped or no updates SetPatch rebooted too much.
+    Also, killing update tags didn't work as expected.
+    Froze 43.14.
+    Here is a summary of the majik new options. NOROMUPDATE/S does
+    what it says. DISABLEROMMODULES/K accepts a comma separated
+    list (no spaces!) of module names and takes them out of the
+    module list. It's the infamous RemLibrary functionality. If you
+    don't know what you are doing you crash. SKIPROMUPDATES/S will
+    skip selected update modules in the update file. It also
+    accepts a comma separated list of module names. KILLUPDATE/S
+    removes all the kicktags SetPatch had installed. FORCEUPDATE/S
+    will install updates even though something has been installed
+    previously already. SetPatch will wait for all volumes to be
+    validated now before rebooting! The DosList will be checked
+    once a second.
+    Froze 43.15.
+    SetPatch now has a WAITFORVALIDATE/S option which does what it
+    says. This option is NOT default. BTW, the wait can be aborted
+    by a mouseclick of >0.2s or CTRL-C on a Shell-Start.
+    Froze 43.16.
+    No more automatic wait for the validator. SetPatch will only
+    wait (before a reboot and in general) if you specify
+    WAITFORVALIDATE on the command line. Compatibility rulez.
+    Froze 43.17.
+    SetPatch will now print the ROM update modules it had
+    installed if not invoked with QUIET.
+    Froze 43.18.
+    It also will wait 3s with additional messages before rebooting
+    when reporting the modules only so that you can easily stop and
+    check the output.
+    Froze 43.19.
+    The ROM update file format has changed! It is now more flexible
+    in terms of selective updates and future extensions without yet
+    another change of format being required then.
+    Froze 43.20.
+    Per request from H&P, SetPatch will now per default disable
+    workbench.library and icon.library if a corresponding file can
+    be found in LIBS:. This happens only *unless* the
+    DISABLEROMMODULES option is used in any way. To not have any
+    modules disabled, use the option with an empty string now.
+    If you don't have replacements in LIBS:, nothing will be disabled!
+    This is to keep OS3.1 users alive.
+    Also, the version has been bumped to V44 now.
+    Froze 44.1.
+    Added last minute hack to SetPatch per H&P request. Pressing all of
+    LSHIFT|CONTROL|LBUTTON at the same time during initial reboot
+    will disable the "scsi.device" ROM update. It is probably unwise
+    to put this info into the manual. It should be left to qualified
+    support personnel to decide if this option helps or makes
+    things worse depending on the user's configuration.
+    Froze 44.2.
+    The correct order of NSD patches is now internally kept, which
+    should make the patch process pretty much foolproof. I also
+    added a SKIPROMMODULES alias to match the docs that I haven't
+    seen yet. The NSDPatch.cfg file got a few touchups, but I
+    currently don't have new info to add there.
+    Froze 44.3.
+    Added olsen's BltMaskBitMapRastPort() patch for interleaved
+    bitmaps. This required some tweaking of the patch and an enhancement
+    to the SetPatch engine. Also, handling of 68040/68060 should match
+    Enforcer better now. This is an experimental SetPatch.
+    Froze 44.4.
+    I turned off DOS requesters during the ROM-Update and OS 3.5
+    checks to be more compatible to the old V40 SetPatch. If either
+    DEVS: or LIBS: were not available, the machine would have put
+    up a requester (which may not have beeen visible with Gfx boards!).
+    SetPatch will also *not* disable the icon.library ROM module anymore
+    if an icon.library V3x.y is found on disk.
+    Froze 44.5.
+    Disabled BlitMaskBitMapRastPort() patch for Boing Bag release.
+    As you wish, Jochen.
+    Froze 44.6.
+    SetPatch will only install the ROM updates now if it has not been
+    started before. One should also be able to abort the reboot
+    with CTRL-C now during the ROM udpate install process.
+    Froze 44.7.
+    When printing the patch list, SetPatch will no longer try to
+    print entries that were incorrectly removed.
+    Froze 44.8.
+    NSDPatch.cfg line parsing was broken since the beginning of
+    time for hex numbers containing letters. This works now and
+    other incorrect lines are also flagged and not silently ignored
+    anymore.
+    Froze 44.9.
+    Is is now possible to use a new option in NSDPatch.cfg. The
+    option is named "IDSTRING/K" and allows you to match a patch to
+    the lib_IdString information of a Device. See the updated
+    NSDPatch.cfg for more info. SetPatch code also passes STRICT
+    checking of SAS/C now.
+    Froze 44.10.
+    The IDSTRING option handling had a logical error. In essence
+    the same error applied to SANA2MAGIC/AVOIDFORBID. These rather magic
+    options should be fixed now. SetPatch should now use correct
+    Y2K compliant version info anywhere, including NSD patch functionality,
+    which was/is not really user visible anywhere. Well, it's fixed now.
+    Froze 44.11.
+    I decided that adding a patch for the broken ramlib signal
+    usage is worth the effort touching SetPatch again. The patch is
+    hardcoded to be V40 ramlib specific. Handling of 040/060 should really
+    match Enforcer better now.
+    Froze 44.12.
+    If the user does not do very bad things before calling
+    SetPatch, stack sizes for CON:, RAW:, SER:, PAR:, PRT:, and
+    RAM: should now be 4000.
+    Froze 44.13.
+    The NSDPatch AVOIDFORBID option should now be safe for devices that
+    a) support AVOIDFORBID and b) can be expunged.
+    Froze 44.14.
+    utility/UMult64() will now return the result correctly on a
+    plain 68000.
+    Froze 44.15.
+    Thomas Richter asked me to take out the wait before rebooting.
+    I am not sure that this is a good idea, but I can't quite refute it.
+    So let's try it. Also, SMult64 should now do the right thing on plain
+    68000 machines.
+    Froze 44.16.
+    Copyright update requested by Juergen Haage.
+    Froze 44.17.
+    Starting with the ROM update file V44.27, SetPatch should be
+    able to optionally place the kicktags in non MEMF_KICK memory
+    *if* that memory survives a reset correctly. This is to avoid
+    having the tags placed in Chip memory if you don't have
+    decent autoconfiguring Fast RAM. You have to use the new option
+    "AVOIDMEMFKICKFORPATCHES/S" to get this feature as SetPatch
+    won't be able to determine reliably if your memory is good for
+    this. If it is not, your system may crash after the reboot.
+    SetPatch will also now checksum existing patches and Alert()
+    you, if some patches got trashed during the reboot that were
+    not yet vital for startup. If too much was trashed, you
+    may not even get to that Alert(). Actually, the Alert()
+    will only happen if you run SetPatch with the QUIET
+    option. If not, you will get a message telling you which
+    modules were trashed. Also, the mathieeesingbas patch should
+    work now for plain 68000 kickstarts running with high end CPUs.
+    Finally, the copyright should be correct once again.
+    Froze 44.18.
+    The VERSIONISNSD option inside NSDPatch.cfg will now check the
+    exact ver[/rev]. Previously it did not work as expected.
+    Also, starting with V44.19, a new patch option KICKSTARTROMONLY
+    is available to limit patching on certain patch lines. The
+    corresponding NSDPatch.cfg file has been updated.
+    This should fix complaints on scsi.device patches.
+    Dumping NSD patches should be a little more informative now.
+    Froze 44.19.
+    SetPatch should handle it gracefully now if it encounters
+    a ROM update file that doesn't support the new style loader.
+    The upgraded SetPatch didn't cope well with current ROM update
+    files previously. It could get seriously confused. Integrated
+    the ReleaseSemaphore() fix for Procure()d semaphores.
+    Froze 44.20.
+    SetPatch tries hard to fiddle with the caches on an 040/060
+    only now if it finds the corresponding library being active.
+    This also means that if someone has an 040/060 without an
+    040/060 library named appropriately (e.g. an 060 with an 040
+    lib that does 060 things), then SetPatch may not do the right
+    thing anymore. Loading of 040/060 support code should behave
+    slightly smarter now.
+    Froze 44.21.
+    SetPatch should now support exec.library updates ... and worse.
+    Froze 44.22.
+    Should set the RAM "Kickstart" revision now correctly.
+    Froze 44.23.
+    Due to an incorrect check, the DCACHE would not have been
+    turned on on an 060. Handling of non autoconfiguring fast mem
+    should be smarter now.
+    Froze 44.24.
+    The ROM update mechanism should deal better with ExecBase in
+    chip or fast mem now. Previously, due to some register messups
+    only, exec wasn't treated well. Also, the update mechanism
+    should now longer trip over invalid pointers in ExecBase.
+    There are more paranoia checks now before SetPatch plays with
+    the pointers. Finally, ROM updates installed by SetPatch will
+    always be checked when setpatch is run. You either get a
+    recoverable Alert or a failure message, depending on the QUIET
+    option, if something went wrong. If an Exec update is loaded,
+    ColdCapture will be used unconditionally. This is intentional.
+    I also made some preparations to allow possible future loading
+    of one other very majik update. It is not required right now
+    though. BTW, AVOIDMEMFKICKFORPATCHES/S is not a majik fix for
+    everything. It is a hack to support non-autoconfig fast memory
+    that still survives reboots. While SetPatch should be better
+    now in handling various combinations of MEMF_KICK, MEMF_LOCAL,
+    MEMF_FAST, and autoconfig and possibly even non autoconfig fast
+    memory, I don't guarantee that it won't break on really brain
+    damaged setups.
+    Froze 44.26.
+    More paranoia checks to the resident list. If something
+    fishy is found, the resident list will be killed. Let me
+    know if this breaks something else that is resident. Some
+    alignment improvements which should also help debugging.
+    Streamlined patch id method to be clearer.
+    Froze 44.27.
+    I truly broke 040/060 handling by messing with code that I
+    didn't even need to touch. The right library should be loaded
+    now for any 68k CPU.
+    Froze 44.29.
+    Starting with the AmigaOS ROM Update 44.38, a RAM Exec in
+    AutoConfig(tm) fast mem should be correctly handled.
+    AutoConfig(tm) board information should no longer be lost.
+    Note that this ROM Update intentionally contains debug output
+    which will appear on AutoConfig(tm) fast mem using machines.
+    I will need the debug output to say anything more.
+    Thanks to Thomas for identifying the exact cause of the "lost
+    boards" problem. I should have thought of it myself but didn't.
+    Leaving aside RAM exec issues (which do not play any role if
+    "SKIPROMUPDATES exec.library" is used), there still seems to be
+    another "unknown", introduced after SetPatch 44.17.
+    Just a minor tweak this time should maybe help find that issue.
+    Froze 44.30.
+    Parsing of NSD command lines should better deal with unexpected
+    whitespace in certain places. Stack usage should be reduced
+    by about 256 bytes. No functional change beyond making the
+    parser more tolerant.
+    No longer tries to be too smart about an 060, i.e., it no
+    longer makes invalid assumptions about AFF_68060. This should
+    fix the 060 related hangups because the support code did not
+    get loaded. I tried to accomodate Thomas some time ago but was
+    waaaay too careful and messed up.
+    Froze 44.31.
+    The combination of SetPatch 44.32 and the ROM update 44.39
+    should now do the right thing about exec in AutoConfig(tm)
+    fast mem. Note that this release still contains *DEBUG* output
+    over the serial port! I will need the output to say
+    anything about any bugs for AutoConfig(tm) fast mem.
+    This will probably not be the last iteration. *sigh*
+    Froze 44.32.
+    I made the reboot smarter for those who can't (don't want to) have
+    a S-S that does not fiddle with the MMU or the VBR before SetPatch
+    is called. *sigh*
+    Froze 44.33.
+    Reworked the mathieeesingbas patch completely to do the right
+    thing and be compatible to P5 68060.libraries. Now the patch
+    will only patch things if they have not been touched before.
+    Also, a workaround is included for the broken way the P5
+    library handles TaskOpenLib. Unfortunately, the public includes
+    are wrong, so the P5 library does things wrong, but P5 is not
+    to blame as they used the C= includes. It makes no sense
+    whatsoever to change the includes. Fixing the libary to match
+    the includes would be easier. It does not really matter to
+    much now. Now, the FPU setup should be correct for all users of
+    mathieeesingbas.library and P5 hardware.
+    Froze 44.34.
+    Fixed a problem in CPU identification that could have found an
+    030 when an 040/060 was in the system. The ROM update 44.42
+    no longer has debug output built in.
+    Froze 44.35.
+    Pure copyright update. No functional change.
+    Froze 44.36.

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-52" TITLE="A Register Summary / STREQU, STRHOR, STRLONG, STRVBL" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / STREQU, STRHOR, STRLONG, STRVBL</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0041.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0043.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+STREQU     038      S       D     Strobe for horizontal sync with VB
+                                      and EQU
+STRHOR     03C      S      D P    Strobe for horizontal sync
+STRLONG    03E      S      D( <a href="../Hardware_Manual_guide/node00AB.html#line18">E</a> ) Strobe for identification of long
+                                      horizontal line
+
+                 One of the first three strobe addresses above is
+                 placed on the destination address bus during the
+                 first refresh time slot.  The fourth strobe shown
+                 above is used during the second refresh time slot of
+                 every other line to identify lines with long counts
+                 (228).  There are four refresh time slots, and any
+                 not used for strobes will leave a null (FF) address
+<a name="line19">                 on the destination address bus.</a>
+
+STRVBL     03A      S       D     Strobe for horizontal sync with VB
+                                  (vertical blank)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

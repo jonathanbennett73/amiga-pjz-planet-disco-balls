@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-4-3" TITLE="K / Signal Description / System Control Signals" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Signal Description / System Control Signals</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02B0.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02B2.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The signals in this group are available for various types of system
+control; most of these have an immediate or near immediate effect on
+<a name="line4">expansion cards and/or the system CPU itself.</a>
+
+Hardware Bus Error/Interrupt (/BERR)
+   This is a general indicator of a bus fault or special condition of
+   some kind. Any expansion card capable of detecting a hardware error
+   relating directly to that card can assert /BERR when that bus error
+   condition is detected, especially any sort of harmful hardware error
+   condition.  This signal is the strongest possible indicator of a bad
+   situation, as it causes all PICs to get off the bus, and will usually
+   generate a level 2 exception on the host CPU. For any condition that
+   can be handled in software and doesn't pose an immediate threat to
+   hardware, notification via a standard processor interrupt is the
+   better choice.  The bus controller will drive /BERR in the event of a
+   detected bus collision or DMA error (an attempt by a bus master to
+   access local bus resources it doesn't have valid access permission
+   for). All cards must monitor /BERR and be prepared to tri-state all
+   of their on-bus output buffers whenever this signal is asserted. An
+   expansion bus master will attempt to retry a cycle aborted by a
+   single /BERR and notify system software in the case of two subsequent
+   /BERR results.   Since any number of devices may assert /BERR, and
+   all bus cards must monitor it, any device that drives /BERR must
+   drive with an  <a href="../Hardware_Manual_guide/node02BE.html">open collector</a>  or similar device, and any device that
+   monitors /BERR should place a minimal load on it.  This signal is
+   pulled high by a passive backplane resistor.
+
+Note that, especially for the slave device being addressed, that /BERR
+alone is not always necessarily an indication of a bus failure in the pure
+sense, but may indicate some other kind of unusual condition.  Therefore,
+a device should still respond to the bus address, if otherwise
+appropriate, when a /BERR condition is indicated.  It simply tri-states is
+bus buffers and other outputs, and waits for a change in the bus state.
+If the /BERR signal is negated with the cycle unterminated, the special
+condition has been resolved and the slave responds to the rest of the
+cycle as it normally would have. If the cycle is terminated by the bus
+master, the resolution of the special condition has indicated that the
+addressed slave is not needed, and so the cycle terminates without the
+<a name="line40">slave being used.</a>
+
+System Reset (/RESET, /IORST)
+   The bus supplies two versions of the system reset signal.  The /RESET
+   signal is bi-directional and unbuffered, allowing an expansion card
+   to hard reset the system.  It should only be used by boards that need
+   this reset capability, and is driven only by an  <a href="../Hardware_Manual_guide/node02BE.html">open collector</a>  or
+   similar device.  The /IORST signal is a buffered output-only version
+   of the reset signal that should be used as the normal reset input to
+   boards not concerned with resetting the system on their own.  All
+   expansion devices are required to reset their  <a href="../Hardware_Manual_guide/node02C7.html">autoconfiguration</a>  logic
+   when /IORST is asserted.  These signals are pulled high by passive
+<a name="line52">   backplane resistors.</a>
+
+System Halt (/HLT)
+   This signal is driven, along with /RESET, to assert a full-system
+   reset.  A full-system reset is asserted on a powerup reset or a
+   keyboard reset; any PIC that needs to differentiate between full
+   system and I/O reset should monitor /HLT and /IORST unless it also
+   needs to drive a reset condition.  This is driven with an
+    <a href="../Hardware_Manual_guide/node02BE.html">open-collector</a>  output, or the equivalent, and pulled up by a
+<a name="line61">   backplane resistor.</a>
+
+System Interrupts
+   Two of the decoded, level-sensitive 680x0 interrupt inputs are
+   available on the expansion bus, and these are labeled as /INT2 and
+   /INT6. Each of these interrupt lines is shared by wired ORing, thus
+   each line must be driven by an  <a href="../Hardware_Manual_guide/node02BE.html">open-collector</a>  or equivalent output
+   type.  Zorro III interrupts can be handled Zorro II style, via
+   autovectors and daisy-chained polling, or they can be vectored using
+   the  <a href="../Hardware_Manual_guide/node02AC.html">quick interrupt</a>  protocol described in the Bus Architecture
+   section.   Zorro II and Zorro III systems originally provided /INT1,
+   /INT4, /INT5, and /INT7 lines as well, but as these were never
+   properly supportable by system software, they have been eliminated.
+   Those lines are considered reserved for future use in a Zorro III
+   system.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

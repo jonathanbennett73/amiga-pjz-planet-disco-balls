@@ -1,0 +1,73 @@
+IoTools 45.1:
+
+- This is the first release of IoTools.
+
+
+IoTools 45.2:
+
+- IoTools was said to hang on insertion of
+  non-mountable disks for Ralph Schmidt devices.
+  Cannot reproduce it here on the GVP. My guess is
+  that this is related to Ralph's design
+  concerning the mounting of handlers by his
+  device. I'm now trying to work around this as 
+  best as possible.
+- IoTools uses now a separate string in case
+  an incompatible medium was found on formatting.
+- Note that due to the change above the catalog
+  grew and one new string has to be translated.
+  Sorry to the translators...
+
+
+IoTools 45.3:
+
+- Filing sytstem format tend to fail with "no disk
+  inserted" after a low level format on P5
+  devices. My guess is that it doesn't allow access
+  to a disk which does "obviously not belong" to this
+  filing system since it lacks an RDB and a proper
+  disk structure. I try now to work around this by
+  a longer wait period and by trying the high level
+  format several times. This should hopefully fix
+  this.
+- IoTools ghost now the format and cancel buttons on
+  a format. Note that you cannot stop a running
+  SCSI low-level format, so there is no possibility
+  to add a "Cancel" or "Abort" button, sorry.
+- IoTools selects now "FFS Intl" as default filing
+  system in case the disk is not yet formatted.
+- Fixed the incorrect version string.
+- IoTools does currently not support ATAPI/IDE ZIPs
+  and JAZs. This has little to do with my lazyness,
+  its more due to the lack of a system standard how
+  to issue vendor specific commands over an IDE
+  interface, hence I'm "out" here, I afraid. IoTools
+  try now harder to detect such a device and to avoid
+  offering to send commands to such a beast.
+  Send me documentation how to program IDE interfaces
+  and I reconsider.
+
+
+IoTools 45.4:
+
+- The minutes display for the drive spindown is now 
+  localizable.
+
+IoTools 45.5:
+
+- Fixed two typos in the localization.
+
+IoTools 45.6:
+
+- Added an additional safety layer around the DOS device
+scanning including the "bad device list". Removed the
+"trackdisk.device" from this list since some third party
+hardware I do not remember mounts the ZIP or JAZ as
+trackdisk.device unit 4. 
+
+IoTools 45.7:
+
+- The SCSI "disk valid" check came too few for some devices 
+causing in a "disk ready" even if the cartridge has been 
+ejected just a second before. Added an "EjectDelay" around 
+the device inquiry as workaround.

@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-1-4-2" TITLE="8 / / Reading Controllers / Interpreting Controller Position" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / / Reading Controllers / Interpreting Controller Position</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0185.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0187.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Interpreting the position of the proportional controller normally requires
+<a name="line3">some preliminary work during the  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  interval.</a>
+
+During  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a> , you write a value into an address called
+ <a href="../Hardware_Manual_guide/node018B.html">POTGO</a> . For a standard X-Y joystick, this value is hex 0001. Writing to
+this register starts the operation of some special hardware that reads the
+potentiometer values and sets the values contained in the  <a href="../Hardware_Manual_guide/node0187.html">POT registers</a> 
+(described below) to zero.
+
+The read circuitry stays in a reset state for the first seven or eight
+horizontal video scan lines. Following the reset interval, the circuit
+allows a charge to begin building up on a timing capacitor whose charge
+rate will be controlled by the position of the external controller
+resistance. For each horizontal scan line thereafter, the circuit compares
+the charge on the timing capacitor to a preset value. If the charge is
+below the preset, the  <a href="../Hardware_Manual_guide/node0187.html">POT counter</a>  is incremented. If the charge is above
+the preset, the counter value will be held until the next  <a href="../Hardware_Manual_guide/node018B.html">POTGO</a>  is
+issued.
+
+     <a href="../Hardware_Manual_guide/node02E6.html">Figure 8-5: Effects of Resistance on Charging Rate</a> 
+
+You normally issue  <a href="../Hardware_Manual_guide/node018B.html">POTGO</a>  at the beginning of a video screen, then read
+the values in the  <a href="../Hardware_Manual_guide/node0187.html">POT registers</a>  during the next  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a> 
+period, just before issuing  <a href="../Hardware_Manual_guide/node018B.html">POTGO</a>  again.
+
+Nothing in the system prevents the counters from overflowing (wrapping
+past a count of 255). However, the system is designed to insure that the
+counter cannot overflow within the span of a single screen. This allows
+you to know for certain whether an overflow is indicated by the controller.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

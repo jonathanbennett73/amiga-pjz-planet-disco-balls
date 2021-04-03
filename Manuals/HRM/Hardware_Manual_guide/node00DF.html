@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-2-5-2" TITLE="5 / / Selecting the Data Output Rate / Specifying the Period Value" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / / Selecting the Data Output Rate / Specifying the Period Value</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00DE.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00E0.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+After you have selected the desired interval between data samples, you can
+calculate the value to place in the period register by using the period
+formula:
+
+                  desired interval     clock constant
+   Period value = ---------------- = ------------------
+                   clock interval    samples per second
+
+As an example, say you wanted to produce a 1 KHz sine wave, using a table
+of eight data samples (four data words) (see Figure 5-3).
+
+     <a href="../Hardware_Manual_guide/node02DA.html">Figure 5-3: Example Sine Wave</a> 
+
+
+                    Sampled Values:     0
+                                       90
+                                      127
+                                       90
+                                        0
+                                      -90
+                                     -127
+                                      -90
+
+
+To output the series of eight samples at 1 KHz (1,000 cycles per second),
+each full cycle is output in 1/1000th of a second. Therefore, each
+individual value must be retrieved in 1/8th of that time. This translates
+to 1,000 microseconds per waveform or 125 microseconds per sample. To
+correctly produce this waveform, the period value should be:
+
+                     125 microseconds/sample
+   Period value = ------------------------------ = 447 timing
+<a name="line34">                  0.279365 microseconds/interval   intervals/sample</a>
+
+To set the period register, you must write the period value into the
+register AUDxPER, where &#034;x&#034; is the number of the channel you are using.
+For example, the following instruction shows how to write a period value
+of 447 into the period register for channel 0.
+
+SETAUD0PERIOD:
+        LEA     CUSTOM,a0
+        MOVE.W  #447,AUD0PER(a0)
+
+To produce high-quality sound, avoiding  <a href="../Hardware_Manual_guide/node00ED.html">aliasing distortion</a> , you
+should observe the limitations on period values that are discussed in
+the section called &#034;Producing Quality Sound.&#034;
+
+For the relationship between period and musical pitch, see the section
+at the end of the chapter, which contains a listing of the
+ <a href="../Hardware_Manual_guide/node00F0.html">equal-tempered musical scale</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,20 @@
+
+WarpOS 45.1 (29.10.2000)
+
+· first version. Nothing more than an interface to set the env-variables
+  for the powerpc.library.
+
+WarpOS 45.2 (02.11.2000)
+
+· added a warning information on program start, that this preferences tool
+  is only for users who know what they're doing.
+
+· Added option/tooltype USER that can be set to NOVICE, ADVANCED and
+  EXPERT. If it is set to ADVANCED or EXPERT, there will be no warning
+  information after program start.
+
+WarpOS 45.3 (29.01.2001)
+
+· Fix: Selecting an item from the Edit-menu, when the warning information
+  is displayed, corrupted the visual presentation.
+

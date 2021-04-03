@@ -1,0 +1,715 @@
+asl v40.16
+==========
+
+- All string and integer gadgets now use custom editing hooks.
+  This means, cursor keys and menus work even if a string
+  gadget is active.
+
+- Cursor key control now also works if no string gadget is
+  active.
+
+- Added a proper window backfill hook to the screen display
+  mode properties window.
+
+- The screen depth slider display now uses the correct
+  background colour rather than just colour 0.
+
+- Cut down the time it takes to scroll the file requester
+  list with cursor keys. It always used to redraw everything
+  everywhere everytime. Now it checks if only two list
+  entries need redrawing and takes care of them. This makes
+  scrolling with the cursor keys almost as responsive as
+  scrolling with the mouse.
+
+- The string gadget editing hook would use hard-coded raw key codes
+  to check if Amiga+Q and Amiga+X were hit. It now checks the
+  vanilla key codes.
+
+- The library now installs a low memory handler to be notified
+  when it's time to release the font cache. This means that
+  the library expunge vector now just expunges the library,
+  it does not muck with the cached font list.
+
+- Fixed one list node loop which could end up running over
+  the end of the list. It checked for "node" to be NULL
+  rather than "node->ln_Succ" before going into another
+  iteration.
+
+- The file requester now keeps its window locked when
+  building the volume list and when asking for confirmation
+  to delete a file.
+
+- The file requester display now uses the user interface
+  font that was specified rather than the current system
+  default font.
+
+- The file requester now caches directory lists if a
+  file requester structure is reused after allocating
+  and using it. However, the cached directory list will
+  be freed if AslRequest() is called with different options,
+  a different drawer or accept/reject/filter patterns.
+
+- Updated the Autodocs, they now mention the pitfalls of
+  shared IDCMPs and mixing pre-V38 and V38-V40 tags.
+
+- Changed the size of the "busy" LED. It is now as tall as
+  the drawer gadget plus its border.
+
+- Changing the size of the file requester window did not
+  update the maximum size of the file name area. This
+  could cause the file size and following data to trash
+  the file name.
+
+- The width of the file requester scroller now grows along
+  with the font currently in use. With large screen resolutions
+  the default size of 18 pixels could be a problem. Scrolling
+  was difficult since the list does not support strumming.
+
+- Changed the technique employed to insert new entries into
+  the file requester list and to keep the list sorted at the
+  same time. Originally, asl would use straight insertion.
+  It now uses simple binary trees.
+
+
+asl v40.17
+==========
+
+- The layout process now tries three fonts before giving
+  up (1. requested user interface font, 2. system default font,
+  3. topaz/8).
+
+- Fixed two bugs in the layout code: a) if the layout would
+  fail due to a gadget becoming smaller than expected a
+  gadtools Gadget context could be allocated which would
+  never be used or freed; b) if the layout would fail due
+  to gadtools rejecting the dimensions of a gadget a
+  gadtools Gadget context would not be allocated, causing
+  all following layout attempts to fail as well. The most
+  prominent manifestation of case b) was the font requester
+  closing immediately after opening the window when using
+  very large fonts.
+
+- The layout process is now restarted if gadgets are found to
+  overlap the window.
+
+- The file requester now sports a "sort" option. You can
+  choose the sort criteria (name, creation date, size),
+  whether the order should be reversed and whether drawers
+  should be listed first, last or with the file names.
+
+- Added a new "Create new drawer..." menu item to the file
+  requester "Control" menu.
+
+- AslRequestA() calls StackSwap() if entered with less than
+  4000 bytes of stack space. This helps since asl now uses
+  some dos.library routines it did not call in previous
+  releases. This demands more stack space than 2000 bytes.
+
+
+asl v40.18
+==========
+
+- As a "deliberate" side-effect, AslRequest() always passed the
+  contents of register A4 to callback functions. This could go
+  wrong when using the data=faronly compiler option as the
+  contents of A4 could be changed before getreg() would have a
+  chance to retrieve the initial register value. I changed the
+  function header to include A4 on the parameter list. This
+  fixes "Deluxe Music Construction Set 2" and others.
+
+- Changed memory allocations to use pools. For that purpose
+  I introduced two new private asl LVOs (AslFreeVec and AslAllocVec).
+
+- The [Return] key no longer takes you to the next string gadget
+  on the screen (unless you are currently using the file requester).
+  To use that feature, use the [Tab] key instead.
+
+- For the file requester, moving around the name list with the
+  cursor keys will as usual put the name of the currently selected
+  list item into the file name gadget. But now the cursor ends up
+  at the end of the file name.
+
+- When creating a new drawer in "save" mode, the file requester's
+  current drawer name will change to the name of the drawer
+  created.
+
+- Every name you enter in the file requester "file" string gadget
+  will be examined to find out if the name refers to a
+  drawer rather than a file. If the name is found to refer to a
+  drawer, the requester will use it as the new drawer name.
+
+- Rewrote asllists.asm in `C'.
+
+- The file name gadget now supports "file name completion" in a
+  limited sense: enter the first few characters of the file or
+  drawer name to find in the list and hit a cursor key. The
+  next file in the list whose first few characters match the
+  file name will be selected. If no matching file can be found,
+  the next following list entry will be selected instead.
+
+- Creating a new drawer will provide a default drawer name
+  that does not yet exist in the current directory.
+
+
+asl v40.19
+==========
+
+- The file name parser did not split names as "foo:bar/baz" into
+  "foo:bar" and "baz" as it did in previous releases. It now
+  works again as it should.
+
+- The file requester code assumed that it could cache font
+  width data until after the final UI layout pass. In other
+  words, it was unaware of any font changes the layout
+  process would make. Thus, the size of the drive light could
+  come out wrong. This has been fixed.
+
+- The code that tries to find the file name that comes closest
+  to the contents of the file name gadget now tries to be smarter
+  than it used to be. If the file name gadget is empty or if no
+  "similar" file can be found, it won't change the list view.
+
+
+asl v40.20
+==========
+
+- [Shift]+[Return] now works again as it should with empty
+  file names.
+
+- In multiselect mode, [Shift]+left mouse button now toggles
+  selection.
+
+- The multiple selection no longer adds the contents
+  of the string gadget to the list of arguments it returns
+  if there are any list entries selected.
+
+- Before changing the list sort order the library now cleans
+  up the file requester maintenance data. This should take
+  care of freak rendering effects.
+
+- During lengthy list manipulations the file requester now
+  shows the wait mouse pointer. You no longer need to wonder
+  why the requester suddenly froze in the middle of resizing
+  the window, etc.
+
+- Simplified some list traversal operations.
+
+- In multiselect mode, unmarking selected entries did not
+  always work as it should as a rendering optimization could
+  take over at the wrong time.
+
+
+asl v40.21
+==========
+
+- Removed the single call to ScrollWindowRaster() since it had
+  a tendency to cause trouble while the layers were locked.
+  The library now uses ScrollRasterBF() instead. The refresh
+  work is done in the main input loop anyway, regardless of
+  refresh messages ScrollWindowRaster() would generate.
+
+- Educated the optimized refresh code that updates the display
+  when scrolling or clicking on a list entry. It should now know
+  when to shorten the refresh operation and when to do a complete
+  update.
+
+- When scrolling, the requester did not restore the proper
+  window backfill layer hook.
+
+
+asl v40.22
+==========
+
+- Replaced the simple binary trees with red-black-trees. Even
+  in the worst case, red-black-tree insertion is a magnitude
+  faster than with binary trees.
+
+
+asl v40.23
+==========
+
+- No longer activates a different string gadget in the file
+  requester if there is already one active.
+
+- The file requester directory cache will be cleared if the
+  drawer modification date changes when the file requester
+  is reused.
+
+- The use of AmigaDOS wildcard patterns is now restricted to
+  the pattern gadget. Patterns in the drawer or file names
+  are no longer stripped and forced to go into the pattern
+  gadget.
+
+
+asl v40.24
+==========
+
+- The list item rendering code could fail to fill trailing
+  space of items whose size and date information would not
+  fit entirely into the window.
+
+- Updated the scrolling code to be smarter and not to
+  overlap line updates. It now updates only what needs
+  to be drawn.
+
+
+asl v40.25
+==========
+
+- The gadget layout code could end up trashing its own stack.
+  This is an ancient bug that goes way back to V38 times; I
+  wonder how the code could work at all...
+
+- The sizes of requesters are properly remembered between
+  calls again.
+
+- Replaced the sprintf() implementation by code that would
+  not reference AbsExecBase directly.
+
+- Rewrote the last bit of assembly code in `C' that didn't
+  have to be written in assembly language to work.
+
+- Changed the rules for the default requester window sizes.
+  For some font and locale combinations the window would
+  end up being too small for all the gadgets. It would
+  pop open and close again immediately.
+
+
+asl v40.26
+==========
+
+- The MemHandler could get invoked without receiving a proper
+  calling parameter, crashing the system during an expunge.
+
+
+asl v40.27
+==========
+
+- The file requester window no longer is of the simple refresh
+  type. It was just too difficult to make all the ends meet and
+  refreshing it involved altogether too much black magic. Now
+  we are back at smart refresh.
+
+- Replaced all the file requester custom list management code
+  with the code I had originally adapted for use with CygnusEd.
+  While the text scrolling doesn't work quite as smoothly
+  (you can blame the gadtools.library input processing code for
+  that), it is much more efficient now.
+
+- When selecting a file with the cursor keys, [Shift]+cursor up/down
+  now moves the select bar the proper way. Previously, it would
+  always jump by entire pages, contrary to what's written in the UI
+  style guide.
+
+- The file requester no longer updates the file list while you are
+  dragging the scroller. That bit always *really* annoyed me.
+
+- Added drag selection. Note that you cannot drag-select drawers.
+  This feature is limited to files only.
+
+- The code that scans a list for a file name no longer assumes
+  that the list is sorted in ascending alphabetic order. This is
+  necessary because the file list can be sorted due to different
+  criteria now.
+
+- The screen mode depth slider now defaults to 32K/64K/16M in
+  RTG modes with display depths beyond 8.
+
+
+asl v40.28
+==========
+
+- The file requester now is simple refresh again. I managed to
+  educate the former CygnusEd scrolling code to repair any
+  display damage introduced by scrolling.
+
+- While a directory is being read, deleting a file now causes
+  the scanning process to be restarted.
+
+- The code that displays volume usage information now
+  specifically avoids dividing by zero.
+
+
+asl v40.29
+==========
+
+- The window backfill code was not smart enough for the initial
+  window draw operation as it could end up using a drawing pen
+  that was not initialized yet. Now it defaults to using the
+  default background pen.
+
+
+asl v40.30
+==========
+
+- Updated the scrolling code to be more modular.
+
+
+asl v40.31
+==========
+
+- More changes to the scrolling code. The "jumpy" method
+  now directly scrolls and redraws the display rather than
+  approximating the position with every iteration of the
+  outer scrolling loop. The damage repair code now is just
+  a special case of the regular draw code.
+
+- The code that renders single file requester lines now
+  takes negative kerning into account. This means, file names
+  starting with j or W now render properly in the Courier and
+  Helvetica fonts.
+
+- The code that deletes drawers and files now is much smarter
+  in updating the display. Instead of just rereading the
+  drawer contents it now rebuilds the file list to restore
+  its balanced order.
+
+- Removed all special case display refresh code that really
+  already gets handled by the new scrolling code.
+
+
+asl v40.32
+==========
+
+- Removed unused code and tagged routines as being static
+  which were not called from anywhere outside the modules
+  they were defined in.
+
+- Changed all memory allocations done in order to cache
+  the font list to use the system memory pool rather than
+  the local memory pool maintained by asl.library. The
+  reason being that the low memory handler code which
+  can end up freeing the cached font list must not break
+  a Forbid(). The private memory pool routines cannot
+  guarantee this.
+
+
+asl v40.33
+==========
+
+- The file requester no longer resorts to redrawing the
+  file list over and over again if the user is merely
+  moving the cursor inside the file name gadget.
+
+- Changed the stack swapping code again.
+
+
+asl v40.34
+==========
+
+- Fixed a bug in the tree list management code which could
+  cause the requester to lose files and to trash the list
+  contents.
+
+
+asl.library 44.1 (23.3.99)
+
+- Now also displays comments for files and drawers.
+
+
+asl.library 44.2 (30.3.99)
+
+- In the volumes/assigns list, the strings for "Volume"
+  and "Assign" now enter the calculation to find the
+  widest row entry. Previously, the "Volume" text could
+  overlap the volume name.
+
+- Switched file list scrolling over to jumpy mode.
+
+- No longer peeks Screen->BitMap.Depth to find out how
+  many colours a screen uses.
+
+- Redid the minimum size layout code for PALETTE_KIND
+  gadgets which, due to how the initial layout stage
+  works, does not know how many colours are going to
+  be used in the palette display. Now it defaults to
+  the worst case, i.e. 256 colours. Not that smart,
+  but gets the job done.
+
+- Checkbox gadgets now get scaled according to the
+  screen display aspect ratio.
+
+
+asl.library 44.3 (15.4.99)
+
+- Now uses the same volume size conversion code
+  as Workbench.
+
+- Added a separator bar to the "Create Drawer"
+  requester.
+
+
+asl.library 44.4 (29.4.99)
+
+- The file name cache is now flushed if scanning was
+  aborted before the current drawer was read entirely.
+
+
+asl.library 44.5 (29.4.99)
+
+- Added new API function AbortAslRequest().
+
+
+asl.library 44.6 (1.5.99)
+
+- Added new API function ActivateAslRequest().
+
+
+asl.library 44.7 (10.5.99)
+
+- Changed the colours of the "Make New Drawer" requester
+  separator line.
+
+- Changed all __aligned attributes to a different method of
+  guaranteeing long word alignment.
+
+
+asl.library 44.8 (12.5.99)
+
+- Changed the sort order labeling to "Ascending/Descending".
+
+- Added new control tags to determine the sort criteria,
+  the sort order and the drawer placement.
+
+
+asl.library 44.9 (15.5.99)
+
+- The file requester now shows drawers first instead of
+  last.
+
+
+asl.library 44.10 (30.5.99)
+
+- Rewrote the code that rounds volume sizes.
+
+
+asl.library 44.11 (19.6.99)
+
+- Added a new file requester option which, when the requester
+  is opened, will cause the volume list to be displayed instead
+  of the contents of the specified drawer.
+
+
+asl.library 44.12 (27.6.99)
+
+- Increased the default minimum stack size to 8000 bytes to be on
+  the safe side.
+
+- Added a new menu item to the file requester which allows
+  files in the list to be selected by wildcard patterns.
+
+
+asl.library 44.13 (21.7.99)
+
+- Added a "Rename" option which works similar to "Delete", i.e.
+  it operates on the file name currently displayed in the two
+  path/file string gadgets at the bottom of the window.
+
+- Added a new "Update" menu item.
+
+
+asl.library 44.14 (4.8.99)
+
+- I wasn't sure if some of the memory allocations would in fact
+  guarantee long word alignment for a few particular data structures,
+  so I switched them back to AllocVec/FreeVec.
+
+
+asl.library 44.15 (5.8.99)
+
+- In the file requester the "Rename" command now also updates the
+  file name gadget.
+
+
+asl.library 44.16 (10.8.99)
+
+- The string gadget editing hooks no longer play silly tricks
+  with the [Shift] keys in order to get out of the way for
+  3rd party clipboard support code. Now that ConClip does its
+  duty these tricks are no longer necessary.
+
+
+asl.library 44.17 (15.8.99)
+
+- All asl requesters now bring the screen to the front they
+  have just opened on. The code also takes care of moving the
+  part of the screen into view the requester window has
+  opened in. When the requester closes, the screen is pushed
+  into the background again, if necessary.
+
+  This feature corresponds to a new set of control tags
+  available for use with all requester types.
+
+
+asl.library 44.18 (17.8.99)
+
+- The file requester sort options now feature menu keyboard
+  shortcuts.
+
+- Kludged the layout code so that it no longer worries about
+  single objects exceeding the window dimensions. The object
+  sizes are now chopped to size. Not a nice thing to do, but
+  there's no viable alternative...
+
+
+asl.library 44.19 (30.8.99)
+
+- In "drawers only" mode cursor control now works properly
+  in the drawer string gadget.
+
+
+asl.library 44.20 (31.8.99)
+
+- Changed the alignment rules for the requester window. It
+  now opens half the width and two thirds the height of
+  the parent window/screen unless the application to call
+  it specifies a different position and size. The new
+  code also takes care to place the window in the
+  currently visible portion of the display.
+
+
+asl.library 44.21 (3.9.99)
+
+- In "show only drawers" mode, with the volume list to be
+  displayed when the file requester opens, keyboard control
+  now works as expected.
+
+
+asl.library 44.22 (7.9.99)
+
+- The file requester now attempts to resolve soft linked objects,
+  querying the linked object's type, protection bits and size.
+  While this does not really yield full soft link support, it's
+  better than nothing at all.
+
+
+asl.library 44.23 (3.10.99)
+
+- Requesters no longer try to open windows with default heights
+  smaller than 200 pixels. The code also tries to take the
+  "minimum" requester sizes serious and will only try to "correct"
+  them if the new calculated default size is greater than the
+  old "minimum" size.
+
+- In save mode the file requester will no longer prompt you to
+  create a drawer that didn't exist before if the volume it was
+  supposed to be created on could not be mounted.
+
+
+asl.library 44.24 (3.10.99)
+
+- Drawer creation code was really using the wrong error code to
+  key off. "ERROR_OBJECT_NOT_FOUND" is much better.
+
+
+asl.library 44.25 (6.11.1999)
+
+- The volume size calculation code now tries to come up with more
+  accurate numbers. Due to nifty multi-precision arithmetics the
+  calculation works well for more than 18 Exabytes (4294967295^2).
+  Note that this feature requires an updated catalog.
+
+
+asl.library 44.26 (20.11.1999)
+
+- Rewrote the volume size calculation code to use 1024 as the base.
+
+
+asl.library 44.27 (25.12.1999)
+
+- In the file requester, pressing the [Tab] key no longer has the
+  same effect as pressing the [Return] key. That is, it will
+  move the cursor to the next string gadget in the window but it
+  won't trigger the action associated with pressing the
+  [Return] key. This should solve the problem of the wrong kind
+  of gadget getting reactivated after trying to move into the
+  drawer gadget.
+
+
+asl.library 44.28 (14.4.2000)
+
+- The screen mode requester now makes sure that all custom display
+  modes to go into the list to be shown are of the correct type
+  (the mode IDs must be correct). It also makes sure that no display
+  modes are entered into the list regularly which could be mistaken
+  for custom modes.
+
+- When displaying the name of a file to be deleted, the requester
+  no longer shows the complete path of the file if it is longer
+  than a total of 70 characters. In that case, the name shown will
+  refer only to the file, ignoring the path.
+
+
+asl.library 44.29 (6.6.2000)
+
+- Changing the file requester sorting order via 'AslRequestTags()'
+  now works as expected.
+
+
+asl.library 45.1 (29.10.2000)
+
+- Added support for the configurable window width/position options.
+
+- Added new tag to allow for the requester window to be opened in
+  inactive state.
+
+
+asl.library 45.2 (14.11.2000)
+
+- Font and screen mode requesters now respond to the [Return] key
+  being pressed.
+
+- A program which presets the size and position of an ASL requester
+  now causes the corresponding preferences selections to be ignored.
+  Likewise, a requester that has been opened once will use the
+  size and position described in the requester left/top/width/height
+  structure members.
+
+- The font sample text displayed in the font requester's preview
+  area is now localized and can be overridden by user code.
+
+
+asl.library 45.3 (16.11.2000)
+
+- The font requester now shows the background colour selector as
+  disabled if the text print mode is not "text+field" [Mario Cattaneo].
+
+- When building the font name list, the font requester no longer
+  resorts to an algorithm of O(n^2) complexity (that is, unless you
+  count the bit where the individual font sizes are collected and
+  sorted) [Thomas Richter].
+
+
+asl.library 45.4 (18.11.2000)
+
+- Added an override switch to make ASL choose the requester window
+  position and size instead of obeying the application's choices.
+  Note that this only works for the first time a requester opens.
+
+- Moving around in the font list by means of the cursor keys no
+  longer loads all the fonts as the cursor moves through the list.
+  The requester will load the font as soon as you let go of the
+  cursor key. Due to how Intuition processes keystrokes for
+  string gadgets, this trick only works while none of the
+  string gadgets are active. Sorry! To leave the string gadget,
+  just hit the [Return] key (and while none of the string
+  gadgets are active, pressing any other key will activate
+  the name gadget again) [Mario Cattaneo].
+
+
+asl.library 45.5 (8.2.2001)
+
+- Clicking and releasing the right mouse button within the
+  bounds of the file requester's drawer display now toggles between
+  the file and volume lists. Note that for this to work properly,
+  you must not select any menu item, thus aborting the menu
+  invocation. In all other places aborting the menu invocation will
+  have no such effect [Vit Sindlar].
+
+- Clicking on a file name and then changing the name displayed in
+  the name string gadget will cause the previously highlighted
+  file name to revert to its original state [Allan Odgaard].
+
+- Drawers and files which are in fact links to other drawers
+  and files now have their names underlined in the file list
+  [Francis Labrie].

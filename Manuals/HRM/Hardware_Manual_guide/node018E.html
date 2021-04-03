@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-2-2" TITLE="8 / Floppy Disk Controller / Disk Subsystem Timing" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / Floppy Disk Controller / Disk Subsystem Timing</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node018D.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node018F.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Figures 8-7, 8-8 and 8-9 show the timing parameters of the Amiga's floppy
+disk subsystem with a Chinon drive. Keep in mind that this information can
+change with floppy drives from other vendors.  To ensure compatibility
+with future versions of the system, you should avoid using this
+<a name="line6">information in applications.</a>
+
+
+             500ms min
+           |&#060;---------&#062;|
+         __            |
+  MOTOR    |           |
+  ON       |___________________________________________________________
+
+         __            |                                       ________
+  DRIVE    |           |                                      |
+  SELECT   |__________________________________________________|
+
+           |           |                         1.2ms min    |
+           |           |                    |&#060;---------------&#062;|
+         _____    ___________________________________    ______________
+  STEP        |  |                                   |  |
+           |  |__|     |                    |        |__|
+           |           |                    |
+           |  --&#062;|     |&#060;--18ms min         | 1.3ms min |
+        --&#062;|           |&#060;--1us min          |&#060;---------&#062;|
+         ______________                      __________________________
+  WRITE                |                    |
+  GATE                 |____________________|
+                                               1.2ms min
+                 --&#062;|  |&#060;--1000us min       |&#060;----------&#062;|
+         ___________   |   (see text)       |             _____________
+  SIDE              |  |                    |            |
+  SELECT            |____________________________________|
+
+             8us max--&#062;|  |&#060;--        --&#062;|  |&#060;--8us max
+         ______________________________________________________________
+  WRITE                   |  |  |  |  |  |
+  DATA                 |  |__|__|__|__|__|  |
+
+
+<a name="line42">                 Figure 8-7: Chinon Write Timing Diagram</a>
+
+         ____                                                   _______
+  DRIVE      |                                                 |
+  SELECT     |_________________________________________________|
+
+             |      |            |      | 3ms  |            |  |
+             |  t   | 18 ms min  |      | min  | 18 ms min  |  |
+             |&#060;----&#062;|&#060;----------&#062;|      |&#060;----&#062;|&#060;----------&#062;|  |&#060;-t
+         ________    _________    ___    ___    _________    __________
+  STEP           |  |         |  |   |  |   |  |         |  |
+                 |__|         |__|   |__|   |__|         |__|
+
+              |  t  |  t  |  t   |   |  |      |  t  |  t   |
+              |&#060;---&#062;|&#060;---&#062;|&#060;----&#062;| -&#062;|  |&#060;-t   |&#060;---&#062;|&#060;----&#062;|
+               ___________       |                    _________________
+  DIRECTION   |           |      |                   |
+  SELECT _____|     |     |__________________________|
+                    | 4ms
+                    | max  |     |  |
+                    |&#060;----&#062;|   -&#062;|  |&#060;-t
+         __________________          __________________________________
+                           |        |
+  TRACK 00                 |________|
+
+
+<a name="line68">                 Figure 8-8: Chinon Access Timing Diagram</a>
+
+         __
+  DRIVE    |
+  SELECT   |___________________________________________________________
+
+        --&#062;|     |&#060;--1us min
+         _____    _____________________________________________________
+  STEP        |  |
+           |  |__|
+           |         18ms min
+           |     |&#060;-------------&#062;|
+           |     |   1us min     |
+           |&#060;-------------------&#062;|
+         ________________________         _____________________________
+  WRITE                          |       |
+  GATE     |     |               |_______|
+           |     | 1000us min  |             1.2ms min
+           |     | (see text)-&#062;| |&#060;--    |&#060;------------&#062;|
+         ______________________  |       |               ______________
+  SIDE                         |         |              |
+  SELECT   |  --&#062;|  |&#060;--18ms   |________________________|
+           |     |  |    max
+           |1us min |                    |  |           |  |  1000us min
+           |&#060;------&#062;|        1.2ms max--&#062;|  |&#060;--     --&#062;|  |&#060;-(see text)
+         ______________________________________________________________
+  VALID             |  |  |  |              |  |  |  |  |  |  |  |  |  |
+  READ DATA         |__|__|__|              |__|__|__|__|  |__|__|__|__|
+
+
+                  Figure 8-8: Chinon Read Timing Diagram
+
+
+ <a href="../Hardware_Manual_guide/node018F.html">CIAAPRA/CIABPRB - Disk selection, control and sensing</a> 
+ <a href="../Hardware_Manual_guide/node0190.html">Disk DMA Channel Control</a> 
+ <a href="../Hardware_Manual_guide/node0191.html">DSKPTH - Pointer to Data</a> 
+ <a href="../Hardware_Manual_guide/node0192.html">DSKLEN - Length, Direction, DMA Enable</a> 
+ <a href="../Hardware_Manual_guide/node0193.html">DSKBYTR - Disk Data Byte and Status Read (read-only)</a> 
+ <a href="../Hardware_Manual_guide/node0194.html">ADKCON and ADKCONR - Audio and Disk Control Register</a> 
+ <a href="../Hardware_Manual_guide/node0195.html">DSKSYNC - Disk Input Synchronizer</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

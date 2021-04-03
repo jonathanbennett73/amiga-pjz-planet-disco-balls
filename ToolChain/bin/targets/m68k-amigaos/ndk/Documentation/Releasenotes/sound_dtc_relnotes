@@ -1,0 +1,178 @@
+sound 44.8 (9.3.99)
+
+- The autodocs now state that the DTM_COPY/DTM_WRITE methods
+  were broken in previous revisions. In both cases, invalid
+  empty VHDR chunks were written to the files.
+
+- The autodocs used to state that the SDTA_VoiceHeader
+  attribute was applicable for ISG. In fact, only IS
+  was supported and G would return an invalid voice header.
+  The voice header returned now reflects the object
+  settings.
+
+- The clock rate recording rates are calculated with is no longer
+  hardwired to the video subsystem settings but uses the EClock
+  value stored in SysBase.
+
+- The autodocs now state that the SDTA_SignalBit attribute was
+  always implemented incorrectly. Instead of being used as a bit
+  number it would always be used as a bit mask. There now is an
+  alias called SDTA_SignalBitMask which works just like SDTA_SignalBit.
+  A new tag SDTA_SignalBitNumber has been added which works like
+  the original SDTA_SignalBit tag was intended to.
+
+- In the OM_SET method, data from the SDTA_VoiceHeader tag is
+  now put to use instead of getting ignored completely.
+
+- The OM_SET method now protects itself against invalid input.
+
+- The DTM_COPY and DTM_WRITE methods now write proper VHDR
+  chunks.
+
+
+sound 44.9 (10.3.99)
+
+- The write method now makes sure that it has data to write.
+  It no longer tries to store an empty IFF-8SVX BODY chunk.
+
+- Added the new tag SDTA_SamplesPerSec.
+
+- Corrected the autodocs for the SDTA_Sample, SDTA_SampleLength,
+  SDTA_Period and SDTA_Continuous tags.
+
+- Added the new tag SDTA_ReplayPeriod.
+
+
+sound 44.10 (11.3.99)
+
+- Implemented double-buffered stereo sound playback.
+
+
+sound 44.11 (12.3.99)
+
+- Added the new tags SDTA_Pan and SDTA_FreeVecSampleData.
+
+- Updated and clarified the autodocs.
+
+- Double-buffered stereo sound playback now finally works.
+
+- Fixed the continuous sound playback problems introduced by
+  reimplementing the sound playback process in V44.10.
+
+- The DTM_WRITE and DTM_COPY methods now support saving
+  stereo 8SVX files.
+
+
+sound 44.12 (13.3.99)
+
+- Saving 8SVX files now also takes care of padding the number
+  of samples to store to an even number.
+
+- Added a new trigger method to complement STM_PLAY; you can
+  now use STM_STOP, too.
+
+- Now requires Kickstart 3.1.
+
+
+sound 44.13 (13.3.99)
+
+- Updated the header files again to include comments for
+  the VoiceHeader data structure and to introduce the
+  "Unity" identifier.
+
+- Changed the strategy employed for avoiding "free twice"
+  errors.
+
+
+sound 44.14 (15.3.99)
+
+- Renamed SDTA_FreeVecSampleData to SDTA_FreeSampleData.
+
+
+sound 44.15 (27.3.99)
+
+- Added support for DTA_Immediate and DTA_Repeat attributes.
+
+
+sound 44.16 (6.6.99)
+
+- Added the SDTA_SyncSampleChange tag.
+
+
+sound 44.17 (6.6.99)
+
+- Clicking on the gadget now immediately triggers sound playback.
+
+- Clicking on the gadget now invokes the DTM_TRIGGER method rather
+  than signalling the player process. This makes it possible to
+  overload the DTM_TRIGGER method and completely replace the playback
+  mechanism.
+
+
+sound 44.18 (13.6.99)
+
+- Rewrote the panning code. It now affects the playback volume as
+  expected.
+
+
+sound 44.20 (23.3.2000)
+
+- Modified the scaling code associated with the SDTA_ReplayPeriod tag
+  which checks for numeric overflows. This test should work safer now.
+
+---- end of olsens log ----
+
+
+---- start of stephans log ----
+
+sound 44.21 (11.8.2001)
+
+- implemented AHI playback routine. In order to enable the AHI mode
+  you need to set the env variable "classes/datatypes/sound/AHI" to 1.
+
+- also removed the asm startup code and compiled it for 68020+.
+
+- not released to betatesters.
+
+
+sound 44.22 (13.8.2001)
+
+- switched over to the hilevel API of AHI and added a workaround
+  for a deadlock problem when using paula.audio and SDTA_SyncSampleChange.
+
+- "classes/datatypes/sound/AHI" specifies the AHI unit to use, now!
+
+
+sound 44.23 (17.8.2001)
+
+- Ooops! Stereo samples were always played on the left (AHI player).
+
+
+sound 44.24 (19.9.2001)
+
+- sounddt no longer locks the lowlevel API of AHI when it doesn't
+  play a sample. But there's now a deadlock problem (again) when
+  using SDTA_SyncSampleChange and paula.audio. Currently, I don't
+  know any program that uses SDTA_SyncSampleChange so this shouldn't
+  be a problem but just in case it becomes one, you can workaround
+  the problem by setting the env variable "AHIpaulaSampleLimit"
+  (see AHI.guide for more). For programmers: Don't use SetDTAttrs()
+  to feed the datatype with new sample data, use SetAttrs() instead.
+  The problem here is that SetDTAttrs() calls SetGadgetAttrs() which
+  "runs through" the input state machine of Intuition. When 
+  paula.audio gets initialized it calls LockIBase() and this deadlocks
+  the system finally.
+
+- As it turned out the bug reported by Martin (system crash when
+  restarting a playing sound) is an AHI bug. Please select at least
+  two channels in AHI prefs to workaround this problem.
+
+- the datatype was using AHI by default unless the env variable was
+  set to -1.
+
+
+sound 44.25 (18.10.2001)
+
+- no longer limits the playback rate to 28khz when AHI is used.
+
+---- end of stephans log ----

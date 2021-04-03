@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_E" NODE="E-4" TITLE="E Connectors And Interfaces / Port Signal Assignments for 8520 CIAS" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>E Connectors And Interfaces / Port Signal Assignments for 8520 CIAS</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0116.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0118.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+CIA-A Address BFEx01  data bits 7-0  (A12*) (int2)
+--------------------------------------------------
+
+   PA7..game port 1, pin 6 (fire button*)
+   PA6..game port 0, pin 6 (fire button*)
+   PA5.. <a href="../Hardware_Manual_guide/node0110.html">RDY*</a>      disk ready*
+   PA4.. <a href="../Hardware_Manual_guide/node0110.html#line30">TK0*</a>      disk track 00*
+   PA3.. <a href="../Hardware_Manual_guide/node0110.html#line29">WPRO*</a>     write protect*
+   PA2.. <a href="../Hardware_Manual_guide/node0110.html#line20">CHNG*</a>     disk change*
+   PA1..LED*       led light (0=bright)/audio filter control (A500 &#038; A2000)
+   PA0..OVL        ROM/RAM overlay bit
+
+   SP... <a href="../Hardware_Manual_guide/node0172.html">KDAT</a>      keyboard data
+   CNT.. <a href="../Hardware_Manual_guide/node0172.html">KCLK</a>      keyboard clock
+   PB7..P7         data 7
+   PB6..P6         data 6
+   PB5..P5         data 5     Centronics parallel interface
+   PB4..P4         data 4          data
+   PB3..P3         data 3
+   PB2..P2         data 2
+   PB1..P1         data 1
+   PB0..P0  data 0
+
+   PC... <a href="../Hardware_Manual_guide/node0102.html">drdy*</a>                Centronics control
+   F.... <a href="../Hardware_Manual_guide/node0102.html#line17">ack*</a> 
+
+
+CIA-B Address BFDx00  data bits 15-8   (A13*) (int6)
+-----------------------------------------------------
+
+   PA7..com line  <a href="../Hardware_Manual_guide/node0106.html#line21">DTR*</a> , driven output
+   PA6..com line  <a href="../Hardware_Manual_guide/node0106.html">RTS*</a> , driven output
+   PA5..com line carrier detect*
+   PA4..com line  <a href="../Hardware_Manual_guide/node0106.html">CTS*</a> 
+   PA3..com line  <a href="../Hardware_Manual_guide/node0106.html#line21">DSR*</a> 
+   PA2.. <a href="../Hardware_Manual_guide/node0102.html#line31">SEL</a>       Centronics control
+   PA1.. <a href="../Hardware_Manual_guide/node0102.html#line28">POUT</a> +--- paper out ------------+
+   PA0.. <a href="../Hardware_Manual_guide/node0102.html#line25">BUSY</a> | +--busy    -------------+ |
+              | |                       | |
+   SP... <a href="../Hardware_Manual_guide/node0102.html#line25">BUSY</a> | +- commodore serial bus + |
+   CNT.. <a href="../Hardware_Manual_guide/node0102.html#line28">POUT</a> +----commodore serial bus --+
+
+   PB7.. <a href="../Hardware_Manual_guide/node0110.html#line12">MTR*</a>      motor
+   PB6.. <a href="../Hardware_Manual_guide/node0110.html#line38">SEL3*</a>     select external 3rd drive
+   PB5.. <a href="../Hardware_Manual_guide/node0110.html#line16">SEL2*</a>     select external 2nd drive
+   PB4.. <a href="../Hardware_Manual_guide/node0110.html#line39">SEL1*</a>     select external 1st drive
+   PB3.. <a href="../Hardware_Manual_guide/node0114.html">SEL0*</a>     select internal drive
+   PB2.. <a href="../Hardware_Manual_guide/node0110.html#line28">SIDE*</a>     side select*
+   PB1.. <a href="../Hardware_Manual_guide/node0110.html#line36">DIR</a>       direction
+   PB0.. <a href="../Hardware_Manual_guide/node0110.html#line34">STEP*</a>     step*
+
+   PC...not used
+   F.... <a href="../Hardware_Manual_guide/node0110.html#line40">INDEX*</a>    disk index pulse*
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

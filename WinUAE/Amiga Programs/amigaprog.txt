@@ -1,0 +1,105 @@
+			       
+                             p96_uae_tweak
+
+This features need the p96_uae_tweak program attached in this mail
+It must run after P96 monitordrivers in userstartup
+
+If you have copy this prog to c:
+
+run >nil: c:p96_uae_tweak.
+
+I also recommend to set P96 mem from the 4 MB AIAB config to 16 or 32
+MB,because it work
+faster .If not enough gfx card space is free you see flicker as before and
+slower move
+
+Restart whole winuae when you have increase gfx memsize and save the config.
+I notice crashes when only reboot.
+
+To test it you can boot AIAB open the screenmode prefs window.
+Now put the screenmode prefs window to back and move it around under other
+windows.
+Now if the window move fast and do not flicker all work ok.
+ 
+With that patch it is also impossible that P96 graphic actions can block
+winuae,so you get no AHI 16bit soundstodder when doing large graphic
+actions.
+ 
+The patch split for this large P96 blits (>60 pixel)in smaller blocks and
+check in all blocks if a 16 bit ahi buffer is free.No speedloss seen,no
+stodder notice with 4ms AHI Latency.
+
+Swapbitmaprastport (used for solid windowmoving and some slow layer
+actions)is patched
+to use a UAE blitter functions that direct exchange the data instead calling
+3* eor  
+It is faster and avoid the heavy flickering when move a smartlayer window
+under another window 
+
+                              restoretime (download from Aminet)
+
+This set every second the clock to windows clock time.
+You need this when you hybernate your PC and resume to get exact time.
+If you need exact time (for compiler make) i recommend also to use this
+because UAE cycletiming make diffrence of 1-2 sec in a hour.
+It have no speedloss   
+
+                              ahitweak
+
+This is a program you can start from shell or user-startup
+and allow you to tune the ahi driver for better latency,because on winxp the 
+playpointer position have a delay depend on system and soundcard
+
+I can reach with 
+ahitweak 200 
+
+latency of 4 ms with my sb-PCI512 on winxp (simular sb-live) 
+to get hd-rec working with 4ms
+
+You see thats more a function to get the best for realtime Music without special 
+ASIO drivers
+
+Most users dont need that
+
+But if you have crackle problems WITH 16 BIT AHI 
+play a song and try values of 50 200 500 2000 -50 -200 -500 -2000
+
+Maybe that help 
+                        p96refresh  (winuae only)
+Start this program to get higher mousepointer redraw rates than 50 hz
+with P96.Actions are seen immediatly after call.You can start this in your 
+user-startup for automatic on boot 
+
+Example:
+ p96refresh 75 
+set redraw rate to 75 hz.Best is if you set rate 
+         to your monitor refresh rate or monitor refreshrate*2
+         Dont set it higher or you get speedloss > 2%  
+
+			rtg.library:   (help also on Standard UAE)
+This avoid large slowdown and redraw problems in picasso96 with JIT
+copy it in libs:pacasso96
+
+			picasso96fix   (help also on Standard UAE)
+This allow larger Screen Width than 1024 
+start it BEFORE the loadwb instruction in startup-sequence
+
+			uae_german     (help also on Standard UAE (i hope ?))
+This is a German keymap to reach @\~{[]} with ALT-GR like windows
+Copy it in devs/keymaps and choose it in the keymap-prefs
+
+
+                         uae/uae.audio (winuae only)
+This is the AHI Driver.This allow support for record and playback upto 96 khz
+
+copy uae       to devs:audiomodes
+copy uae.audio to devs:ahi
+
+If you install correct the driver should show Version 4.3 Date 22.5.02 
+and offer you only 1 Mode UAE hifi stereo++. 
+
+This driver work fully independent from paula sound.For a speed 
+boost on slower systems you can set paula buffer to 5 or 6 choose 11 khz mono
+thats enough to hear system sound 
+
+

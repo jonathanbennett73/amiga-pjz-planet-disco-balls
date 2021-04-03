@@ -1,0 +1,81 @@
+Unarc 45.1 (21.11.2000)
+
+- First version. The intention of this tool is to be used for
+  DefIcons to automatically extract file archives.
+
+Unarc 45.2 (23.11.2000)
+
+- Added read-only listview with the contents of the archive.
+
+Unarc 45.3 (24.11.2000)
+
+- Fix: The horizontal scroller of the listview had no function 
+  at all.
+
+- Fix: Unarc crashed on an archive with only one empty file
+  (division by zero).
+
+- Fix: Unarc didn't set the file comment, date and the protection 
+  bits correctly.
+
+Unarc 45.4 (24.11.2000)
+
+- Fix: Unarc didn't handle empty directories and links correctly.
+  Links are ignored now.
+
+Unarc 45.5 (12.12.2000)
+
+- Added the possibility to select/deselect single entries of the
+  archive to be unpacked.
+
+Unarc 45.6 (18.12.2000)
+
+- Fix: If the program's icon was snapshot, the iconification icon appeared
+  at this fixed position, too.
+
+- Tooltypes DESTINATION and PUBSCREEN in an archive project icon now
+  overwrite those of the program's icon.
+
+Unarc 45.7 (19.12.2000)
+
+- Added Tooltypes LEFTEDGE, TOPEDGE, WIDTH and HEIGHT to set position and
+  size of the window.
+
+- Now we have a menu and a function to snapshot the current window position.
+
+- Now we only terminate, if the ESC key was pressed without any qualifiers.
+
+- Fix: The program's icon was not found, if it was started through the shell
+  from a different directory than its home directory.
+
+Unarc 45.8 (05.01.2001)
+
+- Added version information to about-requester.
+
+- Workaround for the fact, that you can drop a file into a drawers-only
+  asl-requester and get a path including that file back from the 
+  getfile-gadget.
+
+Unarc 45.9 (09.01.2001)
+
+- Added support for encrypted archives.
+
+- Fix: Skipping an existing file nevertheless changed its date, 
+  protection and comment to that of the file in the archive.
+
+Unarc 45.10 (29.01.2001)
+
+- Improved workaround of version 45.8.
+
+- Added a 'Cancel' button to every error requester during the 
+  unarchieving process.
+
+Unarc 45.11 (01.02.2001)
+
+- The All/None/Invert-Buttons should have been disabled during the
+  unarchieving process, too.
+
+Unarc 45.12 (17.07.2001)
+
+- Fix: Large archives caused a jumping gauge.
+

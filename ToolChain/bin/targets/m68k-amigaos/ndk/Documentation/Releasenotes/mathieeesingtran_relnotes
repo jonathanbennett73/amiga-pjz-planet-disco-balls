@@ -1,0 +1,125 @@
+
+mathieeesingtrans.library	45.1
+
+- SASified the code. Looks much better now. Partially
+  moved from the oldish K&R syntax to ANSI. Note that this
+  is the first re-compile since five or more years. This
+  is because there is no single compiler that supports
+  the IEEE single format, including the SAS. It really
+  required higher magic to compile this code. Neverthe-
+  less, this library is hardly ever required. A lot
+  of remarks that go for the mathieeedoubtrans go for
+  the mathieeesingtrans as well, unfortunately.
+
+- Added support for the fpsp.resource. If this resource is
+  present, emulation of all the unsupported instruction of 
+  the 68040 and 68060 are passed to the resource
+  instead of requiring an emulator trap. This is more
+  multitasking friendly and, too, faster.
+  Note that this makes FastIEEE superfluous.
+
+- Since the mathieeesingbas.library is initialized before
+  setpatch is run, the mathieeesingbas code never ever uses
+  the FPU for a 68040 and up since the FPU emulation core
+  is at this point not yet loaded. This makes this library
+  rarely useful; especially, the FPU isn't setup correctly
+  before initializing this library. *Bummer*
+
+- Fixed a bug in cos(). Did not truncate correctly to
+  the range -PI to PI. Since this happened only for
+  very large arguments, and since the precision of
+  floating point numbers is limited, this was hardly
+  ever noticable. The result code is more or less
+  random for the trigonometric functions if the
+  argument is larger than about 2^52. Not desired to
+  be fixed.
+
+- Fixed a bug in log(). Returned 0 instead of NAN
+  for negative arguments. Returned 0 instead of -INF
+  for the argument zero. Outch.
+
+- Fixed a bug in acos(). Returned PI or instead of 
+  NAN if the argument was larger than 1 or smaller than
+  -1. 
+
+- Fixed a bug in asin(). Quite the same as above.
+
+- Fixed way too many bugs in pow(). I don't know who
+  wrote this, but I recommend taking a basic course in
+  mathematics and numerics before writing math libraries.
+  Zero to a negative power returned 1.0 instead of NAN.
+  It should return +INF or -INF, though.
+  A negative number to a fractional exponent returned 0.0
+  instead of NAN.
+  The precision of pow() for negative arguments was less
+  than for positive arguments due to an oversight or
+  misconception.
+  Zero to zero returned 0 as result. This is wrong, but
+  unfortunately a common "mistake" or "definition". I
+  will leave it like this for compatibility.
+  If the base was negative and the exponend looked like
+  an integer, the algorithm to evaluate the sign of
+  the result was at best naive. Due to rounding, the
+  sign could have been anything provided the arguments
+  would have been big enough to make the algorithms
+  run out of control. The new and improved trick checks
+  the IEEE numbers bitwise and returns NAN in case the
+  numbers are too large to be able to say whether they
+  are even or odd. Happens at about 2^23 here.
+  The algorithm to compute a number to an integer ex-
+  ponent was suboptimal and ate too much stack.
+
+- Fixed a design bug in LibInit(), LibOpen() and Co.
+  LibOpen() did not re-open the mathieeesingbas.library,
+  even though this *IS* important due to the way how
+  FPU support works in exec (one of the few libs where
+  the RKRMs *MUST* be taken serious). It worked never-
+  theless since most people would have opened the
+  mathieeedoubbas.library anyhow before opening this.
+  Otherwise, the 68881/82 would have worked in extended
+  precision always, which is not that much of a problem
+  either. Call this tough luck.
+
+- None of the software emulations currectly check their
+  inputs for NAN or INF, you've to do this yourself.
+  Even worse, since the mathieeesingbas.library never
+  does this as well, the result of an intermediate over-
+  flow somewhere within these routines could have strange
+  and wonderful effects. 
+  This problem does not apply for the fpsp.resource or
+  using the native 68881/82 chip since Motorola, at least,
+  *does* proper checking.
+
+mathieeesingtrans.library	45.2
+
+- Reworked pow() again a bit. Evaluating a number to an
+  integer power will now use an interative algorithm
+  instead of a recursive algorithm that will require
+  exactly the same number of multiplications.
+
+- The out of range check for the integer algorithm failed
+  due to an oversight on negative numbers.
+
+- Fixed the startup code which would have crashed in case it
+  would have run out of memory. *Shudder*.
+
+- Removed the ancient support code for 68881/882 FPUs installed
+  as IO devices by means of the mathieee resource. The performance
+  of these cards was rather poor anyhow, and they aren't widely
+  spreat, over-aged, obsolete and partially useless. Note that
+  this does not affect FPUs bound into the system in the form of
+  a coprocessor (which is the standard alternative anyhow).
+
+mathieeesingtrans.library	45.3
+
+- the init code does no longer try to make use of the partial
+  040 or 060 FPU if no true 68881/882 support code, the fpsp,
+  has been loaded. *Bummer*.
+
+mathieeesingtrans.library	45.4
+
+- reworked pow() again a bit. The implementation of V37 and
+  up could not guarantee monotonicity, the pow() function
+  could have jumped at integer points for the exponent. This
+  has been fixed. Precision should have been increased as
+  well.

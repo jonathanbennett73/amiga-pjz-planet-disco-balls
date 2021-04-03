@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-46" TITLE="A Register Summary / SERDAT, SERDATR" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / SERDAT, SERDATR</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node003C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node003E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+SERDAT     030      W       P      Serial port data and stop bits write
+                                       (transmit data buffer)
+
+                 This address writes data to a transmit data buffer.
+                 Data from this buffer is moved into a serial shift
+                 register for output transmission whenever it is
+                 empty.  This sets the interrupt request TBE
+                 (transmit buffer empty). A stop bit must be
+                 provided as part of the data word. The length of
+                 the data word is set by the position of the stop
+                 bit.
+
+                 BIT# 15,14,13,12,11,10,09,08,07,06,05,04,03,02,01,00
+                      -----------------------------------------------
+                 USE   0  0  0  0  0  0  S D8 D7 D6 D5 D4 D3 D2 D1 D0
+
+<a name="line22">                 Note:  S = stop bit = 1, D = data bits.</a>
+
+SERDATR    018      R       P      Serial port data and status read
+                                       (receive data buffer)
+
+                 This address reads data from a receive data buffer.
+                 Data in this buffer is loaded from a receiving
+                 shift register whenever it is full.  Several
+                 interrupt request bits are also read at this
+                 address, along with the data, as shown below.
+
+                 BIT#  SYM          FUNCTION
+                 ----  ----         -----------------------
+                 15    OVRUN        Serial port receiver overrun.
+                                    Reset by resetting bit 11 of
+                                     <a href="../Hardware_Manual_guide/node0037.html">INTREQ</a> .
+                 14    RBF          Serial port receive buffer full
+                                    (mirror).
+                 13    TBE          Serial port transmit buffer
+                                    empty (mirror).
+                 12    TSRE         Serial port transmit shift
+                                    register empty.
+                                    Reset by loading into buffer.
+                 11    RXD          RXD pin receives UART serial
+                                    data for direct bit test by
+                                    the microprocessor.
+                 10     0           Not used
+                 09    STP          Stop bit
+                 08  STP-DB8        Stop bit if LONG, data bit if
+                                    not.
+                 07    DB7          Data bit
+                 06    DB6          Data bit
+                 05    DB5          Data bit
+                 04    DB4          Data bit
+                 03    DB3          Data bit
+                 02    DB2          Data bit
+                 01    DB1          Data bit
+                 00    DB0          Data bit
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-6-2" TITLE="3 / Advanced Topics / Hold-And-Modify Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Advanced Topics / Hold-And-Modify Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node008E.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0090.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This is a special mode that allows you to produce up to 4,096 colors on
+the screen at the same time. Normally, as each value formed by the
+combination of bitplanes is selected, the data contained in the selected
+color register is loaded into the color output circuit for the pixel being
+written on the screen. Therefore, each pixel is colored by the contents of
+the selected color register.
+
+In hold-and-modify mode, however, the value in the color output circuitry
+is held, and one of the three components of the color (red, green, or
+blue) is modified by bits coming from certain preselected bitplanes. After
+modification, the pixel is written to the screen.
+
+The hold-and-modify mode allows very fine gradients of color or shading to
+be produced on the screen. For example, you might draw a set of 16 vases,
+each a different color, using all 16 colors in the color palette. Then,
+for each vase, you use hold-and-modify to very finely shade or highlight
+or add a completely different color to each of the vases. Note that a
+particular hold-and-modify pixel can only change one of the three color
+values at a time. Thus, the effect has a limited control.
+
+In hold and modify mode, you use all six bitplanes. Planes 5 and 6 are
+used to modify the way bits from planes 1 - 4 are treated, as follows:
+
+   *  If the 6-5 bit combination from planes 6 and 5 for any given pixel is
+      00,  normal color selection procedure is followed. Thus, the bit
+      combinations from planes 4 - 1, in that order of significance, are
+      used to choose one of 16 color registers (registers 0 - 15).
+
+      If only five bitplanes are used, the data from the sixth plane is
+      automatically supplied with the value as 0.
+
+   *  If the 6-5 bit combination is 01, the color of the pixel immediately
+      to the left of this pixel is duplicated and then modified. The bit
+      combinations from planes 4 - 1 are used to replace the four
+      &#034;blue&#034; bits in the corresponding color register.
+
+   *  If the 6-5 bit combination is 10, the color of the pixel immediately
+      to the left of this pixel is duplicated and then modified. The bit
+      combinations from planes 4 - 1 are used to replace the four &#034;red&#034;
+      bits.
+
+   *  If the 6-5 bit combination is 11, the color of the pixel immediately
+      to the left of this pixel is duplicated and then modified. The bit
+      combinations from planes 4 - 1 are used to replace the four
+<a name="line46">      &#034;green&#034; bits.</a>
+
+Using hold-and-modify mode, it is possible to get by with defining only
+one color register, which is  <a href="../Hardware_Manual_guide/node0067.html#line26">COLOR00</a> , the color of the background. You
+treat the entire screen as a modification of that original color,
+<a name="line51">according to the scheme above.</a>
+
+Bit 11 of register  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  selects hold-and-modify mode. The following
+bits in  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  must be set for hold-and-modify mode to be active:
+
+   *  Bit HOMOD, bit 11, is 1.
+   *  Bit  <a href="../Hardware_Manual_guide/node007C.html">DBLPF</a> , bit 10, is 0 (single-playfield mode specified).
+   *  Bit  <a href="../Hardware_Manual_guide/node0069.html#line7">HIRES</a> , bit 15, is 0 (low resolution mode specified).
+   *  Bits  <a href="../Hardware_Manual_guide/node0068.html#line4">BPU2, BPU1, and BPU0</a>  - bits 14, 13, and 12, are 101 or 110
+                                    (five or six bitplanes active).
+
+     <a href="../Hardware_Manual_guide/node02D1.html">HAM_playfield.asm</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

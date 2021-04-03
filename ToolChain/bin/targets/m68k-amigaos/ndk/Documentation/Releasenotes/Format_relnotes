@@ -1,0 +1,80 @@
+Format 44.1 (11.8.99)
+
+- Bumped to v44
+- Implemented Reaction GUI
+- If volume name is empty, user will be notified that one is required.
+
+Format 44.2 (15.8.99)
+
+- added size gadgets and increased window minimum width/height
+   select window: 250x150
+   format window: 300x150
+
+Format 44.3 (18.8.99)
+
+- volume name is now used if user doesn't hit enter in that string gadget (Stephan Rupprecht)
+
+- Corrected incorrect progress bar display (Marco De Vitis)
+
+Format 44.4 (21.8.99)
+
+- All buttons got a facelift in the layout code to evenly distribute
+  sizes.
+
+Format 44.5 (26.8.99)
+
+- Corrected edit hook behaving incorrectly (Allen Goddard)
+
+Format 44.6 (27.8.99)
+
+- Received and applied diff from Heinz for the missing size information.
+
+Format 44.7 (1.9.99)
+
+- Corrected error reporting while trying to format ram:
+- Percent full now shows proper value instead of rounding up.
+
+Format 44.8 (4.9.99)
+
+- added GA_Underscore (new to v44) tag for volume name information so it will
+  not interpret an underscore in a volume name. (Marco De Vitis)
+
+Format 44.9 (10.9.99)
+
+- Added new tag for handling columninfo in the LB properly.
+
+Format 44.10 (25.9.99)
+
+- Cleanup and recompile under new smakefile skeleton.
+
+Format 44.11 (26.9.99)
+
+- Changed check used for volume name which corrects the issue with international chars
+
+Format 44.12 (29.9.99)
+
+- Recompile with full optimization.
+- Frozen.
+
+Format 44.13 (01.11.99)
+
+- Status window title now reflects device being formatted.
+
+--- OS 3.5 release ---
+
+Format 44.14 (7.12.99)
+
+- rework
+
+- Starting format with more than one WB parameter now correctly closes all
+  windows. This is a ugly hack: the main window is closed and reopened between
+  formatting two devices. Too much work to make it nicer (Did you recognize
+  that selecting two icons from WB and using menu Icon/Format Disk starts
+  Format two times?)
+
+- Removed broken handling of inserting/removing disk while main window is open.
+
+Format 44.15 (21.12.99)
+
+- Format now writes a Disk.info icon if started from WB or if CLI option 
+  NOICONS is omitted.

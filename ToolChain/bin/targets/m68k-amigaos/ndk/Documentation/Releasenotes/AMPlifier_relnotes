@@ -1,0 +1,99 @@
+AMPlifier 2.20 (17.11.2000)
+
+- added resample function in output modul (no samplerate problems
+  on X-Audio drivers like paulaaudio.device)
+- added manual playlist advance option
+- cutting the fileextension on the title display
+- added showing numbers in playlist
+- redesigned playlist - the playtime is now at the end on each row
+- skin display fixes
+- added Xing variable bitrate support
+- added boingball animation
+- few more bug fixes and improvements
+
+AMPlifier 2.21 (22.11.2000)
+
+- added EQUALIZER tooltype option to enable the eq
+  (default the eq is disabled now)
+- faster anim framerate
+- changed skin browser menu entry
+- fixed standard GUI play bug when player is stopped
+- fixed wrong AIFF headersize calculation
+- fixed RectFill min>max bug
+
+AMPlifier 2.22 (11.1.2001)
+
+- fixed and updated ARexx commands (QUERY, GETSELECTED, GETCOUNT)
+- fixed standard gui slider problem and display format
+- fixed problem with wrong mpeg files
+
+AMPlifier 2.23 (4.3.2001)
+
+- integrated Shoutcast/Icecast streaming
+- loading and saving of '.pls' and '.m3u' playlist formats
+- improved visualization display (change internal spectrum analyzer
+  resolution to non-linear, the plugin still renders on pause)
+- improved module plugins
+- new ARexx command GETMETADATA (this gives again access to the
+  ID3-tag information)
+- fixed problem that AMPlifier couldn't find the plugin modules
+  when it's started from somewhere than the program directory
+- added ID3v2 Tag support
+- added 8-bit WAV sample support
+
+AMPlifier 2.24 (17.3.2001)
+
+- fixed playback bug on mp3-files with a non-mp3-header (ID3v2)
+- improved audio.outmod - better AHI handling
+- added functionality to use AMPlifier with AmiDock or as DefIcon default
+  tool (without any Arexx). This is always slower than using a Arexx-Script.
+- updated ARexx command ADD (added extra keyword PLAY to start playback)
+
+AMPlifier 2.25 (23.3.2001)
+
+- fixed CyberGuard hit on program start. This hit couldn't be produced with
+  Enforcer 37.72. :-(
+
+AMPlifier 2.26 (26.3.2001)
+
+- fixed ARexx 'ADD and PLAY' command (fixed playback start problem with
+  Stream-Amplifier.rexx script)
+
+AMPlifier 2.30 (11.7.2001)
+
+- Amplifier has now a ReAction style user interface.
+- added support for zipped skin-archives (.wsz). Amplifier automaticaly
+  extract this archives (using xadmaster).
+- added open internet location function.
+- fixed bug when Amplifier trys to play a deleted file.
+- fixed volume bug.
+- fixed bug in id3v2 tag parser.
+- disable visualization when the player is iconified.
+- fixed playback problem with very short samples.
+- added doubleclick plays file option.
+- new ARexx commands (RANDOM, REPEAT).
+
+AMPlifier 2.31 (20.7.2001)
+
+- added save stream to disk option
+- fixed listview time display bug in 2.30
+- improved ID3 tag handling on mp3 with both ID3V1 and ID3V2 tags
+- fixed config saving bug (double click in playlist plays file)
+
+AMPlifier 2.32 (23.7.2001)
+
+- optimized ReAction listbrowser refresh code
+
+AMPlifier 2.33 (6.10.2001)
+
+- Now Amplifier can be used with ClassAct classes (for OS3.0/3.1 users)
+  (please use the latest ClassAct archive)
+
+AMPlifier 2.34 (12.10.2001)
+
+- fixed config saving bug for layerI&II samplerate and quality
+- fixed problem that Amplifier opens a filerequester for the http
+  stream when a "/" charackter is at the end of the url.
+- The title display in the playlist and in the main window will be
+  updated when the ID3-Tags are changed.
+

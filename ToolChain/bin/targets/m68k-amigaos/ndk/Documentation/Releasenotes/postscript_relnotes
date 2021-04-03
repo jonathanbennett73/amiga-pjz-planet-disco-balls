@@ -1,0 +1,24 @@
+PostScript 44.3 (22.7.99)
+
+- Text colours were wrong for colour #8, which doesn't
+  get mapped to anything.
+
+- Now prints coloured text if driver is in colour
+  output mode.
+
+- Now that graphics scaling can be disabled, 24 bit colour
+  printing works as expected.
+
+
+PostScript 44.4 (28.7.99)
+
+- DPI calculation was off by one, now it works as originally
+  intended.
+
+- Integrated utility.library based run time library math code.
+
+
+PostScript 44.5 (24.9.99)
+
+- Now indicates in the printer tag that it does not support
+  strip printing.

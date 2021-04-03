@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-12" TITLE="6 Blitter Hardware / Pipeline Register" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 Blitter Hardware / Pipeline Register</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0126.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0128.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The blitter performs many operations in each cycle --  <a href="../Hardware_Manual_guide/node011F.html">shifting</a>  and
+ <a href="../Hardware_Manual_guide/node011F.html#line42">masking</a>  source words, logical combination of sources, and  <a href="../Hardware_Manual_guide/node0122.html">area fill</a> 
+and zero detect on the output.  To enable so many things to take place so
+quickly, the blitter is pipelined. This means that rather than performing
+all of the above operations in one blitter cycle, the operations are
+spread over two blitter cycles. (Here &#034;cycle&#034; is used very loosely for
+simplicity.) To clarify this, the blitter can be imagined as two chips
+connected in series. Every cycle, a new set of source operations come in,
+and the first chip performs its operations on the data.  It then passes
+the half-processed data to the second chip to be finished during the next
+cycle, when the first chip will be busy at work on the next set of data.
+Each set of data takes two &#034;cycles&#034; to get through the two chips,
+overlapped so a set of data can be pumped through each cycle.
+
+What all this means is that the first two sets of sources are fetched
+before the first destination is written.  This allows you to  <a href="../Hardware_Manual_guide/node011F.html">shift</a>  a
+bitmap up to one word to the right using ascending mode, for instance,
+even though normally parts of the destination would be overwritten before
+<a name="line20">they were fetched.</a>
+<a name="line21"></a>
+
+    USE Code
+       in        Active
+    <a href="../Hardware_Manual_guide/node001A.html">BLTCON0</a>     Channels             Cycle Sequence
+   ---------    --------             --------------
+       F        A B C D     A0 B0 C0 -  A1 B1 C1 D0 A2 B2 C2 D1 D2
+       E        A B C       A0 B0 C0 A1 B1 C1 A2 B2 C2
+       D        A B   D     A0 B0 -  A1 B1 D0 A2 B2 D1 -  D2
+       C        A B         A0 B0 -  A1 B1 -  A2 B2
+       B        A   C D     A0 C0 -  A1 C1 D0 A2 C2 D1 -  D2
+       A        A   C       A0 C0 A1 C1 A2 C2
+       9        A     D     A0 -  A1 D0 A2 D1 -  D2
+       8        A           A0 -  A1 -  A2
+       7          B C D     B0 C0 -  -  B1 C1 D0 -  B2 C2 D1 -  D2
+       6          B C       B0 C0 -  B1 C1 -  B2 C2
+       5          B   D     B0 -  -  B1 D0 -  B2 D1 -  D2
+       4          B         B0 -  -  B1 -  -  B2
+       3            C D     C0 -  -  C1 D0 -  C2 D1 -  D2
+       2            C       C0 -  C1 -  C2
+       1              D     D0 -  D1 -  D2
+       0         none       -  -  -  -
+
+
+       Table 6-2: Typical Blitter Cycle Sequence
+
+
+Here are a few caveats to keep in mind about Table 6-2.
+
+*  No fill.
+*  No competing bus activity.
+*  Three-word blit.
+*  Typical operation involves fetching all sources twice before the
+   first destination becomes available. This is due to internal
+   pipelining. Care must be taken with overlapping source and
+<a name="line56">   destination regions.</a>
+
+   Warning:
+   --------
+   This Table is only meant to be an illustration of the typical order
+   of blitter cycles on the bus. Bus cycles are dynamically allocated
+   based on blitter operating mode; competing bus activity from
+   processor, bitplanes, and other  <a href="../Hardware_Manual_guide/node011B.html">DMA channels</a> ; and other factors.
+   Amiga, Inc. does not guarantee the accuracy of or future
+   adherence to this chart. We reserve the right to make product
+   improvements or design changes in this area without notice.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

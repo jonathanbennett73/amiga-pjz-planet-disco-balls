@@ -1,0 +1,35 @@
+workbench/c/execute
+
+    Major rewrite. A *LOT* has been rewritten. No longer prints out
+    a trailing 0 byte when printing the help template. Should no
+    longer crash on too many arguments. Should no longer
+    potentially leave dangling output handles. Invalid args
+    are rejected. White space in scripts should be handled
+    correctly now. Comments can be in the first lines of script
+    before the first directive now. Arguments can now be numeric or
+    strings. Filename is really required now as the template
+    suggests. S: can now be a multiassign for scripts. Added quite
+    a few error messages and checks. Now does decent temp file name
+    generation which should be *very* smart, compared to the
+    previous way of doing things. *MAJOR*REWRITE*. Parsing and
+    argument substituition in scripts and defaults has changed
+    significantly! NOTE: Some of the new features are enhancements
+    and incompatible. Make sure your scripts are tested under <=V40
+    if you want them compatible. Yes, executable length stayed the
+    same.
+    Froze 44.1.
+    Fixed an enforcer hit that had not been discovered during
+    testing. /S (and /T) args should be handled correctly again.
+    BTW, V44.1 did already correct <$$> substition in .DEF lines,
+    which the old execute did not.
+    Froze 44.2.
+    If any whitespace was found before the first command, that command
+    was not executed. As it turns out, this may well be a bug in
+    dos.library. I have added a benign workaround to Execute. Also,
+    /M should now work for strings and numerics. Someone here
+    looked really very hard to find a bug to make me do this.
+    Froze 44.3.
+    As it turns out, quoting quotd to much and did not quote quotes
+    correctly.
+    Froze 44.4.
+

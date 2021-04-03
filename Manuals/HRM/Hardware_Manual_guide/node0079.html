@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-3-1" TITLE="3 / Dual-playfield / Bitplane Assignment in Dual-Playfield Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Dual-playfield / Bitplane Assignment in Dual-Playfield Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0078.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node007A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The three odd-numbered bitplanes (1, 3, and 5) are grouped together by the
+hardware and may be used in playfield 1. Likewise, the three even-numbered
+bitplanes (2, 4, and 6) are grouped together and may be used in playfield
+2. The bitplanes are assigned alternately to each playfield, as shown in
+Figure 3-13.
+
+   About dual-playfield bitplanes.
+   -------------------------------
+   In high resolution mode, you can have up to two bitplanes in each
+   playfield -- bitplanes 1 and 3 in playfield 1 and bitplanes 2 and 4
+<a name="line12">   in playfield 2.</a>
+
+
+        Number of
+        Bitplanes
+       &#034;turned on.&#034;     Plafield 1 *            Playfield 2 *
+       ------------------------------------------------------
+            0              none                     none
+                       ____________
+                      |            |
+            1         | 1          |
+                      |            |
+                      |____________|
+                       ____________            ____________
+                      |            |          |            |
+            2         | 1          |          | 2          |
+                      |            |          |            |
+                      |____________|          |____________|
+                       ____________            ____________
+                      |            |          |            |
+            3         | 1 _________|__        | 2          |
+                      |  |            |       |            |
+                      |__| 3          |       |____________|
+                         |            |
+                         |____________|
+                       ____________            ____________
+                      |            |          |            |
+            4         | 1 _________|__        | 2 _________|__
+                      |  |            |       |  |            |
+                      |__| 3          |       |__| 4          |
+                         |            |          |            |
+                         |____________|          |____________|
+                       ____________            ____________
+                      |            |          |            |
+            5         | 1 _________|__        | 2 _________|__
+                      |  |            |       |  |            |
+                      |__| 3 _________|__     |__| 4          |
+                         |  |            |       |            |
+                         |__| 5          |       |____________|
+                            |            |
+                            |____________|
+                       ____________            ____________
+                      |            |          |            |
+            6         | 1 _________|__        | 2 _________|__
+                      |  |            |       |  |            |
+                      |__| 3 _________|__     |__| 4 _________|__
+                         |  |            |       |  |            |
+                         |__| 5          |       |__| 6          |
+                            |            |          |            |
+                            |____________|          |____________|
+
+
+                    * Note: Either playfield may be placed &#034;in front of&#034;
+                            or &#034;behind&#034; the other using the &#034;swap-bit.&#034;
+
+
+        Figure 3-13: How Bitplanes Are Assigned to Dual Playfields
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

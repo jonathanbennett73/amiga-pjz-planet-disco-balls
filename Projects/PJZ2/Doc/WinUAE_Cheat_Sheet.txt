@@ -1,0 +1,59 @@
+M mask is in hex
+
+Turn off Sprites:
+Ms [mask]
+Ms 0 (all off)
+MS 1 (Spr0 enabled)
+
+Show Only BPLs:
+BPL 1	1	Mb 1
+BPL 2	2	Mb 2
+BPL 3	4	Mb 4
+BPL 4	16	Mb 8
+BPL 5	31	Mb 10
+
+- Visual DMA debugger can be switched off, "vo".
+- Added visual DMA debugger -5 and -6 modes (-5 = larger overlay with "transparency" and -6 = no "transparency)
+- Added separate colors for visual DMA debugger copper wait and special cases (strobe extra cycle, 0xe0 cycle)
+- Added visual DMA debugger configuration: DMA channels can be disabled and colors can be changed.
+  "vm" = show status
+  "vm <channel> <sub index>" = enable/disable toggle. (sub index is not used but must be included)
+  "vm <channel> <sub index> <hex rgb>" = change color of channel. If sub index is zero: all sub index colors are changed.
+
+Yes but you probably need to use console version (v vpos hpos) to see all details.
+btw, remember to enable copper debugger first (od). Then check copper list (o-command), use it to find line you need DMA details, then use v-command to see exact details.
+yellow = copper
+dark green = blitter copy/clear
+bright green = blitter line
+blue green = blitter file
+blue = bitplane
+cpu = gray/red
+audio = 
+sprite = purple
+disk = 
+Vertical line on the left side: CPU interrupt level. 
+
+
+Refresh 	0x444444
+CPU code	0xa25342
+|__data 	0xad98d6
+Copper		0xeeee00
+|__wait		0xaaaa22
+|__special/$E0	0x666644
+Audio		0xff0000
+Blitter		0x008888
+|__fill		0x0088ff
+|__line		0x00ff00
+Bitplane	0x0000ff
+Sprite		0xff00ff
+Disk		0xffffff
+and IRQ colors:
+Code:
+noIRQ		0x000000
+i1		0x444444
+i2		0x008800
+i3		0xffff00
+i4		0x000088
+i5		0x880000
+i6		0xff0000
+i7		0xffffff

@@ -1,0 +1,18 @@
+Changes:
+
+Action 1.0a (nov.13.2000)
+Fixed crash problem, w. 0 bufsize AVI files
+Changed font to Action.font (included)
+Changed pubscreen code: fall back to def. pub, when selected pubscreen is not found
+Added Modeidreq tooltype
+Minor fixes - and some pre code for the localization
+
+45.2 (nov.19.2000)
+Fixed asyncio.lib crash prob and similar minor fixes
+
+45.3 (nov.26.2000)
+Fixed asl.lib hit problem
+
+45.4 (jan.1.2001)
+Added break signal checking stuff
+Modified copyright text, and removed beta stuff message

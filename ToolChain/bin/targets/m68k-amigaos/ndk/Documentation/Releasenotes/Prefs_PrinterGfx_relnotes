@@ -1,0 +1,10 @@
+
+PrinterGfx 44.1 (31.7.99)
+
+· Added version string
+
+· CLI start didn't set a return code if arguments are illegal.
+
+· return RETURN_WARN (failure level 5) if Printer preferences are already
+  running.
+

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-20" TITLE="A Register Summary / BPLxDAT" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / BPLxDAT</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0022.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0024.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+BPLxDAT    110      W       D     Bitplane x data (parallel-to-serial
+                                      convert)
+
+                 These registers receive the DMA data fetched from
+                 RAM by the bitplane address pointers described
+                 above.  They may also be written by either
+                 microprocessor.  They act as a six-word parallel-
+                 to-serial buffer for up to six memory bitplanes
+                 (x=1-6).  The parallel-to-serial conversion is
+                 triggered whenever bitplane #1 is written,
+                 indicating the completion of all bitplanes for
+                 that word (16 pixels).  The MSB is output first,
+                 and is, therefore, always on the left.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

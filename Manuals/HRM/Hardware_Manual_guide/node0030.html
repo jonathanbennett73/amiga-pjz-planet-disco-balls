@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-33" TITLE="A Register Summary / DSKBYTR" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / DSKBYTR</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node002F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0031.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+DSKBYTR    01A      R       P     Disk data byte and status read
+
+                 This register is the disk-microprocessor data
+                 buffer.  Data from the disk (in read mode) is
+                 loaded into this register one byte at a time, and
+                 bit 15 (DSKBYT) is set true.
+
+                 BIT#
+                 ----  ---------  --------------------------------
+                 15    DSKBYT     Disk byte ready (reset on read)
+                 14    DMAON      Mirror of bit 15 (DMAEN) in  <a href="../Hardware_Manual_guide/node0032.html">DSKLEN</a> ,
+                                  ANDed with Bit09 (DMAEN) in  <a href="../Hardware_Manual_guide/node002F.html">DMACON</a> 
+                 13    DISKWRITE  Mirror of bit 14 (WRITE) in  <a href="../Hardware_Manual_guide/node0032.html">DSKLEN</a> 
+                 12    WORDEQUAL  This bit true only while the
+                                   <a href="../Hardware_Manual_guide/node0034.html">DSKSYNC</a>  register equals the data
+                                  from disk.
+                 11-08  X         Not used
+                 07-00 DATA       Disk byte data
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

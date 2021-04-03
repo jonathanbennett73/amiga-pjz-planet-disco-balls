@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-5" TITLE="4 Sprite Hardware / Creating Additional Sprites" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 Sprite Hardware / Creating Additional Sprites</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00C1.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00C3.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+To use additional sprites, you must create a  <a href="../Hardware_Manual_guide/node00B9.html">data structure</a>  for each one
+and arrange the display as shown in the previous section, naming the
+pointers  <a href="../Hardware_Manual_guide/node00BF.html#line3">SPR1PTH and SPR1PTL</a>  for sprite DMA channel 1,
+<a name="line5"> <a href="../Hardware_Manual_guide/node00BF.html#line3">SPR2PTH and SPR2PTL</a>  for sprite DMA channel 2, and so on.</a>
+
+   About sprite DMA.
+   -----------------
+   When you enable sprite DMA for one sprite, you enable DMA for all the
+   sprites and place them all in  <a href="../Hardware_Manual_guide/node00C8.html#line86">automatic mode</a> . Thus, you do not need
+   to repeat this step when using additional sprite DMA channels.
+
+Once the sprite DMA channels are enabled, all eight sprite pointers must
+be initialized to either a real sprite or a safe null sprite. An
+uninitialized sprite could cause spurious sprite video to appear.
+
+Remember that some sprites can become unusable when additional DMA cycles
+are allocated to displaying the screen, for example when an extra
+ <a href="../Hardware_Manual_guide/node0085.html#line24">wide display</a>  or  <a href="../Hardware_Manual_guide/node0089.html">horizontal scrolling</a>  is enabled (see
+ <a href="../Hardware_Manual_guide/node02D4.html">Figure 6-9: DMA Time Slot Allocation</a> ).
+
+Also, recall that each pair of sprites takes its color from different
+<a name="line23">color registers, as shown in Table 4-3.</a>
+
+
+                Table 4-3: Color Registers for Sprite Pairs
+
+
+                    Sprite Numbers    Color Registers
+                    --------------    ---------------
+                       0 and 1            17 - 19
+                       2 and 3            21 - 23
+                       4 and 5            25 - 27
+<a name="line34">                       6 and 7            29 - 31</a>
+
+   Warning:
+   --------
+   Some sprites become unusable when additional DMA cycles are allocated
+   to displaying the screen, e.g. when enabling an extra  <a href="../Hardware_Manual_guide/node0085.html#line24">wide display</a>  or
+    <a href="../Hardware_Manual_guide/node0089.html">horizontal scrolling</a>. (See  <a href="../Hardware_Manual_guide/node02D4.html">Figure 6-9: DMA Time Slot Allocation</a> .)
+
+ <a href="../Hardware_Manual_guide/node00C3.html">Sprite Priority</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

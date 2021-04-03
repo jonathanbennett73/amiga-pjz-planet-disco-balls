@@ -1,0 +1,7 @@
+
+speedbar.gadget 45.1 (03.03.01)
+
+· recompiled with new startup-code and 68020+
+  optimiziation.
+
+· implemented GM_CLIPRECT.

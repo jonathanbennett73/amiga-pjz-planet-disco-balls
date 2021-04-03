@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-1-2-2" TITLE="8 / / Reading Mouse/Trackball Controllers / Counter Limitations" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / / Reading Mouse/Trackball Controllers / Counter Limitations</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0180.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0182.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+These  <a href="../Hardware_Manual_guide/node0180.html">counters</a>  will &#034;wrap around&#034; in either the positive or negative
+direction. If you wish to use the mouse to control something that is
+happening on the screen, you must read the  <a href="../Hardware_Manual_guide/node0180.html">counters</a>  at least once each
+ <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  period and save the previous contents of the
+registers. Then you can subtract from the previous readings to determine
+direction of movement and speed.
+
+The mouse produces about 200 count pulses per inch of movement in either a
+horizontal or vertical direction.  <a href="../Hardware_Manual_guide/node0169.html">Vertical blanking</a>  happens once each
+1/60th of a second. If you read the mouse once each  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a> 
+period, you will most likely find a count difference (from the previous
+count) of less than 127. Only if a user moves the mouse at a speed of more
+than 38 inches per second will the  <a href="../Hardware_Manual_guide/node0180.html">counter</a>  values wrap.  Fast-action
+games may need to read the mouse register twice per frame to prevent
+ <a href="../Hardware_Manual_guide/node0180.html">counter</a>  overrun.
+
+If you subtract the current count from the previous count, the absolute
+value of the difference will represent the speed. The sign of the
+difference (positive or negative) lets you determine which direction the
+mouse is traveling.
+
+The easiest way to calculate mouse velocity is with 8-bit signed
+arithmetic. The new value of a  <a href="../Hardware_Manual_guide/node0180.html">counter</a>  minus the previous value will
+represent the number of mouse counts since the last check. The example
+shown in Table 8-2 presents an alternate method.  It treats both counts as
+unsigned values, ranging from 0 to 255.  A count of 100 pulses is measured
+<a name="line28">in each case.</a>
+
+
+         Table 8-2: Determining the Direction of the Mouse
+
+                Previous    Current
+                 Count       Count     Direction
+                --------    -------    ---------
+                  200         100      Up (Left)
+                  100         200     Down (Right)
+                  200          45       Down *
+                   45         200        Up **
+
+
+   Notes for Table 8-2:
+
+   *  Because 200-45 = 155, which is more than 127, the true count must
+      be 255 - ( 200-45) = 100; the direction is down.
+
+   ** 45 - 200 = -155.  Because the absolute value of -155 exceeds 127,
+      the true count must be  255 + (-155) = 100; the direction is up.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

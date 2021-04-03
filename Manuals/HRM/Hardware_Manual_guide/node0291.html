@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-2-1" TITLE="K / Zorro II Compatibility / Changes from the A2000 Bus" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Zorro II Compatibility / Changes from the A2000 Bus</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0290.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0292.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+While much effort has been made to assure that the Zorro II mode of the
+A3000 bus is as compatible as possible with the A2000 bus, there are a
+few points to consider here.  Primarily, the A3000's Zorro II modes are
+driven with a state machine that emulates the  <a href="../Hardware_Manual_guide/node029B.html">68000 bus</a>  protocol.
+This emulation must be based on the published Motorola specifications
+detailing 68000 bus behavior. While this has the interesting effect of
+changing the Zorro II bus from CPU dependent to CPU independent,
+there's some margin for trouble.  Zorro II PICs also designed to these
+specifications should have no trouble in the A3000 bus in most cases.
+However, anything designed based on observed 68000 behavior rather than
+documented 68000 operation is at serious risk of failing in an A3000
+bus, as one might expect. There are also actual documented differences,
+which are listed below.
+
+ <a href="../Hardware_Manual_guide/node0292.html">6800 Bus Interface</a>                          <a href="../Hardware_Manual_guide/node0297.html">Intelligent Cycle Spacing</a> 
+ <a href="../Hardware_Manual_guide/node0293.html">Bus Memory Mapping and Cache Support</a>        <a href="../Hardware_Manual_guide/node0298.html">Bus Drive and Termination</a> 
+ <a href="../Hardware_Manual_guide/node0294.html">Bus Synchronization Delays</a>                  <a href="../Hardware_Manual_guide/node0299.html">DMA Latency and Overlap</a> 
+ <a href="../Hardware_Manual_guide/node0295.html">Zorro II Master Access to Local Slaves</a>      <a href="../Hardware_Manual_guide/node029A.html">Power Supply Differences</a> 
+ <a href="../Hardware_Manual_guide/node0296.html">Bus Arbitration and Fairness</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

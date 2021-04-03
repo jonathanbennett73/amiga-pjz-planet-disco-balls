@@ -1,0 +1,95 @@
+TABLE OF CONTENTS
+
+text.datatype/text.datatype
+text.datatype/text.datatype                       text.datatype/text.datatype
+
+    NAME
+	text.datatype -- Root data type for text.
+
+    FUNCTION
+	The text.datatype is the super-class for any text related classes.
+
+    METHODS
+	OM_NEW -- Create a new text object.
+
+	OM_GET -- Obtain the value of an attribute.
+
+	OM_SET -- Set the values of multiple attributes.
+
+	OM_UPDATE -- Update the values of multiple attributes.
+
+	OM_DISPOSE -- Dispose of a text object.
+
+	GM_LAYOUT -- Layout the object and notify the application of the
+	    title and size.
+
+	GM_HITTEST -- Determine if the object has been hit with the
+	    mouse.
+
+	GM_GOACTIVE -- Tell the object to go active.
+
+	GM_HANDLEINPUT -- Handle input.
+
+	GM_RENDER -- Cause the text to render.
+
+	DTM_PROCLAYOUT -- Layout (remap) the text on the application's
+	    process.
+
+	DTM_FRAMEBOX -- Obtain the display environment that the text
+	    requires.
+
+	DTM_SELECT -- Select an area in the text.
+
+	DTM_CLEARSELECTED -- Deselect the selected area of the text.
+
+	DTM_COPY -- Copy the selected area of the text to the clipboard
+	    as FTXT.  If no area is selected, then the entire text
+	    is copied.
+
+	DTM_PRINT -- Print the selected area of the text.  If no area
+	    is selected, then the entire text is printed.
+
+	DTM_WRITE -- Write the selected area of the text to a file.
+	    If no area is selected, then the entire text is saved.
+
+    TAGS
+	DTA_TextAttr (struct TextAttr *) -- Text attribute to use for
+	    the text.
+
+	    Applicability is (ISG).
+
+	DTA_TextFont (struct TextFont *) -- Text font to use for
+	    the text.
+
+	    Applicability is (G).
+
+	TDTA_Buffer (STRPTR) -- Pointer to the text data.
+
+	    Applicability is (ISG).
+
+	TDTA_BufferLen (ULONG) -- Length of text data.
+
+	    Applicability is (ISG).
+
+	TDTA_LineList (struct List *) -- List of lines.  The elements
+	    of the list are Line structures (see <datatype/textclass.h>
+
+	    Applicability is (G).
+
+	TDTA_WordSelect (STRPTR) -- Word that has been double-clicked on.
+
+	    Applicability is (NU).
+
+	TDTA_WordDelim (STRPTR) -- Characters used deliminate words.
+
+	    Applicability is (IS).
+
+	TDTA_WordWrap (BOOL) -- Used to turn word wrap on and off.
+	    Defaults to off.
+
+	    Applicability is (ISG).
+
+    SEE ALSO
+	ascii.datatype
+
+

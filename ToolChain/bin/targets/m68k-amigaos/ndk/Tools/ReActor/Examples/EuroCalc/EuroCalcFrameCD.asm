@@ -1,0 +1,326 @@
+	IFND EUROCALCFRAMECD_I
+EUROCALCFRAMECD_I	SET	1
+
+
+;-----------------------------------------------------------------------------
+
+
+* This file was created automatically by CatComp.
+* Do NOT edit by hand!
+*
+
+
+	IFND EXEC_TYPES_I
+	INCLUDE 'exec/types.i'
+	ENDC
+
+	IFD CATCOMP_ARRAY
+CATCOMP_NUMBERS SET 1
+CATCOMP_STRINGS SET 1
+	ENDC
+
+	IFD CATCOMP_CODE
+CATCOMP_BLOCK SET 1
+	ENDC
+
+
+;-----------------------------------------------------------------------------
+
+
+	IFD CATCOMP_NUMBERS
+
+	XDEF TX_WinTitle
+TX_WinTitle EQU 257
+	XDEF TX_TitleIconify
+TX_TitleIconify EQU 274
+	XDEF TX_GAD_DM
+TX_GAD_DM EQU 278
+	XDEF TX_GAD_BFR
+TX_GAD_BFR EQU 279
+	XDEF TX_GAD_FMK
+TX_GAD_FMK EQU 280
+	XDEF TX_GAD_FF
+TX_GAD_FF EQU 281
+	XDEF TX_GAD_IRF
+TX_GAD_IRF EQU 282
+	XDEF TX_GAD_LIT
+TX_GAD_LIT EQU 283
+	XDEF TX_GAD_LFR
+TX_GAD_LFR EQU 284
+	XDEF TX_GAD_HFL
+TX_GAD_HFL EQU 285
+	XDEF TX_GAD_OES
+TX_GAD_OES EQU 286
+	XDEF TX_GAD_ESC
+TX_GAD_ESC EQU 287
+	XDEF TX_GAD_PTA
+TX_GAD_PTA EQU 288
+	XDEF TX_GAD_EUROPE
+TX_GAD_EUROPE EQU 289
+	XDEF TX_GAD_EUR
+TX_GAD_EUR EQU 290
+	XDEF TX_GAD_GERMANY
+TX_GAD_GERMANY EQU 291
+	XDEF TX_GAD_BELGIUM
+TX_GAD_BELGIUM EQU 292
+	XDEF TX_GAD_FINLAND
+TX_GAD_FINLAND EQU 293
+	XDEF TX_GAD_FRANCE
+TX_GAD_FRANCE EQU 294
+	XDEF TX_GAD_IRELAND
+TX_GAD_IRELAND EQU 295
+	XDEF TX_GAD_ITALY
+TX_GAD_ITALY EQU 296
+	XDEF TX_GAD_LUXEMBURG
+TX_GAD_LUXEMBURG EQU 297
+	XDEF TX_GAD_NETHERLAND
+TX_GAD_NETHERLAND EQU 298
+	XDEF TX_GAD_AUSTRIA
+TX_GAD_AUSTRIA EQU 299
+	XDEF TX_GAD_PORTUGAL
+TX_GAD_PORTUGAL EQU 300
+	XDEF TX_GAD_SPAIN
+TX_GAD_SPAIN EQU 301
+
+	ENDC ; CATCOMP_NUMBERS
+
+
+;-----------------------------------------------------------------------------
+
+
+	IFD CATCOMP_STRINGS
+
+	XDEF TX_WinTitle_STR
+TX_WinTitle_STR: DC.B 'Euro-Calculator',$00
+	XDEF TX_TitleIconify_STR
+TX_TitleIconify_STR: DC.B 'Euro-Calculator.iconified',$00
+	XDEF TX_GAD_DM_STR
+TX_GAD_DM_STR: DC.B 'DM',$00
+	XDEF TX_GAD_BFR_STR
+TX_GAD_BFR_STR: DC.B 'BFR',$00
+	XDEF TX_GAD_FMK_STR
+TX_GAD_FMK_STR: DC.B 'FMK',$00
+	XDEF TX_GAD_FF_STR
+TX_GAD_FF_STR: DC.B 'FF',$00
+	XDEF TX_GAD_IRF_STR
+TX_GAD_IRF_STR: DC.B 'IRF',$00
+	XDEF TX_GAD_LIT_STR
+TX_GAD_LIT_STR: DC.B 'LIT',$00
+	XDEF TX_GAD_LFR_STR
+TX_GAD_LFR_STR: DC.B 'LFR',$00
+	XDEF TX_GAD_HFL_STR
+TX_GAD_HFL_STR: DC.B 'HFL',$00
+	XDEF TX_GAD_OES_STR
+TX_GAD_OES_STR: DC.B 'OES',$00
+	XDEF TX_GAD_ESC_STR
+TX_GAD_ESC_STR: DC.B 'ESC',$00
+	XDEF TX_GAD_PTA_STR
+TX_GAD_PTA_STR: DC.B 'PTA',$00
+	XDEF TX_GAD_EUROPE_STR
+TX_GAD_EUROPE_STR: DC.B 'Europe:',$00
+	XDEF TX_GAD_EUR_STR
+TX_GAD_EUR_STR: DC.B 'EUR',$00
+	XDEF TX_GAD_GERMANY_STR
+TX_GAD_GERMANY_STR: DC.B 'Germany:',$00
+	XDEF TX_GAD_BELGIUM_STR
+TX_GAD_BELGIUM_STR: DC.B 'Belgium:',$00
+	XDEF TX_GAD_FINLAND_STR
+TX_GAD_FINLAND_STR: DC.B 'Finland:',$00
+	XDEF TX_GAD_FRANCE_STR
+TX_GAD_FRANCE_STR: DC.B 'France:',$00
+	XDEF TX_GAD_IRELAND_STR
+TX_GAD_IRELAND_STR: DC.B 'Ireland:',$00
+	XDEF TX_GAD_ITALY_STR
+TX_GAD_ITALY_STR: DC.B 'Italy:',$00
+	XDEF TX_GAD_LUXEMBURG_STR
+TX_GAD_LUXEMBURG_STR: DC.B 'Luxemburg:',$00
+	XDEF TX_GAD_NETHERLAND_STR
+TX_GAD_NETHERLAND_STR: DC.B 'Netherland:',$00
+	XDEF TX_GAD_AUSTRIA_STR
+TX_GAD_AUSTRIA_STR: DC.B 'Austria:',$00
+	XDEF TX_GAD_PORTUGAL_STR
+TX_GAD_PORTUGAL_STR: DC.B 'Portugal:',$00
+	XDEF TX_GAD_SPAIN_STR
+TX_GAD_SPAIN_STR: DC.B 'Spain:',$00
+
+	ENDC ; CATCOMP_STRINGS
+
+
+;-----------------------------------------------------------------------------
+
+
+	IFD CATCOMP_ARRAY
+
+   STRUCTURE CatCompArrayType,0
+	LONG cca_ID
+	APTR cca_Str
+   LABEL CatCompArrayType_SIZEOF
+
+	CNOP 0,4
+
+	XDEF CatCompArray
+CatCompArray:
+	XDEF _CatCompArray
+_CatCompArray:
+AS0:	DC.L TX_WinTitle,TX_WinTitle_STR
+AS1:	DC.L TX_TitleIconify,TX_TitleIconify_STR
+AS2:	DC.L TX_GAD_DM,TX_GAD_DM_STR
+AS3:	DC.L TX_GAD_BFR,TX_GAD_BFR_STR
+AS4:	DC.L TX_GAD_FMK,TX_GAD_FMK_STR
+AS5:	DC.L TX_GAD_FF,TX_GAD_FF_STR
+AS6:	DC.L TX_GAD_IRF,TX_GAD_IRF_STR
+AS7:	DC.L TX_GAD_LIT,TX_GAD_LIT_STR
+AS8:	DC.L TX_GAD_LFR,TX_GAD_LFR_STR
+AS9:	DC.L TX_GAD_HFL,TX_GAD_HFL_STR
+AS10:	DC.L TX_GAD_OES,TX_GAD_OES_STR
+AS11:	DC.L TX_GAD_ESC,TX_GAD_ESC_STR
+AS12:	DC.L TX_GAD_PTA,TX_GAD_PTA_STR
+AS13:	DC.L TX_GAD_EUROPE,TX_GAD_EUROPE_STR
+AS14:	DC.L TX_GAD_EUR,TX_GAD_EUR_STR
+AS15:	DC.L TX_GAD_GERMANY,TX_GAD_GERMANY_STR
+AS16:	DC.L TX_GAD_BELGIUM,TX_GAD_BELGIUM_STR
+AS17:	DC.L TX_GAD_FINLAND,TX_GAD_FINLAND_STR
+AS18:	DC.L TX_GAD_FRANCE,TX_GAD_FRANCE_STR
+AS19:	DC.L TX_GAD_IRELAND,TX_GAD_IRELAND_STR
+AS20:	DC.L TX_GAD_ITALY,TX_GAD_ITALY_STR
+AS21:	DC.L TX_GAD_LUXEMBURG,TX_GAD_LUXEMBURG_STR
+AS22:	DC.L TX_GAD_NETHERLAND,TX_GAD_NETHERLAND_STR
+AS23:	DC.L TX_GAD_AUSTRIA,TX_GAD_AUSTRIA_STR
+AS24:	DC.L TX_GAD_PORTUGAL,TX_GAD_PORTUGAL_STR
+AS25:	DC.L TX_GAD_SPAIN,TX_GAD_SPAIN_STR
+
+	ENDC ; CATCOMP_ARRAY
+
+
+;-----------------------------------------------------------------------------
+
+
+	IFD CATCOMP_BLOCK
+
+	XDEF CatCompBlock
+CatCompBlock:
+	XDEF _CatCompBlock
+_CatCompBlock:
+	DC.L $101
+	DC.W $10
+	DC.B 'Euro-Calculator',$00
+	DC.L $112
+	DC.W $1A
+	DC.B 'Euro-Calculator.iconified',$00
+	DC.L $116
+	DC.W $4
+	DC.B 'DM',$00,$00
+	DC.L $117
+	DC.W $4
+	DC.B 'BFR',$00
+	DC.L $118
+	DC.W $4
+	DC.B 'FMK',$00
+	DC.L $119
+	DC.W $4
+	DC.B 'FF',$00,$00
+	DC.L $11A
+	DC.W $4
+	DC.B 'IRF',$00
+	DC.L $11B
+	DC.W $4
+	DC.B 'LIT',$00
+	DC.L $11C
+	DC.W $4
+	DC.B 'LFR',$00
+	DC.L $11D
+	DC.W $4
+	DC.B 'HFL',$00
+	DC.L $11E
+	DC.W $4
+	DC.B 'OES',$00
+	DC.L $11F
+	DC.W $4
+	DC.B 'ESC',$00
+	DC.L $120
+	DC.W $4
+	DC.B 'PTA',$00
+	DC.L $121
+	DC.W $8
+	DC.B 'Europe:',$00
+	DC.L $122
+	DC.W $4
+	DC.B 'EUR',$00
+	DC.L $123
+	DC.W $A
+	DC.B 'Germany:',$00,$00
+	DC.L $124
+	DC.W $A
+	DC.B 'Belgium:',$00,$00
+	DC.L $125
+	DC.W $A
+	DC.B 'Finland:',$00,$00
+	DC.L $126
+	DC.W $8
+	DC.B 'France:',$00
+	DC.L $127
+	DC.W $A
+	DC.B 'Ireland:',$00,$00
+	DC.L $128
+	DC.W $8
+	DC.B 'Italy:',$00,$00
+	DC.L $129
+	DC.W $C
+	DC.B 'Luxemburg:',$00,$00
+	DC.L $12A
+	DC.W $C
+	DC.B 'Netherland:',$00
+	DC.L $12B
+	DC.W $A
+	DC.B 'Austria:',$00,$00
+	DC.L $12C
+	DC.W $A
+	DC.B 'Portugal:',$00
+	DC.L $12D
+	DC.W $8
+	DC.B 'Spain:',$00,$00
+
+	ENDC ; CATCOMP_BLOCK
+
+
+;-----------------------------------------------------------------------------
+
+
+   STRUCTURE LocaleInfo,0
+	APTR li_LocaleBase
+	APTR li_Catalog
+   LABEL LocaleInfo_SIZEOF
+
+	IFD CATCOMP_CODE
+
+	XREF      _LVOGetCatalogStr
+	XDEF      _GetString
+	XDEF      GetString
+GetString:
+_GetString:
+	lea       CatCompBlock(pc),a1
+	bra.s     2$
+1$: move.w  (a1)+,d1
+	add.w     d1,a1
+2$: cmp.l   (a1)+,d0
+	bne.s     1$
+	addq.l    #2,a1
+	move.l    (a0)+,d1
+	bne.s     3$
+	move.l    a1,d0
+	rts
+3$: move.l  a6,-(sp)
+	move.l    d1,a6
+	move.l    (a0),a0
+	jsr       _LVOGetCatalogStr(a6)
+	move.l    (sp)+,a6
+	rts
+	END
+
+	ENDC ; CATCOMP_CODE
+
+
+;-----------------------------------------------------------------------------
+
+
+	ENDC ; EUROCALCFRAMECD_I

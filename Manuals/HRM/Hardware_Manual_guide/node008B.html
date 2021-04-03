@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-5-2-3" TITLE="3 / / Horizontal Scrolling / Specifying Amount of Delay" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / Horizontal Scrolling / Specifying Amount of Delay</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node008A.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node008C.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The amount of delay in horizontal scrolling is controlled by bits 7-0 in
+BPLCON1. You set the delay separately for each playfield; bits 3-0 for
+playfield 1 (bitplanes 1, 3, and 5) and bits 7-4 for playfield 2
+(bitplanes 2, 4, and 6).
+
+   Warning:
+   --------
+   Always set all six bits, even if you have only one playfield.  Set
+   3-0 and 7-4 to the same value if you are using only one playfield.
+
+The following example sets the horizontal scroll delay to 7 for both
+playfields.
+
+        MOVE.W  #$77,BPLCON1+CUSTOM
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

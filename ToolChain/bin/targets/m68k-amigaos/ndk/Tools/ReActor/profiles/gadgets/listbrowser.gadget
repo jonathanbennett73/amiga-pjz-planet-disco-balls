@@ -1,0 +1,30 @@
+listbrowser.gadget
+LABEL "Listbrowser"
+LIBRARY "gadgets/listbrowser.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+INTEGER  0x85003001 (I··NU) LISTBROWSER_Top "Top" 0 0 65535
+INTEGER  0x85003002 (····U) LISTBROWSER_MakeVisible "Make Visible" 0 0 65535
+LIST     0x85003003 (I····) LISTBROWSER_Labels "Labels" LISTBROWSER
+INTEGER  0x85003004 (I··NU) LISTBROWSER_Selected "Selected" -1 -1 65535
+BOOLEAN  0x85003006 (I····) LISTBROWSER_MultiSelect "MultiSelect Mode" FALSE "MultiSelect"
+BOOLEAN  0x85003007 (I····) LISTBROWSER_VertSeperators "Vertical Seperators" TRUE "Seperators"
+ARRAY    0x85003008 (I····) LISTBROWSER_ColumnInfo "Column Info" "listbrowser.array" 10 1
+BOOLEAN  0x8500300B (I····) LISTBROWSER_Borderless "Borderless" FALSE "Borderless"
+BOOLEAN  0x8500300C (I····) LISTBROWSER_VerticalProp "Vertical Scroller" FALSE "Scroller"
+BOOLEAN  0x8500300D (I····) LISTBROWSER_HorizontalProp "Horizontal Scroller" FALSE "Scroller"
+BOOLEAN  0x85003010 (I····) LISTBROWSER_AutoFit "Auto Fit" FALSE "Auto Fit"
+BOOLEAN  0x85003011 (I····) LISTBROWSER_ColumnTitles "Show Column Titles" FALSE "Column Titles"
+BOOLEAN  0x85003012 (I····) LISTBROWSER_ShowSelected "Show Selected" FALSE "Show"
+BOOLEAN  0x8500301B (I····) LISTBROWSER_Hierachical "Hierarchical Mode" FALSE "Hierachical"
+IMAGE    0x8500301C (I····) LISTBROWSER_ShowImage "Show Image"
+IMAGE    0x8500301D (I····) LISTBROWSER_HideImage "Hide Image"
+IMAGE    0x8500301E (I····) LISTBROWSER_LeafImage "Leaf Image"
+BOOLEAN  0x8500301F (I····) LISTBROWSER_ScrollRaster "Scroll Raster" TRUE "Scroll Raster"
+INTEGER  0x85003020 (I····) LISTBROWSER_Spacing "Spacing" 0 0 32767
+BOOLEAN  0x85003021 (I····) LISTBROWSER_Editable "Editable" FALSE "Editable"
+BOOLEAN  0x85003029 (I····) LISTBROWSER_HorizSeperators "Horizontal Seperators" FALSE "Seperators"
+IMAGE    0x8500302A (I····) LISTBROWSER_CheckImage "Check Image"
+IMAGE    0x8500302B (I····) LISTBROWSER_UncheckedImage "Unchecked Image"
+INTEGER  0x8500302F (I····) LISTBROWSER_MinVisible "Minimal Visible Items" 5 1 65535
+BOOLEAN  0X85003032 (I····) LISTBROWSER_PersistSelect "Persistant Selection" FALSE "Persistant"
+END

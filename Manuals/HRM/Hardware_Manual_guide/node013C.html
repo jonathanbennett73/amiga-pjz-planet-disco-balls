@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_F" NODE="F-3" TITLE="F 8520 Complex Interface Adapters / Time of Day Clock" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>F 8520 Complex Interface Adapters / Time of Day Clock</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node013B.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node013D.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+TOD consists of a 24-bit binary counter.  Positive edge transitions on
+this pin cause the binary counter to increment.  The TOD pin has a passive
+<a name="line4">pull-up on it.</a>
+
+A programmable alarm is provided for generating an interrupt at a desired
+time. The alarm registers are located at the same addresses as the
+corresponding TOD registers.  Access to the alarm is governed by a
+ <a href="../Hardware_Manual_guide/node0145.html">control register</a>  bit (CRB7).  The alarm is write-only; any read of a TOD
+<a name="line10">address will read time regardless of the state of the ALARM access bit.</a>
+
+A specific sequence of events must be followed for proper setting and
+reading of TOD.  TOD is automatically stopped whenever a write to the
+register occurs.  The clock will not start again until after a write to
+the  <a href="../Hardware_Manual_guide/node012F.html#line4">LSB event</a>  register.  This assures that TOD will always start at the
+<a name="line16">desired time.</a>
+
+Since a carry from one stage to the next can occur at any time with
+respect to a read operation, a latching function is included to keep all
+TOD information constant during a read sequence. All TOD registers latch
+on a read of  <a href="../Hardware_Manual_guide/node012F.html#line4">MSB event</a>  and remain latched until after a read of
+ <a href="../Hardware_Manual_guide/node012F.html#line4">LSB event</a> . The TOD clock continues to count when the output registers
+are latched. If only one register is to be read, there is no carry problem
+and the register can be read &#034;on the fly&#034; provided that any read of
+ <a href="../Hardware_Manual_guide/node012F.html#line4">MSB event</a>  is followed by a read of  <a href="../Hardware_Manual_guide/node012F.html#line4">LSB Event</a>  to disable the latching.
+
+ <a href="../Hardware_Manual_guide/node013D.html">Bit Names for Write Time/Alarm or Read Time</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

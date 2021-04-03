@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_E" NODE="E-2-4-2" TITLE="E / / External Disk Interface Specification / Identification Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>E / / External Disk Interface Specification / Identification Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0110.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0112.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+An identification mode is provided for reading a 32-bit serial
+identification data stream from an external device.  To initialize this
+mode, the motor must be turned on, then off.  See pin 8,  <a href="../Hardware_Manual_guide/node0110.html#line12">MTRXD*</a>  for a
+discussion of how to turn the motor on and off.  The transition from motor
+on to motor off reinitializes the serial shift register. After
+initialization, the  <a href="../Hardware_Manual_guide/node0110.html">SELxB*</a>  signal should be left in the inactive state.
+Now enter a loop where  <a href="../Hardware_Manual_guide/node0110.html">SELxB*</a>  is driven active, read serial input data
+on  <a href="../Hardware_Manual_guide/node0110.html">RDY*</a>  (pin 1), and drive  <a href="../Hardware_Manual_guide/node0110.html">SELxB*</a>  inactive.  Repeat this loop a total
+of 32 times to read in 32 bits of data.  The most significant bit is
+received first.
+
+DEFINED IDENTIFICATIONS
+-----------------------
+
+   $0000 0000 - no drive present.
+   $FFFF FFFF - Amiga standard 3.25 diskette.
+   $5555 5555 - 48 TPI double-density, double-sided.
+
+As with other peripheral ID's, users should contact Amiga, Inc.
+for ID assignment.
+
+The serial input data is active low and must therefore be inverted
+to be consistent with the above table.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_C" NODE="C-2-6" TITLE="C / ECS Hardware and the Graphics Library / New BEAMCON0 Register" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>C / ECS Hardware and the Graphics Library / New BEAMCON0 Register</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00A6.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00A8.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A new register in the enhanced Agnus, BEAMCON0, provides a programmable
+signal generator.
+
+   BEAMCON0  W   A     Beam counter control register
+
+           Bit     Use
+           ---     ---
+           15
+           14    HARDDIS    Disable hardwired vertical/horizontal blank
+           13    LPENDIS    Ignore latched pen value on vertical pos read
+           12    VARVBEN    Use VBSTRT/STOP disable hard window stop
+           11    LOLDIS     Disable long line/short line toggle
+           10    CSCBEN     Composite sync redirection
+            9    VARVSYEN   Variable vertical sync enable
+            8    VARHSYEN   Variable horizontal sync enable
+            7    VARBEAMEN  Variable beam counter comparator enable
+            6    DUAL       Special ultra resolution mode enable
+            5    PAL        Programmable pal mode enable
+            4    VARCSYEN   Variable composite sync
+            3    BLANKEN    Composite blank redirection
+            2    CSYTRUE    Polarity control for C sync pin
+            1    VSYTRUE    Polarity control for V sync pin
+            0    HSYTRUE    Polarity control for H sync pin
+
+   Warning:
+   --------
+   Programmable changes between PAL and NTSC modes are new for V2.0.
+   They rely on hardware sync and blank in the Agnus/Denise chip set to
+   guarantee necessary signals for a correctly displayed picture.
+
+   Other modes, such as VGA (31 KHz programmable mode) disable the hard
+   stops on display sync and blank.  Do not write to this register.
+
+   Incorrectly writing directly to BEAMCON0 has the (remote) possibility
+   of destroying your multisync monitor.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

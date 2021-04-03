@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_F" NODE="F-2-3" TITLE="F / Register Functional Description / Interval Timers (Timer A, B)" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>F / Register Functional Description / Interval Timers (Timer A, B)</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0132.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0134.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Each interval timer consists of a 16-bit read-only timer counter and a
+16-bit write-only timer latch.  Data written to the timer is latched into
+the timer latch, while data read from the timer is the present contents of
+the timer counter.
+
+The latch is also called a prescalar in that it represents the countdown
+value which must be counted before the timer reaches an underflow (no more
+counts) condition.  This latch (prescalar) value is a divider of the input
+clocking frequency. The timers can be used independently or linked for
+extended operations.  Various timer operating modes allow generation of
+long time delays, variable width pulses, pulse trains, and variable
+frequency waveforms.  Utilizing the CNT input, the timers can count
+external pulses or measure frequency, pulse width, and delay times of
+external signals.
+
+Each timer has an associated  <a href="../Hardware_Manual_guide/node0145.html">control register</a> , providing independent
+control over each of the following functions:
+
+ <a href="../Hardware_Manual_guide/node0134.html">Start/Stop</a>        <a href="../Hardware_Manual_guide/node0137.html">One-shot/continuous</a> 
+ <a href="../Hardware_Manual_guide/node0135.html">PB on/off</a>         <a href="../Hardware_Manual_guide/node0138.html">Force load</a> 
+ <a href="../Hardware_Manual_guide/node0136.html">Toggle/pulse</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

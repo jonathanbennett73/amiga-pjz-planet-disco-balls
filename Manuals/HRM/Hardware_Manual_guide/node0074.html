@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-7-2" TITLE="3 / / How to Fetch and Display Data / Modulo in Interlaced Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / How to Fetch and Display Data / Modulo in Interlaced Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0073.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0075.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+For interlaced mode, you must redefine the modulo, because interlaced mode
+uses two separate scannings of the video screen for a single display of
+the playfield. During the first scanning, the odd-numbered lines are
+fetched to the screen; and during the second scanning, the even-numbered
+<a name="line6">lines are fetched.</a>
+
+The bitplanes for a full-screen-sized, interlaced display are 400 NTSC
+(512 PAL), rather than 200 NTSC (256 PAL), lines long. Assuming that the
+playfield in memory is the normal 320 pixels wide, data for the interlaced
+picture begins at the following locations (these are all byte addresses):
+
+                    Line 1   START
+                    Line 2   START+40
+                    Line 3   START+80
+                    Line 4   START+120
+
+and so on. Therefore, you use a modulo of 40 to skip the lines in the
+other field. For odd fields, the bitplane pointers begin at START. For
+<a name="line20">even fields, the bitplane pointers begin at START+40.</a>
+
+You can use the Copper to handle resetting of the bitplane pointers for
+interlaced displays.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

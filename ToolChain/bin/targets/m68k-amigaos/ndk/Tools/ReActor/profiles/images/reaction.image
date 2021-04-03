@@ -1,0 +1,5 @@
+unknown.image
+LABEL "Image"
+LIBRARY "images/unknown.image" 0 PRIVATE
+END
+

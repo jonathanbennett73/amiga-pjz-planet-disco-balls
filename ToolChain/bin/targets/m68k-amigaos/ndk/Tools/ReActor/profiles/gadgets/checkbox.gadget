@@ -1,0 +1,11 @@
+checkbox.gadget
+LABEL "Checkbox"
+LIBRARY "gadgets/checkbox.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+STRING   0x80030009 (I···U) GA_Text "Textlabel" ""
+BOOLEAN  0x80030013 (I···U) GA_Selected "Selected" FALSE "Selected"
+PEN      0x85011001 (I···U) CHECKBOX_TextPen "Text Pen" TEXTPEN
+PEN      0x85011002 (I···U) CHECKBOX_FillTextPen "Fill Text Pen" FILLTEXTPEN
+PEN      0x85011003 (I···U) CHECKBOX_BackGroundPen "Background Pen" BACKGROUNDPEN
+SELECT   0x85011005 (I····) CHECKBOX_TextPlace "Text Place" 2 0 0 "Left" 1 "Right"
+END

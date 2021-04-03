@@ -1,0 +1,83 @@
+animation 44.13 (9.3.99)
+
+- The frame conversion code that transforms frame bitmaps for
+  display no longer assumes that the display bitmaps are in
+  planar format. The code recognizes CyberGraphX format bitmaps
+  and actually takes advantage of their format.
+
+- The IFF-ILBM frame storage code was never reentrant. It still
+  is not reentrant, but the code now properly serializes accesses
+  to the global data structures it modifies.
+
+- Similar to picture.datatype, the OBP_Precision tag can now be
+  used to control the pen allocation precision.
+
+- The colour allocation code now reserves space for up to 256
+  colours for later use with per-frame colour map allocation.
+
+- The layout code now treats HAM (4096 colours) and HAM8
+  (262,144 colours) as different display modes.
+
+- The code no longer polls to see whether its child processes
+  are alive (or dead) but waits for them to respond.
+
+- The frame loader process priority is now bumped from -1 to 0
+  before receiving a request to load a specific frame. In older
+  revisions the loader process and the datatype to call it
+  could easily starve due to system load.
+
+- The frame loader process now properly cleans up after itself.
+  In older revisions the process could exit without freeing
+  all of the frames it had loaded.
+
+- The display process now supports per-frame colour map changes.
+
+
+animation 44.14 (13.3.99)
+
+- Implemented per-frame sound period changes.
+
+- Added the new ADTM_LOADNEWFORMATFRAME method which allows frames
+  with stereo soundtrack to be loaded. There also is a new
+  method ADTM_UNLOADNEWFORMATFRAME to complement it.
+
+- Updated the header files and the autodocs.
+
+- The OM_NEW method could return garbage in case the object
+  creation failed. Fixed.
+
+
+animation 44.15 (14.3.99)
+
+- The frame saver now uses the "colour map is really 8 bits
+  wide" flag proposed for use in the BitMapHeader.
+
+
+animation 44.16 (27.3.99)
+
+- Fixed a bug in the ByteRun1 compression code that
+  went unnoticed for the previous 14 years.
+
+
+animation 44.17 (27.3.99)
+
+- animation.datatype now supports the DTA_Repeat attribute.
+
+
+animation 44.18 (27.3.99)
+
+- The loader did not allow for frame data to be reused by
+  the subclasses, thus wasting an incredible amount of
+  memory. Fixed.
+
+- The number of frames the loader process preloads before
+  animation playback starts is now configurable.
+
+
+animation 44.19 (8.12.1999)
+
+- The bitmap all display operations will store their frame
+  data in is now allocated with the BMF_MINPLANES tag. This
+  allows for the bitmap to be allocated in the type of
+  graphics memory most suitable for the currently running
+  RTG system.

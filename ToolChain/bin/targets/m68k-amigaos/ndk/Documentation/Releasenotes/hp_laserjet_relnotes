@@ -1,0 +1,210 @@
+HP_LaserJet 44.1 (31.7.99)
+
+- Ported to SAS/C
+
+
+HP_LaserJet 44.2 (1.8.99)
+
+- Retired the "roll your own" numeric conversion code.
+
+
+HP_LaserJet 44.3 (1.8.99)
+
+- 8-bit-per-gun raster printing works.
+
+- Implemented custom dithering code for ordered dithering
+  (Bayer matrix), halftone dithering (45° 8x8 screen)
+  and Floyd-Steinberg dithering (standard filter with
+  four weights on standard raster). The 8x8 screen was
+  chosen since it represents a reasonable compromise between
+  resolution tradeoffs and the number of colours it can
+  display.
+
+- Cleaned up the rendering and the transfer code. Retired
+  all unused variables.
+
+
+HP_LaserJet 44.4 (6.8.99)
+
+- The driver didn't initialize its data structures properly,
+  leading to no end of trouble. Fixed.
+
+
+HP_LaserJet 44.5 (7.8.99)
+
+- Converted to use the small data model.
+
+- Clarified the documentation and implementation of the
+  dithering code.
+
+- Rewrote the Floyd-Steinberg code to use 16 bit wide dithering
+  tables. This saves space and time. 32 bits would have done the
+  job, but are not really necessary.
+
+
+HP_LaserJet 44.6 (21.8.99)
+
+- Rewrote the density, that is, the page size calculation code.
+  The new implementation should be quite a bit clearer than
+  David Berezowski's original code.
+
+- Now allows for 600 DPI graphics printing with densities
+  5, 6 and 7. Note that this requires a PCL 5e compliant
+  printer, such as the LaserJet 4.
+
+
+HP_LaserJet 44.7 (21.8.99)
+
+- Implemented method #2 raster data compression (TIFF packbits)
+  after experimenting with methods #1 and #3 to find out which
+  one would yield the best results. Compression will be used
+  only in 600 DPI mode. And it really needs it.
+
+  Question: will the driver continue to work with the LaserJet+,
+  LaserJetII and other antique hardware?
+
+
+HP_LaserJet 44.8 (22.8.99)
+
+- Rewrote, simplified and clarified "dospecial.c". Also took
+  the opportunity to review the number of lines supposed to
+  be printable on a page. For A4 sized paper, the original
+  number of lines was too large by five lines. Also, the US
+  paper sizes couldn't have possibly allowed for more lines
+  of text to be printed than the imageable area of the printer
+  permits.
+
+- The code that selects the printer density no longer allows
+  paper sizes A0-A3 to be used as no LaserJet printer supported
+  by this driver can handle paper sizes that large.
+
+- The code conversion function now tracks whether alphanumeric
+  data has been written to the printer.
+
+
+HP_LaserJet 44.9 (22.8.99)
+
+- Now selects ISO 8859-1 as the primary font encoding. This will
+  finally allow all text characters to be printed the way they were
+  intended to.
+
+  Question: will this still work with the LaserJet+, LaserJetII
+  and other antique hardware?
+
+
+HP_LaserJet 44.10 (22.8.99)
+
+- Now also sets the page format when setting the page size.
+
+
+HP_LaserJet 44.11 (27.8.99)
+
+- Page size setup was somewhat broken. Removed the "set page length"
+  command and kept only the "set page format" command.
+
+- Corrected the A4 page size limits again.
+
+
+HP_LaserJet 44.12 (27.8.99)
+
+- Replaced the compression method #2 code with public domain code.
+
+- Reorganized the source code.
+
+- Compression is now enabled by default. This effectively makes this
+  driver incompatible with the LaserJet II and LaserJet+ for which
+  this driver was originally written. The first LaserJet model this
+  driver will work with is the LaserJet IIP, which was introduced
+  before 1990.
+
+
+HP_LaserJet 44.13 (27.8.99)
+
+- Cleaned up the dithering code again in preparation for the
+  colour printing enhancements.
+
+
+HP_LaserJet 44.14 (27.8.99)
+
+- Yet more cleanup work in the dithering department...
+
+
+HP_LaserJet 44.15 (28.8.99)
+
+- Merged the changes made in the CMYK driver back into the
+  B/W driver code. This includes, for example, improved data
+  compression. The new compression code will make sure that
+  the amount of data to be sent to the printer does not grow
+  with compression.
+
+
+HP_LaserJet 44.16 (2.9.99)
+
+- Fixed an overrun bug in the compression code.
+
+
+HP_LaserJet 44.17 (2.9.99)
+
+- Revised the paper and page sizes again; they now reflect
+  the sizes given in the official PCL 5 documentation.
+
+- The text top margin is now set to 0 rows (used to be
+  2 rows).
+
+- Enabled perforation skip mode for text printing.
+
+- Graphics printing now also sets the page size.
+
+- Printing setup now also allows for paper size A3
+  to be used (provided your printer can handle paper
+  that large).
+
+
+HP_LaserJet 44.18 (6.9.99)
+
+- Floyd-Steinberg dithering now alternates the direction
+  in which the image data is processed with every line.
+  This will result in smoother error distribution and
+  improve output quality.
+
+
+HP_LaserJet 44.19 (13.9.99)
+
+- Now supports 1200 DPI output for the LaserJet 2100/4000/5000/8000.
+
+
+HP_LaserJet 44.20 (13.9.99)
+
+- Now generates all HP LaserJet variants from one common
+  source.
+
+
+HP_LaserJet 44.21 (16.9.99)
+
+- Added locale support.
+
+- Now indicates where the printable page area starts.
+
+
+HP_LaserJet 44.22 (22.9.99)
+
+- Setting the page size in the raster printing code also
+  caused the page to be ejected, causing strip printing
+  to break. Fixed.
+
+- The command to end raster printing didn't work on the
+  LaserJet III. Who cares, it takes only a few bytes more
+  to get the same effect out of old PCL commands...
+
+
+HP_LaserJet 44.23 (29.9.99)
+
+- Switched over to use "sys/devs.catalog" for its localized
+  strings.
+
+
+HP_LaserJet 44.24 (24.11.1999)
+
+- Integrated Jochen's page size changes. This should correct
+  the problems with the top page margin of the first page
+  printed.

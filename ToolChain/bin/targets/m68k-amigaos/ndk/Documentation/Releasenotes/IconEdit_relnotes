@@ -1,0 +1,248 @@
+IconEdit 44.2 (15.7.99)
+
+· Initial release
+
+· Known Bugs, ToDo and outstanding Tests:
+
+	· Bug: Remove 2nd Chunky Image (Type Darken), bug in icon.library
+	
+	· Bug: shortcuts do not work (window class problem)
+	
+	· ToDo: Create full set of usefull templates
+	
+	· ToDo: Make more actions undoable (Paste, Load Image, Restore)
+	
+	· ToDo: Warning before Glow Effect (TransPen must be 0)
+	
+	· Test: Save Settings
+	
+	· Test: WB Start
+	
+	· ToDo: Better default palette (hand made for glow icons)
+	
+	· ToDo: replace chooser with popcycle
+	
+	· ToDo: very slow on hi/true color screens
+
+· some docu hints:
+
+	· select background color with SHIFT-Palette
+	
+	· "Glow" is not perfect: the transparent pen must be pen 0
+	
+	· only the two drawing colors are hold in exclusive obtained pens,
+	  all other pens from the palette use shared pens. Thus the color of 
+	  a pen may change if you select or unselect it.
+	
+	· "Template" loads the images from a template icon. You can set the
+	  path with Tooltype "TEMPLATE". The type of the Icon is added to
+	  the path name before loading. The type suffixes are: "_Disk",
+	  "_Drawer", "_Tool", "_Project", "_Garbage". Of course a ".info"
+	  suffix is removed from the template path before adding the type
+	  suffix ("SYS:Storage/Icons/template.info" -> 
+	  "SYS:Storage/Icons/template_Tool")
+	
+	· If settings "Save optimized" is set, save optimizes the icon palette
+	  before saving the icon. Unused colors are removed.
+	
+	· Currently you must convert a NewIcon to OS 3.5 icon before changes
+	  to such an icon are visible. It is not possible to edit "NewIcons".
+	  This is a limitation of icon.library.
+
+IconEdit 44.3 (20.7.99)
+
+· IconEdit crashed if running under native AmigaOS graphics (no Picasso96
+patches installed). Fixed two OS calls with wrong parameters.
+
+· Some internal changes to make IconEdit more stable in unusal cases (very
+very large images etc)
+
+· Highlight type for old icon was handled wrong so "Save" failed most times.
+
+IconEdit 44.4 (29.7.99)
+
+· Renamed Menu Extras/Glow to Extras/Add Glow
+
+· User Requesters because of changed images etc have no a title "IconEdit"
+  instead of "Program Error" whivch is used for I/O errors etc.
+  
+· Glow Effect is undoable.
+
+· Glow Effect changes palette colors: all colors are darken and three colors
+  (white, yellow, bright orange) are added if not already in palette with
+  good quality.
+
+· Click on Radio Button without changing selection will not longer make IE
+  busy for some secondes.
+
+· Fixed one bug in Glow Effect. This seems to fix the problem of randomly
+  changed pixels.
+
+· Maximum magnify is now 8 (was 16).
+
+· Large images with large magnification needs too much chip mem
+  (256 * 256 * 8 * 8 bytes == 4 MB for display bit map). If the display
+  bitmap cannot be allocated the magnifying is reduced by one and the
+  allocation is tried again.
+
+· Some memory was not freed at program exit.
+
+· Added busy-mouse for many commands (changing image size etc)
+
+· Extras/Minimize Sketchboard is now limited to 16x16
+
+· Extras/#? Sketchboard is now dis/enabled depended on size of sketchboard.
+
+· Dropping icons from workbench now works
+
+· If both the normal and selected image of the new image type is empty the
+  saved icon contains no chunky images, so icoin.library will show the old
+  icon images instead (empty) chunky images.
+
+· loading a volume or drawer not longer results in an error message: a
+  volume name (Work:) automatically gets "Disk" appended (Work:Disk) and
+  a drawer path gets an enevtually slash cut (ram:T/ -> ram:T).
+
+· fixed a bug throwing enforcerhits while copying image to clipboard.
+
+· fixed a bug with shrinking magnifying while scroller is not at the leftmost
+  (or topmost) position
+
+· modifying the selected image automatically changes highlighting mode to
+  "Image"
+  
+· drawing a single pixel with coninious-drawing tool did not work
+
+· color sliders updates without flicker
+
+· palette updates could reduce flickering on true color screens if palette
+  gadget would handling better.
+
+IconEdit 44.5 (9.8.99)
+
+· fixed a badly initialised temp rastport on hi/true color screens
+
+IconEdit 44.6 (11.8.99)
+
+· restricted gradientslider to 6 exclusive pens
+
+IconEdit 44.7 (13.8.99)
+
+· the bug fix in 44.5 was not a bug fix but just another way to make it wrong.
+
+IconEdit 44.8 (14.8.99)
+
+· "Restore" Images were not released at "New", "Open", "Quit". Especially
+  chip memory were wasted.
+
+· If one loads an icon without new image the old images are shown 
+  automatically. This may not work because of loading default icons 
+  if a file has no icon.
+
+· Label "HSB:" missed the colon
+
+· Overwriting an icon (Save As...) now notifies the user
+
+· Added a warning if a NewIcon is loaded because saving it will drop the
+  NewIcon tooltypes and create a pen mapped icon.
+
+· removed that blue box behind tool buttons
+
+· mutual exclude menu items (type, highlight, colormodel) were not marked
+  as such
+
+· moved pattern, tool and scroll buttons above demo pads. Now all important
+  buttons (image selector, tool buttons, palette) and most less important
+  (magnifier, patterns, tranparent button) are at the top of window. Should
+  shorten the mouse moves.
+
+IconEdit 44.9 (14.9.99)
+
+· a new icon.library and a small change in IconEdit fixes the problem of
+  not saveing old images.
+
+· Tooltype USEGRID was not copied to the sketchboard at startup.
+
+· Paste didn't work due to wrong datatypes usage.
+
+· Clicking in the upper demopad only shows the selected image if the highlight
+  type is "Image". Emulating the 3 other highlighting modes is too difficult
+  (especially "Darken").
+
+· Pressing the magnifier gadgets very fast disabled the gadget before it was
+  deselected. Fixed.
+
+· File Requester for open/save icons not longer shows only .info files but
+  uses a editable pattern #?.info to show icon files only.
+
+· IconEdito is now a lot faster on Hi/True Color screens.
+
+· IconEdit uses Matts interface glyphs
+
+· RGB sliders use now values from 0 to 255 instead of hardware value range
+
+IconEdit 44.10 (21.9.99)
+
+· If IconEdit's window was large minimizing it trashed the border window: the
+  mouse coordinate output was updated before the new layout was calulated.
+
+IconEdit 44.11 (23.9.99)
+
+· Error message from "New" operation was to simple. Not every error is an
+  "Out of memory" error.
+
+· If filename for saving icon is too long a error message is displayed. 
+  Untested, because icon.library which supports this is not released yet.
+
+· IconEdit should now work without Workbench running.
+
+IconEdit 44.12 (28.9.99)
+
+· Fixed another bug for hi/true color screens: creating the colormap for an
+  icon illegal color register number were used.
+
+IconEdit 44.13 (28.9.99)
+
+· Removed useless error message when canceling file requester in 
+  "Save Clip As..."
+
+IconEdit 44.14 (30.9.99)
+
+· Re-save of resource file with new ReActor version fixes the bug not disposing
+  all BOOPSI objects on quit.
+
+IconEdit 44.15 (30.9.99)
+
+· added a work-around in "Open Clip..." for a behaviour of picture.datatype
+  that I call a bug...
+
+--- OS 3.5 release ---
+
+IconEdit 44.16 (28.10.99)
+
+· changing a color on hi/true color screens didn't update the sketchboard
+
+· close gadget didn't ask user if icon was modified.
+
+· fixed clipping in GM_RENDER method
+
+IconEdit 44.17 (18.11.99)
+
+· Canceling of Loading NewIcons on program startup now loads the default tool
+  icon.
+  
+· Iconify/Deiconify no longer mess the drop zones.
+
+· alternate old icon image was not cleared on save (thrash in image if 
+  alternate image was smaller than the normal image)
+
+· Added workaround for WriteChunkyPixel() on CD32 with faster CPU - hardware
+  conversion seems not to work anymore.
+
+IconEdit 44.18 (29.11.99)
+
+· Window position and size is now stored and restored.
+
+IconEdit 44.19 (2.12.99)
+
+· Loaded images (clipboard or files) are now remapped to max 256 colors.

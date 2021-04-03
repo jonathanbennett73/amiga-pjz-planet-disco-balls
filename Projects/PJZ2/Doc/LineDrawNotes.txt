@@ -1,0 +1,88 @@
+; Blitter line mode notes
+; -----------------------
+;
+; Preliminary setup:
+;
+;   The line goes from (x1,y1) to (x2,y2).
+;
+;   dx = max(abs(x2 - x1), abs(y2 - y1)) ;
+;   dy = min(abs(x2 - x1), abs(y2 - y1)) ;
+
+; Register setup:
+;
+;   BLTADAT   = $8000
+;   BLTBDAT   = line texture pattern ($FFFF for a solid line)
+;
+;   BLTAFWM   = $FFFF
+;   BLTALWM   = $FFFF
+;
+;   BLTAMOD   = 4 * (dy - dx)
+;   BLTBMOD   = 4 * dy
+;   BLTCMOD   = width of the bitplane in bytes
+;   *BLTDMOD  = width of the bitplane in bytes  (NOT NEEDED - SEE QUIRKS)
+;
+;   BLTAPTL.w = (4 * dy) - (2 * dx)
+;   BLTBPT    = unused
+;   BLTCPT    = word containing the first pixel of the line
+;   BLTDPT    = word containing the first pixel of the line
+;
+;   BLTCON0   bits 15-12 = x1 modulo 15
+;   BLTCON0   bits SRCA, SRCC, and SRCD = 1  (=$b or $a SEE QUIRKS)
+;   BLTCON0   bit  SRCB = 0
+;             If exclusive-or line mode:                  _   _
+;                      then BLTCON0  LF control byte  = ABC + AC
+;                                                           _
+;                      else BLTCON0  LF control byte  = AB + AC
+;
+;   BLTCON1   bit  LINEMODE  = 1
+;   BLTCON1   bit  OVFLAG  = 0
+;   BLTCON1   bits 4-2 =  octant number  from table
+;   BLTCON1   bits 15-12 = start bit for line texture (0 = last significant
+;            If (((4 * dy) - (2 * dx)) < 0):                bit)
+;                     then  BLTCON1  bit  SIGNFLAG  = 1
+;                     else  BLTCON1  bit  SIGNFLAG  = 0
+;            If one pixel/row:
+;                     then  BLTCON1  bit  ONEDOT  = 1
+;                     else  BLTCON1  bit  ONEDOT  = 0
+;
+;   BLTSIZE  bits 15-6 = dx + 1
+;   BLTSIZE  bits  5-0 = 2
+;
+;Inverted $a4a, a+c enabled
+; A B C  D   Bit Number
+; 0 0 0  0   0
+; 0 0 1  1   1
+; 0 1 0  0   2
+; 0 1 1  1   3
+
+; 1 0 0  0   4
+; 1 0 1  0   5
+; 1 1 0  1   6
+; 1 1 1  0   7
+
+;Non-inverted $aca, a+c enabled
+; A B C  D   Bit Number
+; 0 0 0  0   0
+; 0 0 1  1   1
+; 0 1 0  0   2
+; 0 1 1  1   3
+
+; 1 0 0  0   4
+; 1 0 1  0   5
+; 1 1 0  1   6
+; 1 1 1  1   7
+;
+; Line draw quirks from EAB:
+; Because of how the Blitter works, pointing D to a couple of scratch bytes lets us 
+; conveniently discard the first scanline it draws, regardless of the direction, slope 
+; and length of the line. Removes the need to bchg the first pixel drawn
+;
+;First pixel is written to address pointed by BLTDPT, all following pixels are written to address pointed by BLTCPT
+;
+; SRCD can be disabled. No effect on speed or blit. That's why some linedraw code uses 
+; $a and some $b
+;
+; BLTDMOD is NOT used, BLTCMOD is used for both C and D
+;
+; Most of the 4* values above work with 2* so bear in mind when reading sources.
+;

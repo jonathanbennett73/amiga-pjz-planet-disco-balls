@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-18" TITLE="A Register Summary / BPLCON0, BPLCON1, BPLCON2, BPLCON3" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / BPLCON0, BPLCON1, BPLCON2, BPLCON3</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0021.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0023.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+BPLCON0    100      W     A D( <a href="../Hardware_Manual_guide/node00A3.html">E</a> ) Bitplane control register (misc.
+                                       control bits)
+BPLCON1    102      W       D      Bitplane control register
+                                       (horizontal scroll control)
+BPLCON2    104      W       D( <a href="../Hardware_Manual_guide/node00A9.html">E</a> ) Bitplane control register
+                                       (video priority control)
+
+                 These registers control the operation of the
+                 bitplanes and various aspects of the display.
+
+                 BIT#     BPLCON0    BPLCON1    BPLCON2
+                 ----     --------   --------   --------
+                 15       HIRES       X           X
+                 14       BPU2        X           X
+                 13       BPU1        X           X
+                 12       BPU0        X           X
+                 11       HOMOD       X           X
+                 10       DBLPF       X           X
+                 09       COLOR       X           X
+                 08       GAUD        X           X
+                 07        X         PF2H3        X
+                 06        X         PF2H2      PF2PRI
+                 05        X         PF2H1      PF2P2
+                 04        X         PF2H0      PF2P1
+                 03       LPEN       PF1H3      PF2P0
+                 02       LACE       PF1H2      PF1P2
+                 01       ERSY       PF1H1      PF1P1
+                 00        X         PF1H0      PF1P0
+
+               HIRES=High-resolution (70 ns pixels)
+               BPU  =Bitplane use code 000-110 (NONE through 6 inclusive)
+               HOMOD=Hold-and-modify mode (1 = Hold-and-modify mode (HAM);
+                       0 = Extra Half Brite (EHB) if HAM=0 and BPU=6
+                       and DBLPF=0 then bitplane 6 controls an intensity
+                       reduction in the other five bitplanes)
+               DBLPF=Double playfield (PF1=odd PF2=even bitplanes)
+               COLOR=Composite video COLOR enable
+               GAUD=Genlock audio enable (muxed on BKGND pin
+                       during vertical blanking
+               LPEN =Light pen enable (reset on power up)
+               LACE =Interlace enable (reset on power up)
+               ERSY =External resync (HSYNC, VSYNC pads become
+                       inputs) (reset on power up)
+               PF2PRI=Playfield 2 (even planes) has priority over
+                       (appears in front of) playfield 1
+                       (odd planes).
+               PF2P=Playfield 2 priority code (with respect
+                       to sprites)
+               PF1P=Playfield 1 priority code (with respect
+                       to sprites)
+               PF2H=Playfield 2 horizontal scroll code
+<a name="line57">               PF1H=Playfield 1 horizontal scroll code</a>
+
+BPLCON3    106      W      D( <a href="../Hardware_Manual_guide/node00A9.html">E</a> ) Bitplane control (enhanced features)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

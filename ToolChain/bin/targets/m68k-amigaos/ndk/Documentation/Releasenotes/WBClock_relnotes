@@ -1,0 +1,63 @@
+Clock 45.1 (28.10.2000)
+ - initial release for OS3.9
+
+WBClock 45.2 (10.11.2000)
+ - renamed, so that the old clock won't get deleted
+   (can somebody create a different icon?)
+ - WBClock messed Workbench pens. Fixed.
+ - if wanted a given backgound picture can made also transparent
+ - the color page got a colorwheel and grandientslider gadget
+   (note that there is a problem with the gradientslider.gadget actually)
+ - settings can be loaded/saved from/to a location
+   (please send me some nice settings which can be included into OS3.9)
+
+WBClock 45.3 (11.11.2000)
+ - the length of the hands can be changed
+ - when changing the size and pressing "Test" or "Use" the clock stays on
+   it's position if possible
+ - disabled the PutAway menu item
+ - fixed problems with gradientslider.gadget. Thanks to Jochen.
+
+WBClock 45.4 (12.11.2000)
+ - the hour sound played multiple times if requested
+ - added some clear buttons for the sound page
+ - made the copyright text localizable
+ - gadientslider problem is now really fixed
+
+WBClock 45.5 (17.11.2000)
+ - when running under DOpus WBClock will quit
+ - you can alter the offsets of the hands now
+ - added a Save Button
+ - workbench can now be closed and reopened if only the clock icon alone is
+   displayed (used the new workbench setup/cleanup feature)
+ - removed the support of screennotify.library, it is no longer necessary
+ - workbench args are supported now (loads the settings)
+ - if settings are loaded from a file they are also saved back to this file
+ - if settings are saved to a file they get a icon now (def_wbclock is used
+   if available else def_project)
+
+WBClock 45.6 (18.11.2000)
+ - the new offsets weren't corretly shown in the config window
+
+WBClock 45.7 (19.11.2000)
+ - when border is activated the background picture's left and top line
+   were erased by the border
+ - didn't updated the background picture if the filename changed and
+   the new transparent modes were selected
+ - transparent picture should work now on AGA machines correctly
+
+WBClock 45.8 (20.11.2000)
+ - "Length" now also influences the radius of the clock's face =>
+   renamed to "radius", moved to the Face page
+ - Moved the offsets to the Face page as they now also influences the clock's
+   face
+ - Added an Auto Size button in the Face page, if enabled the clock size will
+   now adjusted to the given picture
+
+WBClock 45.9 (22.11.2000)
+ - wrong offset if date was enabled
+ - window now opens screen centered
+ - some tooltypes weren't saved correctly
+
+WBClock 45.10 (25.11.2000)
+ - Multiple hour check wasn't correctly updated in the window

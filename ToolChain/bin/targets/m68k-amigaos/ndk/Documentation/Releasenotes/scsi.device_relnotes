@@ -1,0 +1,301 @@
+kickstart/scsidisk
+
+    A SCSIDirect command should no longer mess up scsi.device
+    command handling if it was handled with a BUSY status
+    internally. The disk size calculation returned the # of blocks
+    - 1. This messed up TD_GETGEOMETRY results. TD_GETGEOMETRY will
+    now return decent results, including the head count and
+    related values. R/W handling did use two's complement
+    arithmetic when doing mapped block handling. Ouch. scsi.device
+    is now a New Style Device with 64 bit trackdisk support. RDB
+    processing will also be able to access blocks beyond 4GB now
+    for whatever it's worth. scsi.device will reject lengths
+    now that don't match the blocksize. This finally gets rid of
+    the problems occuring when a 0 block count was passed as length
+    in a SCSI CDB, i.e. it will return an error now instead of
+    locking up everything.
+
+    The IDE drive identification was pretty messed up. It did not
+    handle ATAPI device recognition and even set up IDE registers
+    wrong at certain times.
+
+    Added ATAPI support. The polling wait code is still pretty
+    ugly and wastes lots of time on slower devices at the moment
+    because we don't have a simple way to delay for really short
+    times without messing up multitasking. CIA access comes to mind
+    but I don't like that. Well, it should work in general and it
+    works with my Mitsumi CD-ROM drive at the moment. The 6 Byte
+    READ/WRITE/SEEK/MODE commands are silently reworked into the
+    extended versions under the assumption that 100% of all ATAPI
+    devices will like the extended ones much better. Maybe this
+    should be changed to a retry extended on failure type thing.
+    Now I can build the A4kT scsi.device with SAS/C 6.56
+    _including_ the NCR script. Batteries included.
+    Well, actually all devices can be built now. I don't know if
+    they all work, though. A3k and A4k[T] devices seem to be ok.
+    Geometry data will be updated as far as possible on a media
+    change now. Issues: What kind of data should be returned when
+    no medium is inserted? What about e.g. cyl/sec/head for a
+    CD-ROM?
+    Froze 43.11
+    Fixed a couple of problems in the ATAPI support. Now uses the
+    correct transfer length when setting up a command and the
+    removable bit should now be correctly evaluated. There was a
+    typo. The transfer routines were warped at times, too.
+    Internal command evaluation should be safer when it comes to
+    the 64 bit set and scsi.device should now skip non disk devices
+    when looking for an RDB.
+    Fixed a very bad stack bug with the IDE setup which definitely
+    killed e.g. the A600 and A1200. Removed the NSD getdrivetype
+    hack in anticipation of a corresponding NSD update.
+    Froze 43.12.
+    The IDE drivers should no longer access undefined memory on
+    bootup on an A4k. Also, battmem options should be usable now to
+    all hardware models if available. IDE/ATAPI hardware
+    recognition has been greatly simplified. We'll see if this
+    breaks anybody. It should be less demanding of ATAPI devices
+    now while still recognizing "no HW" correctly. The 2nd drive
+    battmem bit hack is no longer needed. There may be an
+    additional wait of ~1 second for the first try to access a non
+    existing ATA[PI] slave with certain master devices like e.g
+    a Mitsumi CDROM drive.
+    Froze 43.14.
+    The ATA[PI] HW recognition should now well handle
+        - bad ATA drives that mess up BSY on boot
+        - masters that don't handle non existing slaves well
+        - ATAPI devices that don't show up as ATAPI well
+        - darn slow HW without slowing down faster HW on reset
+    Froze 43.15.
+    ATAPI handling of MODE SENSE(6) and MODE SELECT(6) was fairly
+    warped. This should be much better now. With a little bit of
+    luck new ATAPI devices should be recognized and handled now ...
+    if READ CAPACITY works as expected. Unfortunately I don't have
+    a device to actually test this with. Froze 43.16.
+    HD_SCSICMD should now use the correct LUN on SCSIF_AUTOSENSE.
+    Bump for beta release. Froze 43.17.
+    A tiny little change to the WD-Chip reselection code. At worst
+    it does nothing, at best it helps by plugging a potential
+    timing hole. You can call this change experimental.
+    Highly unlikely that it has any effect.
+    I also reworked the ATA[PI] hardware recognition again. This is
+    an ugly subject and even with all the specs, I'd really need
+    tons of ATA[PI] HW to actually check this. Interesting
+    enough, the basic check for no HW as in use for a long time
+    isn't reliable according the specs. We keep using it anyway
+    due to lack of a much better method. We now have a three pass
+    HW recognition. The first pass probes if there is anything out
+    there that looks like reasonable HW registers of a device and
+    checks for spec'ed time until the device[s] out there are no
+    longer busy. It will accept an ATAPI sig. If this pass fails,
+    the device will not be instantiated. The second pass checks if
+    the registers are at all writeable and not just some bus in the
+    floating state. Units found will be marked for testing. The
+    third pass is done on device startup when the units are
+    accessed. Here, the units marked as possibly available will be
+    probed and identified by carefully sending appropriate commands
+    with timeout checks. Problems fixed now should be:
+        - masters that take seconds to start up with BSY for the
+          first time.
+        - ATA, ATA/ATAPI, ATAPI, ATAPI/ATAPI combinations.
+        - Failure to recognize certain harddrives.
+        - Drives that have problems handling the diagnostics
+          command.
+    ATA[PI] HW recognition is a major pain. The maximum wait is 31
+    seconds for !BSY and, for ATA stuff, another 30 seconds
+    paranoia for DRDY. Most drives are up after about 5 to 10
+    seconds most on initial power up. ATAPI devices are less of a
+    problem. This device will not yet differentiate between
+    different needed format commands for special ATAPI device
+    types. A SCSI Format CDB will be sent through as is. If you
+    don't know what you are doing, you may be out of luck.
+    TD_GETGEOMETRY should work now with both ATA[PI] devices where
+    applicable and flexible disks if possible, SCSI or whatever
+    else is supported. If 3D geometry values simply don't apply,
+    like on a CD-ROM, scsi.device used to return previous set dummy
+    defaults. It will try hard now return only those values that
+    make sense and it will no longer return stuff when no disk is
+    in the drive. This should help users of some of the common
+    removable drives out there. Froze 43.18.
+    On a SCSI sync setup (SDTR) message rejected by the target, the
+    WD code did not handle sync values for the unit correctly. It
+    did not reset to async transfer for the unit, but always for
+    unit 0. On an A3k with a reasonably modern HD, things may be
+    noticably faster for async transfers now due to a change in the
+    SCSI transfer timing that seems to be permissible. Let's see if
+    this shows problems with marginal cabling. Let me know if sync
+    on/off changes anything if you have problems now. It seems that
+    the WD chip/Philips CD writer problem with reselection can't be
+    fixed in SW.
+    The ATA[PI] hardware check code did not [de]select the drive
+    tested correctly after it finished. ATA[PI] hardware
+    recognition is still a pain. I wonder who breaks this time.
+    Bootup polling now works with 0.25 second intervalls, rather
+    than 1 second intervalls. Disk units can no longer be opened,
+    if the device is unable to determine *anything* reasonable
+    about their geometry. Finally, I gave up on "improving"
+    the existing ATA[PI] hardware recognition. I set it up from
+    scratch to establish a framework that may finally make it
+    possible to create something reliable. My new approach could
+    definitely fail in a few circumstances for a physcial device:
+        1. If it fails to intially set up registers and assert BSY
+           within a second after initial reset. Violates specs.
+        2. If it fails to either set up an ATA or ATAPI signature
+           and correct diagnostic code. Violates specs.
+        3. If device 1 is ATA, noticably slower than the master and
+           does not have DRDY set up when device 0 has been
+           initialized and handled. The problem here is that for
+           device 0 only configurations DRDY won't ever be set for
+           device 1 and that I didn't find a spec conforming and
+           safe probe yet if DRDY for device 1 will ever be set. So
+           it's rolling the dice here at the moment.
+    The mount code would never safely automount a device 1 ATA[PI]
+    drive. A byte unit number was tested as long and it worked by
+    accident only if the master device was a harddrive. Has been in
+    there probably since the very beginning of time.
+    Froze 43.19.
+    Added LBA support to the ATA drive code. Not really needed up
+    to 8.5GB, but what the heck. LBA is used for drives that report
+    LBA and more than 1024 cylinders. Just in case.
+    Froze 43.20.
+    To handle slow drives that violate specs, the ATA[PI] hardware
+    recognition will now wait two seconds on bootup before trying
+    to identify drives. This should fix slow drives on fast
+    machines for good. Froze 43.21.
+    CMD_UPDATE tried to sync caches even for non inserted media.
+    This restarted, e.g., a JAZ drive in unexpected ways.
+    Froze 43.22.
+    Beta update. Froze 43.23.
+    Device recognition is now a second more lenient.
+    Froze 43.24.
+    Device recognition is even more lenient in register values but
+    it should actually be faster than 43.24. Quantum Bigfoot drives
+    kill the C= way of recognizing an empty cable. They return a
+    0xD0 status on bootup which conflicts with the (lousy) choice
+    of magic pullups on the data bus. The code waited too long on
+    true scsi bootups. I think I had messed up a wait loop along
+    the way. This should be fixed now. For a non-existing drive 1,
+    you may see an extra wait of about three seconds on bootup if
+    the last flag is not set in the RDB of drive 0. All in all,
+    timeout handling should now be much better as requested by
+    d1153 and d1321. I have to test this now in different
+    combinations. It may not be complete yet but it is a solid
+    start for the OS 3.5 release.
+    Note well:
+                a300.ld.strip           A1200 IDE
+                a600.ld.strip           A600 IDE
+                a1000.ld.strip          A4000[T] IDE
+                a4000t.ld.strip         A4000T SCSI
+                scsidisk.ld.strip       A3000[T]
+    For beta testing, this release will include a majik reboot file
+    "AmigaOS ROM Update" for the DEVS: directory, which includes
+    the devices and the requried reboot information. If you
+    don't want the reboot, simply use the NOREBOOT switch of
+    setpatch or delete this update file.
+    Froze 43.25.
+    ATAPI fakes SCSI-2 returns now. Device recognition should also
+    survive any soft reboot now if the connected devices are at
+    least reasonably ATA(PI) compatible.
+    Froze 43.26
+    Changed hardware recognition once again because of the §$%&§&%
+    four way adapters. Due to the way they are designed, they limit
+    what can be done inside the driver with the connected hardware.
+    The device is now more persistent when checking for hardware on
+    bootup. The MODE SENSE/SELECT warping that is done for ATAPI
+    devices should work a lot better now. PLAY AUDIO 12 is now also
+    warped for ATAPI devices. This should fix inflexible (broken?)
+    audio players. Final hardware recognition is now done when the
+    interrupt handler has been set up. This allows us to issue
+    commands. Doing this required some fairly major changes to the
+    device. If you have a cable or adapter that does not pass on
+    the reset signal correctly, you may well run into trouble.
+    Froze 43.27.
+    Ok, I have implemented some pretty significant reworks to the
+    ATA(PI) recognition on bootup. This has been tested with an
+    A600, an A1200 with a Micronik 4way adapter, with and without
+    an 030 Cobra board, and an A4kT/060. It has been tested with
+    the internal ST9300AG, an FX400D, an LS-120, an ST3144A, a
+    DTTA-351680, and even an ST1239A in various combinations,
+    including Master only CD-ROM and one or two devices on the 2nd
+    cable of the 4way adapter. I didn't try the WD drives in my
+    mail/news gateway nor the CP2121 or the CY64A011, but I am
+    pretty sure that they would also work well. Slave only
+    configurations are not supported and will most likely not be
+    supported. Now, there is still one problem that keeps me from
+    releasing 4way adapter support in scsi.device itself. If I find
+    a way around that issue, which seems to be actually hardware
+    related, scsi.device could potentially have 4way ATA(PI)
+    support.
+    Froze 43.28.
+    Reset check for ATAPI is now less picky. Enabled 4way support
+    for the adapters not using the chip select split method. NOTE
+    WELL that this may conflict with other software doing this.
+    *** DO NOT RUN OTHER 4WAY SOFTWARE AT THE SAME TIME ***.
+    IDE scsi.device tries hard not to get confused on broken slave only
+    configs. Note: This has also been tested with an FX400D!
+    Froze 43.29.
+    Turned off 4way support. Also no longer uses
+    exec.library/CacheControl to avoid accelerator board problems.
+    Froze 43.30.
+    The cable is now checked very thoroughly. The device should be able
+    to determine an empty cable correctly now on all different HW types.
+    The subsequent signature check is less restrictive now.
+    Froze 43.31.
+    This version does a slightly different IDE cable check. It is
+    also a ****DEBUG**** version. During the boot and recognition
+    phase, the power LED will blink and pause depending on what is
+    going on. If you have *ANY* problems with this version, please
+    report back the blinks of the power led with the intermediate
+    pauses, e.g., 1-2-3-1-2-4. Run your test at least twice so that
+    you can be sure of the individual blink counts. Also, let me
+    know once again what kind of HW (including detailed
+    information) was connected to the cable at that time. If
+    possible, let me know if something changes when you add/remove
+    devices. Again, this is *DEBUG* and NOT FOR RELEASE IN ANY WAY.
+    Froze 43.32.
+    Plugged a potential hole in TD_PROTSTATUS. This could have
+    caused HD's to look write protected. If this was actually the
+    problem, it must have been in there forever.
+    If the device does not present a valid signature,
+    identification is tried anyway now. This device again has LED
+    blinking enabled. LET ME KNOW ABOUT THE BLINK SEQUENCE you see.
+    Froze 43.33.
+    Disabled LED blink for the boing bag release. As you wish,
+    Jochen.
+    Froze 43.34.
+    Martin reported a hangup with a 4GB drive. As it turns out this
+    drive (as single device 0) faked the device 1 register file,
+    acknowledged an Identify to device 1 but did not ever return
+    any data, which is what scsi.device did not expect. I added a
+    timeout now for Identify commands. If the device does not
+    return data in a couple of seconds after acknowledging the
+    command, the Identify will count as failed and scsi.device will
+    not hang. BTW, the LED sequence reported allowed to identify
+    this problem even without having the drive as test object.
+    Now I just hope I fixed the right problem here.
+    Froze 43.35.
+    With some help I found a fairly bad/stupid bug in the IDE
+    hardware recognition code. A return address was popped at an
+    incorrect time and state information was lost. Connected HW
+    could have been missed under certain HW conditions. With a
+    little bit of luck this should fix scsi.device HW recognition
+    for good.
+    Froze 43.36.
+    Found another bug in device recognition possibly affecting
+    master recognition. Streamlined some assumptions in the code to
+    make it safer and more effective.
+    Froze 43.37.
+    Added LLOG debugging to get a near real time trace of what is
+    going out there in IDE land.
+    Froze 43.38.
+    LLOG debugging found a case where the device could loop
+    endlessly with a missing slave on init. LLOG debug still enabled.
+    Froze 43.39.
+    Some more LLOG debugging added for Seagate 4.3GB debug. Apparently
+    Seagate drives can fail on identify even after the handled the
+    command many times successfully.
+    Froze 43.40.
+    Increased the DRQ timeout by one second and made drive
+    selection more robust as a result of LLOG debugging on a
+    Seagate 4.3GB drive. Let's see what happens.
+    Froze 43.41.
+

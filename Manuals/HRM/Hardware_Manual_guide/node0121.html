@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-7" TITLE="6 Blitter Hardware / Copying Arbitrary Regions" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 Blitter Hardware / Copying Arbitrary Regions</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0120.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0122.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+One of the most common uses of the blitter is to move arbitrary rectangles
+of data from one bitplane to another, or to different positions within a
+bitplane. These rectangles are usually on arbitrary bit coordinates, so
+ <a href="../Hardware_Manual_guide/node011F.html">shifting</a>  and  <a href="../Hardware_Manual_guide/node011F.html#line42">masking</a>  are necessary. There are further complications.
+It may take several readings and some experimentation before everything in
+this section can be understood.
+
+A source image that spans only two words may, when copied with certain
+ <a href="../Hardware_Manual_guide/node011F.html">shifts</a> , span three words.  Our 23 pixel wide rectangle above, for
+instance, when  <a href="../Hardware_Manual_guide/node011F.html">shifted</a>  12 bits, will span three words. Alternatively, an
+image spanning three words may fit in two for certain  <a href="../Hardware_Manual_guide/node011F.html">shifts</a> .  Under all
+such circumstances, the blit size should be set to the larger of the two
+values, such that both source and destination will fit within the blit
+<a name="line15">size.  Proper  <a href="../Hardware_Manual_guide/node011F.html#line42">masking</a>  should be applied to mask out unwanted data.</a>
+
+<a name="line17">Some general guidelines for copying an arbitrary region are as follows.</a>
+
+1. Use the A  <a href="../Hardware_Manual_guide/node011B.html">DMA channel</a> , disabled, preloaded with all ones and the
+   appropriate  <a href="../Hardware_Manual_guide/node011F.html#line42">mask</a>  and  <a href="../Hardware_Manual_guide/node011F.html">shift values</a> , to mask the  <a href="../Hardware_Manual_guide/node011D.html#line83">cookie-cut</a>  function.
+   Use the B channel to fetch the source data, the C channel to fetch
+   the destination data, and the D channel to write the destination
+   data.  Use the  <a href="../Hardware_Manual_guide/node011D.html#line83">cookie-cut</a>  function $CA.
+
+2. If  <a href="../Hardware_Manual_guide/node011F.html">shifting</a> , always use ascending mode if bit shifting to the right,
+   and use  <a href="../Hardware_Manual_guide/node0120.html">descending mode</a>  if bit shifting to the left.
+
+   NOTE:
+   -----
+   These shifts are the shifts of the bit position of the leftmost edge
+   within a word, rather than  <a href="../Hardware_Manual_guide/node011F.html">absolute shifts</a> , as explained previously.
+
+3. If the source and destination overlap, use ascending mode if the
+   destination has a lower memory address (is higher on the display) and
+    <a href="../Hardware_Manual_guide/node0120.html">descending mode</a>  otherwise.
+
+4. If the source spans more words than the destination, use the same
+    <a href="../Hardware_Manual_guide/node011F.html">shift</a>  value for the A channel as for the source B channel and set the
+   first and last word  <a href="../Hardware_Manual_guide/node011F.html#line42">masks</a>  as if they were masking the B source data.
+
+5. If the destination spans more words than the source, use a  <a href="../Hardware_Manual_guide/node011F.html">shift</a> 
+   value of zero for the A channel and set the first and last word  <a href="../Hardware_Manual_guide/node011F.html#line42">masks</a> 
+   as if they were masking the destination D data.
+
+6. If the source and destination span the same number of words, use the
+   A channel to  <a href="../Hardware_Manual_guide/node011F.html#line42">mask</a>  either the source, as in 4, or the destination, as
+<a name="line47">   in 5.</a>
+
+   Warning:
+   --------
+   Conditions 2 and 3 can be contradictory if, for instance, you are
+   trying to move an image one pixel down and to the right.  In this
+   case, we would want to use  <a href="../Hardware_Manual_guide/node0120.html">descending mode</a>  so our destination does
+   not overwrite our source before we use the source, but we would want
+   to use ascending mode for the right  <a href="../Hardware_Manual_guide/node011F.html">shift</a> .  In some situations, it is
+   possible to get around general guideline 2 above with clever  <a href="../Hardware_Manual_guide/node011F.html#line42">masking</a> .
+   But occasionally just  <a href="../Hardware_Manual_guide/node011F.html#line42">masking</a>  the first or last word may not be
+   sufficient; it may be necessary to mask more than 16 bits on one or
+   the other end. In such a case, a mask can be built in memory for a
+   single raster row, and the A  <a href="../Hardware_Manual_guide/node011B.html">DMA channel</a>  enabled to explicitly fetch
+   this mask. By setting the A modulo value to the negative of the width
+   of the mask, the mask will be repeatedly fetched for each row.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

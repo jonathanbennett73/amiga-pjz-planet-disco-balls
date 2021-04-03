@@ -1,0 +1,45 @@
+Native Developer Kit for AmigaOS 3.9
+====================================
+
+At last, here is the long promised update to the Native Developer Kit! More
+than one year in the making, several changes were made to improve the
+robustness and quality of the NDK 3.5, upon which it is based.
+
+What's new, what's different? In part this update is identical to the NDK
+3.5, as published on the "Amiga Developer CD 2.1". The example programs are
+largely the same, and so are the tutorials and the tools. The 'C' and
+assembly header files have been updated, so have the linker libraries, the
+Autodocs and the Workbench ARexx interface documentation. New for this
+release are the release note files, and the so-called "sfd" files.
+
+The amiga.lib stubs, the clib prototype header files, the pragma header
+files and the .fd files are all generated from the "sfd" files. An example
+processing tool called "sfd" is included in the "Tools" directory, but you
+can also use a 3rd party tool such as "fd2pragma" (by Dirk Stöcker)
+instead. Note that the "sfd" files included with this distribution have
+been "sanitized" in that proprietary and internal data was omitted.
+
+The 'C' header files were cleaned up and syntax-checked again and now
+compile cleanly with SAS/C and GCC, even with all compiler warning messages
+enabled. No GCC specific header files are included in this distribution,
+but this may change in a future update. As of this writing, the specific
+requirements for GCC on the native 68k and on the PowerPC platforms are
+still somewhat uncertain. To the best of our knowledge, the compiler
+specific header files would have covered the ROM interface, that is, the
+pragma header files only. As the "sfd" files are provided with this
+distribution, you should be able to rebuild your platform specific header
+files yourself, or obtain a set from your compiler vendor.
+
+This NDK update also represents a watershed with regard to the assembly
+language header files, which, starting with this release, are no longer
+guaranteed to be exactly in sync with their 'C' language counterparts.
+
+
+Inquiries, bug reports & enhancement requests referring to the NDK 3.9
+should be directed to the person who compiled this update and took so long
+to finish it: Olaf Barthel <olsen@amiga.com>.
+
+Thanks go to everybody who contributed to this update, including, but not
+limited to Martin Blom, Don Cox, James Jacobs, Gunther Nikl, Alastair M.
+Robinson, Matt Sealey, Steven Solie, Martin Steigerwald, Dirk Stöcker and
+Neil William!

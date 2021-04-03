@@ -1,0 +1,22 @@
+V15.5 (07-Aug-99)
+
+	First beta
+
+V15.6 (22-Sep-99)
+
+	Revised the autodoc and includes.
+	Disabled clipboard hotkeys, hopefully these will soon be back!
+	Fixed OM_GET implementation of several tags.
+	Ups... forgot to keep a log of changes...
+
+V15.7 (01-Oct-99)
+
+	Removed WORD-truncation of prop values, these are now kept as LONG's, which allow the gadget to correctly work with more then 32K lines.
+	GM_HandleInput forgot to call ReleaseSemaphore() when GA_Disabled was TRUE (potential deadlock)
+	Decreased minimum reported width to 50 pixels (GM_DOMAIN)
+	The gadget will send additional notifies for GA_TEXTEDITOR_Prop_Entries when needed, to make up for the incorrect size reported after a resize (which is needed to keep things "nice")
+	Re-enabled clipboard support - all clipboard interactions now happen from a slave process.
+
+V15.8 (01-Oct-99)
+
+	Cut, undo & redo could render to a NULL rastport, causing many enforcer hits.

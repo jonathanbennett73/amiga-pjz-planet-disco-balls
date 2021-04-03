@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hard_examples/hires_playfield.asm" NODE="MAIN" TITLE="Hard_examples/hires_playfield.asm" -->
+<head>
+<title>Hard_examples/hires_playfield.asm</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<img src="../images/index_d.gif" alt="[Index]">
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02CC.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02CE.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+;
+; hires_payfield.asm
+;
+; This example sets up a high resolution, interlaced display with one
+; bitplane.  This example also relies on the include file hw_examples.i.
+
+;
+        LEA     CUSTOM,a0               ; Address of custom chips
+        MOVE.W  #$9204,BPLCON0(a0)      ; Hires, one bitplane, interlaced
+        MOVE.W  #0,BPLCON1(a0)          ; Horizontal scroll value = 0
+        MOVE.W  #80,BPL1MOD(a0)         ; Modulo = 80 for odd bitplanes
+        MOVE.W  #80,BPL2MOD(a0)         ; Ditto for even bitplanes
+        MOVE.W  #$003C,DDFSTRT(a0)      ; Set data-fetch start for Hires
+        MOVE.W  #$00D4,DDFSTOP(a0)      ; Set data-fetch stop
+        MOVE.W  #$2C81,DIWSTRT(a0)      ; Set display window start
+        MOVE.W  #$F4C1,DIWSTOP(a0)      ; Set display window stop
+;
+;  Set up color registers
+;
+        MOVE.W  #$000F,COLOR00(a0)      ; Background color = blue
+        MOVE.W  #$0FFF,COLOR01(a0)      ; Foreground color = white
+;
+;  Set up bitplane at $20000
+;
+        LEA     $20000,a1       ; Point a1 at bitplane
+        LEA     CHARLIST(pc),a2 ; a2 points at character data
+        MOVE.W  #400,d1         ; Write 400 lines of data
+        MOVE.W  #20,d0          ; Write 20 long words per line
+L1:
+        MOVE.L  (a2),(a1)+      ; Write a long word
+        DBRA    d0,L1           ; Decrement counter and loop until full...
+;
+        MOVE.W  #20,d0          ; Reset long word counter
+        ADDQ.L  #4,a2           ; Point at next word in char list
+        CMPI.L  #$FFFFFFFF,(a2) ; End of char list?
+        BNE     L2
+        LEA     CHARLIST(pc),a2 ; Yes, reset a2 to beginning of list
+L2:     DBRA    d1,L1           ; Decrement line counter and loop until done...
+;
+;  Start DMA
+;
+        MOVE.W  #(DMAF_SETCLR!DMAF_RASTER!DMAF_MASTER),DMACON(a0)
+                                ; Enable bitplane DMA only, no Copper
+
+; Because this example has no Copper list, it sits in a loop waiting
+; for the vertical blanking interval.  When it comes, you check the LOF
+; ( long frame ) bit in VPOSR.  If LOF = 0, this is a short frame and the
+; bitplane pointers are set to point to $20050.  If LOF = 1, then this is
+; a long frame and the bitplane pointers are set to point to $20000.  This
+; keeps the long and short frames in the right relationship to each other.
+
+VLOOP:  MOVE.W  INTREQR(a0),d0          ; Read interrupt requests
+        AND.W   #$0020,d0               ; Mask off all but vertical blank
+        BEQ     VLOOP                   ; Loop until vertical blank comes
+        MOVE.W  #$0020,INTREQ(a0)       ; Reset vertical interrupt
+        MOVE.W  VPOSR(a0),d0            ; Read LOF bit into d0 bit 15
+        BPL     VL1                     ; If LOF = 0, jump
+        MOVE.L  #$20000,BPL1PTH(a0)     ; LOF = 1, point to $20000
+        BRA     VLOOP                   ; Back to top
+VL1:
+        MOVE.L  #$20050,BPL1PTH(a0)     ; LOF = 0, point to $20050
+        BRA     VLOOP                   ; Back to top
+;
+;  Character list
+;
+CHARLIST:
+        DC.L    $18FC3DF0,$3C6666D8,$3C66C0CC,$667CC0CC
+        DC.L    $7E66C0CC,$C36666D8,$C3FC3DF0,$00000000
+        DC.L    $FFFFFFFF
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

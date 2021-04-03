@@ -1,0 +1,31 @@
+PrinterPS 44.2 (16.7.99)
+
+· Size gadget added
+
+· Number of copies refreshed after window opens
+
+PrinterPS 44.3 (31.7.99)
+
+· added stack extension
+
+PrinterPS 44.4 (9.8.99)
+
+· added a lot of GA_TabCycle and ICA_TARGET tags.
+
+PrinterPS 44.6 (18.8.99)
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+PrinterPS 44.8 (17.9.99)
+
+· new project icon name def_printerps_prefs.
+
+--- OS 3.5 release ---
+
+PrinterPS 44.14 (6.12.99)
+
+· removed deadlock on window resize (clipping in GM_RENDER)

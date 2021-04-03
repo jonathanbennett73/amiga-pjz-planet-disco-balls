@@ -1,0 +1,34 @@
+Time 44.3 (20.7.99)
+
+· Removed close gadget from window
+
+Time 44.4 (31.7.99)
+
+· added stack extension
+
+Time 44.6 (13.8.99)
+
+· Notification from year to day (datebrowser) trashed gadget id.
+
+Time 44.7 (18.8.99)
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+Time 44.8 (19.8.99)
+
+· found the bug of gadgets overwriting window border. Fixed.
+
+Time 44.9 (8.9.99)
+
+· changed Hour and Minute gadget labels
+
+--- OS 3.5 release ---
+
+Time 44.15 (20.11.99)
+
+· added missing check for BattClockBase (which is NULL if no realtime
+  clock is installed or if it is broken)

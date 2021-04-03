@@ -1,0 +1,89 @@
+datatypes.library 44.8 (17.4.99)
+
+- Bumped to V44.
+
+
+datatypes.library 44.14 (17.4.99)
+
+- Rebuilt with SAS/C.
+
+- Replaced the roll-you-own case-insensitive list search
+  code with the regular Stricmp() type code.
+
+
+datatypes.library 44.29 (17.4.99)
+
+- Added a new input source type DTST_MEMORY which allows
+  you to create DataTypes objects from in-memory data rather
+  than from a file or the clipboard.
+
+- datatypes.library now calls itself through the LVOs.
+
+- In RemovedTObject() RemoveGList() is now called before
+  the DTM_REMOVEDTOBJECT message is sent to the object.
+
+- The DataTypesClass dispatcher would lose memory if an
+  IFF file did not open properly. Fixed.
+
+- DrawDTObjectA(), ObtainDTDrawInfoA() and ReleaseDTDrawInfo()
+  are public functions now.
+
+
+datatypes.library 44.31 (19.4.99)
+
+- The DTST_MEMORY file handler now knows a few more packets
+  and does a bit more error checking.
+
+
+datatypes.library 44.35 (20.4.99)
+
+- datatypes.library now properly resets the IFFHandle read
+  pointer after examining an IFF stream. Previously, you
+  could not use iffparse.library functions in an examine
+  hook without causing all subsequent file read attempts
+  to fail.
+
+
+datatypes.library 44.36 (21.4.99)
+
+- Added 30 reserved function slots in preparation for
+  a possible V45 version bump.
+
+
+datatypes.library 44.37 (10.5.99)
+
+- Changed all __aligned attributes to a different method of
+  guaranteeing long word alignment.
+
+
+datatypes.library 44.39 (31.7.99)
+
+- When creating a new object from clipboard data (which works
+  by passing the clipboard unit number as the name parameter),
+  the library now passes an empty null-terminated string as
+  the object name to the underlying datatypes class. This avoids
+  a bunch of Enforcer hits. Funny enough, this type of error must
+  have been in datatypes.library since day one and nobody ever
+  noticed...
+
+- A NULL-name parameter passed to NewDTObject() is now translated
+  into an empty name string.
+
+
+datatypes.library 44.47 (25.12.1999)
+
+- The AsyncLayoutDaemon process now inherits its stack size from
+  the Task/Process that creates it. If the stack size is smaller
+  than 8192 bytes, however, 8192 bytes will be used instead.
+
+- Fixed up the locale catalog string lookup code which was a bit
+  overly optimistic that it might always find the string it was
+  looking for. Now that's defensive programming for you.
+
+- The DoAsyncLayout() LVO now carefully checks that the parameters
+  passed to it make sense. In particular, this requires that the
+  (struct gpLayout *) parameter is not NULL. I also added some
+  more sanity checks to the code that sets up a local copy of
+  the gpLayout message passed in. A NULL gpl_GInfo pointer
+  no longer immediately throws Enforcer hits. Lateron, however,
+  the classes involved may choke on the NULL pointer. Good luck.

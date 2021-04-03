@@ -1,0 +1,54 @@
+Antiriad Notes, July 2019
+=========================
+
+Fonts to be drawn in any order. Tool can work out which letter is which because you pass it the letter order on cmd line.
+
+Note: to use the character " put in the characters \'. For newline put in 
+. For \ put in \\. To exclude dummy characters, use a space 
+
+On a single row fonts to be touching each other, no extra spacing needed between. 
+(unless you want to add it, for example if doing a 16x16 font may want want to include 1 pixel at the left or right). 
+Rows can be spread out on the Y axis, tool has a "-gap" parameter to handle that.
+No gridlines should be used (in Facet examples looks like he used a single pixel above the top left of each letter to form a grid)
+
+Outputs
+.BPL (bitmap)
+.FAR (font ascii remap)
+.BOB (structure containing details of each BOB)
+
+.BPL
+This is a standard bitplane sheet
+How wide? Modulo?
+
+.FAR (Font Ascii Remap)
+A list of BYTES starting at ascii 0.
+Unmapped characters (ascii chars that have no associated font bitmap) are $ff
+To find details of letter "A" (ascii 65) read the byte at postition 65. This will be an 8 bit "BOB number" (the number shown in
+preview .TGA file)
+This number will be used to lookup details in the .BOB file
+
+.BOB
+
+A: dc.w	$0002, $002f, $001f, $000002f0, $0000, $0000
+I: dc.w	$0001, $002f, $000d, $00001780, $0000, $0000
+
+	RSRESET
+BOBTABLE_WIDTHINWORDS:	rs.w	1	;Width of the BOB in words (see bob width notes below)
+BOBTABLE_NUMSPRITES:	equ	Bob_WidthInWords
+BOBTABLE_HEIGHT:	rs.w	1	;pixels
+BOBTABLE_WIDTH:		rs.w	1	;pixels
+BOBTABLE_OFFSET:	rs.l	1	;offset into BPL data
+BOBTABLE_ANCHORX:	rs.w	1	;??
+BOBTABLE_ANCHORY:	rs.w	1	;??
+BOBTABLE_SIZEOF:	rs.b	0	;Just an assembler value to indicate size of structure
+
+BOB width.
+Note the converter always makes sure the font is a mutliple of 16 pixels (1 word) for blitting.
+So an 19 pixel wide font would add an extra 13 pixels and BOBTABLE_WIDTHINWORDS=2
+
+From the bob number (from FAR) you multiply by BOBTABLE_SIZEOF to find correct entry in BOB data.
+	mulu	#BOBTABLE_SIZEOF,d0
+	lea	FontBobTable,a2
+	add.w	d0,a2
+
+

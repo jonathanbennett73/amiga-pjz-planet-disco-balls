@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-4-4" TITLE="5 / Producing High-quality Sound / Noise Reduction" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / Producing High-quality Sound / Noise Reduction</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00EB.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00ED.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+To reduce noise levels and produce an accurate sound, try to use the full
+range of -128 to 127 when you represent a waveform. This reduces how much
+noise (quantization error) will be added to the signal by using more bits
+of precision. Quantization noise is caused by the introduction of
+round-off error. If you are trying to reproduce a signal, such as a sine
+wave, you can represent the  <a href="../Hardware_Manual_guide/node00D6.html#line33">amplitude</a>  of each sample with only so many
+digits of accuracy. The difference between the real number and your
+approximation is round-off error, or noise.
+
+By doubling the  <a href="../Hardware_Manual_guide/node00D6.html#line33">amplitude</a> , you create half as much noise because the
+size of the steps of the wave form stays the same and is therefore a
+smaller fraction of the amplitude.
+
+In other words, if you try to represent a waveform using, for example, a
+range of only +3 to -3, the size of the error in the output would be
+considerably larger than if you use a range of +127 to -128 to represent
+the same signal. Proportionally, the digital value used to represent the
+waveform  <a href="../Hardware_Manual_guide/node00D6.html#line33">amplitude</a>  will have a lower error. As you increase the number
+of possible sample levels, you decrease the relative size of each step
+and, therefore, decrease the size of the error.
+
+To produce quiet sounds, continue to define the waveform using the full
+range, but adjust the  <a href="../Hardware_Manual_guide/node00DC.html">volume</a> . This maintains the same level of accuracy
+(signal-to-noise ratio) for quiet sounds as for loud sounds.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

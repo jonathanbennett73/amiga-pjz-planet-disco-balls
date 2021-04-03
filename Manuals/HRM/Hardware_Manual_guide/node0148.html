@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_F" NODE="F-6-4" TITLE="F / Control Registers / Control Register B" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>F / Control Registers / Control Register B</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0147.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0149.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+
+   CONTROL REGISTER B:
+
+  BIT  NAME     FUNCTION
+  ---  ----     --------
+   0   <a href="../Hardware_Manual_guide/node0134.html">START</a>    1 = start Timer B, 0 = stop Timer B.
+                    This bit is automatically reset (= 0) when
+                    underflow occurs during one-shot mode.
+   1   <a href="../Hardware_Manual_guide/node0135.html">PBON</a>     1 = Timer B output on PB7, 0 = PB7 is normal
+                    operation.
+   2   <a href="../Hardware_Manual_guide/node0136.html">OUTMODE</a>  1 = toggle, 0 = pulse.
+   3   <a href="../Hardware_Manual_guide/node0137.html">RUNMODE</a>  1 = one-shot mode, 0 = continuous mode.
+   4   <a href="../Hardware_Manual_guide/node0138.html">LOAD</a>     1 = force load (this is a strobe input, there is no
+                    data storage;  bit 4 will always read back a
+                    zero and writing a 0 has no effect.)
+  6,5  <a href="../Hardware_Manual_guide/node0139.html">INMODE</a>   Bits CRB6 and CRB5 select one of four possible
+                input modes for Timer B, as follows:
+
+                CRB6  CRB5   Mode Selected
+                ----  ----   ---------------------------------------
+                 0     0     Timer B counts 02 pulses
+                 0     1     Timer B counts positive CNT transitions
+                 1     0     Timer B counts Timer A underflow pulses
+                 1     1     Timer B counts Timer A underflow pulses
+                               while CNT pin is held high.
+
+   7   <a href="../Hardware_Manual_guide/node013C.html#line4">ALARM</a>     1 = writing to TOD registers sets Alarm
+                 0 = writing to TOD registers sets TOD clock.
+                     Reading TOD registers always reads TOD clock,
+                     regardless of the state of the Alarm bit.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

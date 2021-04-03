@@ -1,0 +1,23 @@
+GADGETCLASS
+REM *** general tags for all gadgets
+OBJECTID 0x80030010 (I··N·) GA_ID GROUP
+LINK     0x80030011 (I····X) [ TYPE 1 ] "GA_UserData Hook" "Hook"
+LINK     0x80030011 (I····X) [ TYPE 2 ] "GA_UserData Function" "Function"
+BOOLEAN  0x8003000E (I··NU) GA_Disabled "Disable" FALSE "Gadget is disabled"
+BOOLEAN  0x80030029 (I···U) GA_ReadOnly "Ready Only" FALSE "Non selectable"
+BOOLEAN  0x8003000F (I····) GA_GZZGadget "GimmeZeroZero Gadget" FALSE "Border Layer"
+BOOLEAN  0x80030015 (I····) GA_Immediate "Immediate" FALSE "GadgetDown Event"
+BOOLEAN  0x80030016 (I····) GA_RelVerify "Release Verify" FALSE "GadgetUp Event"
+BOOLEAN  0x80030017 (I····) GA_FollowMouse "Follow Mouse" FALSE "Follow Mouse"
+BOOLEAN  0x80030024 (I····) GA_TabCycle "Tabulator Cycle" FALSE "Use TabCycle"
+BOOLEAN  0x80030025 (I····) GA_GadgetHelp "Gadget Help" FALSE "GadgetHelp Event"
+TEXT     0x8003002D (I····) GA_GadgetHelpText "GadgetHelp Text"
+BOOLEAN  0x8003002E (···N·) GA_UserInput "User Input" FALSE "Input from User"
+TEXTATTR 0x80030028 (I····) GA_TextAttr "Text Attributes"
+INTEGER  0x8003002A (I····) GA_Underscore "Underscore marker" 0 0 255
+STRING   0x8003002B (I····) GA_ActivateKey "Hotkey" ""
+LINK     0x8003002C (I····) GA_BackFill "BackFill Hook"
+ICTARGET 0x80040001 (·S···) ICA_TARGET "Interconnection Target"
+ICMAP    0x80040002 (I····) ICA_MAP "Interconnetion Tag Map"
+REM INTEGER  0x85000003 (I····) CLASSACT_Underscore "Underscore" 0 0 255
+END

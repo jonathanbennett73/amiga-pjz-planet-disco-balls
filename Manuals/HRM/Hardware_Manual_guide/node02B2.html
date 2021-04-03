@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-4-4" TITLE="K / Signal Description / Slot Control Signals" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Signal Description / Slot Control Signals</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02B1.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02B3.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This group of signals is responsible for the control of operations between
+<a name="line3">expansion slots.</a>
+
+Slave (/SLAVEn)
+   Each slot has its own /SLAVEn output, driven actively, all of which
+   go into the collision detect circuitry.  The &#034;n&#034; refers to the
+   expansion slot number of the particular /SLAVE signal. Whenever a
+   Zorro III PIC is responding to an address on the bus, it must assert
+   its /SLAVEn output very quickly.  If more than one /SLAVEn output
+   occurs for the same address, or if a PIC asserts its /SLAVEn output
+   for an address reserved by the local bus, a collision is registered
+   and the bus controller asserts  <a href="../Hardware_Manual_guide/node02B1.html#line4">/BERR</a> .  The bus controller will assert
+   /SLAVEn back to the interrupting device selected during a
+    <a href="../Hardware_Manual_guide/node02BA.html">Quick Interrupt cycle</a> , so any device supporting  <a href="../Hardware_Manual_guide/node02AC.html">Quick Interrupts</a> 
+   must be capable of tri-stating its /SLAVEn; all others can drive
+<a name="line17">   SLAVEn with a normal active output.</a>
+
+Configuration Chain (/CFGINn, /CFGOUTn)
+   The slot configuration mechanism uses the bus signals /CFGOUTn and
+   /CFGINn, where &#034;n&#034; refers to the slot number.  Each slot has its own
+   version of both signals, which make up the configuration chain
+   between slots.  Each subsequent /CFGINn is a result of all previous
+   /CFGOUTs, going from slot 0 to the last slot on the expansion bus.
+   During the  <a href="../Hardware_Manual_guide/node02C7.html">autoconfiguration</a>  process, an unconfigured Zorro III PIC
+   responds to the 64K address space starting at either $00E80000 or
+   $FF000000 if its /CFGINN signal is asserted.  All unconfigured PICs
+   start up with /CFGOUTn negated. When configured, or told to &#034;shut up&#034;
+   a PIC will assert its /CFGOUTn, which results in the /CFGINn of the
+   next slot being asserted. Backplane logic automatically passes on the
+   state of the previous /CFGOUTn to the next /CFGINn for any slot not
+   occupied by a PIC, so there's no need to sequentially populate the
+<a name="line33">   expansion bus slots.</a>
+
+Backplane Type Sense (SenseZ3)
+   This line can be used by the PIC to determine the backplane type.  It
+   is grounded on a Zorro II backplane, but floating on a Zorro III
+   backplane.  The Zorro III PIC connects this signal to a 1K pullup
+   resistor to generate a real logic level for this line.  It's
+   possible, though more complicated, to build a Zorro III PIC that can
+   actually run in Zorro II mode when in a Zorro II backplane.  It's
+   hardly necessary or required to support this backward compatibility
+   mechanism, and in many cases it will be impractical.  The Zorro III
+   specification does require that this signal be used, at least, to
+   shut the card down and pass /CFGIN to /CFGOUT when in a Zorro II
+   backplane.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

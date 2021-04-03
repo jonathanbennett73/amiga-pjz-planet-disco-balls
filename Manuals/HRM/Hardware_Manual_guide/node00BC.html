@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-2-6-3" TITLE="4 / / Building the Data Structure / Sprite Color Descriptor Words" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 / / Building the Data Structure / Sprite Color Descriptor Words</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00BB.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00BD.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+It takes two color descriptor (data) words to describe each horizontal
+line of a sprite; the high order word and the low order word. To calculate
+how many color descriptor words you need, multiply the height of the
+sprite in lines by 2. The bits in the high order color descriptor word
+contribute the leftmost digit of the binary color selector number for each
+pixel; the low order word contributes the rightmost digit.
+
+To form the color descriptor words, you first need to form a picture of
+the sprite, showing the color of each pixel as a number from 0 - 3. Each
+number represents one of the colors in the sprite's  <a href="../Hardware_Manual_guide/node00D0.html">color registers</a> . For
+example, here is the spaceship sprite again:
+
+
+                        0000122332210000
+                        0001223333221000
+                        0012223333222100
+                        0001223333221000
+                        0000122332210000
+
+
+Next, you translate each of the numbers in this picture into a binary
+number. The first line in binary is shown below. The binary numbers are
+represented vertically with the low digit in the top line and the high
+digit right below it. This is how the two color descriptor words for each
+sprite line are written in memory.
+
+          0 0 0 0 1 0 0 1 1 0 0 1 0 0 0 0    &#060;- Low Sprite Word
+
+          0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0    &#060;- High Sprite Word
+
+The first line above becomes the color descriptor low word for line 1 of
+the sprite. The second line becomes the color descriptor high word. In
+this fashion, you translate each line in the sprite into binary 0s and 1s.
+<a name="line35">See  <a href="../Hardware_Manual_guide/node00B9.html#line57">Figure 4-7</a> .</a>
+
+Each of the binary numbers formed by the combination of the two data words
+for each line refers to a specific  <a href="../Hardware_Manual_guide/node00D0.html">color register</a>  in that particular
+sprite channel's segment of the color table. Sprite channel 0, for
+example, takes its colors from registers 17 - 19. The binary numbers
+corresponding to the  <a href="../Hardware_Manual_guide/node00D0.html">color registers</a>  for sprite  <a href="../Hardware_Manual_guide/node00BF.html">DMA channel</a> 0 are shown
+<a name="line42">in Table 4-2.</a>
+
+
+               Binary Number        Color Register Number
+               -------------        ---------------------
+                    00                   Transparent
+                    01                       17
+                    10                       18
+                    11                       19
+
+
+                  Table 4-2: Sprite Color Registers
+
+
+Recall that binary 00 always means transparent and never refers to a color
+except background.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

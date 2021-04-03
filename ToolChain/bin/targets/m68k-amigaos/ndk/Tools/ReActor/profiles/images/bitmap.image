@@ -1,0 +1,11 @@
+bitmap.image
+LABEL "Bitmap"
+PARENTPROFILE "Image"
+LIBRARY "images/bitmap.image" 0 PRIVATE
+FILE    0x85019001 (I····) BITMAP_SourceFile "Source Filename"
+SCREEN  0x85019002 (I····A) BITMAP_Screen
+SELECT  0x85019003 (I····) BITMAP_Precision "Precision" 4 0 -1 "Exact" 0 "Image" 16 "Icon" 32 "GUI"
+BOOLEAN 0x85019004 (I····) BITMAP_Masking "Create Transparent Mask?" FALSE "Mask"
+FILE    0x85019009 (I····) BITMAP_SelectSourceFile "Selected Source Filename"
+END
+

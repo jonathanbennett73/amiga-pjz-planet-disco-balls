@@ -1,0 +1,83 @@
+kickstart/ram
+
+    ram-handler will now use pools for most memory allocations.
+    This should fix many fragmentation complaints.
+    ExNext/ExAll should never again die if a delete for the
+    examined object happens. Integrated olsen's fix for file size
+    handling. lock handling should be much safer now and even
+    protected against (broken) manual lock copies.
+    Notification should hopefully happen wherever it is supposed to
+    happen.
+    Froze 44.4.
+    I broke makelink for hardlinks. This should be fixed again now.
+    A few notification issues should also be resolved now.
+    Notification on hardlinks will not work as it should. I won't
+    touch this right now as the link code is pretty messy to deal
+    with. Trying to delete an empty root dir should no longer behave
+    in unexpected ways.
+    Froze 44.5.
+    I broke relabel of the ram disk along the way. Should be fixed now.
+    Froze 44.6.
+    fl_Key should once again point to a unique object descriptor to fix
+    software that wants a unique *and* persistent fl_Key value.
+    Froze 44.7.
+    Some cleanup work on memory allocations. Also, the handler
+    should be less restrictive about filename lengths now.
+    Froze 44.9.
+    I broke ExNext(). It should now work again as it is supposed to
+    work, meaning it should also be a lot more robust against
+    people fiddling with the "current" file.
+    Froze 44.10.
+    After some work to kill enforcer hits etc, I have turned on
+    experimental support for soft links. Why? because someone
+    nagged. Not that I personally think that softlinks work
+    well right now. Note that some important CLI commands and
+    dos.library itself do not support soft links in a reasonably
+    usable way. If this doesn't do the trick for you, bad luck.
+    At this point of time, this is really untested. It doesn't
+    generate hits and seems to behave relatively normal. But it
+    has not been and most likely will not be tested well. Soft links
+    are fairly broken in general and simply turning them on in some
+    subsystem won't fix the whole issue. So don't anyone ever
+    complain. To really get working soft links, a heck of a lot of
+    work needs to be done. BTW, the Guru-Book is right in that soft
+    links are pretty messy, but the description does not really
+    match the implementation. Soft links are not supported.
+    Have fun and don't complain.
+    Froze 44.11.
+    Due to the way pools work, freeing files was very slow. It is now
+    fast again. I basically reworked most of the handler to use Exec
+    lists internally, which allowed me to rewrite the core delete
+    loop in a very simple way. I also retired some assembly code
+    which was hard to maintain and went back to the corresponding C
+    versions. Obviously, this is *A*MAJOR*CHANGE*. Everything has
+    changed. So please retest directory handling, links, files,
+    dirs and their behaviour on rename, delete, etc. TEST THIS!
+    Froze 44.12.
+    I had broken ACTION_SET_FILE_SIZE in a very bad way.
+    Froze 44.13.
+    I had broken ExNext. In a high load enironment, a NULL pointer
+    was used, causing a hit. The handler also no longer messes up
+    its own DOS device node now.
+    Froze 44.15.
+    If you tried to create a file with a name referring to an
+    existing soft link, bad things happened.
+    Froze 44.16.
+    Trying to access a softlink could result in a hit.
+    Froze 44.17.
+    The handler should now handle the R/W/A protection bits better.
+    R/W wasn't really handled at all.
+    Froze 44.18.
+    ACTION_RENAME didn't handle notification well. Notification
+    should also work better for some parent directories.
+    Froze 44.19.
+    Notification for parent directories and hardlinks should work
+    as expected now.
+    Froze 44.21.
+    The memory pool size is now 64KB. Together with the new
+    improved pools that are *not* integrated into the ram-handler,
+    this should give you a good mileage on both fragmentation and
+    speed.
+    Froze 44.22.
+    Relabeling RAM could seriously crash the machine.
+    Froze 44.23.

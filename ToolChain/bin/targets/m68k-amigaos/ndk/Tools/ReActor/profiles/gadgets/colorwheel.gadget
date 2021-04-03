@@ -1,0 +1,11 @@
+colorwheel.gadget
+LABEL "Colorwheel"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/colorwheel.gadget" 0 PUBLIC
+INCLUDE "gadgetclass.baseclass"
+SCREEN   0x84000009 (I···A) WHEEL_Screen
+STRING   0x8400000A (I····) WHEEL_Abbrv "Labels" "GCBMRY"
+BOOLEAN  0x8400000C (I····) WHEEL_BevelBox "BevelBox" FALSE "Inside Bevelbox"
+GADGET   0x8400000D (I····) WHEEL_GradientSlider "Gradient Slider"
+INTEGER  0x8400000E (I····) WHEEL_MaxPens "Maximum # of Pens" 256 0 256
+END

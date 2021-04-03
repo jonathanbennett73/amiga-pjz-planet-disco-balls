@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_C" NODE="C-2-10" TITLE="C / ECS Hardware and the Graphics Library / Other ECS Modifications" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>C / ECS Hardware and the Graphics Library / Other ECS Modifications</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00AA.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00AC.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The preceding sections cover most of the ECS registers appearing in the
+ECS register map.  This section briefly describes the remaining
+<a name="line4">modifications to the Enhanced Chip Set registers.</a>
+
+The following registers now have two additional bits for addressing larger
+segments of memory, when the Enhanced Chip Set is present:
+
+   DSKPTH    020   W   A      Disk pointer
+                                  (high 5 bits, was 3 bits)
+   BLTxPTH   050   W   A      Blitter pointer to x
+                                  (high 5 bits, was 3 bits)
+   COP1LCH   080   W   A      Coprocessor 1st location
+                                  (high 5 bits,was 3 bits)
+   COP2LCH   084   W   A      Coprocessor 2nd location
+                                  (high 5 bits,was 3 bits)
+   AUDxLCH   0A0   W   A      Audio channel x location
+<a name="line18">                                  (high 5 bits was 3 bits)</a>
+
+The Strobe Long Line register (STRLONG) can be disabled if the Disable
+Long Line (LOLDIS) bit is set in the BEAMCON0 register.
+
+   STRLONG   03E   S   D      Strobe for identification of long horiz line
+
+See the Multi-Sync and Bi-Sync Monitors section in this appendix for the
+<a name="line26">bit descriptions in BEAMCON0.</a>
+
+Bit 7 (DOFF) of the BLTCON1 register, when set, disables the output of the
+Blitter hardware on channel D.
+
+   BLTCON1   042   W   A      Blitter control register 1
+
+This allows inputs to channels A, B and C and certain address modification
+<a name="line34">if necessary, without the Blitter outputting over channel D.</a>
+
+The BLTCON0L register writes the low bits of BLTCON0, thereby expediting
+the set up of some blits and generally speeding up the software, since the
+upper bits are often the same.
+
+   BLTCON0L  05A   W   A      Blitter control 0, lower 8 bits (minterms)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

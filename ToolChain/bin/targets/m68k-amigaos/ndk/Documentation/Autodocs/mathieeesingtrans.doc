@@ -1,0 +1,571 @@
+TABLE OF CONTENTS
+
+mathieeesingtrans.library/--Background--
+mathieeesingtrans.library/IEEESPAcos
+mathieeesingtrans.library/IEEESPAsin
+mathieeesingtrans.library/IEEESPAtan
+mathieeesingtrans.library/IEEESPCos
+mathieeesingtrans.library/IEEESPCosh
+mathieeesingtrans.library/IEEESPExp
+mathieeesingtrans.library/IEEESPFieee
+mathieeesingtrans.library/IEEESPLog
+mathieeesingtrans.library/IEEESPLog10
+mathieeesingtrans.library/IEEESPPow
+mathieeesingtrans.library/IEEESPSin
+mathieeesingtrans.library/IEEESPSincos
+mathieeesingtrans.library/IEEESPSinh
+mathieeesingtrans.library/IEEESPSqrt
+mathieeesingtrans.library/IEEESPTan
+mathieeesingtrans.library/IEEESPTanh
+mathieeesingtrans.library/IEEESPTieee
+mathieeesingtrans.library/--Background--  mathieeesingtrans.library/--Background--
+
+   PURPOSE
+
+	The mathieeesingtrans.library provides basic transzendental functions
+	for handling double precision IEEE numbers. If a FPU is found present
+	in the system, this library uses the FPU for calculations. Otherwise,
+	the CPU will provide a suitable emulation.
+
+	The 68040 and 68060 built-in FPUs do not provide all instructions
+	that the 68881/882 FPUs implement, and hence some of their 
+	instructions have to be emulated in software. This works either
+	by the FPU specific trap vectors that have been installed by the
+	68040 or 68060.library on boot-up, or - if available - by the
+	fpsp.resource which is optionally linked into the system by the 
+	680?0 libraries.
+
+	The advantage of the resource solution is that it does not require
+	the overhead caused by the exception processing.
+	All this - complete CPU usage, FPU usage plus optional fpsp.resource
+	support - is completely transparent to the user of this library.
+
+	As of V45 of this library, the mathieee.resources are no longer 
+	supported. It was felt that this solution was never very popular,
+	neither very fast compared to a coprocessor interface, and highly 
+	obsolete.
+
+
+   CAVEATS
+
+	The library base of the mathieeesingtrans.library MUST NOT be shared
+	among tasks. The reason for this restriction is that the library
+	open vector requires to initialize the FPU properly for the caller's
+	task context.
+	Hence, you may not open this library in one task, pass the library
+	base over and use it from another task as the FPU initialization
+	would not be run for the second task. You must re-open the library
+	again from the second task.
+
+	This restriction has some implications in using the math IEEE
+	libraries from within other libraries. The first implication is that
+	opening the mathieeesingtrans.library in the LibInit() function IS NOT
+	ENOUGH to ensure proper operation as it will initialize the FPU in
+	the context of the ramlib process loading the library, but not in
+	the context of the caller. This is obviously of no use for the task 
+	that wants to use IEEE math.
+	
+	Instead, it is recommended to (re-)open the mathieeesingtrans.library
+	once for each LibOpen() within your library, and to close it once
+	for each LibClose() call. 
+
+	As a special rule that is hereby documented, the result code of
+	subsequent OpenLibrary() calls once the library is open will be 
+	either NULL on error, or the same library base you received by the
+	initial OpenLibrary(), i.e. in LibInit().
+	
+	Even though this releases you from the obligation to keep a private
+	copy of the math library base once for each LibOpen(), it does not
+	release you from re-opening the library again for each caller.
+	It is enough to check wether the library opened successfully, and to
+	throw the library base away afterwards, though. It will not deliver
+	task-dependent library bases if it opens successfully.
+
+	The second implication is that the same, or more restrictions apply
+	to your library then as well, and, in fact, to its full tree of
+	callers. Its library base may not be shared among tasks and must be
+	re-openend for each potential caller. 
+
+	Note that you should document these requirements!
+
+	The reason is again that the mathieee FPU init code must be run for
+	each task that wants to use your, and hence this math library.
+	Whether you deliver a per-task allocated library base, or one and
+	the same library base is, of course, up to you.
+
+	To overcome this limitation, your library might want to launch a
+	side task that runs all the mathematical computations such that 
+	all callers of your library never enter a single function of the
+	IEEE libs. Then, of course, the IEEE libs should not be opened
+	in LibInit() or LibOpen(), but in the startup code of the side task,
+	and should be closed by its shutdown code.
+
+
+	Since the FPU initialization performed by the library depends on
+	the selected precision, i.e. IEEE double vs. IEEE single precision,
+	the third implication is that you must not mix the double and single
+	precision math libraries within the same task. Either, you decide for
+	double precision and stay with it, or you decide for single precision
+	once and for all. You may not perform some calculations in double,
+	and others in single precision as both kinds of libraries require the
+	same hardware - namely the FPU - but with different settings.
+
+	This goes of course, too, to the full caller tree of a library that
+	runs IEEE functions in the context of its callers.
+
+
+
+	Not following these rules may cause slightly wrong results in the
+	sense that they might not be rounded properly to the selected
+	precision. It may also cause other strange and wonderful side effects
+	that are not mentioned here, and will make the library unreliable
+	from a numerical point of view.
+
+
+
+   BUGS
+	Pre V45 releases could have forgotten to re-initialize the FPU
+	properly if re-opened; in fact, pre-V45 might have even crashed if
+	something in the startup went wrong.
+mathieeesingtrans.library/IEEESPAcos     mathieeesingtrans.library/IEEESPAcos
+
+   NAME
+	IEEESPAcos -- compute the arc cosine of a number
+
+   SYNOPSIS
+	  x   = IEEESPAcos(  y  );
+	d0	           d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute arc cosine of y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+	Might have returned bare nonsense if the argument was out of range
+	for pre-V45 releases. Returns NAN for V45 in these cases.
+
+   SEE ALSO
+	IEEESPCos(), IEEESPAtan(), IEEESPAsin()
+mathieeesingtrans.library/IEEESPAsin     mathieeesingtrans.library/IEEESPAsin
+
+   NAME
+	IEEESPAsin -- compute the arcsine of a number
+
+   SYNOPSIS
+	  x   = IEEESPAsin(  y  );
+	d0	           d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute the arc sine of y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+	Might have returned bare nonsense if the argument was out of range
+	for pre-V45 releases. Returns NAN for V45 in these cases.
+
+   SEE ALSO
+	IEEESPSin(), IEEESPAtan(), IEEESPAcos()
+mathieeesingtrans.library/IEEESPAtan     mathieeesingtrans.library/IEEESPAtan
+
+   NAME
+	IEEESPAtan -- compute the arc tangent of number
+
+   SYNOPSIS
+	  x   = IEEESPAtan(  y  );
+	d0		   d0
+
+	single	x,y;
+
+   FUNCTION
+	Compute arctangent of y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+
+   SEE ALSO
+mathieeesingtrans.library/IEEESPCos       mathieeesingtrans.library/IEEESPCos
+
+   NAME
+	IEEESPCos -- compute the cosine of a floating point number 
+
+   SYNOPSIS
+	  x   = IEEESPCos(  y  );
+	d0		   d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute cosine of y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+
+   SEE ALSO
+	IEEESPAcos(), IEEESPSin(), IEEESPTan()
+mathieeesingtrans.library/IEEESPCosh     mathieeesingtrans.library/IEEESPCosh
+
+   NAME
+	IEEESPCosh -- compute the hyperbolic cosine of a floating point number 
+
+   SYNOPSIS
+	  x   = IEEESPCosh(  y  );
+	d0		   d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute hyperbolic cosine of y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+
+   SEE ALSO
+	IEEESPSinh(), IEEESPTanh()
+mathieeesingtrans.library/IEEESPExp       mathieeesingtrans.library/IEEESPExp
+
+   NAME
+	IEEESPExp -- compute the exponential of e
+
+   SYNOPSIS
+	  x   = IEEESPExp(  y  );
+	d0	          d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute e^y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+
+   SEE ALSO
+	IEEESPLog()
+mathieeesingtrans.library/IEEESPFieee   mathieeesingtrans.library/IEEESPFieee
+
+   NAME
+	IEEESPFieee -- convert IEEE single to IEEE single
+
+   SYNOPSIS
+	  x   = IEEESPFieee(  y  );
+	d0	              d0
+
+	float	y;
+	float  x;
+
+   FUNCTION
+	Convert IEEE single precision number to IEEE single precision.
+	These are included for completeness although they just
+	return the input parameter. A good way to remember how these
+	functions work is: They convert to and from the local format
+	to Single Precision IEEE. The local format for this library
+	happens to also be Single Precision IEEE.
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+	Note that the conversion functions are of limited usefulness
+	as IEEE double and single math must not be mixed.
+
+   SEE ALSO
+	IEEESPTieee()
+mathieeesingtrans.library/IEEESPLog       mathieeesingtrans.library/IEEESPLog
+
+   NAME
+	IEEESPLog -- compute the natural logarithm of a floating point number
+
+   SYNOPSIS
+	  x   = IEEESPLog(  y  );
+	d0	          d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute ln(y) in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+	Might have returned bare nonsense if the argument was out of range
+	for pre-V45 releases. Returns NAN for negative arguments or -INF for 
+	an argument of zero.
+
+   SEE ALSO
+	IEEESPExp()
+mathieeesingtrans.library/IEEESPLog10   mathieeesingtrans.library/IEEESPLog10
+
+   NAME
+	IEEESPLog10 -- compute logarithm base 10 of a number
+
+   SYNOPSIS
+	  x   = IEEESPLog10(  y  );
+	d0	            d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute the logarithm base 10 of y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+	Might have returned bare nonsense if the argument was out of range
+	for pre-V45 releases. Returns NAN for negative arguments or -INF for 
+	an argument of zero.
+
+   SEE ALSO
+	IEEESPLog()
+mathieeesingtrans.library/IEEESPPow       mathieeesingtrans.library/IEEESPPow
+
+   NAME
+	IEEESPPow -- raise a number to another number power
+
+   SYNOPSIS
+	  z   = IEEESPPow(  x  ,  y  );
+	d0	          d1 d0
+
+	float	x,y,z;
+
+   FUNCTION
+	Compute y^x in IEEE single precision
+
+   INPUTS
+	x - IEEE single precision floating point value
+	y - IEEE single precision floating point value
+
+   RESULT
+	z - IEEE single precision floating point value
+
+   BUGS
+	Might have returned bare nonsense if the argument was out of range
+	for pre-V45 releases, and was not very precise or smart breaking
+	large arguments down into a suitable range. The computational
+	precision of this function left a lot to be deserved. All this
+	was fixed in V45.
+
+   SEE ALSO
+mathieeesingtrans.library/IEEESPSin       mathieeesingtrans.library/IEEESPSin
+
+   NAME
+	IEEESPSin -- compute the sine of a floating point number
+
+   SYNOPSIS
+	  x   = IEEESPSin(  y  );
+	d0		  d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute sine of y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+
+   SEE ALSO
+	IEEESPAsin(), IEEESPTan(), IEEESPCos()
+mathieeesingtrans.library/IEEESPSincos mathieeesingtrans.library/IEEESPSincos
+
+   NAME
+	IEEESPSincos -- compute the arc tangent of a floating point number 
+
+   SYNOPSIS
+	  x   = IEEESPSincos( z ,  y  );
+	d0		     a0  d0
+
+	float	x,y,*z;
+
+   FUNCTION
+	Compute sin and cosine of y in IEEE single precision.
+	Store the cosine in *z. Return the sine of y.
+
+   INPUTS
+	y - IEEE single precision floating point value
+	z - pointer to IEEE single precision floating point number
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+	Not very fast if no FPU is available. Otherwise, it might be
+	faster than calling IEEEDPSin() and IEEEDPCos() separately.
+
+   SEE ALSO
+	IEEESPSin(), IEEESPCos()
+mathieeesingtrans.library/IEEESPSinh     mathieeesingtrans.library/IEEESPSinh
+
+   NAME
+	IEEESPSinh -- compute the hyperbolic sine of a floating point number 
+
+   SYNOPSIS
+	  x   = IEEESPSinh(  y  );
+	d0		   d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute hyperbolic sine of y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+
+   SEE ALSO
+	IEEESPCosh(), IEEESPTanh()
+mathieeesingtrans.library/IEEESPSqrt     mathieeesingtrans.library/IEEESPSqrt
+
+   NAME
+	IEEESPSqrt -- compute the square root of a number
+
+   SYNOPSIS
+	  x   = IEEESPSqrt(  y  );
+	 d0 	             d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute square root of y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+	Might have returned bare nonsense if the argument was out of range
+	for pre-V45 releases. Returns NAN for V45 in these cases.
+
+   SEE ALSO
+mathieeesingtrans.library/IEEESPTan       mathieeesingtrans.library/IEEESPTan
+
+   NAME
+	IEEESPTan -- compute the tangent of a floating point number 
+
+   SYNOPSIS
+	  x   = IEEESPTan(  y  );
+	d0		  d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute tangent of y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+
+   SEE ALSO
+	IEEESPAtan(), IEEESPSin(), IEEESPCos()
+mathieeesingtrans.library/IEEESPTanh     mathieeesingtrans.library/IEEESPTanh
+
+   NAME
+	IEEESPTanh -- compute the hyperbolic tangent of a floating point number 
+
+   SYNOPSIS
+	  x   = IEEESPTanh(  y  );
+	d0		   d0
+
+	float	x,y;
+
+   FUNCTION
+	Compute hyperbolic tangent of y in IEEE single precision
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+
+   SEE ALSO
+	IEEESPSinh(), IEEESPCosh()
+mathieeesingtrans.library/IEEESPTieee   mathieeesingtrans.library/IEEESPTieee
+
+   NAME
+	IEEESPTieee -- convert IEEE single to IEEE single
+
+   SYNOPSIS
+	  x   = IEEESPTieee(  y  );
+	 d0	            d0
+
+	float 	y;
+	float   x;
+
+   FUNCTION
+	Convert IEEE single precision number to IEEE single precision.
+	These are included for completeness although they just
+	return the input parameter. A good way to remember how these
+	functions work is: They convert to and from the local format
+	to Single Precision IEEE. The local format for this library
+	happens to also be Single Precision IEEE.
+
+   INPUTS
+	y - IEEE single precision floating point value
+
+   RESULT
+	x - IEEE single precision floating point value
+
+   BUGS
+
+   SEE ALSO
+	IEEESPFieee()
+

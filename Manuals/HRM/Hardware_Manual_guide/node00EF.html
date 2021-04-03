@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-5" TITLE="5 Audio Hardware / Using Direct (Non-DMA) Audio Output" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 Audio Hardware / Using Direct (Non-DMA) Audio Output</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00EE.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00F0.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+It is possible to create sound by writing audio data one word at a time to
+the audio output addresses, instead of setting up a list of audio data in
+memory. This method of controlling the output is more processor-intensive
+<a name="line5">and is therefore not recommended.</a>
+
+To use direct audio output, do not enable the DMA for the audio channel
+you wish to use; this changes the timing of the  <a href="../Hardware_Manual_guide/node016B.html">interrupts</a> . The normal
+ <a href="../Hardware_Manual_guide/node016B.html">interrupt</a>  occurs after a data address has been read; in direct audio
+output, the  <a href="../Hardware_Manual_guide/node016B.html">interrupt</a>  occurs after one data word has been output.
+
+Unlike in the DMA-controlled automatic data output, in direct audio
+output, if you do not write a new set of data to the output addresses
+before two sampling intervals have elapsed, the audio output will cease
+changing. The last value remains as an output of the
+ <a href="../Hardware_Manual_guide/node00D6.html#line68">digital-to-analog converter</a> .
+
+The  <a href="../Hardware_Manual_guide/node00DC.html">volume</a>  and  <a href="../Hardware_Manual_guide/node00DF.html#line34">period registers</a>  are set as usual.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

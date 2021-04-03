@@ -1,0 +1,119 @@
+Printer 44.5 (17.7.99)
+
+· Added workaround for two enforcer hits for every printer driver change.
+  The bug seems to be in button gadget or loocale library.
+
+Printer 44.6 (19.7.99)
+
+· Removing the "Use Custom Device" checkmark did not remove the custom
+  devicename.
+
+Printer 44.6 (19.7.99)
+
+· Not all printer drivers seems to update the PrinterExtendedData after
+  opening it. Added a PRD_DUMPRPORT command.
+
+· The page borders now takes the LeftMargin, RightMargin and PaperLength
+  into account. The MaxXDots and MaxYDots are used as a limit.
+
+· The left border now takes the LeftMargin into account
+
+· The left and top border are now printed too if the driver does not set
+  a hardware border.
+
+Printer 44.7 (31.7.99)
+
+· Added stack extension
+
+· Changing density now refresh the DPI and info string while dragging slider
+
+Printer 44.8 (9.8.99)
+
+· Unit name missed the ICA_TARGET tag to recognize all string changes
+
+Printer 44.9 (11.8.99)
+
+· Scaling the sample print-out to a size smaller 1 pixel width or height
+  could throw enforcer hits and crash.
+
+Printer 44.11 (14.8.99)
+
+· after loading a prefs file, restoring or resetting to defaults the flag
+  if the unit use a custom device was not set correctly.
+
+· the minimum of left print margin was 0 but it has to be 1.
+
+Printer 44.12 (16.8.99)
+
+· Improved handling of 2 color screens.
+
+· The calculation of the sample size is done by the printer.device using the
+  selected printer dirver. But it is not perfect because an application may
+  set different flags for printing (or modify the preferences). Now Printer
+  uses not special flags any more (used SPECIAL_FULLCOLUMNS before).
+
+Printer 44.13 (17.8.99)
+
+· added close gadget
+
+· modified Save/Use/Cancel layout
+
+· modified some group layout
+
+· if print border is larger than paper you will now see it in the sample.
+
+· two borderlines are drawn: a blue border (FILLPEN) for text printing and
+  a black border (SHADOWPEN) for graphics printing. The gfx border is set
+  from the printer driver (due to papersize and print density), the text
+  border is set by the user (Print Spacing, Paper Length, Font, Left and
+  Right Margins). Two small labels boxes at the right of the page describes
+  which border is drawn in which color.
+
+Printer 44.14 (20.8.99)
+
+· added some code to make printer visible in list
+
+· printer now opens a larger custom screen with autoscroll if the public
+  screen is too small.
+
+Printer 44.15 (8.9.99)
+
+· if the driver from the prefs file is not found at least one enforcer hit
+  were thrown.
+
+Printer 44.16 (17.9.99)
+
+· changed project icon name to def_printer_prefs
+
+· fixed a bug with driver borders calculated wrong introduced in 44.13
+
+· Printer-Device-Unit-Cyle-Gadget was not localized.
+
+· new picture if screen depth < 6.
+
+Printer 44.17 (23.9.99)
+
+· more accuracy for DIN page sizes, printer borders etc.
+
+· If Printer is started as project icon from PrinterGfx it not longer tries
+  to load PrinterGfx as prefs file.
+
+--- OS 3.5 release ---
+
+Printer 44.23 (24.11.99)
+
+· fixed a bug in framework which may lead to a deadlock while resizing the
+  window.
+
+--- OS 3.9 release ---
+
+Printer 45.1 (18.12.2000)
+
+· Fix: If this tool was used with SAVE or USE, the internal printer.device
+  unit was not closed.
+
+Printer 45.2 (17.08.2001)
+
+· stephanr: the drawing process was using a msgport that was allocated
+  by the main process. Because of this the process could wait forever
+  when the printerio request wasn't executed as quickio (TurboPrint).

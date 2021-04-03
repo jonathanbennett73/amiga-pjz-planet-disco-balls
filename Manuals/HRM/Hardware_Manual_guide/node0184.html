@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-1-4" TITLE="8 / Controller Port Interface / Reading Proportional Controllers" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / Controller Port Interface / Reading Proportional Controllers</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0183.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0185.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Each of the game  <a href="../Hardware_Manual_guide/node017D.html">controller ports</a>  can handle two variable-resistance
+input devices, also known as proportional input devices. This section
+describes how the positions of the proportional input devices can be
+determined. There are two common types of proportional controllers:  the
+&#034;paddle&#034; controller pair and the X-Y proportional joystick. A paddle
+controller pair consists of two individual enclosures, each containing a
+single resistor and fire-button and each connected to a common
+<a name="line9"> <a href="../Hardware_Manual_guide/node017D.html">controller port</a>  input connector. Typical connections are shown in Figure</a>
+8-4.
+
+    LEFT PADDLE                          RIGHT PADDLE
+
+          resistive element                    resistive element
+
+     ____/\  /\  /\  /\  /\____           ____/\  /\  /\  /\  /\____
+    |      \/  \/  \/  \/                |      \/  \/  \/  \/
+    |+5           ^                      |+5           ^
+    |             |_ _ _ _ _ _           |             |_ _ _ _ _ _
+                              |                                    |
+  pin 7                     pin 9      pin 7                     pin 9
+
+
+    |                         |          |                         |
+    |&#060;- - - fire button - - -&#062;|          |&#060;- - - fire button - - -&#062;|
+    |                         |          |                         |
+
+  pin 8                     pin 3      pin 8                     pin 3
+
+
+                Figure 8-4: Typical Paddle Wiring Diagram
+
+
+In an X-Y proportional joystick, the resistive elements are connected
+individually to the X and Y axes of a single controller stick.
+
+ <a href="../Hardware_Manual_guide/node0185.html">Reading Proportional Controller Buttons</a> 
+ <a href="../Hardware_Manual_guide/node0186.html">Interpreting Proportional Controller Position</a> 
+ <a href="../Hardware_Manual_guide/node0187.html">Proportional Controller Registers</a> 
+ <a href="../Hardware_Manual_guide/node0188.html">Potentiometer Specifications</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-2-1-6" TITLE="K / / Changes from the A2000 Bus / Intelligent Cycle Spacing" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Changes from the A2000 Bus / Intelligent Cycle Spacing</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0296.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0298.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+In order to permit a free intermix of Zorro II and Zorro III cycles, the
+bus control logic is capable of making intelligent decisions when spacing
+bus cycles.  In somc cases, a Zorro II cycle has some component that would
+naturally extend into a following cycle.  The cycle spacing logic detects
+such a condition, and refuses to start a new cycle until the current one
+is complete, even if this extends beyond the defined bounds of a Zorro II
+cycle.
+
+For Zorro II PICs that really follow the Zorro II specifications, this
+should have no effect.  However, any Zorro II PIC that holds signals much
+beyond the end of a cycle, especially critical signals like  <a href="../Hardware_Manual_guide/node02A0.html#line3">/SLAVE</a>  and
+ <a href="../Hardware_Manual_guide/node02A2.html#line49">/DTACK</a> , will likely incur additional wait states on the Zorro III bus.
+This is not intended as a license for making sloppy expansion card
+designs, just an acknowledgement that some Zorro II devices may cause a
+conflict with the faster Zorro III bus  <a href="../Hardware_Manual_guide/node0298.html">timings</a> . The best approach is to
+make them work, even with a possible performance penalty.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

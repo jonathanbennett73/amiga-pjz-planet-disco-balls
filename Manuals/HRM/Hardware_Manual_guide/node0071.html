@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-6-2" TITLE="3 / / Size Display Window / Setting Display Window Stopping Position" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / Size Display Window / Setting Display Window Stopping Position</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0070.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0072.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+You also need to set the display window stopping position, which is the
+lower right-hand corner of the display window. If you select high
+resolution or interlaced mode, the stopping position does not change. Like
+the starting position, it is interpreted in low resolution, non-interlaced
+<a name="line6">mode.</a>
+
+The register  <a href="../Hardware_Manual_guide/node0084.html">DIWSTOP</a>  (for Display Window Stop) controls the display window
+stopping position. This register contains both the horizontal and vertical
+components of the display window stopping positions, known respectively as
+HSTOP and VSTOP. The instructions below show how to set HSTOP and VSTOP
+for the basic playfield, assuming a starting position of ($81,$2C). Note
+that the HSTOP value you write is the actual value minus 256 ($100). The
+HSTOP position is restricted to the right-hand side of the screen. The
+normal HSTOP value is ($1C1) but is written as ($C1). HSTOP is the same
+both for NTSC and for PAL.
+
+The VSTOP position is restricted to the lower half of the screen. This is
+accomplished in the hardware by forcing the MSB of the stop position to be
+the complement of the next MSB. This allows for a VSTOP position greater
+<a name="line21">than 256 ($100) using only 8 bits. Normally, the VSTOP is set to ($F4) for</a>
+NTSC, ($2C) for PAL.
+
+   The normal NTSC  <a href="../Hardware_Manual_guide/node0070.html">DIWSTRT</a>  is ($2C81).
+   The normal NTSC DIWSTOP is ($F4C1).
+
+   The normal PAL  <a href="../Hardware_Manual_guide/node0070.html">DIWSTRT</a>  is ($2C81).
+   The normal PAL DIWSTOP is ($2CC1).
+
+The following example sets DIWSTOP for a basic playfield to $F4 for the
+vertical position and $C1 for the horizontal position.
+
+  LEA     CUSTOM,a0               ; Get base address of custom hardware...
+<a name="line34">  MOVE.W  #$F4C1,DIWSTOP(a0)      ; Display window stop register...</a>
+
+
+            Table 3-9:  <a href="../Hardware_Manual_guide/node0070.html">DIWSTRT</a>  and DIWSTOP Summary
+<a name="line38"></a>
+
+                  Nominal Values            Possible Values
+                  --------------            ---------------
+
+                 NTSC          PAL          MIN          MAX
+                 ----          ---          ---          ---
+    <a href="../Hardware_Manual_guide/node0070.html">DIWSTRT</a> :
+   ----------
+       VSTART    $2C           $2C          $00          $FF
+       HSTART    $81           $81          $00          $FF
+     DIWSTOP:
+     --------
+        VSTOP    $F4           $2C (=$12C)  $80          $7F (=$17F)
+        HSTOP    $C1           $C1          $00 (=$100)  $FF (=$1FF)
+
+
+The minimum and maximum values for display windows have been extended
+in the enhanced version of the Amiga's custom chip set (ECS).  See
+Appendix C, Enhanced Chip Set for more information about the
+ <a href="../Hardware_Manual_guide/node00A8.html">display window registers</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

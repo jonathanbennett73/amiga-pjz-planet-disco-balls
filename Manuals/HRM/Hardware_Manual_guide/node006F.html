@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-6" TITLE="3 / Forming Basic Playfield / Defining the Size of the Display Window" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Forming Basic Playfield / Defining the Size of the Display Window</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node006E.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0070.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+After you have completely defined the playfield, you need to define the
+size of the display window, which is the actual size of the on-screen
+display. Adjustment of display window size affects the entire display
+area, including the border and the  <a href="../Hardware_Manual_guide/node00B1.html">sprites</a> , not just the playfield. You
+cannot display objects outside of the defined display window. Also, the
+size of the border around the playfield depends on the size of the display
+<a name="line8">window.</a>
+
+The basic playfield described in this section is the same size as the
+screen display area and also the same size as the display window. This is
+not always the case; often the display window is smaller than the actual
+<a name="line13">&#034;big picture&#034; of the playfield as defined in memory (the raster).</a>
+
+A display window that is smaller than the playfield allows you to
+displaysome segment of a large playfield or  <a href="../Hardware_Manual_guide/node0086.html">scroll the playfield</a>  through
+the window. You can also define display windows larger than the basic
+playfield.  These larger playfields and different-sized display windows
+are described in the section below called
+<a name="line20"> <a href="../Hardware_Manual_guide/node007E.html">Bitplanes and Display Windows of All Sizes</a> .</a>
+<a name="line21"></a>
+You define the size of the display window by specifying the vertical and
+horizontal positions at which the window starts and stops and writing
+these positions to the display window registers. The resolution of
+vertical start and stop is one scan line. The resolution of horizontal
+start and stop is one low resolution pixel. Each position on the screen
+defines the horizontal and vertical position of some pixel, and this
+position is specified by the x and y coordinates of the pixel. This
+document shows the x and y coordinates in this form:  (x,y).
+
+Although the coordinates begin at (0,0) in the upper left-hand corner of
+the screen, the first horizontal position normally used is $81 and the
+first vertical position is $2C. The horizontal and vertical starting
+positions are the same both for NTSC and for PAL.
+
+The hardware allows you to specify a starting position before ($81,$2C),
+but part of the display may not be visible. The difference between the
+absolute starting position of (0,0) and the normal starting position of
+($81,$2C) is the result of the way many video display monitors are
+designed.
+
+To overcome the distortion that can occur at the extreme edges of the
+screen, the scanning beam sweeps over a larger area than the front face of
+the screen can display. A starting position of ($81,$2C) centers a normal
+size display, leaving a border of eight low resolution pixels around the
+display window. Figure 3-9 shows the relationship between the normal
+display window, the visible screen area, and the area actually covered by
+<a name="line48">the scanning beam.</a>
+
+
+  ($81,$2C) __
+              \
+       (0,0) __\
+               \\
+                \\
+                 +\----------------------------+
+                 |#\###########################|
+                 |##\##########################|
+                 |###+---------------------+###|
+                 |###|  _ _ _ _ _ _ _ _ _  |###|  __ visible screen
+                 |###| |   |             | |###| /     boundaries
+                 |###|     |               |###|/
+                 |###| |----- 320 -------| |###/
+                 |###|     |               |##/|
+                 |###| |   |             | |#/#|
+                 |###|     |               |/##|
+                 |###| |                 | |###|
+                 |###|    200              |###|
+                 |###| |                 | |###|
+                 |###|     |               |###|
+                 |###| |   |             | |###|
+                 |###|     |               |###|
+                 |###| |_ _|_ _ _ _ _ _ _| |###|
+                 |###|  \               /  |###|
+                 |###+---\-------------/---+###|
+                 |########\###########/########|
+                 |#########\#########/#########|
+                 +----------\-------/----------+
+                             \     /
+                              \   /
+                          display window
+                 starting and stopping positions
+
+
+          Figure 3-9: Positioning the On-screen Display
+
+
+ <a href="../Hardware_Manual_guide/node0070.html">Setting the Display Window Starting Position</a> 
+ <a href="../Hardware_Manual_guide/node0071.html">Setting the Display Window Stopping Position</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-40" TITLE="A Register Summary / INTREQ, INTREQR" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / INTREQ, INTREQR</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0036.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0038.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+INTREQ     09C      W       P   Interrupt request bits (clear or set)
+INTREQR    01E      R       P   Interrupt request bits (read)
+
+                 This register contains interrupt request bits (or
+                 flags).  These bits may be polled by the processor;
+                 if enabled by the bits listed in the above register,
+                 they may cause processor interrupts.  Both a set and
+                 clear operation are required to load arbitrary data
+                 into this register.  These status bits are not
+                 automatically reset when the interrupt is serviced,
+                 and must be reset when desired by writing to this
+                 address.  The bit assignments are identical to the
+                  <a href="../Hardware_Manual_guide/node0036.html">enable register</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

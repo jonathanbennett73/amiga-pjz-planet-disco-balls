@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_F" NODE="F-4-2" TITLE="F / Serial Shift Register (SDR) / Output Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>F / Serial Shift Register (SDR) / Output Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node013F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0141.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+In the output mode,  <a href="../Hardware_Manual_guide/node0133.html">Timer A</a>  is used as the baud rate generator. Data is
+shifted out on the SP pin at 1/2 the underflow rate of  <a href="../Hardware_Manual_guide/node0133.html">Timer A</a> .  The
+maximum baud rate possible is 02 divided by 4, but the maximum usable baud
+rate will be determined by line loading and the speed at which the
+receiver responds to input data.
+
+To begin transmission, you must first set up  <a href="../Hardware_Manual_guide/node0133.html">Timer A</a>  in continuous mode,
+and start the timer.  Transmission will start following a write to the
+serial data register.  The clock signal derived from  <a href="../Hardware_Manual_guide/node0133.html">Timer A</a>  appears as
+an output on the CNT pin.  The data in the serial data register will be
+loaded into the shift register, then shifted out to the SP pin when a CNT
+pulse occurs.  Data shifted out becomes valid on the next falling edge of
+CNT and remains valid until the next falling edge.
+
+After eight CNT pulses, an interrupt is generated to indicate that more
+data can be sent.  If the serial data register was reloaded with new
+information prior to this interrupt, the new data will automatically be
+loaded into the shift register and transmission will continue.
+
+If no further data is to be transmitted after the eighth CNT pulse, CNT
+will return high and SP will remain at the level of the last data bit
+transmitted.
+
+SDR data is shifted out MSB first.  Serial input data should appear in
+this same format.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

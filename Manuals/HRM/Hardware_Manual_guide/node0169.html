@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-4-5-4" TITLE="7 / / Setting and Clearing Bits / Vertical Blanking Interrupt" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 / / Setting and Clearing Bits / Vertical Blanking Interrupt</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0168.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node016A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Bit 5, VERTB, causes an interrupt at line 0 (start of vertical blank) of
+the video display frame. The system is often required to perform many
+different tasks during the vertical blanking interval. Among these tasks
+are the updating of various pointer registers, rewriting lists of Copper
+<a name="line6">tasks when necessary, and other system-control operations.</a>
+
+The minimum time of vertical blanking is 20 horizontal scan lines for an
+NTSC system and 25 horizontal scan lines for a PAL system. The range
+starts at line 0 and ends at line 20 for NTSC or line 25 for PAL. After
+the minimum vertical blanking range, you can control where the display
+actually starts by using the  <a href="../Hardware_Manual_guide/node0083.html">DIWSTRT</a>  (display window start) register
+to extend the effective vertical blanking time. See Chapter 3, &#034;Playfield
+<a name="line14">Hardware,&#034; for more information on  <a href="../Hardware_Manual_guide/node0083.html">DIWSTRT</a> .</a>
+
+If you find that you still require additional time during vertical
+blanking, you can use the Copper to create a  <a href="../Hardware_Manual_guide/node016F.html">level 3 interrupt</a> . This
+Copper interrupt would be timed to occur just after the last line of
+display on the screen (after the display window stop which you have
+defined by using the  <a href="../Hardware_Manual_guide/node0071.html">DIWSTOP</a>  register).
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

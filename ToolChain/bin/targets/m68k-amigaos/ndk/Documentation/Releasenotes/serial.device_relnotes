@@ -1,0 +1,15 @@
+workbench/devs/serial
+
+    The CloseDevice code could trash memory. Actually, this had
+    been fixed already by jjszucs after V37.4.
+    Froze 43.1.
+    Should really return meaningful NSD info now.
+    Froze 43.2.
+    ARGH! An assembler issue was triggered by a change in the
+    version string length by one byte. This caused the assembler to
+    incorrectly handle the resident tag. I forced the correct
+    alignment now.
+    Froze 43.3.
+    Should no longer hog resources until expunge. No longer makes
+    private ports public.
+    Froze 43.4.

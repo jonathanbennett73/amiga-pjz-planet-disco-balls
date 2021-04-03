@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-4-1" TITLE="K / Signal Description / Power Connections" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Signal Description / Power Connections</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02AE.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02B0.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The expansion bus provides several different voltages designed to supply
+expansion devices.  These are basically the same for the Zorro III bus as
+they were for the Zorro II bus, with the exception of one pin, and that
+the specification has been clarified a bit.  Note that all Zorro III PICs
+<a name="line6">must list their power consumption specifications.</a>
+
+Digital Ground (Ground)
+   This is the digital supply ground used by all expansion cards as the
+<a name="line10">   return path for all expansion supplies.</a>
+
+Main Supply (+5VDC)
+   This is the main power supply for all expansion cards, and it is
+   capable of sourcing large currents; each PIC can draw up to
+<a name="line15">   2.0 Amps @ +5VDC.</a>
+
+Negative Supply (-5VDC)
+   This is a negative version of the main supply, for small current
+<a name="line19">   loads only; each PIC can draw up to 60 mA @ -5VDC.</a>
+
+High Voltage Supply (+12VDC)
+   This is a higher voltage supply, useful for communications cards and
+   other devices requiring greater that digital voltage levels.  This is
+   intended for relatively small current loads only; each PIC can draw
+<a name="line25">   up to 500mA @ +12VDC.</a>
+
+Negative High Supply (-12VDC)
+   Negative version of the high voltage supply, also used in
+   communications applications, and similarly intended for small loads
+   only; each PIC can draw up to 60 mA @ -12VDC.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

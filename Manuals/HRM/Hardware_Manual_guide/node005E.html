@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-8-6" TITLE="2 / Advanced Topics / The Copper and the 680x0" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / Advanced Topics / The Copper and the 680x0</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node005D.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node005F.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+On those occasions when the Copper's instructions do not suffice, you can
+interrupt the 680x0 and use its instruction set instead. The 680x0 can
+poll for interrupt flags set in the  <a href="../Hardware_Manual_guide/node0164.html#line11">INTREQ</a>  register by various devices.
+To interrupt the 680x0, use the Copper  <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  instruction to store a 1
+<a name="line6">into the following bits of  <a href="../Hardware_Manual_guide/node0164.html#line11">INTREQ</a> :</a>
+<a name="line7"></a>
+
+               Table 2-1: Interrupting the 680x0
+
+
+     Bit Number      Name      Function
+     ----------      ----      --------
+        15          <a href="../Hardware_Manual_guide/node0166.html">SET/CLR</a>    Set/Clear control bit.  Determines
+                               if bits written with a 1 get set
+                               or cleared.
+
+         4           <a href="../Hardware_Manual_guide/node0057.html">COPEN</a>     Coprocessor interrupting 680x0.
+
+
+See Chapter 7, &#034;System Control Hardware,&#034; for more information about
+ <a href="../Hardware_Manual_guide/node0160.html">interrupts</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

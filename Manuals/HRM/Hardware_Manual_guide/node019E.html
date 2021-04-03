@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-3-3" TITLE="8 / The Keyboard / Limitations Of The Keyboard" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / The Keyboard / Limitations Of The Keyboard</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node019D.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node019F.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The Amiga keyboard is a matrix of rows and columns with a key switch at
+each intersection (see  <a href="../Hardware_Manual_guide/node0172.html">Appendix G</a>  for a diagram of the matrix). Because
+of this, the keyboard is subject to a phenomenon called &#034;phantom
+keystrokes.&#034; While this is generally not a problem for typing, games may
+require several keys be independently held down at once. By examining the
+matrix, you can determine which keys may interfere with each other, and
+<a name="line8">which ones are always safe.</a>
+
+Phantom keystrokes occur when certain combinations of keys pressed are
+pressed simultaneously.  For example, hold the &#034;A&#034; and &#034;S&#034; keys down
+simultaneously.  Notice that &#034;A&#034; and &#034;S&#034; are transmitted.  While still
+holding them down, press &#034;Z&#034;.  On the original Amiga 1000 keyboard, both
+the &#034;Z&#034; and a ghost &#034;X&#034; would be generated. Starting with the Amiga 500,
+the controller was upgraded to notice simple phantom situations like the
+one above; instead of generating a ghost, the controller will hold off
+sending any character until the matrix has cleared (releasing &#034;A&#034; or &#034;S&#034;
+would clear the matrix).  Some high-end Amiga keyboards may implement true
+&#034;N-key rollover,&#034; where any combination of keys can be detected
+simultaneously.
+
+All of the keyboards are designed so that phantoms will not happen during
+normal typing, only when unusual key combinations like the one just
+described are pressed.  Normally, the keyboard will appear to have &#034;N-key
+rollover,&#034; which means that you will run out of fingers before generating
+a ghost character.
+
+   About the qualifier keys.
+   -------------------------
+   Seven keys are not part of the matrix, and will never contribute to
+   generating phantoms. These keys are:  Ctrl, the two Shift keys, the
+   two Amiga keys, and the two Alt keys.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

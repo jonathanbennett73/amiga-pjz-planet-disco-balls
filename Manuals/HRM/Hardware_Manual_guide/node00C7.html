@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-9" TITLE="4 Sprite Hardware / Manual Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 Sprite Hardware / Manual Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00C6.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00C8.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+It is almost always best to load sprites using the  <a href="../Hardware_Manual_guide/node00C8.html#line86">automatic</a>  DMA
+channels. Sometimes, however, it is useful to load these registers
+directly from one of the microprocessors. Sprites may be activated
+&#034;manually&#034; whenever they are not being used by a DMA channel. The same
+sprite that is showing a DMA-controlled icon near the top of the screen
+can also be reloaded manually to show a vertical colored bar near the
+bottom of the screen. Sprites can be activated manually even when the
+<a name="line9">sprite DMA is turned off.</a>
+
+You display sprites manually by writing to the sprite data registers
+ <a href="../Hardware_Manual_guide/node00C8.html#line8">SPRxDATB and SPRxDATA</a> , in that order. You write to  <a href="../Hardware_Manual_guide/node00C8.html#line8">SPRxDATA</a>  last because
+that address &#034;arms&#034; the sprite to be output at the next horizontal
+comparison. The data written will then be displayed on every line, at the
+horizontal position given in the &#034;H&#034; portion of the position registers
+ <a href="../Hardware_Manual_guide/node00CD.html">SPRxPOS</a>  and  <a href="../Hardware_Manual_guide/node00CE.html">SPRxCTL</a> . If the data is unchanged, the result will be a
+vertical bar. If the data is reloaded for every line, a complex sprite can
+be produced.
+
+The sprite can be terminated (&#034;disarmed&#034;) by writing to the  <a href="../Hardware_Manual_guide/node00CE.html">SPRxCTL</a> 
+register. If you write to the  <a href="../Hardware_Manual_guide/node00CD.html">SPRxPOS</a>  register, you can manually move the
+sprite horizontally at any time, even during normal sprite usage.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-6" TITLE="5 Audio Hardware / The Equal-tempered Musical Scale" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 Audio Hardware / The Equal-tempered Musical Scale</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00EF.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00F1.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Table 5-7 gives a close approximation of the equal-tempered scale over one
+octave when the sample size is 16 bytes.  The &#034; <a href="../Hardware_Manual_guide/node00DD.html">Period</a> &#034; column gives the
+period count you enter into the  <a href="../Hardware_Manual_guide/node00DF.html#line34">period register</a> . The length register
+ <a href="../Hardware_Manual_guide/node00DB.html#line26">AUDxLEN</a>  should be set to 8  (16 bytes = 8 words). The sample should
+<a name="line6">represent one cycle of the waveform.</a>
+<a name="line7"></a>
+
+         Table 5-7: Equal-tempered Octave for a 16 Byte Sample
+
+
+        NTSC    PAL              Ideal   Actual NTSC  Actual PAL
+       Period  Period   Note   Frequency  Frequency   Frequency
+       ------  ------   ----   --------- -----------  ----------
+        254     252      A       880.0      880.8       879.7
+        240     238      A#      932.3      932.2       931.4
+        226     224      B       987.8      989.9       989.6
+        214     212      C      1046.5     1045.4      1045.7
+        202     200      C#     1108.7     1107.5      1108.4
+        190     189      D      1174.7     1177.5      1172.9
+        180     178      D#     1244.5     1242.9      1245.4
+        170     168      E      1318.5     1316.0      1319.5
+        160     159      F      1396.9     1398.3      1394.2
+        151     150      F#     1480.0     1481.6      1477.9
+        143     141      G      1568.0     1564.5      1572.2
+        135     133      G#     1661.2     1657.2      1666.8
+
+
+The table above shows the  <a href="../Hardware_Manual_guide/node00DF.html">period values</a>  to use with a 16 byte sample to
+make tones in the second octave above middle C.   To generate the tones in
+the lower octaves, there are two methods you can use, doubling the period
+value or doubling the sample size.
+
+When you double the  <a href="../Hardware_Manual_guide/node00DD.html">period</a> , the time between each sample is doubled so
+the sample takes twice as long to play.  This means the frequency of the
+tone generated is cut in half which gives you the next lowest octave.
+Thus, if you play a C with a  <a href="../Hardware_Manual_guide/node00DF.html">period value</a>  of 214, then playing the same
+sample with a  <a href="../Hardware_Manual_guide/node00DD.html">period value</a>  of 428 will play a C in the next lower octave.
+
+Likewise, when you double the sample size, it will take twice as long to
+play back the whole sample and the frequency of the tone generated will be
+in the next lowest octave.  Thus, if you have an 8 byte sample and a 16
+byte sample of the same waveform played at the same speed, the 16 byte
+sample will be an octave lower.
+
+A sample for an equal-tempered scale typically represents one full cycle
+of a note.  To avoid  <a href="../Hardware_Manual_guide/node00ED.html">aliasing distortion</a>  with these samples you should
+use  <a href="../Hardware_Manual_guide/node00DF.html">period values</a>  in the range 124-256 only.   <a href="../Hardware_Manual_guide/node00DD.html">Periods</a>  from 124-256
+correspond to playback rates in the range 14-28K samples per second which
+makes the most effective use of the Amiga's 7 KHz  <a href="../Hardware_Manual_guide/node00EE.html">cut-off filter</a>  to
+prevent noise. To stay within this range you will need a different sample
+for each octave.
+
+If you cannot use a different sample for each octave, then you will have
+to adjust the  <a href="../Hardware_Manual_guide/node00DD.html">period value</a>  over its full range 124-65536.  This is
+easier for the programmer but can produce undesirable high-frequency noise
+in the resulting tone.  Read the section called  <a href="../Hardware_Manual_guide/node00ED.html">Aliasing Distortion</a>  for
+<a name="line58">more about this.</a>
+
+The values in Table 5-7 were generated using the formula shown below.  To
+calculate the tone generated with a given sample size and  <a href="../Hardware_Manual_guide/node00DD.html">period</a>  use:
+
+                  Clock Constant         3579545
+   Frequency = --------------------- = ----------- = 880.8 Hz
+<a name="line65">               Sample Bytes * Period   16 * Period</a>
+
+The clock constant in an NTSC system is 3579545 ticks per second.  In a
+PAL system, the clock constant is 3546895 ticks per second. Sample bytes
+is the number of bytes in one cycle of the waveform sample. (The clock
+constant is derived from dividing the system clock value by 2. The value
+will vary when using an external system clock, such as a genlock.)
+
+Using the formula above you can generate the values needed for the
+even-tempered scale for any arbitrary sample.  Table 5-8 gives a close
+approximation of a five octave even tempered-scale using five samples. The
+values were derived using the formula above.  Notice that in each octave
+ <a href="../Hardware_Manual_guide/node00DF.html">period values</a>  are the same but the sample size is halved.  The samples
+<a name="line78">listed represent a simple triangular wave form.</a>
+
+
+               Table 5-8: Five Octave Even-tempered Scale
+
+
+         NTSC    PAL              Ideal   Actual NTSC  Actual PAL
+        Period  Period   Note   Frequency  Frequency   Frequency
+        ------  ------   ----   --------- -----------  ----------
+         254     252      A       55.00      55.05       54.98
+         240     238      A#      58.27      58.26       58.21
+         226     224      B       61.73      61.87       61.85
+         214     212      C       65.40      65.34       65.35
+         202     200      C#      69.29      69.22       69.27
+         190     189      D       73.41      73.59       73.30
+         180     178      D#      77.78      77.68       77.83
+         170     168      E       82.40      82.25       82.47
+         160     159      F       87.30      87.39       87.13
+         151     150      F#      92.49      92.60       92.36
+         143     141      G       98.00      97.78       98.26
+         135     133      G#     103.82     103.57      104.17
+
+               Sample size = 256 bytes,  <a href="../Hardware_Manual_guide/node00DB.html#line26">AUDxLEN</a>  = 128
+
+         254     252      A      110.00     110.10      109.96
+         240     238      A#     116.54     116.52      116.43
+         226     224      B      123.47     123.74      123.70
+         214     212      C      130.81     130.68      130.71
+         202     200      C#     138.59     138.44      138.55
+         190     189      D      146.83     147.18      146.61
+         180     178      D#     155.56     155.36      155.67
+         170     168      E      164.81     164.50      164.94
+         160     159      F      174.61     174.78      174.27
+         151     150      F#     184.99     185.20      184.73
+         143     141      G      196.00     195.56      196.52
+         135     133      G#     207.65     207.15      208.35
+
+               Sample size = 128 bytes,  <a href="../Hardware_Manual_guide/node00DB.html#line26">AUDxLEN</a>  = 64
+
+         254     252      A      220.00     220.20      219.92
+         240     238      A#     233.08     233.04      232.86
+         226     224      B      246.94     247.48      247.41
+         214     212      C      261.63     261.36      261.42
+         202     200      C#     277.18     276.88      277.10
+         190     189      D      293.66     294.37      293.23
+         180     178      D#     311.13     310.72      311.35
+         170     168      E      329.63     329.00      329.88
+         160     159      F      349.23     349.56      348.55
+         151     150      F#     369.99     370.40      369.47
+         143     141      G      392.00     391.12      393.05
+         135     133      G#     415.30     414.30      416.70
+
+                Sample size = 64 bytes,  <a href="../Hardware_Manual_guide/node00DB.html#line26">AUDxLEN</a>  = 32
+
+         254     252      A      440.0      440.4       439.8
+         240     238      A#     466.16     466.09      465.72
+         226     224      B      493.88     494.96      494.82
+         214     212      C      523.25     522.71      522.83
+         202     200      C#     554.37     553.77      554.20
+         190     189      D      587.33     588.74      586.46
+         180     178      D#     622.25     621.45      622.70
+         170     168      E      659.26     658.00      659.76
+         160     159      F      698.46     699.13      697.11
+         151     150      F#     739.99     740.80      738.94
+         143     141      G      783.99     782.24      786.10
+         135     133      G#     830.61     828.60      833.39
+
+                Sample size = 32 bytes,  <a href="../Hardware_Manual_guide/node00DB.html#line26">AUDxLEN</a>  = 16
+
+         254     252      A      880.0      880.8       879.7
+         240     238      A#     932.3      932.2       931.4
+         226     224      B      987.8      989.9       989.6
+         214     212      C      1046.5    1045.4      1045.7
+         202     200      C#     1108.7    1107.5      1108.4
+         190     189      D      1174.7    1177.5      1172.9
+         180     178      D#     1244.5    1242.9      1245.4
+         170     168      E      1318.5    1316.0      1319.5
+         160     159      F      1396.9    1398.3      1394.2
+         151     150      F#     1480.0    1481.6      1477.9
+         143     141      G      1568.0    1564.5      1572.2
+         135     133      G#     1661.2    1657.2      1666.8
+
+                Sample size = 16 bytes,  <a href="../Hardware_Manual_guide/node00DB.html#line26">AUDxLEN</a>  = 8
+
+
+                            256 Byte Sample
+                            ---------------
+
+      0   2   4   6   8  10  12  14  16  18  20  22  24  26  28  30
+     32  34  36  38  40  42  44  46  48  50  52  54  56  58  60  62
+     64  66  68  70  72  74  76  78  80  82  84  86  88  90  92  94
+     96  98 100 102 104 106 108 110 112 114 116 118 120 122 124 126
+    128 126 124 122 120 118 116 114 112 110 108 106 104 102 100  98
+     96  94  92  90  88  86  84  82  80  78  76  74  72  70  68  66
+     64  62  60  58  56  54  52  50  48  46  44  42  40  38  36  34
+     32  30  28  26  24  22  20  18  16  14  12  10   8   6   4   2
+      0  -2  -4  -6  -8 -10 -12 -14 -16 -18 -20 -22 -24 -26 -28 -30
+    -32 -34 -36 -38 -40 -42 -44 -46 -48 -50 -52 -54 -56 -58 -60 -62
+    -64 -66 -68 -70 -72 -74 -76 -78 -80 -82 -84 -86 -88 -90 -92 -94
+    -96 -98-100-102-104-106-108-110-112-114-116-118-120-122-124-126
+   -127-126-124-122-120-118-116-114-112-110-108-106-104-102-100 -98
+    -96 -94 -92 -90 -88 -86 -84 -82 -80 -78 -76 -74 -72 -70 -68 -66
+    -64 -62 -60 -58 -56 -54 -52 -50 -48 -46 -44 -42 -40 -38 -36 -34
+    -32 -30 -28 -26 -24 -22 -20 -18 -16 -14 -12 -10  -8  -6  -4  -2
+
+
+                            128 Byte Sample
+                            ---------------
+
+      0   4   8  12  16  20  24  28  32  36  40  44  48  52  56  60
+     64  68  72  76  80  84  88  92  96 100 104 108 112 116 120 124
+    128 124 120 116 112 108 104 100  96  92  88  84  80  76  72  68
+     64  60  56  52  48  44  40  36  32  28  24  20  16  12   8   4
+      0   4   8  12  16  20  24  28  32  36  40  44  48  52  56  60
+     64  68  72  76  80  84  88  92  96 100 104 108 112 116 120 124
+   -127-124-120-116-112-108-104-100 -96 -92 -88 -84 -80 -76 -72 -68
+    -64 -60 -56 -52 -48 -44 -40 -36 -32 -28 -24 -20 -16 -12  -8  -4
+
+
+                             64 Byte Sample
+                             --------------
+
+      0   8  16  24  32  40  48  56  64  72  80  88  96 104 112 120
+    128 120 112 104  96  88  80  72  64  56  48  40  32  24  16   8
+      0  -8 -16 -24 -32 -40 -48 -56 -64 -72 -80 -88 -96-104-112-120
+   -127-120-112-104 -96 -88 -80 -72 -64 -56 -48 -40 -32 -24 -16  -8
+
+
+                             32 Byte Sample
+                             --------------
+
+      0  16  32  48  64  80  96 112 128 112  96  80  64  48  32  16
+      0 -16 -32 -48 -64 -80 -96-112-127-112 -96 -80 -64 -48 -32 -16
+
+
+                             16 Byte Sample
+                             --------------
+
+      0  32  64  96 128  96  64  32   0 -32 -64 -96-127 -96 -64 -32
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

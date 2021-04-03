@@ -1,0 +1,107 @@
+DefIconsPrefs 45.0 (27-10-00)
+
+- just a version bump, no functional change.
+
+
+DefIconsPrefs 45.1 (31-10-00)
+
+- the program makes sure that the provided stack 
+  is large enough (at least 6k). If not a new stack
+  of 8k will be allocated <Jochen Becher>.
+
+
+DefIconsPrefs 45.2 (12-11-00)
+
+- Jochen asked me to remove the WFLG_SIZEBBOTTOM flag, 
+  so I did :) The window has a thick right border, now.
+  
+- implemented support for iconification.
+
+- if the gui doesn't fit on the screen, the program will
+  open an autoscroll screen for it.
+
+- changed layout of bottom group.
+
+
+DefIconsPrefs 45.3 (15-11-00)
+
+- the buttons of the search requester have their own
+  locale string, now.
+  
+- added "Settings/Create Icon?" menu item.
+
+- localized the window title.
+
+
+DefIconsPrefs 45.4 (17-11-00)
+
+- the renderhook of the listbrowser didn't take care
+  of NULL pointers, therefore listbrowser.gadget threw some
+  enforcerhits when a new action was added to the list
+  <Mario Cattaneo>.
+
+- the programname is now used as the title of the appicon.
+
+- should no longer open a lores screen when the GUI doesn't
+  fit on the wbscreen.
+  
+
+DefIconsPrefs 45.5 (19-11-00)
+
+- the fallback screen has a depth of 2, now.
+
+
+DefIconsPrefs 45.6 (25-11-00)
+
+- autoscrolling should really work, now.
+
+- for the case that the window opens on a own screen,
+  there will be *no* iconifygadget anymore.
+
+
+DefIconsPrefs 45.7 (04-12-00)
+
+- instead of using BestModeIDA() to get a displaymode for
+  the fallback screen, the wb screen will be cloned, now.
+
+
+DefIconsPrefs 45.8 (06-02-01)
+
+- running multiple instances of the program is no longer
+  possible <David Rey>.
+
+- when opening a file which is not a valid DefIcons prefs 
+  file, the current settings don't get lost any longer
+  <David Rey>.
+
+
+DefIconsPrefs 45.9 (26-02-01)
+
+- when the user changes an icon, the internal cache
+  of DefIcons will be flushed.
+
+
+DefIconsPrefs 45.10 (26-04-01)
+
+- the rendering hook of the action list could run into
+  a buffer overflow <Thomas Richter>.
+  
+- the asl requester remembers the last path, now <David Rey>.
+
+
+DefIconsPrefs 45.11 (08-05-01)
+
+- now allows screen changes.
+
+- misc fixes.
+
+
+DefIconsPrefs 45.12 (15-05-01)
+
+- the rendering hook should no longer cause buffer overflows, now
+  <Thomas and Mario>.
+
+
+DefIconsPrefs 45.13 (02-06-01)
+
+- the fallbackscreen stuff got broken in 45.11 <Raul Silva>.

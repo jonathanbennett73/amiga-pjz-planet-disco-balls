@@ -1,0 +1,20 @@
+loadmondrvs 45.0 (01-11-00)
+
+- bumped version to v45.
+
+- removed STACKSIZE/N/K option, the default stacksize
+  (of the program) is 8k, now.
+
+loadmondrvs 45.1 (26-12-00)
+
+- added FROM/K option.
+
+loadmondrvs 45.2 (23-02-01)
+
+- any #?.elf won't be loaded when MorphOS isn't
+  running.
+
+loadmondrvs 45.3 (26-04-01)
+
+- disabled stackswapping code, did not work with
+  some monitor drivers.

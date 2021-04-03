@@ -1,0 +1,69 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+		"type": "winuae",
+		"request": "launch",
+		"name": "WinUAE Debug",
+		"buildWorkspace": false,
+		"stopOnEntry": false,
+		"serverName": "localhost",
+		"serverPort": 2345,
+		"startEmulator": true,
+		"trace": false,
+		"exceptionMask": 8188,
+		"emulatorStartDelay": 1500,
+		"emulator": "${workspaceFolder}\\..\\..\\WinUAE\\winuae.exe",
+		"emulatorWorkingDir": "${workspaceFolder}\\..\\..\\WinUAE",
+		"program": "${workspaceFolder}\\dh0\\PJZ-PlanetDiscoBalls",
+		"options": [
+		    "-config=A500_Debug.UAE",
+		    "-s",
+		    "debugging_trigger=SYS:PJZ-PlanetDiscoBalls",
+		    "-s",
+		    "filesystem2=rw,dh0:${workspaceFolder}\\dh0,0",
+		    "-s",
+		    "debugging_features=gdbserver"
+		]
+	    },	    
+        {
+            "type": "fs-uae-run",
+            "request": "launch",
+            "name": "WINDOWS Run",
+            "buildWorkspace": false,
+            "emulator": "${workspaceFolder}\\..\\..\\ToolChain\\VSCodeExt-bin\\fs-uae.exe",
+	    "emulatorWorkingDir": "${workspaceFolder}\\..\\..\\ToolChain\\VSCodeExt-bin",
+            "options": [
+                "--hard_drive_0=${workspaceFolder}\\dh0",
+                "--joystick_port_1=none",
+                "--amiga_model=A500",
+                "--chip_memory=512",
+                "--slow_memory=512",
+                "--kickstarts-dir=${workspaceFolder}\\..\\..\\WinUAE\\Roms"
+            ]
+        },
+        {
+            "type": "fs-uae",
+            "request": "launch",
+            "name": "WINDOWS Debug",
+            "stopOnEntry": true,
+            "serverName": "localhost",
+            "serverPort": 6860,
+            "trace": false,
+            "startEmulator": true,
+            "buildWorkspace": false,
+            "emulator": "${workspaceFolder}\\..\\..\\ToolChain\\VSCodeExt-bin\\fs-uae.exe",
+	    "emulatorWorkingDir": "${workspaceFolder}\\..\\..\\ToolChain\\VSCodeExt-bin",
+            "program": "${workspaceFolder}\\dh0\\Demo",
+            "options": [
+                "--hard_drive_0=${workspaceFolder}\\dh0",
+                "--joystick_port_1=none",
+                "--amiga_model=A4000/040",
+                "--kickstarts-dir=${workspaceFolder}\\..\\..\\WinUAE\\Roms",
+                "--remote_debugger=200",
+                "--use_remote_debugger=true",
+                "--automatic_input_grab=0"
+            ]
+        },
+    ]
+}

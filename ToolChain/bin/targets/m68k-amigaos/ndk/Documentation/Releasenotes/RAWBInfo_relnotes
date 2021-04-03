@@ -1,0 +1,202 @@
+RAWBInfo 1.19 (27.10.00)
+
+- disables the "Tooltypes" menu whenever the "Icon" page isn't visible,
+  selecting an item from the menu while the page wasn't active ended up
+  in a crash <opi>. This was actually the fault of texteditor.gadget and
+  not RAWBInfo.
+   
+- integrated smoothing code from Image2Icon into RAWBInfo.
+
+- dragging icons on the window should work as expected even when DirOpus 
+  is running, in opposite to the original wb the dropzones won't be 
+  highlighted when dragging an icon over them (DO is missing the re-
+  required functionality).
+  
+- rawbinfo lowers its task priority while calculating the size of drawers/
+  disks, this way your system doesn't get blocked. 
+  
+- added I2I=IMAGE2ICON/K,I2IOPTS=IMAGE2ICONOPTS/K options <Mario Cattaneo>.
+
+- the minimum stacksize that can be entered into the appropiate gadget is 
+  4096bytes, now (that's the minimum wb allows) <opi>. 
+  
+- new ICONFIRST/S option. 
+
+- holding down SHIFT while clicking on a tooltype will dis-/enable it (the
+  implementation is a bit tricky but it works:).
+
+- disabled "Icon Images / Extras / Delete alternate image" for the time 
+  BoingBag#2 isn't available (the program actually checks the revision
+  number of icon.library before disabling the item).
+  
+- it's possible to "tab-cycle" from and to the tooltypes editor, now. 
+
+- added shortcuts to the english gadget and menu texts where they were 
+  missing.
+
+- removed the "Protection:" label in front of the checkboxes, this way 
+  their shortcuts will work.
+  
+- the program makes sure now, that the "Name:" field only contains the
+  filepart of the path and not the complete path. 
+  
+- pressing SHIFT+RETURN inside the tooltypes editor terminates it <opi>.
+
+- the program didn't filter system tooltypes (CLI,REXX,TOOLPRI,...)
+  correctly, for an example CLICK was identified as CLI.
+
+
+RAWBInfo 1.20 (31.10.00)
+
+- removed support for gtdrag.library. The library never worked well
+  (deadlocks during dragging) and as being an OS component RAWBInfo
+  shouldn't need/use any third party product (which is not licensed).
+
+
+RAWBInfo 1.21 (04.11.00)
+
+- the notification mechanism introduced in 1.18 could crash the program
+  when an icon information window was opened in the context of the same
+  task more than one time. This only happend when the user saved the
+  icon to disk and therefore caused a notification to be sent to the task.
+  The next time the user opened an icon information window, the notification
+  signal was still set and crashed the program.
+
+- when the size of a drawer is 0 bytes and x blocks, a different formatting 
+  string is used which only shows the drawer size in blocks. This is what
+  the original wb icon information does.
+
+
+RAWBInfo 1.22 (09.11.00)
+
+- because of a missing function prototype the program threw enforcer hits,
+  whenever the user changed an icon (by a different program, eg IconEdit)
+  that was shown in the icon information window <Eike M. Lang>.
+
+- pasting a transparent image works again as long as RAWBInfo doesn't need
+  to scale down the image <Andrea Vallinotto>.
+  
+- resizing a window forced a 2nd refresh (bug was introduced in 1.21).
+
+- using the arrows of the Stacksize integer.gadget de-/increases the shown
+  value by 1024, now (requires integer.gadget v45) <Mario Cattaneo>.
+
+
+RAWBInfo 1.23 (16.11.00)
+
+- (de)activating a tooltype by using shift+lmb no longer destroys the 
+  contents of the clipboard. NOTE: You can only (de)activate a single
+  tooltype at a time, now. Thanks to Allan for his help.  
+
+- "Icon Images/Frameless?" is now disabled when the icon is a NewIcon.
+
+
+RAWBInfo 1.24 (20.11.00)
+
+- removed the spacing btw the texteditor.gadget and the scroller.gadget
+  that was introduced by fixing window.class.
+
+- added APPICON/S option. when this option is set, the program adds
+  an AppIcon on which you can drop other icons to get information on
+  them.
+  
+- The "Icon Image / Save..." filerequester wasn't set to savemode.
+
+
+RAWBInfo 1.25 (26.12.00)
+
+- when the user has double-clicked a tooltype (while holding down
+  SHIFT), the input-event is no longer passed to the texteditor.gadget.
+  Instead the tooltype will be toggled <Mario Cattaneo>.
+
+- removed some unnecessary spacing between the protection checkboxes.
+
+- when changing the icontype, the default stacksize is taken from
+  workbench prefs, now <Mario Cattaneo>.
+
+
+RAWBInfo 1.26 (09.01.01)
+
+- holding down SHIFT while dropping an icon over the tooltypes editor
+  inserts the tooltypes of the icon.
+  
+- disabled underscoring for all non selectable gadgets.
+
+- when a tooltype begins with a non alphanumerical character, the
+  character will be ignored when sorting the tooltypes list. So
+  enabled and disabled tooltypes will appear mixed in the list instead
+  of having the disabled tooltypes at the top.
+
+
+RAWBInfo 1.27 (05.03.01)
+
+- when the object on which information is shown is a link, its name
+  will be underlined.
+
+- After one hour of debugging trying to find out why each information
+  window ate 65kb of memory I found the reason: the OM_NEW method of
+  the icon gadget called OM_SET and OM_SET called the OM_NEW method
+  of the superclass and the superclass ... A really stupid mistake. 
+  Somebody please give me a kick in my [censored].
+  
+- should handle WBDISK icons correctly even when they aren't named disk
+  <Mario Cattaneo>.
+
+- the "Protection: " label in front of the checkboxes is back, again.
+  Please note that you need label.image 45.1 to keep their shortcuts
+  "alive".
+
+
+RAWBInfo 1.28 (30.03.01)
+
+- fixed mungwall damage caused by passing a string to button.gadget
+  that was allocated on the stack.
+
+
+RAWBInfo 1.29 (11.04.01)
+
+- dropping an disk icon (or any other type of icon without tooltypes)
+  on the tooltypes editor could crash the machine <Martin Elsner>.
+
+
+RAWBInfo 1.30 (18.04.01)
+
+- when DefIcons is running the filetype will be displayed, now 
+  <Martin Steigerwald>.
+
+
+RAWBInfo 1.31 (30.04.01)
+
+- fixed icon display problem introduce in 1.30 <Mario Cattaneo>.
+
+
+RAWBInfo 1.32 (03.06.01)
+
+- "Icon Images / Extra / Delete alternate image" was always ghosted
+  on a system with icon.library v45 <David Rey>.
+  
+ 
+RAWBInfo 1.33 (03.08.01)
+
+- it's possible to change the name of an icon, now. A new string 
+  (MSG_NAME_FMT2) has been added to the catalog.
+
+
+RAWBInfo 1.34 (08.08.01)
+
+- double-clicking the icon will "c:wbrun" the file (allows to view
+  image files this way).
+
+- the icon name can be changed by drag'n'drop, now.
+
+- when saving an icon back to disk, only the information that has
+  been changed (this includes the comment, the protection bits and
+  the filename) will be saved.
+
+
+RAWBInfo 1.35 (31.08.01)
+
+- removed some experimental code that made it into the last release
+  by mistake.
+
+- reworked the rename code.

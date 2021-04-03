@@ -1,0 +1,38 @@
+ConClip 44.1 (8.8.99)
+
+- Ported to SAS/C 6.59
+
+- Removed the icky segment split trick. The startup
+  code no longer fiddles with the program's segment
+  list but detaches it "cleanly" from the parent CLI.
+
+
+ConClip 44.2 (8.8.99)
+
+- Folded clipboard support for string gadgets into the
+  program. ConClip will now install a front end for the
+  default Intuition string gadget editing hook which
+  watches for [Right Amiga]+c (= copy) and [Right Amiga]+v
+  (= paste) events. For the copy case, the contents of the
+  string gadget will be extracted and stored in the clipboard.
+  For the paste case, the current contents of the clipboard
+  will be extracted and inserted at the current cursor
+  position. The code is smart enough to watch for buffer
+  overflow and will insert only as many characters as will
+  fit into the string gadget. Integer gadgets are handled
+  transparently since they are "only" a special case of
+  string gadget.
+
+  NOTE: [Right Amiga]+c will trigger the copy function,
+        [Right Amiga]+[Shift]+c will insert the upper
+        case character "C" (or trigger a menu item if
+        a clever custom string gadget editing hook is
+        attached to the respective string gadget). The
+        same holds true for [Right Amiga]+[Shift]+v.
+
+
+ConClip 44.3 (22.9.99)
+
+- Changed the priority ConClip adds its MsgPort with
+  (bumped to 1).
+

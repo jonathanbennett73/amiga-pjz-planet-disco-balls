@@ -1,0 +1,66 @@
+This drawer contains a small collection of test programs for icon.library,
+using the new V44 API. This what the programs do:
+
+   BumpRevision
+
+      Tests the BumpRevision() function.
+
+   CondenseIcons
+
+      Demonstrates the "space saving" features of PutIconTagList().
+
+   Convert8ColorIcons
+
+      Converts icons with more than four colours into the new palette
+      mapped format. The program assumes a default colour palette.
+
+   ConvertMagicWBIcons
+
+      Converts icons in the MagicWB design into the new palette mapped
+      mapped format.
+
+   ConvertNewIcons
+
+      Converts icons in the NewIcons format into the new palette mapped
+      mapped format.
+
+   GlowIconImage
+
+      This program does not really operate on icons. It's useful for
+      creating an image in the "glowing design", as used by the
+      AmigaOS 3.5 Workbench design.
+
+   IdentifyHook
+
+      This demonstrates the icon identification hook feature of
+      icon.library V44 by attaching default icons to files without
+      icons, based upon their contents (by means of datatypes.library).
+
+   ImageToIcon
+
+      This program will read picture files and create icons from them,
+      using the new palette mapped format supported by icon.library V44.
+
+   LayoutIcon
+
+      This demonstrates the use of the LayoutIconA() function
+      supported by icon.library V44.
+
+   MakeIconsBorderless
+
+      This program will turn a bunch of palette mapped icons into
+      borderless (or frameless) icons.
+
+   MatchToolValue
+
+      This program tests the MatchToolValue() function.
+
+   StripIcons
+
+      This program demonstrates how a new format palette mapped icon
+      can be "degraded" into a standard icon, such as icon.library V37
+      may write it.
+
+   ToolTypes
+
+      This demonstrates the FindToolType() function.

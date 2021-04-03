@@ -1,0 +1,289 @@
+Vector notes - Or trying to dumb it down for Antiriad
+=====================================================
+
+Perspective
+===========
+
+New Y = VEC_YOFFSET + (k*y) / (z+dist)
+    X = VEC_XOFFSET + (k*x) / (z+dist)
+(where k is a constant for this screen, dist is the distance from the 
+ROTATION point to the EYE on the Z-axis)
+For this routine, k=256, dist=256
+
+Example:
+X=50, Z=100
+256*50 / 256+100
+X = 35
+
+
+
+Vector Operations
+=================
+
+V=(x,y,z)
+Now the length/magnitude of the vector becomes: |V| = sqr(x*x + y*y + z*z)
+
+* A vector between two points (FROM P1(x1,y1,z1) TO P2(x2,y2,z2))
+  can be computed:
+  V=(x2-x1,y2-y1,z2-z1,...) 
+  (V goes FROM p1 TO p2)
+
+(if you have two, or one dimension you have two or one variable instead of 
+three. if you have more you have ofcourse as many variables as dimensions)
+
+* The SUM of two vectors (U=V+W) are defined as:
+  V=(vx,vy,vz), W=(wx,wy,wz) => U=(vx+wx,vy+wy,vz+wz)
+
+* The negation of a vector U=-V is defined as
+  V=(x,y,z) => U=(-x,-y,-z)
+
+* The differance between two vectors U=V-W are defined as
+  U=V+(-W)
+
+* A vector can be multiplied by a constant (scaling!) like:
+  U=k*V 
+  (x*k,y*k,z*k)=k*(x,y,z)
+
+* A coordinate system can be "Translated" to a new point with the
+  translation formula:
+  x'=x-k
+  y'=y-l
+  z'=z-m
+  Where (k,l,m) is the OLD point where the NEW coordinate system should have 
+  its point (0,0,0) This is a good operation if you want to ROTATE around A 
+  NEW POINT!
+
+* A vector can be rotated
+  The vector is always rotated around the point (0,0,0) so you may have to 
+  TRANSLATE it.
+
+
+Scalar or Dot Product
+---------------------
+Dot product gives the cos(a), the cosine of the angle between the 2 UNIT vectors, 
+the between -1 and 1. It is a scalar (single) value.
+
+For two vectors A and B (ax is vector A x component, etc)
+
+(ax*bx + ay*by + az*bz)
+
+
+
+Cross Product
+-------------
+Cross product of 2 vectors gives the normal of them, i.e. a new vector
+that is perpendicular to the original 2 vectors.
+
+*  we pick (x1,y1,z1) and (x2,y2,z2) and (x3,y3,z3)
+   we create two vectors V1 and V2:
+   V12=(x2-x1,y2-y1,z2-z1)
+   V13=(x3-x1,y3-y1,z3-z1)
+
+To get the normal of these we take the cross product of them:
+
+                  |  i     j     k  |
+    N = V12xV13 = |x2-x1 y2-y1 z2-z1| =
+                  |x3-x1 y3-y1 z3-z1|
+
+               n1                                       n2                                  n3
+V12xV13 = ( (y2-y1)*(z3-z1)-(y3-y1)*(z2-z1), -((x2-x1)*(z3-z1)-(x3-x1)*(z2-z1)), (x2-x1)*(y3-y1)-(x3-x1)*(y2-y1) )
+
+(Antiriad: The negative on n2 seems to be needed when using LHS. It works without in RHS)
+(Notice that n3, the Z component of the new vector, is the same as the backface culling formula)
+
+
+Backface Culling
+================
+
+Method 1 - Post-perspective using screen 2d coords
+--------------------------------------------------
+
+Define all vertices in clock wise order and take the 3 vertices from the plane
+to form two vectors. These should be AFTER perspective correction for the screen.
+
+This is actually just solving the z component of the cross-product:
+c=(x2-x1)*(y3-y1)-(x3-x1)*(y2-y1)
+
+If the sign of c will determine if the plane is visible or not.
+
+
+
+Light Sourcing
+==============
+
+Lightsourcing is a way to find out how much light a plane recieves from either 
+a point of light (spherical) or a plane of light (planar). If the colour of 
+the plane represents the light that falls on it, the object will be a bit more 
+realistic.
+
+What we are interested in is the ANGLE of the VECTOR from the NORMAL of the 
+plane to the LIGHTSOURCE (=point of light) (this is for a spherical 
+lightsource, like a lamp or something. If you are interested in planar light, 
+like from the sun, you are interested in the ANGLE between the NORMAL of the 
+plane and the LIGHTSOURCE VECTOR)
+
+We are interested of the COSINE of the given angle.
+
+We need the normal of the face (N) and the vector of the light (L)
+
+To get COS of the ANGLE between two vectors we can use the scalar/dot product 
+between N and L (=lightsource vector) divided by the length of N and L:
+
+   cos(a) = <N.L> / (|N| * |L|)
+
+(nx means the x-coordinate of N, ny the y-coordinate and so on, and 
+the same thing with L.)
+
+( nx*lx + ny*ly + ny*ly ) / ( sqr(nx*nx+ny*ny+nz*nz) * sqr(lx*lx+ly*ly+lz*lz) )
+
+can be :
+(nx*lx + ny*ly + nz*lz) / k 
+if k is a precalculated constant)
+
+This number is between -1 and 1 and is cos of the angle between the vectors L 
+and N. the SQUARE ROOTS take much time, but if you keep the object intact (do 
+only rotations/translatins etc.) and always pick the same points in the object,
+then |N| is intact and can be precalculated (the k above)
+
+If you make sure the length of L is always 1, you won't have to devide by 
+this, which saves many cycles.
+
+The number will, as said, be between -1 and 1. You may have to multiply the 
+number with something before dividing so that you have a larger range to pick 
+colours from. If the number is negative, set it to zero.
+
+
+
+Alternative to:
+cos(a) = N.L / (|N| * |L|)  (non unit vectors)
+is that N and L are converted to unit vectors, and then:
+cos(a) = N.L
+
+
+Cross product and LHS/RHS Notes
+-------------------------------
+From testing, using the LHS (z postive into distance) and defining faces in clockwise
+order. Then when getting the normal with the formulas above you get the OUTWARD facing
+normal but you have to negate the y component. This seems to be why Asterix's document
+shows the negation on y.
+
+If using the RHS then in order to get the outward facing normal in this system you
+need to define faces counter-clockwise.
+
+Of course you can always negate as required no matter what order you use as long as it's
+consistent.
+
+
+
+Implmentation Notes
+===================
+Scale unit vectors by 256 or higher. Not counting these shift operations in these
+calculations. Just concentrating on muls/divs/sqrt. 
+Assuming a 12 vertices/20 face object. 8 faces visible at any time.
+
+Rotate a point 3-axis: 			9 muls
+Working out surface normal:	 	6 muls
+Working out normal magnitude:		3 muls, 1 sqrt
+Normalizing (dont have magnitude): 	3 muls, 1 sqrt, 3 divs
+Normalizing (already have magnitude): 	3 divs
+Working out dot product of unit vectors	3 muls
+Face visibility check/2d method:	2 muls
+Face visibility check/3d method:	9 muls (surface non-unit normal + dot product (sign only))
+
+muls = 70 cycles
+divs = 158
+sqrt = 500
+
+
+2D vs 3D Face Visibility
+========================
+As in all methods we end up doing the surface normal for visible faces is it quicker
+to do the 2D check first and then only do the surface normal? Again assuming 20 faces, with
+8 being visible on average.
+
+Face 2D:
+visibility check (20 faces)				2 * 20 muls
+get surface normal for visible faces (8 faces)		6 * 8 muls
+							88 muls, 6160‬ cycles
+
+Face 3D:
+get surface normal (20 faces)				6 * 20 muls
+dot product with first vertex (20 faces)		3 * 20 muls
+						180 muls, 12600‬ cycles
+No contest. Use 2D method.
+
+
+
+Method 1
+--------
+12 vertices. Use 2d face visibility test. Only process further for visible faces.
+Light vector is unit vector (assume already calculated). Calc surface unit normal
+each face with no previously stored magnitude. Work out light angle with:
+cos(a) = N.L  (unit vectors)
+
+Rotate					12*9 muls, 108 muls, 7560 cycles
+Calc unit normal of 8 visible faces	9 muls, 1 sqrt, 3 divs, 8 faces = 72muls, 8sqrt, 24divs, 20320 cycles
+
+For each light:
+Dot product of face and light unit nrm	3 muls, 8 faces = 24 muls per light, 1680 cycles
+
+1 light = 29560 cycles
+3 light = 32920 cycles
+
+
+Method 2
+--------
+12 vertices. Use 2d face visibility test. Only process further for visible faces.
+Light vector is unit vector (assume already calculated). Calc surface unit normal
+each face WITH previously stored magnitude. Work out light angle with:
+cos(a) = N.L / (|N| * |L|)  (non unit vectors)
+As L will be a unit vector (scaled) we can skip the |N| * |L| so becomes
+cos(a) = N.L / |N|
+
+Rotate					12*9 muls, 108 muls, 7560 cycles
+Calc non-unit normal of 8 visible faces	6 muls, 8 faces = 48muls, 3360 cycles
+
+For each light:
+Dot product of face and light unit nrm &
+Divide by pre-stored magnitude per face	3 muls, 1 divs, 8 faces = 24 muls, 8 divs, 3040 cycles
+
+1 light = 13960 cycles
+3 light = 20040 cycles
+
+This is the quickest method but calculating the normal magnitude after each rotation seems
+to have slight accuracy issues.
+
+
+Method 3
+--------
+Combo of method 1 and 2. Work out the magnitude each time but don't normalise. Then do
+cos(a) = N.L / |N|
+
+Rotate					12*9 muls, 108 muls, 7560 cycles
+Calc non-unit normal of 8 visible faces
+& get magnitude (don't normalise)	9 muls, 1 sqrt, 8 faces = 72muls, 8sqrt, 9040 cycles
+
+For each light:
+Dot product of face and light unit nrm &
+Divide by pre-stored magnitude per face	3 muls, 1 divs, 8 faces = 24 muls, 8 divs, 3040 cycles
+
+1 light = 19640 cycles
+3 light = 25720 cycles
+
+
+Method 4
+--------
+Have an extra 20 vertices to store the surface normal. This is then rotated with all the
+other points.
+
+Rotate					(12+20)*9 muls, 288 muls, 18360 cycles
+(have unit normals at this point)
+Visibility check 3d, 20 dot products	20*3 muls, 60 muls, 4200 cycles
+
+For each light:
+Dot product of face and light unit nrm	3 muls, 8 faces = 24 muls per light, 1680 cycles
+
+1 light = 24240 cycles
+3 light = 27600 cycles
+
+

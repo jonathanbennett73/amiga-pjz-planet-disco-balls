@@ -1,0 +1,57 @@
+Input 44.4 (19.7.99)
+
+· Using the "Accleration" checkmarks always stopped acceleration.
+
+Input 44.5 (31.7.99)
+
+· added stack extension
+
+· modified Show DOuble-Click and Test Double-Click labels
+
+Input 44.6 (4.8.99)
+
+· fixed a bug in scalable layout
+
+Input 44.8 (17.8.99)
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+Input 44.9 (20.8.99)
+
+· added some code to make selected keymap visible in list
+
+Input 44.11 (16.9.99)
+
+· changed name of project icon to def_input_prefs
+
+· added some nice images from Matt
+
+· keymap entries gets a nice image in list from LOCALE/Maps/Keymaps/
+
+· if a keymap has a file comment it is used for the list browser label
+  instead of scanning a internal table. This allows human readable list
+  entries for new keymaps and new names for known keymaps.
+
+Input 44.12 (22.9.99)
+
+· Fixed a typo "Flaggs" -> "Flags"
+
+Input 44.13 (26.9.99)
+
+· some more checks on file comment for keymaps to avoid unnamed entries.
+
+
+--- OS 3.5 release ---
+
+Input 44.19 (17.11.99)
+
+· flags are now drawn with transparent mask
+
+Input 45.1 (23.11.2000)
+
+· Localized the `s' for seconds and the decimal point.
+

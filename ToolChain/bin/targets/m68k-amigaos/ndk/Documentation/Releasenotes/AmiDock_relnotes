@@ -1,0 +1,183 @@
+AmiDock 45.0 (03.11.2000)
+- first release.
+  Most functions should work, but some stuff is still to clean
+  up and there are still some functions missing. It is now 5:33 at
+  mornig -  too late for me to describe anything more....
+  Prepare for the next versions... :-)
+
+AmiDock 45.1 (05.11.2000)
+- added menu-items and buttons for Save, Use, Cancel
+- AmiDock now uses the ENV: and ENVARC: settings for Use, Save, etc.
+- AmiDock interprets the closewindow-event of the Configwindow as Save.
+- now supports Worbench-params for Drag&Drop files on a program
+  located in a dock (e.g. open a file with MultiView via Drag&Drop)
+- removed a problem when removing categories (last category-sizes
+  were stored in the next active category)
+- AmiDock now is a commodity.
+- removed a problem with drawing NewIcons.
+- every dock is now automatically put to front if there is a move or size event
+- AmiDock is now full localized. German catalog is already finished.
+
+AmiDock 45.2 (09.11.2000)
+- removed some localisation typos
+- some english original texts were unfortunately not shown in V45.1. fixed.
+- removed a problem with start from WB. This was a very silly bug which could
+  indeed cause a crash... :((
+- close gadget of config-window is now on general request identical to a
+  "Cancel" all prefs programs do it this way, too...
+- the program path of the wb program to run is now set correctly
+- every dock has now a "Edit..."-category which allows to easy edit a dock
+- changed a lot of internal code. is now much better... :)
+- removed the non-opaque-mode. nobody needs it as the move and resize is fast
+  enough also on slow machines / gfx-chips.
+- changed - or better: removed the renaming-button. now it works as everyone
+  wants it
+- entering a new backgrouund in the background string-inputs didn't change
+  the background. fixed.
+- changed (rearranged) some buttons, changed the Move-Up/Down-buttons
+- AmiDock now doesn't reopen its docks if there was no change in the config
+
+AmiDock 45.3 (10.11.2000)
+- the window-sizes of a category were not saved in 45.2, this was caused
+  by an forgotten update of a method in V45.2. fixed.
+- on category moveup / movedown the dock-popup was not refreshed correctly
+
+AmiDock 45.4 (14.11.2000)
+- the started program now no longer is called by it's *complete* filename
+  (path + name), now the path is set to the program path and the program name
+  gets called.
+- AmiDock temporalily locked a Drag&Dropped file which prevented the called
+  program to make a write-access to the dropped file. fixed.
+- AmiDock now uses a ReAction user interface which is faster, smaller and
+  much more system friendlier (memory consumption) than the old Wizard GUI.
+  **                                                      **
+  *** Many thanks to Jochen Becher for his great help!!! ***
+  **                                                      **
+- The while config window GUI was redesigned, it now should also fit on low
+  resolutions
+- removed "action" group. the icon defines the action already.
+  if you want to call shell- or arexx-scripts, just create an icon for it.
+  this is one much more flexible
+- new locale file AmiDock.cd which replaces the old one.
+- a new window.class (45.2) helps solving the "hanging opaque resize/drag"
+  introduced with the ReAction GUI.
+  With older window.class the window is not correctly relayouted after
+  category change.
+- every dock can now have its own user-defined name
+- selecting the current category again from popup redrawed the dock
+  without any sense
+- pressing and holding the left mouse button on a icon and moving it over
+  the sizeborder showd the size-style mousepointer. senseless. fixed.
+- the ASL requester now shows the path of the entry of the corresponding
+  string-gadget
+- when removing a icon from the list, now the next icon gets selected.
+  this helps a lot if you want to remove more than one icon.
+- the sizeborder was not always shown correct (hidden even if was set in
+  config). fixed.
+
+AmiDock 45.5 (15.11.2000)
+- removed some typos in the localisation
+- cleaned up the locale file
+- removed the upper limit of 5 docks simultaneously. now there is a
+  unlimited number of docks possible.
+- in V45.3 I disabled for testing purposes Commodity support.
+  activated again.
+- the docks were switched to front when resized, moved, etc.
+  this is not like other windows are handled. fixed.
+- Workbench objects are now started finally in the correct way.
+  Bug was discovered because GoldEd showed problems when dropping
+  files on it. fixed.
+- now when you drag a file over an AmiDock icon, the icon gets selected
+  to show that if you drop the icon, it will be used as argument for
+  the program which got selected
+- removed a problem with the layouter - it sometimes ignored text-labels
+  and painted over them.
+- the layout process in earlier AmiDock releases could hide one char of
+  an icon name which should create a new line. fixed.
+- did a small change in the GUI [popup gadget]
+
+AmiDock 45.6 (16.11.2000)
+- AmiDock now also supports the Workbench replacement of OpusMagellan.
+  You now can at least run applications (also with Drag&Drop parameters).
+  ** But you can't open Drawers or Disks **
+  ** Drop Zone highlighting is under Opus also impossible! **
+- the category sized were still sometimes not restored correctly.
+  this problem is now definitely fixed.
+- the category add-button had a wrong width-priority. fixed.
+- new button "Sort": the icon list now can be sorted by program names
+- when canceling config, AmiDock ignoered the ENVARC:-config, so if
+  there was no ENV:-config, AmiDock couldn't restore it's config. fixed.
+- AmiDock does now do a automatic stack extension
+- when having more than one dock, selecting "Edit..." now selects the
+  according dock-item of the dock listview, too.
+
+AmiDock 45.7 (19.11.2000)
+- Ctrl-C now closes AmiDock
+- Ctrl-E now iconfies AmiDock, Ctrl-F uniconfies it again
+- the iconify-gadget of the configwindow now works
+- added a menu item "Iconify"
+- the configwindow is now an appwindow; it allows now to add icons to
+  the current dock and category using Drag&Drop into the configwindow, too.
+- the docks now aren't activated on startup anymore
+- now using Mario Cattaneo very nice icon. Thanks Mario!
+- removed a bug with resizing the window. in some situations, if you
+  sized for example with an horizonal dock to the right screen-border,
+  the dock increased in with and moved pixel by pixel to the left...
+- the size-border could be "clicked" one pixel in the outer area of the
+  dock-window, too. fixed.
+- added a new snapto-option: "Locked". the dock can now be made immoveable
+- the config window has now a more usable height when opened for the
+  first time
+- the about requester now also shows the version number of AmiDock
+- fixed a problem with unremoved borders when workbench prefs borders
+  were for example set to large.
+- the (background-)images used in AmiDock now should be a little bit
+  more "Pen-friendly" by reducing the dither quality (I hope, at least...)
+- a double click onto a dock brings the dock to front
+
+AmiDock 45.8 (20.11.2000)
+- AmiDock now also uniconifies and shows its configwindow if the user
+  starts a new AmiDock.
+- forgot to allow to drag&drop multiple files on the config window. fixed.
+- the docks aligned one pixel to high or one pixel to left on the
+  screen borders
+- on request, I reduced the configwindow startsize again
+- AmiDock hid the last (rightmost/bottom-most) icon in the dock when
+  changing the snapto option. fixed.
+- changed slightly the icon
+
+AmiDock 45.9 (21.11.2000)
+- iconifying AmiDock now doesn't cause anymore a lost of a (possibly)
+  changed config. iconifying now is equal to "Use" in configwindow.
+- when runned from shell, AmiDock couldn't get under some cases not
+  it's icon. for scenario: current dir "SYS:", user runs
+  wbstartup/amidock... AmiDock couldn't get "AmiDock.info". fixed.
+- Mario finally finished and cleaned up "AmiDock.info". Thanks Mario!
+
+AmiDock 45.10 (22.11.2000)
+- AmiDock now finally gets it's own icon without problems
+  [for iconify reasons]
+- AmiDock now uses the current icon font setting for displaying the
+  icon labels
+- AmiDock has now also a notify on the font prefs, whenever the user
+  changes the current font prefs, AmiDock will reopen with the new
+  font applied setting.
+
+AmiDock 45.11 (23.11.2000)
+- added the auto-hide/iconify of AmiDock when WB wants to close/refresh.
+  this allows to change the screenmode without quitting AmiDock!
+- there was a problem with drawing icon-labels where already the first
+  character had a greater width than the icon itself. fixed.
+
+AmiDock 45.12 (24.11.2000)
+- introduced by accident a crash with AmiDock V45.11 when drag&dropping
+  icons to AmiDock. shame one me... :(  fixed.
+
+AmiDock 45.13 (24.11.2000)
+- the Cancel-Button in the configwindow didn't work when the user added
+  icons an did want to cancel the addition. fixed.
+- AmiDock calculated the max width and height for the autosize-feature
+  not correctly. this led to a about two columns (or two rows in
+  vertical mode) smaller dock than it would have been possible. fixed.
+
+

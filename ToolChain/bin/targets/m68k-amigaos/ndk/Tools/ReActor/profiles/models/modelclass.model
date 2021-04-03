@@ -1,0 +1,5 @@
+modelclass
+LABEL "Model"
+INCLUDE "icclass.ic"
+MEMBER 0x0 (I····) OM_ADDMEMBER "Member"
+END

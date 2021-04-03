@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-1-3" TITLE="8 / Controller Port Interface / Reading Digital Joystick Controllers" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / Controller Port Interface / Reading Digital Joystick Controllers</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0182.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0184.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Digital joysticks contain four directional switches.  Each switch can be
+individually activated by the control stick.  When the stick is pressed
+diagonally, two adjacent switches are activated.  The total number of
+possible directions from a digital joystick is 8.  All digital joysticks
+have at least one fire button.
+
+Digital joystick switches are of the normally open type.  When the
+switches are pressed, the input line is shorted to ground.  An open switch
+<a name="line10">reads as &#034;1&#034;, a closed switch as &#034;0&#034;.</a>
+
+Reading the joystick input data logic states is not so simple, however,
+because the data registers for the joysticks are the same as the counters
+that are used for the  <a href="../Hardware_Manual_guide/node0180.html">mouse or trackball</a>  controllers. The joystick
+registers are named  <a href="../Hardware_Manual_guide/node0038.html">JOY0DAT and JOY1DAT</a> .
+
+Table 8-3 shows how to interpret the data once you have read it from these
+registers. The true logic state of the switch data in these registers is
+<a name="line19">&#034;1 = switch closed.&#034;</a>
+
+
+   Data Bit                  Interpretation
+   --------                  --------------
+      1            True logic state of &#034;right&#034; switch.
+      9            True logic state of &#034;left&#034;  switch.
+   1 (XOR) 0       You must calculate the exclusive-or of bits 1 and 0
+                     to obtain the logic state of the &#034;back&#034; switch.
+   9 (XOR) 8       You must calculate the exclusive-or of bits 9 and 8
+                     to obtain the logic state of the &#034;forward&#034; switch.
+
+
+   Table 8-3: Interpreting Data from  <a href="../Hardware_Manual_guide/node0038.html">JOY0DAT and JOY1DAT</a> 
+<a name="line33"></a>
+
+The fire buttons for ports 0 and 1 are connected to bits 6 and 7 of
+ <a href="../Hardware_Manual_guide/node012E.html">CIAAPRA</a>  ($BFE001).  A 0 here indicates the switch is closed.
+
+Some, but not all, joysticks have a second button.  We encourage the use
+of this button if the function the button controls is duplicated via the
+keyboard or another mechanism.  This button may be read in the same manner
+as the right  <a href="../Hardware_Manual_guide/node0182.html">mouse button</a> .
+
+     <a href="../Hardware_Manual_guide/node02E5.html">Figure 8-3: Joystick to Counter Connections</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

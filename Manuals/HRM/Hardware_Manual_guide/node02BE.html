@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-6-1-2" TITLE="K / / Expansion Bus Loading / Open Collector Signals" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Expansion Bus Loading / Open Collector Signals</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02BD.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02BF.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Many of the bus signals are shared via open collector or open drain
+outputs rather than via tri-stated signals; this is of course required for
+some  <a href="../Hardware_Manual_guide/node02A5.html">asynchronous</a>  things like the shared interrupt lines, and it works
+well for other types of signals as well.  Of course, a backplane resistor
+pulls these lines high, PICs only drive the line low.
+
+        <a href="../Hardware_Manual_guide/node02B3.html#line4">/OWN</a>      <a href="../Hardware_Manual_guide/node02B3.html#line22">/BGACK</a>     <a href="../Hardware_Manual_guide/node02B5.html#line36">/CINH</a>       <a href="../Hardware_Manual_guide/node02B1.html#line4">/BERR</a> 
+        <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>    <a href="../Hardware_Manual_guide/node02B1.html#line40">/RESET</a>     <a href="../Hardware_Manual_guide/node02B1.html#line61">/INT2</a>       <a href="../Hardware_Manual_guide/node02B1.html#line61">/INT6</a> 
+        <a href="../Hardware_Manual_guide/node02B1.html#line52">/HLT</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

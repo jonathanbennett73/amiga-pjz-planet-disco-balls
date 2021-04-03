@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-2-4" TITLE="5 / Forming and Playing a Sound / Selecting the Volume" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / Forming and Playing a Sound / Selecting the Volume</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00DB.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00DD.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The volume you set here is the overall volume of all the sound coming from
+the audio channel. The relative loudness of sounds, which will concern you
+when you combine notes, is determined by the  <a href="../Hardware_Manual_guide/node00D6.html#line33">amplitude</a>  of the wave form.
+There is a six-bit volume register for each audio channel. To control the
+volume of sound that will be output through the selected audio channel,
+you write the desired value into the register AUDxVOL, where &#034;x&#034; is
+replaced by the channel number. You can specify values from 64 to 0. These
+volume values correspond to decibel levels. At the end of this chapter is
+<a name="line10">a table showing the  <a href="../Hardware_Manual_guide/node00F1.html">decibel value</a>  for each of the 65 volume levels.</a>
+
+For a typical output at volume 64, with maximum data values of -128 to
+127, the voltage output is between +.4 volts and -.4 volts. Some volume
+<a name="line14">levels and the corresponding decibel values are shown in Table 5-2.</a>
+
+
+                Table 5-2: Volume Values
+
+
+          Volume  Decibel Value
+          ------  -------------
+            64         0         (maximum volume)
+            48        -2.5
+            32        -6.0
+            16        -12.0      (12 db down from the volume
+                                  at maximum level)
+
+
+For any volume setting from 64 to 0, you write the value into bits 5-0 of
+AUD0VOL. For example:
+
+SETAUD0VOLUME:
+        LEA     CUSTOM,a0
+        MOVE.W  #48,AUD0VOL(a0)
+
+The decibels are shown as negative values from a maximum of 0 because this
+is the way a recording device, such as a tape recorder, shows the
+recording level. Usually, the recorder has a dial showing 0 as the optimum
+recording level. Anything less than the optimum value is shown as a minus
+quantity.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

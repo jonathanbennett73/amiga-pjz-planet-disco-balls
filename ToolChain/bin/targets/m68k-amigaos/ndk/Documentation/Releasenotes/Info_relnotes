@@ -1,0 +1,13 @@
+workbench/c/info
+
+    Supports <n>GB disks now and can be aborted with CTRL-C a lot
+    easier now.
+    Froze 43.2.
+    Can be run before SetPatch now.
+    Froze 43.3.
+    Can really be run before SetPatch now.
+    Froze 43.4.
+    Messed up rounding could lead to a display of 101% full.
+    Froze 43.5.
+    Now uses at least one space in between the printed numbers.
+    Froze 43.7.

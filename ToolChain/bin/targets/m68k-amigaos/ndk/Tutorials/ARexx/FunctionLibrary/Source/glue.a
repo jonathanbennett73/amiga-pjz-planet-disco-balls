@@ -1,0 +1,41 @@
+*
+* $Id: glue.a 1.1 1997/06/25 18:46:44 olsen Exp $
+*
+* ARexx sample library
+*
+* :ts=8
+*
+
+	section	text,code
+
+*-----------------------------------------------------------------------------
+
+	xdef	RexxDispatchGlue
+	xref	RexxDispatch
+
+*-----------------------------------------------------------------------------
+*
+*	This "glue" routine is require since ARexx requires that the
+*	dispatcher returns result code and result string in registers
+*	D0 and A0 which the compiler cannot guarantee. So what we do
+*	is this: we make a little room on the stack for the result string
+*	and pass a pointer to this "room" in register A1. When the
+*	dispatcher has returned the result string is loaded into register
+*	A0 and control passes back to ARexx.
+*
+*-----------------------------------------------------------------------------
+
+RexxDispatchGlue:
+
+	clr.l	-(sp)		; Make room for the result string and
+				; set it to zero
+	move.l	sp,a1		; Load the address of the pointer into
+				; register A1
+	bsr	RexxDispatch	; Invoke the real dispatcher
+
+	move.l	(sp)+,a0	; Load the result string into register A0
+	rts			; And return to ARexx
+
+*-----------------------------------------------------------------------------
+
+	end

@@ -1,0 +1,567 @@
+picture.datatype 43.21 (24.02.97)
+
+- No longer blows up in environments that offer too few stack
+  space.
+
+- Uses BestCModeIDTagList() to find the best matching image
+  resolution.
+
+
+picture.datatype 43.22 (01.03.97)
+
+- Cleaned up the library initialization code to avoid
+  race conditions.
+
+- The IFF-ILBM picture storage code could run forever for very
+  narrow pictures, i.e. those smaller than 16 pixels per line.
+
+- Rewrote and simplified the IFF-ILBM picture storage code,
+  which due to its legacy was overly convoluted. It was not
+  reentrant either (it now is).
+
+
+picture.datatype 43.23 (11.04.97)
+
+- Multiview would not display some pictures properly on a
+  custom screen. While I fixed this problem it has created
+  a new one with Multiview and the P96 software. We'll
+  see about that.
+
+- Simplified and cleaned up the picture layout (remapping,
+  dithering, etc.) code.
+
+- Removed more confusing and irrelevant dead old code.
+
+- Cleaned up the class library core code again.
+
+
+picture.datatype 43.24 (19.04.97)
+
+- Pictures that do not need to be remapped in order to
+  display properly on a screen no longer remain blank.
+  This fixes a bug introduced in 43.22.
+
+
+picture.datatype 43.25 (08.06.97)
+
+- Rewrote the library initialization code (again).
+
+
+picture.datatype 43.26 (29.06.97)
+
+- The DTM_WRITEPIXELARRAY and DTM_READPIXELARRAY methods
+  did not support the RGBA and ARGB pixel formats
+  properly. Fixed.
+
+
+picture.datatype 43.31 (22.2.98)
+
+- Major source cleanup and numerous bug fixes. Too
+  many to mention here...
+
+
+picture.datatype 43.32 (24.2.98)
+
+- Removed more unused variables from the class data area.
+
+- True colour pictures now receive their default colour
+  map during the bitmap data allocation process rather
+  than during remapping
+
+- Better consistency checking in the V43 read/write
+  pixel array methods.
+
+
+picture.datatype 43.33 (5.3.98)
+
+- The DTM_FRAMEBOX method did not return a non-zero result
+  upon success.
+
+- The V43 picture data setup now properly fills in its
+  frame info data.
+
+- In the routine that creates bitmap data from chunky image
+  data, a test for CyberGraphX-compatible bitmaps was wired
+  the wrong way; this could produce empty bitmaps.
+
+
+picture.datatype 43.34 (28.5.98)
+
+- The V43 chunky picture data is now stored in a memory
+  buffer which is cleared upon allocation. This means, if
+  image data is omitted from the buffer, no random memory
+  contents will show in the "gaps" [Gunther Nikl].
+
+
+picture.datatype 43.35 (30.8.98)
+
+- Corrected a problem in the mask plane generation code
+  which appears to show up only with RTG systems. I
+  don't know whether this is a general problem since the
+  code was correct when I wrote it and still is with
+  the small change I made. Nevertheless the problem
+  should be gone now [Allan Odgaard].
+
+
+picture.datatype 43.36 (3.10.98)
+
+- As it turns out, the V43 pixel read method did not return
+  any data unless the picture storage format (number of
+  bytes per pixels) would match the pixel format requested
+  in the read message. I enhanced the read code to perform
+  "colour expansion" on the source data, i.e. you will
+  always be able to read truecolour picture from an image.
+  However, you may not read chunky pixel data with 256
+  colours from a truecolour picture. I also fixed a bug
+  in the chunky pixel read code which would have caused the
+  picture data read to consist of a single colour only.
+  Note that the V43 read method requires that the original
+  picture data is stored in chunky format [Allan Odgaard].
+
+
+picture.datatype 43.37 (18.11.98)
+
+- For completeness, the V43 read/write methods now permit
+  reading and writing of chunky data. Pictures in hold and
+  modify format now read as true colour data through the
+  V43 interface. To read properly, however, the data read
+  must start at the leftmost point of the picture.
+
+
+picture.datatype 43.38 (27.11.98)
+
+- In the V43 method interface, the HAM8 conversion code was
+  using the wrong HAM modifier values.
+
+
+picture.datatype 43.39 (12.12.98)
+
+- Even more wrong HAM modifier values corrected.
+
+
+picture.datatype 43.40 (19.12.98)
+
+- If a picture is no longer in its original format (e.g.
+  true colour), the datatype will no longer refuse to
+  store its on-screen image in a file or the clipboard
+  [Francis Labrie].
+
+- When converting chunky pixel data into a bitmap
+  the datatype no longer enforces conversion into
+  a CyberGraphX native bitmap if a plain and
+  regular bitmap (with 1..7 bit planes) would be
+  perfectly sufficient [Stephan Rupprecht]. This
+  fixes IBrowse, whose navigation buttons can
+  otherwise get trashed.
+
+
+picture.datatype 43.41 (20.12.98)
+
+- More cleanup work in the code that saves pictures
+  to files or to the clipboard. Among other things,
+  its memory requirements aren't quite that high
+  any more.
+
+
+picture.datatype 43.42 (10.1.99)
+
+- Even more cleanup work.
+
+
+picture.datatype 43.43 (22.1.99)
+
+- Restricted CyberGraphX bitmap creation calls to
+  15 bit and greater.
+
+
+picture.datatype 43.44 (24.1.99)
+
+- Cleaned out some more dead and unused code and data
+  structures.
+
+- Unified all planar to chunky and chunky to planar
+  conversion code.
+
+- The datatype now defaults to destination mode V43,
+  which it implicitely always assumed to be set.
+
+- The layout code now adapts HAM and extra
+  halfbrite picture data for display on a palette
+  mapped screen if this is necessary.
+
+- The V43 read pixel interface now properly returns
+  extra halfbrite and HAM data, regardless of where
+  the reads start horizontally.
+
+- When laying out a picture for display on a truecolour
+  or hicolour screen, the layout process now turns
+  the picture into truecolour format.
+
+
+picture.datatype 43.45 (25.1.99)
+
+- When laying out the picture for display on a hicolour
+  screen, the data will be dithered. There is no longer
+  a user configurable option to influence this.
+
+- Removed support for the PromoteHAM environment
+  variable.
+
+- Cleaned up the layout and storage routines which now
+  both propagate error codes properly.
+
+
+picture.datatype 43.46 (26.1.99)
+
+- Corrected the use of the PDTA_Allocated attribute
+  in the OM_GET method. It used to return a pointer to memory
+  space, which is clearly not what it should do (according
+  to the documentation). Now it returns the same as the
+  PDTA_NumAlloc attribute.
+
+- The code now watches and handles pen allocation failures
+  gracefully instead of ignoring them altogether. There also
+  is better error handling code in the dithering routines now.
+
+- Rewrote the task stack swapping code.
+
+
+picture.datatype 43.47 (26.1.99)
+
+- Changed the way picture.datatype treats data passed to it
+  via the subclass. This makes is possible to restart the
+  layout process, provided picture.datatype has not yet
+  discarded the source picture data. Note that from now on
+  the V43 source mode implicitely sets the PDTA_FreeSourceBitMap
+  attribute to TRUE.
+
+- The DTM_REMOVEDTOBJECT and DTM_RELEASEDRAWINFO methods now
+  cause the object layout process to be restarted the next
+  time it is invoked. Note that the result of the previous
+  layout process will stay valid until you restart the
+  process.
+
+- The DTM_OBTAINDRAWINFO now returns NULL if the picture
+  object has not yet passed the layout process.
+
+- The dithering technique picture.datatype uses for
+  palette mapped pictures should now run faster and yield
+  better picture quality.
+
+
+picture.datatype 43.48 (30.1.99)
+
+- Further cleanup work and data structure changes.
+
+- Further changes to make it possible to reverse the
+  results of the layout process.
+
+
+picture.datatype 43.49 (30.1.99)
+
+- Implemented Roland Mainz' DTM_OBTAINDRAWINFO method.
+  Previously, you had layout the picture object before
+  you could successfully invoke this method.
+
+- Reorganized the entire source code, putting the pieces
+  back together I came up with when I took the initial
+  source code structure apart.
+
+
+picture.datatype 43.50 (31.1.99)
+
+- V43 source mode no longer implies setting
+  PDTA_FreeSourceBitMap to TRUE.
+
+- The DTM_ASYNCLAYOUT method now responds to the ^C
+  signal. In other words, it can be stopped while it
+  is in progress.
+
+- Fixed a bug in the OM_SET method which could cause
+  chunky image data not to reach the layout stage.
+  Its colour tables would not always get allocated.
+
+- The DTM_OBTAINDRAWINFO method now always restarts
+  the layout process if the screen to layout to
+  differs from the last one used.
+
+- Some palette mapped pictures did not get a transparent
+  mask created. Fixed.
+
+- Without CyberGraphX around to translate true colour
+  data into well-formed bitmaps, the layout code would
+  fail to create palette mapped image data and often
+  even missed the chance to use as many colours as the
+  display would permit. It now performs much smarter
+  in this respect.
+
+
+picture.datatype 43.51 (7.2.99)
+
+- Further cleanup work and code polishing.
+
+- The layout process could try to return the source
+  bitmap "as is" if there was no further need to remap
+  the picture. In some cases this would return NULL
+  bitmap pointers due to the fact that chunky V43
+  mode picture data had been supplied but no source
+  bitmap. Fixed.
+
+
+picture.datatype 43.52 (18.2.99)
+
+- The set method did not properly set up the display
+  properties for every mode ID passed in.
+
+- Simplified the code that selects the display mode
+  properties we don't want when looking for a new
+  mode.
+
+- Removed a special case from the display mode
+  setup code which was actually taken care of
+  already by the main branch of the code.
+
+- Finally found out that DI_AVAIL_NOTWITHGENLOCK actually
+  means "this mode is not available because there is a
+  genlock connected" rather than "this mode will not
+  be available if somebody connects a genlock". This
+  caused changes in the mode selection logic.
+
+
+picture.datatype 43.53 (21.2.99)
+
+- The mode selection code now handles a special case:
+  if a HAM8 mode picture is to be assigned a new display mode,
+  the code now checks if there is a HAM8 display mode
+  available and not just merely a HAM6 mode.
+
+- The layout process is now invoked every time the
+  layout method is entered. No old data is being
+  cached.
+
+
+picture.datatype 43.54 (15.3.99)
+
+- The picture storage code now uses the "colour map is really
+  eight bits wide" flag.
+
+
+picture.datatype 44.1 (27.3.99)
+
+- Fixed a bug in the ByteRun1 compressor that went unnoticed
+  for the previous 14 years.
+
+
+picture.datatype 44.2 (11.4.99)
+
+- The DTM_PRINT method now allows for bitmaps to be printed
+  that don't have a colour map attached. This is supported
+  only for non-palette mapped pictures (true colour and its
+  like) with printer.device V44. I have also added better
+  error reporting. The method now fills in the DTA_ErrorLevel
+  and DTA_ErrorNumber attributes as passed to the routine
+  with the dtPrint message.
+
+
+picture.datatype 44.3 (20.4.99)
+
+- Introduced the PDTA_WhichPicture and PDTA_GetNumPictures tags.
+
+
+picture.datatype 44.4 (22.4.99)
+
+- Replaced the few environment variable options with real
+  control tags.
+
+
+picture.datatype 44.5 (1.6.99)
+
+- The V43 pixel read method no longer performs an implicit
+  colour space conversion when returning HAM/EHB data for
+  8 bytes per output pixel.
+
+
+picture.datatype 44.6 (6.6.99)
+
+- The OM_SET method now always sets the error level/error number
+  values upon completion of the routine. This happens regardless
+  of whether the routine completed successfully or failed. The
+  same is done for the DTM_PRINT method.
+
+
+picture.datatype 44.7 (4.7.99)
+
+- Clamping code was missing in all the Floyd-Steinberg dithering
+  routines, causing some pictures to look "overexposed". Fixed.
+
+
+picture.datatype 44.8 (19.7.99)
+
+- Changed the default number of pens to use for dithering to
+  a maximum of 125. Default pen allocation precision is now
+  at PRECISION_IMAGE.
+
+
+picture.datatype 44.9 (8.8.99)
+
+- Now supports printing chunky data via the new PRD_DUMPRPORTTAGS
+  printer.device command.
+
+
+picture.datatype 44.10 (9.8.99)
+
+- When switching the datatype into V43 mode with eight bits per
+  pixel to be used for the picture, the datatype now starts by
+  allocating 256 colours for it. The client can of course override
+  this setup.
+
+- Chunky greyscale data now affects the default picture colour
+  palette. When the first line of greyscale data is written to
+  the picture buffer, the datatype will reset the colour palette
+  to 256 shades of grey.
+
+
+picture.datatype 44.11 (17.8.99)
+
+- PDTM_READPIXELARRAY method was completely and utterly broken.
+  Fixed.
+
+
+picture.datatype 44.12 (21.8.99)
+
+- One of the reasons why the PDTM_READPIXELARRAY method did not
+  work was that the wrong variable was used to store pixel data
+  at a specific memory location. As it turned out, the same
+  wrong variable error was also present for the planar conversion
+  code. Fixed.
+
+- Simplified the PDTM_READPIXELARRAY planar case a bit.
+
+
+picture.datatype 44.13 (31.8.99)
+
+- Palette size changes now preserve colours.
+
+
+picture.datatype 44.14 (7.9.99)
+
+- Simplified the dithering setup code a bit after discovering that
+  "massaging" the first line of data to be used for dithering had
+  no impact whatsoever.
+
+- Took out the special "simpler" dithering case used for improving
+  the appearance of 24 image data on a 15/16 bit display since it
+  did not improve performance as expected.
+
+
+picture.datatype 44.15 (11.9.99)
+
+- Added a new tag PDTA_AllocatedPens to obtain a pointer to the
+  colour remapping table.
+
+
+picture.datatype 44.16 (12.9.99)
+
+- Rewrote the ordered dithering code from scratch.
+
+
+picture.datatype 44.17 (23.9.99)
+
+- When printing image data, the picture will be printed using the
+  original mode ID and colour palette active before the layout
+  process was executed. This fixes HAM picture printing and
+  printing of palette mapped images that appeared on a true
+  colour screen.
+
+
+picture.datatype 44.18 (1.10.99)
+
+- The same problem that caused the picture palette to be trashed
+  while printing also affected copying/saving image data. Fixed.
+
+
+picture.datatype 44.19 (1.10.99)
+
+- When reading grey scale data from a palette mapped picture with
+  the PDTM_READPIXELARRAY method, picture.datatype now performs
+  a colour conversion to yield real grey scale data instead of
+  returning the original data "as is" [Allan Odgaard].
+
+picture.datatype 45.4 (18.10.00)
+
+- Made a fat-binary for PPC-support.
+
+picture.datatype 45.6 (24.10.00)
+
+- Added new method PDTM_SCALE to scale the pixel data to a new
+  size. PDTM_SCALE can only be called between OM_NEW and the first
+  GM_LAYOUT.
+  The new attribute PDTA_ScaleQuality can be set to 0 for bad quality 
+  and high speed or any other value for good quality and low speed.
+
+- Introduced the environment variable PICTUREDTNOPPC for test purposes.
+  If it is set to 1, the PPC won't be used for any operation.
+
+picture.datatype 45.7 (02.11.00)
+
+- Again works, if cybergraphics.library is not available (lost in 45.4).
+
+- The powerpc.library will now be opened just before the first ppc-code
+  is called (i.e. no longer in LibOpen()). This became necessary, because 
+  some subclasses open the picture.datatype within their LibInit()-
+  function (i.e. in ramlib context). Opening the powerpc.library in ramlib
+  context seems to be a bad idea, besides the stack topic.
+
+--- changes done by stephanr ---
+
+picture.datatype 45.8 (20.04.01)
+
+- remapping didn't work correctly for pictures using less colors than
+  defined by their colormap.
+
+- saving the selected part of a picture object didn't work because
+  the wrong modulo was used when the imagedata didn't came from a
+  bitmap.
+
+- changed some SetSignal(0,0) to SetSignalPPC(0,0) because WarpUP allows
+  to check for SIGBREAKF_CTRL_C via the mirror function (this is internally
+  done by WarpUp by patching exec.library/Signal).
+
+picture.datatype 45.9 (01.05.01)
+
+- dithering an image down to 8bit works faster on the PPC, now (less
+  context-switches).
+
+- remapping of palettemapped imagedata (<= 8bit) will be done by the PPC,
+  if available.
+
+- reintroduced the environment variable classes/datatypes/picture/DitherHiColour.
+  If it is set to 0, it'll disable dithering of 24bit images on 15/16 bit screens.
+ 
+- the memory for the imagedata was cleared via memset(), that was a bit slow...
+
+- all memory that could be write-accessed by the ppc is now properly aligned
+  to 32byte boundary.
+
+picture.datatype 45.10 (28.06.01)
+
+- PDTA_DestMode defaults to PMODE_V42, now. This should fix problems with
+  applications that can't handle non-planar/foreign bitmaps (eg FW97).
+  Introduced the env variable "classes/datatypes/picture/ForceV43" for
+  test purposes. If it is set to 0, PDTA_DestMode will default to PMODE_V43
+  again.
+
+picture.datatype 45.11 (??.07.01)
+
+- posted to the OS3.9ß betalist by accident.
+
+picture.datatype 45.12 (11.07.01)
+
+- recompiled the whole datatype this seems to fix Sinans problem of
+  getting corrupted images.
+  
+- just for testing purpose the datatype has an internal list of all programs
+  that support PMODE_V43 even though they don't request this mode
+  (MultiView, IPrefs, AmigaGuide, WBStartup++).
+
+--- end of stephanr's log ---

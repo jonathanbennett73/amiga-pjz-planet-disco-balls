@@ -1,0 +1,36 @@
+Serial 44.3 (16.7.99)
+
+· size gadget added
+
+Serial 44.4 (19.7.99)
+
+· Some internal changes
+
+Serial 44.5 (31.7.99)
+
+· Added stack extension
+
+Serial 44.7 (18.8.99)
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+· window is resizable in both directions
+
+· "Deault Unit" was not stored in preferences file
+
+· after loading an prefs file with "illegal" BaudRate or Buffersize the
+  slider were set to minimal value but the integers left to them showed
+  the values from file. Now the values are made "legal".
+
+
+Serial 44.8 (8.9.99)
+
+· String "None" for Parity used wrong locale ID.
+
+Serial 44.9 (17.9.99)
+
+· new project icon name def_serial_prefs.

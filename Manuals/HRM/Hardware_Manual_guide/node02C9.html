@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-9" TITLE="K Zorro Expansion Bus / Physical and Logical Signal Names" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K Zorro Expansion Bus / Physical and Logical Signal Names</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02C8.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02CA.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The Amiga 3000 Bus signals vary based on the particular bus mode in
+effect. This table lists each physical pin by physical name, and then by
+the logical names for Zorro II mode, Zorro III mode, address phase, and
+Zorro III data mode, data phase.
+
+
+   PIN     Physical        Zorro II        Zorro III       Zorro III
+   NO.     Name            Name            Address Phase   Data Phase
+   ---     --------        --------        -------------   ----------
+   1       Ground          <a href="../Hardware_Manual_guide/node029D.html#line4">Ground</a>          <a href="../Hardware_Manual_guide/node02AF.html#line6">Ground</a>          Ground
+   2       Ground          Ground          Ground          Ground
+   3       Ground          Ground          Ground          Ground
+   4       Ground          Ground          Ground          Ground
+   5       +5VDC           <a href="../Hardware_Manual_guide/node029D.html#line8">+5VDC</a>           <a href="../Hardware_Manual_guide/node02AF.html#line10">+5VDC</a>           <a href="../Hardware_Manual_guide/node02AF.html#line10">+5VDC</a> 
+   6       +5VDC           +5VDC           +5VDC           +5VDC
+   7       /OWN            <a href="../Hardware_Manual_guide/node02A1.html#line5">/OWN</a>            <a href="../Hardware_Manual_guide/node02B3.html#line4">/OWN</a>            <a href="../Hardware_Manual_guide/node02B3.html#line4">/OWN</a> 
+   8       -5VDC           <a href="../Hardware_Manual_guide/node029D.html#line14">-5VDC</a>           <a href="../Hardware_Manual_guide/node02AF.html#line15">-5VDC</a>           <a href="../Hardware_Manual_guide/node02AF.html#line15">-5VDC</a> 
+   9       /SLAVEn         <a href="../Hardware_Manual_guide/node02A0.html#line3">/SLAVEn</a>         <a href="../Hardware_Manual_guide/node02B2.html#line3">/SLAVEn</a>         <a href="../Hardware_Manual_guide/node02B2.html#line3">/SLAVEn</a> 
+   10      +12VDC          <a href="../Hardware_Manual_guide/node029D.html#line20">+12VDC</a>          <a href="../Hardware_Manual_guide/node02AF.html#line19">+12VDC</a>          <a href="../Hardware_Manual_guide/node02AF.html#line19">+12VDC</a> 
+   11      /CFGOUTn        <a href="../Hardware_Manual_guide/node02A0.html#line20">/CFGOUTn</a>        <a href="../Hardware_Manual_guide/node02B2.html#line17">/CFGOUTn</a>        <a href="../Hardware_Manual_guide/node02B2.html#line17">/CFGOUTn</a> 
+   12      /CFGINn         <a href="../Hardware_Manual_guide/node02A0.html#line20">/CFGINn</a>         <a href="../Hardware_Manual_guide/node02B2.html#line17">/CFGINn</a>         <a href="../Hardware_Manual_guide/node02B2.html#line17">/CFGINn</a> 
+   13      Ground          Ground          Ground          Ground
+   14      /C3             <a href="../Hardware_Manual_guide/node029E.html#line12">/C3 Clock</a>       <a href="../Hardware_Manual_guide/node02B0.html#line10">/C3 Clock</a>       <a href="../Hardware_Manual_guide/node02B0.html#line10">/C3 Clock</a> 
+   15      CDAC            <a href="../Hardware_Manual_guide/node029E.html#line16">CDAC Clock</a>      <a href="../Hardware_Manual_guide/node02B0.html#line14">CDAC Clock</a>      <a href="../Hardware_Manual_guide/node02B0.html#line14">CDAC Clock</a> 
+   16      /C1             <a href="../Hardware_Manual_guide/node029E.html#line8">/C1 Clock</a>       <a href="../Hardware_Manual_guide/node02B0.html#line6">/C1 Clock</a>       <a href="../Hardware_Manual_guide/node02B0.html#line6">/C1 Clock</a> 
+<a name="line27">   17      /CINH           <a href="../Hardware_Manual_guide/node02A2.html#line79">/OVR</a>            <a href="../Hardware_Manual_guide/node02B5.html#line36">/CINH</a>           <a href="../Hardware_Manual_guide/node02B5.html#line36">/CINH</a> </a>
+<a name="line28">   18      /MTCR           <a href="../Hardware_Manual_guide/node02A2.html#line90">XRDY</a>            <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>           <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a> </a>
+   19      /INT2           <a href="../Hardware_Manual_guide/node029F.html#line51">/INT2</a>           <a href="../Hardware_Manual_guide/node02B1.html#line61">/INT2</a>           <a href="../Hardware_Manual_guide/node02B1.html#line61">/INT2</a> 
+   20      -12VDC          <a href="../Hardware_Manual_guide/node029D.html#line29">-12VDC</a>          <a href="../Hardware_Manual_guide/node02AF.html#line25">-12VDC</a>          <a href="../Hardware_Manual_guide/node02AF.html#line25">-12VDC</a> 
+   21      A5              <a href="../Hardware_Manual_guide/node02A2.html#line13">A5</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A5</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A5</a> 
+   22      /INT6           <a href="../Hardware_Manual_guide/node029F.html#line51">/INT6</a>           <a href="../Hardware_Manual_guide/node02B1.html#line61">/INT6</a>           <a href="../Hardware_Manual_guide/node02B1.html#line61">/INT6</a> 
+   23      A6              <a href="../Hardware_Manual_guide/node02A2.html#line13">A6</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A6</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A6</a> 
+   24      A4              <a href="../Hardware_Manual_guide/node02A2.html#line13">A4</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A4</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A4</a> 
+   25      Ground          Ground          Ground          Ground
+   26      A3              <a href="../Hardware_Manual_guide/node02A2.html#line13">A3</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A3</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A3</a> 
+   27      A2              <a href="../Hardware_Manual_guide/node02A2.html#line13">A2</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A2</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A2</a> 
+   28      A7              <a href="../Hardware_Manual_guide/node02A2.html#line13">A7</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A7</a>              <a href="../Hardware_Manual_guide/node02B4.html#line21">A7</a> 
+   29      /LOCK           <a href="../Hardware_Manual_guide/node02A2.html#line13">A1</a>              <a href="../Hardware_Manual_guide/node02A8.html">/LOCK</a>           <a href="../Hardware_Manual_guide/node02A8.html">/LOCK</a> 
+   30      AD8             <a href="../Hardware_Manual_guide/node02A2.html#line13">A8</a>              <a href="../Hardware_Manual_guide/node02B4.html#line13">A8</a>              <a href="../Hardware_Manual_guide/node02B5.html#line10">D0</a> 
+   31      FC0             <a href="../Hardware_Manual_guide/node02A2.html#line67">FC0</a>             <a href="../Hardware_Manual_guide/node02B4.html#line28">FC0</a>             <a href="../Hardware_Manual_guide/node02B4.html#line28">FC0</a> 
+   32      AD9             <a href="../Hardware_Manual_guide/node02A2.html#line13">A9</a>              <a href="../Hardware_Manual_guide/node02B4.html#line13">A9</a>              <a href="../Hardware_Manual_guide/node02B5.html#line10">D1</a> 
+   33      FC1             <a href="../Hardware_Manual_guide/node02A2.html#line67">FC1</a>             <a href="../Hardware_Manual_guide/node02B4.html#line28">FC1</a>             <a href="../Hardware_Manual_guide/node02B4.html#line28">FC1</a> 
+   34      AD10            <a href="../Hardware_Manual_guide/node02A2.html#line13">A10</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A10</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D2</a> 
+   35      FC2             <a href="../Hardware_Manual_guide/node02A2.html#line67">FC2</a>             <a href="../Hardware_Manual_guide/node02B4.html#line28">FC2</a>             <a href="../Hardware_Manual_guide/node02B4.html#line28">FC2</a> 
+   36      AD11            <a href="../Hardware_Manual_guide/node02A2.html#line13">A11</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A11</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D3</a> 
+   37      Ground          Ground          Ground          Ground
+   38      AD12            <a href="../Hardware_Manual_guide/node02A2.html#line13">A12</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A12</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D4</a> 
+   39      AD13            <a href="../Hardware_Manual_guide/node02A2.html#line13">A13</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A13</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D5</a> 
+   40      Reserved        <a href="../Hardware_Manual_guide/node029F.html#line51">(/EINT7)</a>        Reserved        Reserved
+   41      AD14            <a href="../Hardware_Manual_guide/node02A2.html#line13">A14</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A14</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D6</a> 
+   42      Reserved        <a href="../Hardware_Manual_guide/node029F.html#line51">(/EINT5)</a>        Reserved        Reserved
+   43      AD15            <a href="../Hardware_Manual_guide/node02A2.html#line13">A15</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A15</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D7</a> 
+   44      Reserved        <a href="../Hardware_Manual_guide/node029F.html#line51">(/EINT4)</a>        Reserved        Reserved
+   45      AD16            <a href="../Hardware_Manual_guide/node02A2.html#line13">A16</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A16</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D8</a> 
+   46      /BERR           <a href="../Hardware_Manual_guide/node029F.html#line4">/BERR</a>           <a href="../Hardware_Manual_guide/node02B1.html#line4">/BERR</a>           <a href="../Hardware_Manual_guide/node02B1.html#line4">/BERR</a> 
+   47      AD17            <a href="../Hardware_Manual_guide/node02A2.html#line13">A17</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A17</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D9</a> 
+   48      /MTACK          <a href="../Hardware_Manual_guide/node0292.html">(/VPA)</a>          <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTACK</a>          <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTACK</a> 
+   49      Ground          Ground          Ground          Ground
+   50      E Clock         <a href="../Hardware_Manual_guide/node029E.html#line20">E Clock</a>         <a href="../Hardware_Manual_guide/node02B0.html#line18">E Clock</a>         <a href="../Hardware_Manual_guide/node02B0.html#line18">E Clock</a> 
+   51      /DS0            <a href="../Hardware_Manual_guide/node0292.html">(/VMA)</a>          <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS0</a>            <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS0</a> 
+   52      AD18            <a href="../Hardware_Manual_guide/node02A2.html#line13">A18</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A18</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D10</a> 
+   53      /RESET          <a href="../Hardware_Manual_guide/node029F.html#line27">/RST</a>            <a href="../Hardware_Manual_guide/node02B1.html#line40">/RESET</a>          <a href="../Hardware_Manual_guide/node02B1.html#line40">/RESET</a> 
+   54      AD19            <a href="../Hardware_Manual_guide/node02A2.html#line13">A19</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A19</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D11</a> 
+   55      /HLT            <a href="../Hardware_Manual_guide/node029F.html#line39">/HLT</a>            <a href="../Hardware_Manual_guide/node02B1.html#line52">/HLT</a>            <a href="../Hardware_Manual_guide/node02B1.html#line52">/HLT</a> 
+   56      AD20            <a href="../Hardware_Manual_guide/node02A2.html#line13">A20</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A20</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D12</a> 
+   57      AD22            <a href="../Hardware_Manual_guide/node02A2.html#line13">A22</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A22</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D14</a> 
+   58      AD21            <a href="../Hardware_Manual_guide/node02A2.html#line13">A21</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A21</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D13</a> 
+   59      AD23            <a href="../Hardware_Manual_guide/node02A2.html#line13">A23</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A23</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D15</a> 
+   60      /BRn            <a href="../Hardware_Manual_guide/node02A1.html#line14">/BRn</a>            <a href="../Hardware_Manual_guide/node02B3.html#line12">/BRn</a>            <a href="../Hardware_Manual_guide/node02B3.html#line12">/BRn</a> 
+   61      Ground          Ground          Ground          Ground
+   62      /BGACK          <a href="../Hardware_Manual_guide/node02A1.html#line56">/BGACK</a>          <a href="../Hardware_Manual_guide/node02B3.html#line22">/BGACK</a>          <a href="../Hardware_Manual_guide/node02B3.html#line22">/BGACK</a> 
+   63      AD31            <a href="../Hardware_Manual_guide/node02A2.html#line31">D15</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A31</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D31</a> 
+   64      /BGn            <a href="../Hardware_Manual_guide/node02A1.html#line14">/BGn</a>            <a href="../Hardware_Manual_guide/node02B3.html#line12">/BGn</a>            <a href="../Hardware_Manual_guide/node02B3.html#line12">/BGn</a> 
+   65      AD30            <a href="../Hardware_Manual_guide/node02A2.html#line31">D14</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A30</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D30</a> 
+   66      /DTACK          <a href="../Hardware_Manual_guide/node02A2.html#line49">/DTACK</a>          <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>          <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a> 
+   67      AD29            <a href="../Hardware_Manual_guide/node02A2.html#line31">D13</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A29</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D29</a> 
+   68      READ            <a href="../Hardware_Manual_guide/node02A2.html#line6">READ</a>            <a href="../Hardware_Manual_guide/node02B4.html#line6">READ</a>            <a href="../Hardware_Manual_guide/node02B4.html#line6">READ</a> 
+   69      AD28            <a href="../Hardware_Manual_guide/node02A2.html#line31">D12</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A28</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D28</a> 
+   70      /DS2            <a href="../Hardware_Manual_guide/node02A2.html#line37">/LDS</a>            <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS2</a>            <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS2</a> 
+   71      AD27            <a href="../Hardware_Manual_guide/node02A2.html#line31">D11</a>             <a href="../Hardware_Manual_guide/node02B4.html#line13">A27</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D27</a> 
+   72      /DS3            <a href="../Hardware_Manual_guide/node02A2.html#line37">/UDS</a>            <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS3</a>            <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS3</a> 
+   73      Ground          Ground          Ground          Ground
+   74      /CCS            <a href="../Hardware_Manual_guide/node02A2.html#line18">/AS</a>             <a href="../Hardware_Manual_guide/node02B4.html#line53">/CCS</a>            <a href="../Hardware_Manual_guide/node02B4.html#line53">/CCS</a> 
+   75      SD0             <a href="../Hardware_Manual_guide/node02A2.html#line31">D0</a>              Reserved        <a href="../Hardware_Manual_guide/node02B5.html#line10">D16</a> 
+   76      AD26            <a href="../Hardware_Manual_guide/node02A2.html#line31">D10</a>              <a href="../Hardware_Manual_guide/node02B4.html#line13">A26</a>            <a href="../Hardware_Manual_guide/node02B5.html#line10">D26</a> 
+   77      SD1             <a href="../Hardware_Manual_guide/node02A2.html#line31">D1</a>              Reserved        <a href="../Hardware_Manual_guide/node02B5.html#line10">D17</a> 
+   78      AD25            <a href="../Hardware_Manual_guide/node02A2.html#line31">D9</a>              <a href="../Hardware_Manual_guide/node02B4.html#line13">A25</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D25</a> 
+   79      SD2             <a href="../Hardware_Manual_guide/node02A2.html#line31">D2</a>              Reserved        <a href="../Hardware_Manual_guide/node02B5.html#line10">D18</a> 
+   80      AD24            <a href="../Hardware_Manual_guide/node02A2.html#line31">D8</a>              <a href="../Hardware_Manual_guide/node02B4.html#line13">A24</a>             <a href="../Hardware_Manual_guide/node02B5.html#line10">D24</a> 
+   81      SD3             <a href="../Hardware_Manual_guide/node02A2.html#line31">D3</a>              Reserved        <a href="../Hardware_Manual_guide/node02B5.html#line10">D19</a> 
+   82      SD7             <a href="../Hardware_Manual_guide/node02A2.html#line31">D7</a>              Reserved        <a href="../Hardware_Manual_guide/node02B5.html#line10">D23</a> 
+   83      SD4             <a href="../Hardware_Manual_guide/node02A2.html#line31">D4</a>              Reserved        <a href="../Hardware_Manual_guide/node02B5.html#line10">D20</a> 
+   84      SD6             <a href="../Hardware_Manual_guide/node02A2.html#line31">D6</a>              Reserved        <a href="../Hardware_Manual_guide/node02B5.html#line10">D22</a> 
+   85      Ground          Ground          Ground          Ground
+   86      SD5             <a href="../Hardware_Manual_guide/node02A2.html#line31">D5</a>              Reserved        <a href="../Hardware_Manual_guide/node02B5.html#line10">D21</a> 
+   87      Ground          Ground          Ground          Ground
+   88      Ground          Ground          Ground          Ground
+   89      Ground          Ground          Ground          Ground
+   90      Ground          Ground          Ground          Ground
+   91      SenseZ3         Ground          <a href="../Hardware_Manual_guide/node02B2.html#line33">SenseZ3</a>         <a href="../Hardware_Manual_guide/node02B2.html#line33">SenseZ3</a> 
+   92      7M              <a href="../Hardware_Manual_guide/node029E.html#line28">E7M</a>             <a href="../Hardware_Manual_guide/node02B0.html#line23">7M</a>              <a href="../Hardware_Manual_guide/node02B0.html#line23">7M</a> 
+   93      DOE             <a href="../Hardware_Manual_guide/node02A0.html#line35">DOE</a>             <a href="../Hardware_Manual_guide/node02B5.html#line5">DOE</a>             <a href="../Hardware_Manual_guide/node02B5.html#line5">DOE</a> 
+   94      /IORST          <a href="../Hardware_Manual_guide/node029F.html#line27">/BUSRST</a>         <a href="../Hardware_Manual_guide/node02B1.html#line40">/IORST</a>          <a href="../Hardware_Manual_guide/node02B1.html#line40">/IORST</a> 
+   95      /BCLR           <a href="../Hardware_Manual_guide/node02A1.html#line66">/GBG</a>            <a href="../Hardware_Manual_guide/node02B3.html#line27">/BCLR</a>           <a href="../Hardware_Manual_guide/node02B3.html#line27">/BCLR</a> 
+   96      Reserved        <a href="../Hardware_Manual_guide/node029F.html#line51">(/EINT1)</a>        Reserved        Reserved
+   97      /FCS            No Connect      <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>            <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a> 
+   98      /DS1            No Connect      <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS1</a>            <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS1</a> 
+   99      Ground          Ground          Ground          Ground
+   100     Ground          Ground          Ground          Ground
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,14 @@
+memacs 44.1 (15.7.99)
+
+- Bumped to V44.
+
+- Updated the copyright text.
+
+- Recompiled with SAS/C 6.59.
+
+- No longer mucks with the colours of the mouse pointer.
+
+
+memacs 44.2 (26.7.99)
+
+- The main window is now a backdrop window.

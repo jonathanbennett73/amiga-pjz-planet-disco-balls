@@ -1,0 +1,74 @@
+#
+# $Id$
+#
+# :ts=8
+#
+
+.c.o:
+	sc $(CFLAGS) $<
+
+.asm.o:
+	asm $(AFLAGS) $<
+
+###############################################################################
+
+PROJECT = cdxl.datatype
+
+###############################################################################
+
+#############################################################################
+#
+# Program version
+#
+#############################################################################
+
+VERSION = 44
+
+###############################################################################
+
+OPTIMIZE =	opttime optimize optinlinelocal
+CPU =		any
+DEBUG =		line
+#DEBUG =	symbolflush noopt
+
+###############################################################################
+
+CFLAGS =	idlen=64 comnest streq strmerge nostkchk data=faronly params=r \
+		strsect=code $(OPTIMIZE) cpu=$(CPU) debug=$(DEBUG) \
+		commentnest
+AFLAGS =	-D
+LFLAGS =	smallcode addsym noicons
+
+###############################################################################
+
+C_FILES =	classbase.c dispatch.c
+
+A_FILES =	classinit.asm
+
+HEADERS =	cdxl.h classbase.h classbase.i
+
+OTHER =		smakefile cdxl_rev.rev cdxl_rev.h cdxl_rev.i \
+		Assert.c Assert.h
+
+SOURCE =	$(C_FILES) $(A_FILES) $(HEADERS) $(OTHER)
+
+OBJS =		classinit.o classbase.o dispatch.o
+
+###############################################################################
+
+LIBS =		lib:scnb.lib lib:amiga.lib lib:debug.lib
+
+###############################################################################
+
+all: tagfiles $(PROJECT)
+
+tagfiles:
+	makedir $@
+
+$(PROJECT): $(OBJS) Assert.o
+	slink $(OBJS) to $@.debug lib $(LIBS) Assert.o $(LFLAGS) \
+		map $@.map,fhx fwidth 32 pwidth 32 swidth 32
+	slink $@.debug to $@ noicons nodebug
+	@type tagfiles/\#? >t:tags
+	@copy t:tags ""
+	@delete >nil: t:tags

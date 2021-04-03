@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-4-2" TITLE="3 / Bitplanes and Windows of All Sizes / Maximum Display Window Size" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Bitplanes and Windows of All Sizes / Maximum Display Window Size</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0084.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0086.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The maximum size of a playfield display is determined by the maximum
+number of lines and the maximum number of columns. Vertically, the
+restrictions are simple. No data can be displayed in the
+ <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  area. The following table shows the allowable vertical
+<a name="line6">display area.</a>
+
+
+                              NTSC                 PAL
+                              ----                 ---
+
+     Vertical Blank Start     0                    0
+      Vertical Blank Stop     $15 (21)             $1D (29)
+
+
+                              NTSC     NTSC        PAL      PAL
+                              Normal   Interlaced  Normal   Interlaced
+                              ------   ----------  ------   ----------
+        Displayable lines
+          of screen video     241      483         283      567
+                                       =525-(21*2)          =625-(29*2)
+
+
+<a name="line24">        Table 3-13: Maximum Allowable Vertical Screen Video</a>
+<a name="line25"></a>
+
+Horizontally, the situation is similar. Strictly speaking, the hardware
+sets a rightmost limit to  <a href="../Hardware_Manual_guide/node0072.html#line31">DDFSTOP</a>  of ($D8) and a leftmost limit to
+ <a href="../Hardware_Manual_guide/node0072.html#line9">DDFSTRT</a>  of ($18). This gives a maximum of 25 words fetched in low
+resolution mode. In high resolution mode the maximum here is 49 words,
+because the rightmost limit remains ($D8) and only one word is fetched at
+this limit. However, horizontal blanking actually limits the displayable
+video to 368 low resolution pixels (23 words). These numbers are the same
+both for NTSC and for PAL. In addition, it should be noted that using a
+<a name="line35">data-fetch start earlier than ($38) will disable some  <a href="../Hardware_Manual_guide/node00C2.html#line5">sprites</a> .</a>
+
+
+        Table 3-14: Maximum Allowable Horizontal Screen Video
+
+                                   Lores            Hires
+                                   -----            -----
+         <a href="../Hardware_Manual_guide/node0072.html#line9">DDFSTRT</a>  (standard)       $0038            $003C
+         <a href="../Hardware_Manual_guide/node0072.html#line31">DDFSTOP</a>  (standard)       $00D0            $00D4
+
+         <a href="../Hardware_Manual_guide/node0072.html#line9">DDFSTRT</a>  (hw limits)      $0018            $0018
+         <a href="../Hardware_Manual_guide/node0072.html#line31">DDFSTOP</a>  (hw limits)      $00D8            $00D8
+
+         max words fetched         25               49
+         max display pixels        368 (low res)
+
+
+The limits on the display window starting and stopping positions described
+in this section apply to the Amiga's original custom chip set. In the
+Enhanced Chip Set (ECS), the limits for playfield display windows have
+been changed.  For more information on  <a href="../Hardware_Manual_guide/node00A8.html">ECS and playfield display windows</a> 
+refer to Appendix C, Enhanced Chip Set.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

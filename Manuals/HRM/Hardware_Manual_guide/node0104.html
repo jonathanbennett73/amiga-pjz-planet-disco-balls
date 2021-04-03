@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_E" NODE="E-2-1-3" TITLE="E / / Parallel Interface Specification / Interface Timing, Input Cycle" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>E / / Parallel Interface Specification / Interface Timing, Input Cycle</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0103.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0105.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+
+           PA&#060;7:0&#062;___ _________________________________________ __
+           PB&#060;7:0&#062;___X_________________________________________X__
+                     |&#060;-- T1 ---&#062;|
+                                 |               T2 --&#062;|&#060;-----&#062;|
+                  _______________V         ____________|__________
+           <a href="../Hardware_Manual_guide/node0102.html#line17">ACK*</a>                  |________|            |
+             Input data ready    |&#060;- T3 -&#062;|            |
+                                 |&#060;-- T4 ---&#062;|
+                  ___________________________|&#060;- T5 --&#062;|__________
+           <a href="../Hardware_Manual_guide/node0102.html">DRDY*</a>                             |_________|
+             Input data acknowledge
+
+                   Microseconds
+                   Min Typ Max
+                   --- --- ---
+               T1:  0  -x- upc         Input data setup time.
+               T2: nsp -x- upc         Input data hold time.
+               T3: nsp -x- upc         Input data ready width.
+               T4: upc -x- upc         Input data ready to data
+                                         acknowledge delay.
+               T5: nsp 1.4 nsp         Input data acknowledge width.
+
+
+                   nsp = not specified
+                   upc = under program control
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-7-1" TITLE="2 / Starting and Stopping the Copper / Starting the Copper After Reset" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / Starting and Stopping the Copper / Starting the Copper After Reset</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0055.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0057.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+At power-on or reset time, you must initialize one of the Copper
+ <a href="../Hardware_Manual_guide/node0050.html">location registers (COP1LC or COP2LC)</a>  and write to its  <a href="../Hardware_Manual_guide/node0051.html">strobe address</a> 
+before Copper DMA is turned on. This ensures a known start address and
+known state. Usually,  <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a>  is used because this particular register is
+reused during each <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  time. The following sequence of
+instructions shows how to initialize a  <a href="../Hardware_Manual_guide/node0050.html">location register</a> . It is assumed
+that the user has already created the correct  <a href="../Hardware_Manual_guide/node0053.html">Copper instruction list</a>  at
+location &#034;mycoplist.&#034;
+
+;
+; Install the copper list
+;
+     LEA     CUSTOM,a1           ; a1 = address of custom chips
+     LEA     MYCOPLIST(pc),a0    ; Address of our copper list
+     MOVE.L  a0,<a href="../Hardware_Manual_guide/node0050.html">COP1LC</a>(a1)       ; Write whole longword address
+     MOVE.W  <a href="../Hardware_Manual_guide/node0051.html">COPJMP1</a>(a1),d0      ; Causes copper to load PC from  <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a> 
+;
+; Then enable copper and raster dma
+;
+     MOVE.W  #(DMAF_SETCLR!DMAF_COPPER!DMAF_RASTER!DMAF_MASTER),<a href="../Hardware_Manual_guide/node0170.html">DMACON</a>(a1)
+;
+
+Now, if the contents of  <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a>  are not changed, every time
+ <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  occurs the Copper will restart at the same location
+for each subsequent video screen. This forms a repeatable loop which, if
+the list is correctly formulated, will cause the displayed screen to be
+stable.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

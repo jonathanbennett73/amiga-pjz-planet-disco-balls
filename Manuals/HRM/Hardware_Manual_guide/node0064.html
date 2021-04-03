@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2" TITLE="3 Playfield Hardware / Forming a Basic Playfield" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 Playfield Hardware / Forming a Basic Playfield</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0063.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0065.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+To get you started, this section describes how to directly access hardware
+registers to form a single basic playfield that is the same size as the
+video screen. Here, &#034;same size&#034; means that the playfield is the same size
+as the actual display window. This will leave a small border between the
+playfield and the edge of the video screen. The playfield usually does not
+extend all the way to the edge of the physical display.
+
+To form a playfield, you need to define these characteristics:
+
+   *  Height and width of the playfield and size of the display window
+      (that is, how much of the playfield actually appears on the screen).
+   *  Color of each pixel in the playfield.
+   *  Horizontal resolution.
+   *  Vertical resolution, or interlacing.
+   *  Data fetch and modulo, which tell the system how much data to put on
+<a name="line17">      a horizontal line and how to fetch data from memory to the screen.</a>
+
+In addition, you need to allocate memory to store the playfield, set
+pointers to tell the system where to find the data in memory, and
+(optionally) write a Copper routine to handle redisplay of the playfield.
+
+ <a href="../Hardware_Manual_guide/node0065.html">Height and Width of the Playfield</a> 
+ <a href="../Hardware_Manual_guide/node0066.html">Bitplanes and Color</a> 
+ <a href="../Hardware_Manual_guide/node0069.html">Selecting Horizontal and Vertical Resolution</a> 
+ <a href="../Hardware_Manual_guide/node006A.html">Allocating Memory for Bitplanes</a> 
+ <a href="../Hardware_Manual_guide/node006C.html">Coding the Bitplanes for Correct Coloring</a> 
+ <a href="../Hardware_Manual_guide/node006F.html">Defining the Size of the Display Window</a> 
+ <a href="../Hardware_Manual_guide/node0072.html">Telling the System How to Fetch and Display Data</a> 
+ <a href="../Hardware_Manual_guide/node0075.html">Displaying and Redisplaying the Playfield</a> 
+ <a href="../Hardware_Manual_guide/node0076.html">Enabling the Color Display</a> 
+ <a href="../Hardware_Manual_guide/node0077.html">Basic Playfield Summary</a> 
+ <a href="../Hardware_Manual_guide/node02CC.html">Example of Forming a Basic LORES Playfield</a> 
+ <a href="../Hardware_Manual_guide/node02CD.html">Example of Forming a Basic HIRES Playfield</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

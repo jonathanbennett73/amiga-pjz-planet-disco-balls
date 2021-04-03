@@ -1,0 +1,94 @@
+AREXX HOSTS AND CLIENTS
+=======================
+The built-in ARexx command set can be extended through so-called function
+hosts. ARexx knows two built-in hosts, one being "REXX", the other
+"COMMAND". "REXX" is the host every program talks to when it is started.
+"COMMAND" interpretes the commands it receives as the names of AmigaDOS
+commands it should launch. Every command that is not part of the Rexx
+language will be sent to the host which has to decide whether it understands
+the command or not.
+
+
+ARexx host design
+-----------------
+Hosts are basically message ports which can be found in the public message
+port list. The port names must be unique and consist of upper case
+alphanumeric characters and the dot "." and bar "_" characters only and
+should be less than 20 characters long. ARexx itself does not enforce this
+naming scheme, but for the sake of the user you should follow it where
+possible. If the name contains lower case of space characters the user
+would have to enclose the host name in quotes. Long names can be a nuisance
+if one has to type them over and over again.
+
+Messages sent from Rexx are special in that a function IsRexxMsg() exists
+which can tell Rexx messages and messages of a different type apart. Thus,
+you could use one single message port for your program communications and
+respond to the messages you receive from it according to what IsRexxMsg()
+tells you what type they are.
+
+Each RexxMsg your program receives through the host port carries the
+command to execute and command arguments in RexxMsg->rm_Args[0] as a
+pointer to a null-terminated string. The command and arguments are
+separated by space or tab characters. Your program must decide whether it
+understands this command or not and act accordingly.
+
+    NOTES: When deciding whether a command is supported by your
+           host implementation, use a CASE-INSENSITIVE comparison
+           as you cannot make any assumptions on whether the command
+           will consist of lower case, upper case or mixed case
+           characters.
+
+           Keep in mind that the string you find in RexxMsg->rm_Args[0]
+           contains both the name of the command AND its arguments.
+           Your program must first extract the command name before it
+           can compare it with the supported host commands.
+
+           Except for the RexxMsg->rm_Result1 and RexxMsg->rm_Result2
+           entries the entire RexxMsg structure is READ-ONLY.
+
+
+Command line parsing
+--------------------
+One way to turn the arguments following the command into useable data is to
+take advantage of the dos.library/ReadArgs routine. This system call parses
+the arguments by matching them against a given template and stores the
+information it collects from the arguments in a data table your host
+commands can refer to. This works well, but there is a catch: commands which
+require quotes become more complex due to how ARexx and and ReadArgs()
+interact. The following table illustrates how Rexx transforms command lines
+before it passes them to the host:
+
+       Rexx script line reads   Host receives
+       ======================   ===============
+       open "old file"          OPEN old file
+       "open old file"          open old file
+       open '"old file"'        OPEN "old file"
+
+Thus, the outermost quotes will get removed before ARexx passes
+the command line to the host.
+
+
+Host errors and results
+-----------------------
+If the host must return an error or issue a warning it can do so by using
+the RexxMsg->rm_Result1 entry. The value you place here will affect the
+contents of the "RC" variable Rexx maintains. Typically, a value of 10 or
+higher will cause the Rexx program that called your host function to stop.
+
+The value of RexxMsg->rm_Result1 will tell the Rexx program that an error
+occured or a warning status was set, but it will not know which kind of
+error has occured. RexxMsg->rm_Result2 cannot be be used to convey the
+error type as Rexx will ignore this field if RexxMsg->rm_Result1 is nonzero.
+One way to solve this problem is to set a variable of the Rexx program to
+call host through the amiga.lib/SetRexxVar routine. The Rexx program can
+then examine the "RC" variable to check whether an error has occured and
+look at the contents of this variable to determine the type of error.
+A good choice for this variable would be "<Host name>.LASTERROR" with
+<Host name> being the name of the host that flagged the error.
+
+
+Successful execution of a command is indicated by placing a value of
+0 both in RexxMsg->rm_Result1 and RexxMsg->rm_Result2. If your command can
+return a result you should examine the RexxMsg->rm_Action field. If the
+bit RXFB_RESULT is set it indicates that the Rexx program to call your host
+wants to see a command result, if possible.

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-10" TITLE="K Zorro Expansion Bus / Zorro III Implementations" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K Zorro Expansion Bus / Zorro III Implementations</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02C9.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02CB.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Functionally, there are two possible implementation levels in existance
+for the Zorro III bus.  All of the features described in this chapter are
+required for a full compliance Zorro III bus.  However, the original Amiga
+3000 computers were shipped with a bus controller that supported only a
+subset of the Zorro III specification published here.  This is, however,
+<a name="line7">upgradable.</a>
+
+The A3000 implementation of the Zorro III bus is driven by a custom
+controller chip called Fat Buster.  The specification of this chip and the
+A3000 hardware are fully capable of supporting the complete Zorro III bus,
+but the initial silicon on Fat Buster, called the Level 1 Fat Buster,
+omits some features.  Missing are: support of  <a href="../Hardware_Manual_guide/node02AA.html">Multiple Transfer Cycles</a> ;
+support for Zorro III style bus arbitration; support for
+ <a href="../Hardware_Manual_guide/node02AC.html">Quick Interrupts</a> .
+
+The Level 2 version of Fat Buster has been in testing for some time at
+Commodore in West Chester, PA. Any developers who immediately intend to
+design PICs supporting these features are urged to contact Amiga, Inc.
+ <a href="../Hardware_Manual_guide/node000F.html">Technical Support</a> /Amiga Developer Support for more information on
+obtaining samples of this part for use in A3000 systems. These parts are
+likely to be introduced into production, and available as part of an A3000
+upgrade, very soon.  All Buster chip revisions &#034;13G&#034; and earlier support
+the Level 1 features.  Buster chip revisions &#034;13H&#034; and later support Level
+2 features and improved Level 1 features as well.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

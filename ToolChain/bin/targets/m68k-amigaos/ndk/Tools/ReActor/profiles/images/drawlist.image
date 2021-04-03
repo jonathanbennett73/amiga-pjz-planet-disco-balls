@@ -1,0 +1,9 @@
+drawlist.image
+LABEL "Drawlist"
+PARENTPROFILE "Image"
+LIBRARY "images/drawlist.image" 0 PRIVATE
+INCLUDE "imageclass.baseclass"
+INTEGER 0x85017002 (I····) DRAWLIST_RefHeight "Reference Height" 0 -32768 32767
+INTEGER 0x85017003 (I····) DRAWLIST_RefWidth "Reference Width" 0 -32768 32767
+ARRAY   0x85017001 (I····) DRAWLIST_Directives "Directives" "drawlist.array" 12 0
+END

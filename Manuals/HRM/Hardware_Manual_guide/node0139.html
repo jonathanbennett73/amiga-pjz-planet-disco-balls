@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_F" NODE="F-2-4" TITLE="F / Register Functional Description / Input Modes" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>F / Register Functional Description / Input Modes</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0138.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node013A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Control bits (CRA5, CRB5-6) allow selection of the clock used to decrement
+the timer.  <a href="../Hardware_Manual_guide/node0133.html">Timer A</a>  can count 02 clock pulses or external pulses applied
+to the CNT pin.   <a href="../Hardware_Manual_guide/node0133.html">Timer B</a>  can count 02 pulses, external CNT pulses,
+ <a href="../Hardware_Manual_guide/node0133.html">timer A</a>  underflow pulses, or  <a href="../Hardware_Manual_guide/node0133.html">timer A</a>  underflow pulses while the CNT
+pin is held high.
+
+The timer latch is loaded into the timer on any timer underflow, on a
+force load, or following a write to the high byte of the pre- scalar while
+the timer is stopped.  If the timer is running, a write to the high byte
+will load the timer latch but not the counter.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

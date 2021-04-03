@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-4-4" TITLE="7 / Interrupts / Interrupt Control Registers" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 / Interrupts / Interrupt Control Registers</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0163.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0165.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+There are two interrupt registers, interrupt enable (mask) and interrupt
+request (status). Each register has both a read and a write address.  The
+<a name="line4">names of the interrupt addresses are:</a>
+
+    <a href="../Hardware_Manual_guide/node0036.html">INTENA</a> 
+      Interrupt0 enable (mask) - write only. Sets or clears specific
+<a name="line8">      bits of INTENA.</a>
+
+    <a href="../Hardware_Manual_guide/node0036.html">INTENAR</a> 
+<a name="line11">      Interrupt enable (mask) read - read only. Reads contents of INTENA.</a>
+
+    <a href="../Hardware_Manual_guide/node0037.html">INTREQ</a> 
+      Interrupt request (status) - write only. Used by the processor
+      to force a certain kind of interrupt to be processed (software
+      interrupt). Also used to clear interrupt request flags once the
+<a name="line17">      interrupt process is completed.</a>
+
+    <a href="../Hardware_Manual_guide/node0037.html">INTREQR</a> 
+      Interrupt request (status) read - read only. Contains the bits
+      that define which items are requesting interrupt service.
+
+      The bit positions in the interrupt request register correspond
+      directly to those same positions in the interrupt enable
+      register. The only difference between the read-only and the
+      write-only addresses shown above is that  <a href="../Hardware_Manual_guide/node0166.html">bit 15</a>  has no meaning
+      in the read-only addresses.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-5-4" TITLE="K / Timing / Quick Interrupt Cycle Timing" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Timing / Quick Interrupt Cycle Timing</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02B9.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02BB.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+
+   No.  Name                                   Symbol  Min     Max
+   ---  ----                                   ------  ---     ---
+   1    Address setup to  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>                 TAFS    15ns     --
+   2    Address hold from  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>                THAF    10ns     --
+   3    <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  to  <a href="../Hardware_Manual_guide/node02B2.html#line3">/SLAVEn</a>  delay               TSLV     --     25ns
+   5    <a href="../Hardware_Manual_guide/node02B5.html#line5">DOE</a>  to  <a href="../Hardware_Manual_guide/node02B5.html#line17">/DSn</a>  delay                   TDS     10ns     --
+   6    Data setup to  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>                  TRDS    0ns      --
+   7     <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>  to  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  off                 TOFF    10ns     --
+   8    Master signal hold from  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  off     THMC    0ns     5ns
+   9    Slave signal hold from  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  off      THSC    0ns     15ns
+   14   <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  off to  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  on               TREF    10ns     --
+   17   Slave signal hold from  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  off     THSM    0ns     5ns
+   18   Poll Phase time                        TPOL    30ns    100ns
+<a name="line16">   19   Vector Phase start to  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>  time    TVEC     --     100ns</a>
+
+         ______                                                ___________
+    /FCS       \ |   |                                        /
+                \____________________________________________/ |   |    |
+                                                               |   |    |
+              2-&#062;|   |&#060;-                                    8-&#062;|   |&#060;-  |
+             _________                                         |   |    |
+  A31-A8 ___/         \___________________________________________________
+            \_________/
+                                                               |   |    |
+          1-&#062;|   |&#060;-                                           |   |    |
+             _____________________________________________________ |    |
+   A7-A2 ___/                                                     \_______
+            \_____________________________________________________/
+                                                                   |    |
+             |   |&#060;------18--------&#062;| 14  |&#060;- |                |   |    |
+         ______  |                  ____-&#062;|   |&#060;-19            ___________
+    READ       \ |                 /    \ |   |               /
+                \_________________/ |    \___________________/ |
+                                    | |                        |
+              3-&#062;|    |&#060;-       17-&#062;| |&#060;- |   |                |&#060;---9--&#062;|
+         ___________  |               __  |   |                ___________
+ /SLAVEn            \ |              /  \ |                   /
+                     \______________/ |  \___________________/          |
+                 |                    |                        |   |    |
+                 |    |               |   |   |                |   |    |
+                 |                    ___________________________  |    |
+     DOE                             /                           \ |    |
+         ___________________________/ |   |                       \_______
+                                      |   |   |                |
+                 |                 5-&#062;|   |&#060;- |                |   |    |
+         _______________________________  |   |                |   _______
+    /DSn                                \ |                       /
+                                         \_______________________/      |
+                 |                                                 |    |
+                 |                        |   |   |            |   |    |
+                 |                            |   _____________________ |
+  D31-D0 ________________________________________/                     \__
+                                                 \_____________________/
+                 |                            |                         |
+                 |                         6-&#062;|   |&#060;-          |   |    |
+         ___________________________________  |   |            |   |    __
+  /DTACK                                    \ |&#060;------7-------&#062;|   |   /
+                 |                           \________________________/
+                 |                                                      |
+                 |                            |                |   |    |
+
+
+                Figure K-13: Quick Interrupt Cycle Timing
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

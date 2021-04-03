@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-4-1-5" TITLE="3 / / Picture is Larger than Window / Selecting the Stopping Position" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / Picture is Larger than Window / Selecting the Stopping Position</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0083.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0085.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The stopping position for the display window is the horizontal and
+vertical coordinates of the lower right-hand corner of the display window.
+One register,  <a href="../Hardware_Manual_guide/node0071.html">DIWSTOP</a> , contains both coordinates, known as HSTOP and
+VSTOP.
+
+<a name="line7">See the notes in the &#034;Forming a Basic Playfield&#034; section for instructions</a>
+on setting these registers.
+
+      0                         255                      511 ($1FF)
+       __________________________|___________________________
+      |                          |                           |
+      |                          |                           |
+      |                          |&#060;-------------------------&#062;|
+      |                          |        HSTOP of           |
+      |                          |   DISPLAY WINDOW occurs   |
+      |                          |      is this region       |
+      |                          |                           |
+      |                          |                           |
+      |                          |                           |
+      |                          |                           |
+      |                          |                           |
+      |                          |                           |
+      |                          |                           |
+      |__________________________|___________________________|
+
+      Figure 3-21: Display Window Horizontal Stopping Position
+
+
+Select a value that represents the correct position in low resolution,
+<a name="line31">non-interlaced mode.</a>
+
+       ______________________________________________________
+      |                                                      |  0
+      |                                                      |
+      |                                                      |
+      |------------------------------------------------------+- 128
+      |                             /|\                      |
+      |                              |                       |
+      |                              | VSTOP of              |
+      |                              | DISPLAY WINDOW        |
+      |                              | occurs in             |
+      |                              | this region           |
+ 262 -+------------------- (NTSC)    |                       |
+      |                              |                       |
+      |                              |                       |
+      |                             \|/                      |  383 ($17F)
+       ------------------------------------------------------
+
+       Figure 3-22: Display Window Vertical Stopping Position
+
+
+To set the display window stopping position, write HSTOP into bits 0
+through 7 and VSTOP into bits 8 through 15 of  <a href="../Hardware_Manual_guide/node0071.html">DIWSTOP</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

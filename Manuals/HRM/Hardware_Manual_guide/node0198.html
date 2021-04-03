@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-3-1" TITLE="8 / The Keyboard / How the Keyboard Data is Received" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / The Keyboard / How the Keyboard Data is Received</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0197.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0199.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The  <a href="../Hardware_Manual_guide/node0117.html">CNT line</a>  is used as a clock for the keyboard. On each transition of
+this line, one bit of data is clocked in from the keyboard. The keyboard
+sends this clock when each data bit is stable on the  <a href="../Hardware_Manual_guide/node0117.html">SP line</a> . The clock
+<a name="line5">is an active low pulse. The rising edge of this pulse clocks in the data.</a>
+
+After a data byte has been received from the keyboard, an  <a href="../Hardware_Manual_guide/node0142.html">interrupt</a>  from
+the 8520 is issued to the processor.  The keyboard waits for a handshake
+signal from the system before transmitting any more keystrokes. This
+handshake is issued by the processor pulsing the  <a href="../Hardware_Manual_guide/node0117.html">SP line</a>  low then high.
+While some keyboards can detect a 1 microsecond handshake pulse, the pulse
+must be at least 85 microseconds for operation with all models of Amiga
+keyboards.
+
+If another keystroke is received before the previous one has been accepted
+by the processor, the keyboard microprocessor holds keys in a 10 keycode
+type-ahead buffer.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

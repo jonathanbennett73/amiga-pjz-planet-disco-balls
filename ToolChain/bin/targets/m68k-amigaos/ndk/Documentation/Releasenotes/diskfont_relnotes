@@ -1,0 +1,93 @@
+diskfont 44.1 (1.5.99)
+
+- Bumped to V44.
+
+- Recompiled with SAS/C 6.58
+
+- Converted to use registerized parameters
+  throughout the library, inlined static
+  functions, no longer uses A4 to reference
+  data.
+
+- Replaced the code that queries the global
+  environment variable "diskfont". It now
+  uses dos.library routines to read the
+  variable rather than reading all the
+  data on its own.
+
+- The extended library function (offset -24) now
+  returns NULL.
+
+
+diskfont 44.2 (7.9.99)
+
+- Replaced the roll-your-own case-insensitive string
+  comparison code with Stricmp().
+
+- Improved handling of soft linked objects. Their type,
+  size and protection bits are now resolved, if possible.
+
+----- end log olsen ------------
+----- start log thor -----------
+
+diskfont 44.3 (21.10.00)
+
+- Recompiled the library code with LIBCODE which
+  avoids passing the library base code from
+  function to function. Requires a neat trick when
+  linking, don't try this at home. Main entry functions
+  are now __saveds.
+
+- Replaced some asm stubs with registerized versions.
+
+- Major cleanup of AvailFonts(). This code looked like a
+  mess. The code is now much more organized and requires 
+  much less parameter passing due to reorganization. It is
+  now split up into several tiny routines to make it more
+  readable. Note that SAS/C supplies inlines.
+
+- Minor improvement of olsen's "getenv()" code. It now
+  parses the new variables "CACHE", "ASCENDING" and
+  "DESCENDING".
+
+- Moved glyph engine globals into the library base.
+
+- Added font caching code. (NEW) See the readme for
+  details how it works. This is a major rewrite of
+  the 1.xx font caching "FontCachePatch". It is now
+  integrated into the library routines in a much more
+  canonical way. Old 1.xx cache files are no longer 
+  recognized and will be ignored. 
+
+diskfont 45.1 (26.10.00)
+
+- Bumped to 45.1
+
+
+diskfont 45.2 (7.11.00)
+
+- Thought it would be a good idea not to print a
+  "Volume ... is write protected" error requester
+  in case the cache file could not be build. Instead,
+  the caching will fail now silently. The font list
+  will then be read in the traditional way.
+
+
+diskfont 45.3 (16.11.00)
+
+- Added GetDiskFontCtrl() and SetDiskFontCtrlA() to
+  query and set diskfont internal data. Supposed to
+  be used by the diskfont preferences program.
+
+diskfont 45.4 (7.5.2001)
+
+- AvailFonts sets now explicitly the file date of the
+  FONTS directory after having written the cache
+  file to ensure compatibility with filing systems
+  that carry file modification dates along to upper
+  levels of their directory tree.
+
+diskfont 45.5 (24.7.2001)
+
+- Added a new tag to SetDiskFontCtrl() that flushes
+  the cache on demand.

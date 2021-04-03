@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-11-2-2" TITLE="4 / / Control Registers / SPR0CTL" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 / / Control Registers / SPR0CTL</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00CD.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00CF.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This register is normally used only by the sprite  <a href="../Hardware_Manual_guide/node00BF.html">DMA channel</a> . It
+contains control information that is used to control the sprite data-fetch
+process. Bit positions:
+
+   *  Bits 15-8 specify vertical stop position for a sprite image,
+<a name="line7">      bits V7 - V0.</a>
+
+   *  Bit 7 is the attach bit. This bit is valid only for odd-numbered
+      sprites. It indicates that sprites 0, 1 (or 2,3 or 4,5 or 6,7)
+      will, for color interpretation, be considered as paired, and as
+      such will be called four bits deep. The odd-numbered (higher
+      number) sprite contains bits with the higher binary significance.
+
+      During attach mode, the  <a href="../Hardware_Manual_guide/node00C6.html">attached sprites</a>  are normally moved
+      horizontally and vertically together under processor control.
+      This allows a greater selection of colors within the boundaries
+      of the sprite itself. The sprites, although attached, remain
+      capable of independent motion, however, and they will assume
+      this larger color set only when their edges overlay one another.
+
+   *  Bits 6-3 are reserved for future use (make zero).
+   *  Bit 2 is bit V8 of vertical start.
+   *  Bit 1 is bit V8 of vertical stop.
+<a name="line25">   *  Bit 0 is bit H0 of horizontal start.</a>
+
+Position and control registers for the other sprites work the same way as
+described above for sprite 0.  The register names for the other sprites
+are:
+
+                    SPR1POS    SPR1CTL
+                    SPR2POS    SPR2CTL
+                    SPR3POS    SPR3CTL
+                    SPR4POS    SPR4CTL
+                    SPR5POS    SPR5CTL
+                    SPR6POS    SPR6CTL
+                    SPR7POS    SPR7CTL
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-4" TITLE="4 Sprite Hardware / Moving a Sprite" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 Sprite Hardware / Moving a Sprite</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00C0.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00C2.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A sprite generated in  <a href="../Hardware_Manual_guide/node00C8.html#line86">automatic mode</a>  can be moved by specifying a
+different position in the  <a href="../Hardware_Manual_guide/node00B9.html">data structure</a> . For each display field, the
+data is reread and the sprite redrawn. Therefore, if you change the
+position data before the sprite is redrawn, it will appear in a new
+<a name="line6">position and will seem to be moving.</a>
+
+You must take care that you are not moving the sprite (that is, changing
+ <a href="../Hardware_Manual_guide/node00B9.html#line24">control word</a>  data) at the same time that the system is using that data
+to find out where to display the object. If you do so, the system might
+find the start position for one field and the stop position for the
+following field as it retrieves data for display. This would cause a
+<a name="line13">&#034;glitch&#034; and would mess up the screen. Therefore, you should change the</a>
+content of the  <a href="../Hardware_Manual_guide/node00B9.html#line24">control words</a>  only during a time when the system is not
+trying to read them. Usually, the  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  period is a safe
+time, so moving the sprites becomes part of the  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  tasks
+<a name="line17">and is handled by the Copper as shown in the example below.</a>
+
+As sprites move about on the screen, they can collide with each other or
+with either of the two playfields. You can use the hardware to detect
+these collisions and exploit this capability for special effects. In
+addition, you can use collision detection to keep a moving object within
+specified on-screen boundaries.  <a href="../Hardware_Manual_guide/node015A.html">Collision Detection</a>  is described in
+Chapter 7, &#034;System Control Hardware.&#034;
+
+     <a href="../Hardware_Manual_guide/node02D3.html">sprite_move.asm</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

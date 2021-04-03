@@ -1,0 +1,57 @@
+
+Locale 44.2 (16.7.99)
+
+· New tooltype MAP. Set the path of the world map image (default is
+PROGDIR:worldmap). The user may select another image but it must have
+the same width and height as the original map and the same projection.
+
+· One betatester claimed serial output. Didn't find it. Some classes
+makes serial output but for every prefs tool, not only locale
+
+Locale 44.3 (31.7.99)
+
+· added stack extension
+
+Locale 44.4 (4.8.99)
+
+· selecting a new country stored wrong country name in prefs. fixed
+
+Locale 44.6 (17.8.99)
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+· The map scroller is not attached to the window if the window shows the
+  full map.
+
+Locale 44.7 (20.8.99)
+
+· added some code to make selected language and country visible in lists.
+
+Locale 44.9 (16.9.99)
+
+· the Country list loads flaggs from LOCALE:Flaggs/Countries/.
+
+· changed the project icon name to def_locale_prefs
+
+Locale 44.10 (22.9.99)
+
+· fixed a typo "Flaggs" -> "Flags"
+
+Locale 44.11 (24.9.99)
+
+· fixed some bugs and enforcer hits with low memory situations
+
+Locale 44.15 (30.9.99)
+
+· listbrowser gadget has problems with "spacing" attribute. Because I am
+  not sure if we can fix it before release I set spacing to 0.
+
+--- OS 3.5 release ---
+
+Locale 44.18 (17.11.99)
+
+· flags are now drawn with transparent mask

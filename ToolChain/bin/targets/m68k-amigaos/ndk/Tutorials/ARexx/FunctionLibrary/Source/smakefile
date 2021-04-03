@@ -1,0 +1,41 @@
+##
+##	$Id$
+##
+##	:ts=8
+##
+
+.c.o:
+	sc $(CFLAGS) $<
+
+.a.o:
+	asm $(AFLAGS) $<
+
+VERSION		= 1
+PROJECT		= rexxsample.library
+
+AFLAGS		= -D -u
+CFLAGS		= streq strmerge nostkchk nover params=r \
+		  data=faronly debug=line
+LFLAGS		= sc sd addsym noicons
+
+LIBS		= lib:scnb.lib lib:amiga.lib
+
+all:		$(PROJECT)
+
+OBJS		= libbase.o \
+		  glue.o \
+		  dispatch.o
+
+$(PROJECT):	$(OBJS)
+		slink from $(OBJS) to $@.debug lib $(LIBS) $(LFLAGS)
+		slink from $@.debug to $@ nd noicons
+
+libbase.o:	libbase.c $(PROJECT)_rev.h
+glue.o:		glue.a
+dispatch.o:	dispatch.c
+
+version:
+		bumprev $(VERSION) $(PROJECT)
+
+clean:
+		-delete \#?.o

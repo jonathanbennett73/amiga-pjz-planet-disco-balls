@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-3" TITLE="7 System Control Hardware / Beam Position Detection" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 System Control Hardware / Beam Position Detection</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node015D.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node015F.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Sometimes you might want to synchronize the 680x0 processor to the video
+beam that is creating the screen display. In some cases, you may also wish
+to update a part of the display memory after the system has already
+accessed the data from the memory for the display area.
+
+The address for accessing the beam counter is provided so that you can
+determine the value of the video beam counter and perform certain
+<a name="line9">operations based on the beam position.</a>
+
+   NOTE:
+   -----
+   The Copper is already capable of watching the display position
+   for you and doing certain register-based operations automatically.
+   Refer to the  <a href="../Hardware_Manual_guide/node016A.html">Copper Interrupts</a>  section and
+    <a href="../Hardware_Manual_guide/node0047.html">Chapter 2, Coprocessor Hardware</a>  for further information.
+
+In addition, when you are using a light pen, this same address is used to
+read the  <a href="../Hardware_Manual_guide/node018A.html">light pen position</a>  rather than the beam position. This is
+described fully in Chapter 8, &#034;Interface Hardware.&#034;
+
+ <a href="../Hardware_Manual_guide/node015F.html">Using the Beam Position Counter</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

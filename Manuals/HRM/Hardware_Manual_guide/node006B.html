@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-4-1" TITLE="3 / / Allocating Memory for Bitplanes / NTSC Example of Bitplane Size" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / Allocating Memory for Bitplanes / NTSC Example of Bitplane Size</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node006A.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node006C.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+For example, using a normal, NTSC, low resolution, non-interlaced display
+with 320 pixels across each display line and a total of 200 display lines,
+each line of the bitplane requires 40 bytes (320 bits divided by 8 bits
+per byte = 40). Multiply the 200 lines times 40 bytes per line to get
+8,000 bytes per bitplane as given above.
+
+A low resolution, non-interlaced playfield made up of two bitplanes
+requires 16,000 bytes of memory area. The memory for each bitplane must be
+continuous, so you need to have two 8,000-byte blocks of available memory.
+Figure 3-7 shows an 8,000-byte memory area organized as 200 lines of 40
+<a name="line12">bytes each, providing 1 bit for each pixel position in the display plane.</a>
+
+  _______________________________         _______________________________
+ |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| ----&#062; |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
+
+         Memory Location N                     Memory Location N+38
+  _______________________________         _______________________________
+ |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| ----&#062; |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
+
+       Memory Location N+40          |         Memory Location N+78
+                                     |
+                                     |
+                                    \|/
+  _______________________________         _______________________________
+ |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| ----&#062; |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
+
+      Memory Location N+7960                  Memory Location N+7998
+
+
+          Figure 3-7: Memory Organization for a Basic Bitplane
+<a name="line32"></a>
+
+Access to bitplanes in memory is provided by two address registers,
+ <a href="../Hardware_Manual_guide/node0072.html#line59">BPLxPTH and BPLxPTL</a> , for each bitplane (12 registers in all). The &#034;x&#034;
+position in the name holds the bitplane number; for example BPL1PTH and
+BPL1PTL hold the starting address of PLANE 1. Pairs of registers with
+names ending in PTH and PTL contain 19-bit addresses. 68000 programmers
+may treat these as one 32-bit address and write to them as one long word.
+You write to the high order word, which is the register whose name ends in
+<a name="line41">&#034;PTH.&#034;</a>
+
+The example below shows how to set the bitplane pointers. Assuming two
+bitplanes, one at $21000 and the other at $25000, the processor sets
+BPL1PT to $21000 and BPL2PT to $25000. Note that this is usually the
+Copper's task.
+
+;
+; Since the bitplane pointer registers are mapped as full 680x0 long-word
+; data, we can store the addresses with a 32-bit move...
+;
+   LEA     CUSTOM,a0              ; Get base address of custom hardware...
+   MOVE.L  $21000,BPL1PTH(a0)     ; Write bitplane 1 pointer
+   MOVE.L  $25000,BPL2PTH(a0)     ; Write bitplane 2 pointer
+
+
+Note that the memory requirements given here are for the playfield only.
+You may need to allocate additional memory for other parts of the display
+--  <a href="../Hardware_Manual_guide/node00B9.html">sprites</a> ,  <a href="../Hardware_Manual_guide/node00DA.html">audio</a> ,  <a href="../Hardware_Manual_guide/node011D.html#line45">animation</a>  -- and for your application programs.
+Memory allocation for other parts of the display is discussed in the
+chapters describing those topics.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

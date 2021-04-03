@@ -1,0 +1,27 @@
+
+RCS file: RCS/WaitForPort.c
+Working file: WaitForPort.c
+head: 45.3
+branch:
+locks:
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 3;	selected revisions: 3
+description:
+WaitForPort: C replacement of original assembler version.
+----------------------------
+revision 45.3
+date: 2001/03/09 11:46:47;  author: Helios;  state: Exp;  lines: +4 -3
+- forgot to set return code
+----------------------------
+revision 45.2
+date: 2001/03/09 10:00:18;  author: Helios;  state: Exp;  lines: +9 -5
+- added a missing CloseLibrary(DOSBase);
+----------------------------
+revision 45.1
+date: 2001/03/09 09:40:49;  author: Helios;  state: Exp;
+- intial version. reprogrammed in ANSI C after assembly source.
+- should behave like assembler version except for parameter
+  parsing which is done by ReadArgs() now.
+=============================================================================

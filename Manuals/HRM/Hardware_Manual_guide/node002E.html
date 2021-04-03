@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-31" TITLE="A Register Summary / DIWHIGH, DIWSTOP, DIWSTRT" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / DIWHIGH, DIWSTOP, DIWSTRT</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node002D.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node002F.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+DIWHIGH    1E4      W     A,D( <a href="../Hardware_Manual_guide/node00A8.html#line16">E</a> ) Display window -  upper bits for
+                                       start, stop
+
+DIWSTOP    090      W       A      Display window stop (lower right
+                                       vertical-horizontal position)
+DIWSTRT    08E      W       A      Display window start (upper left
+                                       vertical-horizontal position)
+
+                 These registers control display window size and position
+                 by locating the upper left and lower right corners.
+
+                 BIT# 15,14,13,12,11,10,09,08,07,06,05,04,03,02,01,00
+                      -----------------------------------------------
+                 USE  V7 V6 V5 V4 V3 V2 V1 V0 H7 H6 H5 H4 H3 H2 H1 H0
+
+                 DIWSTRT is vertically restricted to the upper 2/3
+                 of the display (V8=0) and horizontally restricted to
+                 the left 3/4 of the display (H8=0).
+
+                 DIWSTOP is vertically restricted to the lower 1/2
+                 of the display (V8=/=V7) and horizontally restricted
+                 to the right 1/4 of the display (H8=1).
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-2-2-5" TITLE="8 / / Timing / DSKBYTR - Disk Data Byte and Status Read (read-only)" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / / Timing / DSKBYTR - Disk Data Byte and Status Read (read-only)</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0192.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0194.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This register is the disk-microprocessor data buffer. In read mode, data
+from the disk is placed into this register one byte at a time.  As each
+byte is received into the register, the DSKBYT bit is set true. DSKBYT is
+cleared when the DSKBYTR register is read.
+
+DSKBYTR may be used to synchronize the processor to the disk rotation
+<a name="line8">before issuing a read or write under DMA control.</a>
+
+
+                 Table 8-7: DSKBYTR Register
+
+     Bit
+     Number  Name       Function
+     ------  ----       --------
+     15      DSKBYT     When set, indicates that this register contains
+                        a valid byte of data (reset by reading this
+                        register).
+
+     14      DMAON      Indicates when DMA is actually enabled.  All the
+                        various DMA bits must be true.  This means the
+                        DMAEN bit in  <a href="../Hardware_Manual_guide/node0192.html">DSKLEN</a> , and the DSKEN &#038; DMAEN bits
+                        in  <a href="../Hardware_Manual_guide/node0170.html">DMACON</a> .
+
+     13      DISKWRITE  The disk write bit (in  <a href="../Hardware_Manual_guide/node0192.html">DSKLEN</a> ) is enabled.
+
+     12      WORDEQUAL  Indicates the  <a href="../Hardware_Manual_guide/node0195.html">DSKSYNC</a>  register equals the disk
+                        input stream.  This bit is true only while the
+                        input stream matches the sync register (as
+                        little as two microseconds).
+
+     11-8               Currently unused; don't depend on read value.
+
+     7-0     DATA       Disk byte data.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-2-3" TITLE="8 / Floppy Disk Controller / Disk Interrupts" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / Floppy Disk Controller / Disk Interrupts</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0195.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0197.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The disk controller can issue three kinds of interrupts:
+
+   *   <a href="../Hardware_Manual_guide/node016D.html">DSKSYNC</a>  (level 5,  <a href="../Hardware_Manual_guide/node0037.html">INTREQ</a>  bit 12) -- input stream matches the
+                                             DSKSYNC register.
+   *   <a href="../Hardware_Manual_guide/node016D.html">DSKBLK</a>  (level 1,  <a href="../Hardware_Manual_guide/node0037.html">INTREQ</a>  bit 1) -- disk DMA has completed.
+   *   <a href="../Hardware_Manual_guide/node014A.html#line62">INDEX</a>  (level 6, 8520 Flag pin) -- index sensor triggered.
+
+Interrupts are explained further in the section
+ <a href="../Hardware_Manual_guide/node0192.html">Length, Direction, DMA Enable</a> .
+
+See Chapter 7, &#034;System Control Hardware,&#034; for more information about
+  <a href="../Hardware_Manual_guide/node0160.html">interrupts</a> .
+
+See  <a href="../Hardware_Manual_guide/node012E.html">Appendix F</a>  for more information on the 8520.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

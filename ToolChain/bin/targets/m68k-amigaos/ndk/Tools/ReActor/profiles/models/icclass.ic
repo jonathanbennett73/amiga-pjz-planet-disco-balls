@@ -1,0 +1,8 @@
+icclass
+LABEL "IC"
+NOTIFY ALL
+ICTARGET   0x80040001 (·S···) ICA_TARGET "Interconnection Target"
+ICMAP      0x80040002 (I····) ICA_MAP "Tag Map"
+ICMAPTAG   0x80040003 (····U) ICSPECIAL_CODE
+INTEGER    0x00000001 (····U) TAG_IGNORE "Ignore Tag" 0 0 0
+END

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_H" NODE="H-3" TITLE="H External Disk Connector Interface / Device I.D." INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>H External Disk Connector Interface / Device I.D.</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node01AA.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node01AC.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This interface supports a method of establishing the type of disk(s)
+attached. The I.D. sequence is as follows.
+
+  1. Drive  <a href="../Hardware_Manual_guide/node01AA.html#line79">MTRXD-</a>  low: Turn on the disk drive motor.
+  2. Drive  <a href="../Hardware_Manual_guide/node01AA.html#line3">SELxB-</a>  low: Activate drive select x, where x is the number of
+       the selected drive.
+  3. Drive  <a href="../Hardware_Manual_guide/node01AA.html#line3">SELxB-</a>  high: Deactivate drive select x..
+  4. Drive  <a href="../Hardware_Manual_guide/node01AA.html#line79">MTRXD-</a>  high: Turn off disk drive motor.
+  5. Drive  <a href="../Hardware_Manual_guide/node01AA.html#line3">SELxB-</a>  low: Activate drive select x.
+  6. Drive  <a href="../Hardware_Manual_guide/node01AA.html#line3">SELxB-</a>  high: Deactivate drive select x.
+  7. Drive  <a href="../Hardware_Manual_guide/node01AA.html#line3">SELxB-</a>  low: Activate drive select x.
+  8. Read and save state of  <a href="../Hardware_Manual_guide/node01AA.html#line14">RDY</a> .
+  9. Drive  <a href="../Hardware_Manual_guide/node01AA.html#line3">SELxB-</a>  high: Deactivate drive select x.
+
+Repeat steps 7 through 9, 31 more times for a total of 32 iterations, in
+order to read 32 bits of data. The most significant bit is read first.
+
+Steps 1 through 4 in the algorithm above turn on and off the disk drive
+motor. This initializes the  <a href="../Hardware_Manual_guide/node013E.html">serial shift register</a> . After initialization,
+the  <a href="../Hardware_Manual_guide/node01AA.html#line3">SELxB</a>  signal is driven (first active then) inactive as in steps 5
+and 6. Keep in mind that the  <a href="../Hardware_Manual_guide/node01AA.html#line3">SELxB</a>  signal is active-low.
+
+Steps 7, 8 and 9 form a loop where (7) the  <a href="../Hardware_Manual_guide/node01AA.html#line3">SELxB</a>  signal is driven active
+(low), (8) the serial input data is read on  <a href="../Hardware_Manual_guide/node01AA.html#line14">RDY</a>  (pin 1) and (9) the
+ <a href="../Hardware_Manual_guide/node01AA.html#line3">SELxB</a>  signal is again driven high (inactive).  This loop is performed 32
+times, once for each of the bits in the input stream that comprise the
+device I.D.
+
+Convert the 32 values of  <a href="../Hardware_Manual_guide/node01AA.html#line14">RDY-</a>  into a two 16-bit word. The most
+significant bit is the first value and so on. This 32-bit quantity is the
+device I.D..
+
+The following I.D.s are defined:
+
+  0000 0000 0000 0000 0000 0000 0000 0000  Reserved ($0000 0000)
+  1111 1111 1111 1111 1111 1111 1111 1111  Amiga standard 3.25($FFFF FFFF)
+  1010 1010 1010 1010 1010 1010 1010 1010  Reserved ($AAAA AAAA)
+  0101 0101 0101 0101 0101 0101 0101 0101  48 TPI double-density,
+                                           double-sided ($5555 5555)
+  1000 0000 0000 0000 1000 0000 0000 0000  Reserved ($8000 8000)
+  0111 1111 1111 1111 0111 1111 1111 1111  Reserved ($7FFF 7FFF)
+  0000 1111 xxxx xxxx 0000 1111 xxxx xxxx  Available for users ($0Fxx 0Fxx)
+  1111 0000 xxxx xxxx 1111 0000 xxxx xxxx  Extension reserved ($F0xx F0xx)
+  xxxx 0000 0000 0000 xxxx 0000 0000 0000  Reserved ($x000 x000)
+  xxxx 1111 1111 1111 xxxx 1111 1111 1111  Reserved ($x000 x000)
+  0011 0011 0011 0011 0011 0011 0011 0011  Reserved ($3333 3333)
+  1100 1100 1100 1100 1100 1100 1100 1100  Reserved ($CCCC CCCC)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_G" NODE="G-9" TITLE="G Keyboard Interface / Special Codes" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>G Keyboard Interface / Special Codes</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node017A.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node017C.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The special codes that the keyboard uses to communicate with the main unit
+are summarized here.
+
+   About the special codes.
+   ------------------------
+   The special codes are 8-bit numbers; there is no  <a href="../Hardware_Manual_guide/node0174.html">up/down flag</a> 
+   associated with them.  However, the  <a href="../Hardware_Manual_guide/node0173.html#line14">transmission bit order</a>  is the
+   same as previously described.
+
+
+        Code       Name            Meaning
+        --------------------------------------------------------------
+        78       <a href="../Hardware_Manual_guide/node0178.html">Reset warning</a> .  Ctrl-Amiga-Amiga has been hit -
+                computer will be reset in 10 seconds. (see text)
+        F9      Last key code bad, next code is the same code
+                   retransmitted (used when keyboard and main unit
+                   get  <a href="../Hardware_Manual_guide/node0176.html">out of sync</a> ).
+        FA      Keyboard output buffer overflow
+        FB      Unused (was controller failure)
+        FC      Keyboard  <a href="../Hardware_Manual_guide/node0177.html#line31">selftest failed</a> 
+        FD      Initiate  <a href="../Hardware_Manual_guide/node0177.html#line46">power-up key stream</a>  (keys pressed at powerup)
+        FE      Terminate  <a href="../Hardware_Manual_guide/node0177.html#line46">power-up key stream</a> 
+        FF      Unused (was interrupt)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

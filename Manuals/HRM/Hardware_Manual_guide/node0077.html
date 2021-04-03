@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-10" TITLE="3 / Forming a Basic Playfield / Basic Playfield Summary" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Forming a Basic Playfield / Basic Playfield Summary</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0076.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0078.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The steps for defining a basic playfield are summarized below:
+
+1. Define Playfield Characteristics
+   --------------------------------
+   a.  <a href="../Hardware_Manual_guide/node0066.html">Specify color</a>  for each pixel:
+
+      * Load desired colors in color table registers.
+
+      * Define color of each pixel in terms of the binary value
+        that points at the desired color register.
+
+      * Build bitplanes and set bitplane registers:
+
+           Bits 12-14 in  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  - number of bitplanes ( <a href="../Hardware_Manual_guide/node0068.html#line4">BPU2 - BPU0</a> ).
+            <a href="../Hardware_Manual_guide/node006B.html#line32">BPLxPTH</a>  - pointer to bitplane starting position in memory
+	               (written as a long word).
+
+   b.  <a href="../Hardware_Manual_guide/node0069.html">Specify resolution</a> :
+
+      * Low resolution:
+
+          320 pixels in each horizontal line.
+          Clear bit 15 in register  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  ( <a href="../Hardware_Manual_guide/node0069.html#line7">HIRES</a> ).
+
+      * High resolution:
+
+          640 pixels in each horizontal line.
+          Set bit 15 in register  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  ( <a href="../Hardware_Manual_guide/node0069.html#line7">HIRES</a> ).
+
+   c.  <a href="../Hardware_Manual_guide/node0069.html">Specify interlaced or non-interlaced mode</a> :
+
+      * Interlaced mode:
+
+          400 vertical lines for NTSC, 512 for PAL.
+          Set bit 2 in register  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  ( <a href="../Hardware_Manual_guide/node0069.html#line94">LACE</a> ).
+
+      * Non-interlaced mode:
+
+          200 vertical lines for NTSC, 256 for PAL.
+          Clear bit 2 in  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  ( <a href="../Hardware_Manual_guide/node0069.html#line94">LACE</a> ).
+
+2.  <a href="../Hardware_Manual_guide/node006A.html">Allocate Memory</a> . To calculate data-bytes in the total bitplanes,
+   -----------------  use the following formula:
+
+          Bytes per line * lines in playfield * number of bitplanes
+
+3.  <a href="../Hardware_Manual_guide/node006F.html">Define Size of Display Window</a> .
+   -------------------------------
+   * Write start position of display window in  <a href="../Hardware_Manual_guide/node0070.html">DIWSTRT</a> :
+
+      Horizontal position in bits 0 through 7 (low order bits).
+      Vertical position in bits 8 through 15 (high order bits).
+
+   * Write stop position of display window in  <a href="../Hardware_Manual_guide/node0071.html">DIWSTOP</a> :
+
+      Horizontal position in bits 0 through 7.
+      Vertical position in bits 8 through 15.
+
+4.  <a href="../Hardware_Manual_guide/node0072.html">Define Data Fetch</a> . Set registers  <a href="../Hardware_Manual_guide/node0072.html#line9">DDFSTRT</a>  and  <a href="../Hardware_Manual_guide/node0072.html#line31">DDFSTOP</a> :
+   -------------------
+   * For  <a href="../Hardware_Manual_guide/node0072.html#line9">DDFSTRT</a> , use the horizontal position as shown in
+      <a href="../Hardware_Manual_guide/node0070.html">Setting the Display Window Starting Position</a> .
+
+   * For  <a href="../Hardware_Manual_guide/node0072.html#line31">DDFSTOP</a> , use the horizontal position as shown in
+<a name="line66">      <a href="../Hardware_Manual_guide/node0071.html">Setting the Display Window Stopping Position</a> .</a>
+
+5.  <a href="../Hardware_Manual_guide/node0072.html#line46">Define Modulo</a> . Set registers  <a href="../Hardware_Manual_guide/node0072.html#line108">BPL1MOD and BPL2MOD</a> .  Set modulo to 0
+<a name="line69">   ---------------  for non-interlaced, 40 for interlaced.</a>
+
+6. Write Copper Instructions To Handle  <a href="../Hardware_Manual_guide/node0075.html">Redisplay</a> .
+<a name="line72">   -----------------------------------------------</a>
+
+7.  <a href="../Hardware_Manual_guide/node0076.html">Enable Color Display</a> .For the A1000: set bit 9 in  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  to enable the
+   ---------------------- the color display on a composite video monitor.
+                          RGB video is not affected.  Only the A1000 has
+                          color composite video output, other Amiga models
+                          cannot enable this feature using standard
+                          hardware.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,88 @@
+WBPattern 44.3 (16.7.99)
+
+· Presets images are now a row of buttons, Chooser menu looked too bad.
+
+· Added tool images
+
+· I am not happy with the current layout, this will change
+
+WBPattern 44.4 (20.7.99)
+
+· Opening a file from startup (ENV:SYS/wbpattern.prefs or parameter) failed
+  to remap the patterns to screen pens.
+
+WBPattern 44.5 (26.7.99)
+
+· Locking the screen for GUI threw a lot of enforcer hits.
+
+WBPattern 44.6 (31.7.99)
+
+· added stack extension
+
+· modified GUI layout
+
+WBPattern 44.7 (9.8.99)
+
+· window has now default width of 580 which increase the width of pattern
+  file name.
+
+WBPattern 44.8 (11.8.99)
+
+· missed a copy of picture path name (restore, last saved etc didn't work)
+  Fixes also the bug "Tested picture is not reset at Cancel".
+
+WBPattern 44.10 (18.8.99)
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+· removed blue boxes
+
+WBPattern 44.11 (19.8.99)
+
+· added dithering and color quality control for backdrop pictures. Needs a
+  new IPrefs version that supports it.
+
+WBPattern 44.12 (8.9.99)
+
+· loading a picture used wrong file requester title.
+
+· framework now uses the executable name for AppIcon title (iconify)
+
+WBPattern 44.13 (17.9.99)
+
+· new project icon name def_wbpattern_prefs
+
+· new tool images
+
+· new presets
+
+· fixed a bug with pasting images
+
+--- OS 3.5 release ---
+
+WBPattern 44.18 (29.10.99)
+
+· fixed a bug in framework which may lead to a deadlock while resizing the
+  window.
+
+WBPattern 44.19 (3.12.99)
+
+· fixed a bug in framework: window close gadget didn't call the custom cancel
+  function -> tested wb pattern was not reset on quit.
+
+WBPattern 44.20 (21.12.99)
+
+· fixed a crash with options USE and SAVE.
+
+WBPattern 45.1 (14.11.2000)
+
+· support for the old FastIPrefs and the new IPrefs feature to center
+  and to scale pictures.
+
+· the filerequester for selecting a picture now initially shows the same
+  file as in the corresponding string gadget.
+

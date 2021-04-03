@@ -1,0 +1,123 @@
+Start log thor:
+
+Shell V45.0:
+
+Oh wow, this was a tough job. The Shell really looked like
+some kind of BCPL left-over. It took several days just to
+cleanup the code and turn it into something more readable.
+BCPL was lurking thru the code all over. No more, folks,
+no more...
+
+The V40 shell was unable to perform the "implicit CD" command
+properly if the directory name was quoted. It inserted an
+unnecessary blank space behind the directory name.
+
+The shell didn't support multiple backticks on the command line;
+the backtick parser was simply broken: Fixed handling of 
+asterisk-backtick sequences. The backtick wasn't escaped properly.
+
+The shell did not treat TABs as blank spaces. Fixed.
+
+Removed the SetClock cludge. Whoever is still using a 1.3
+SetClock nowadays cannot be helped anymore and deserved
+to be crashed. (-;
+
+Added a few missing Forbid/Permit locks around access of
+the list of resident commands.
+
+Removed an ugly hack to set the RC and Result2 variables;
+this really uses now the proper system functions and doesn't
+attempt to hack directly into the variable buffers.
+
+Reworked the parser a lot; it partially tried to fiddle in
+the internal buffers of file handles using structures that
+have never been documented. The code now loads full lines
+at once (no matter how big they are) and then parses within
+its buffers. This removes all dependencies of implementation
+details of the file handles.
+
+Arguments to redirection did not expand backticks. Fixed.
+
+Added a lot of proper error checking if it is low on memory.
+
+The internal (and deceased "GlobalVector") is no longer
+passed thru to all functions. Instead, I'm now using some
+SAS magic to allocate my data segment myself on each
+invocaton.
+
+Decided not to disable echo-ing for non-interactive shells.
+Otherwise, we could not debug scripts or the startup-sequence.
+Sorry, Heinz, but I reconsidered and it's really better this
+way.
+
+Shell V45 re-introduces the handling of the "h" bit. Should it
+find a command with "pure" and "h" bits set, it makes the 
+command resident automatically. Note that this is (again) the
+V39 behaivour. Note that "h" is for "hold", not for "hidden".
+
+The shell does no longer limit command lines to 512 characters.
+Command lines can now be unlimited in size, provided the
+command itself is smaller than the AmigaOs file name size
+limit (107 characters). The Shell will now auto-expand all of 
+its internal buffers if required to do so. Furthermore, it
+uses now memory pools for this kind of administration.
+
+The shell offers now extended "script" support. In case a script
+file - i.e. a file whose "s" and "e" bits are set - starts with
+either the magic characters "#!" or ";!", the string behind this
+magic cookie is understood as the path to a command parser that
+shall execute this script.
+
+Added support for "file browsing". 
+
+If the shell encounters now a file as first argument that has
+its "e" bit cleared (!) and is parsed and recognized as a data-
+type by the data types system, the shell runs a "viewer"
+program whose path should be placed in the $VIEWER shell
+variable.
+
+Added support for "stderr" redirection. Therefore, the V45 
+shell introduces three new redirection symbols:
+
+*>  filename	: redirects stderr to a file
+*>> filename	: appends output to stderr to a file
+*>< 		: redirects stderr to the same file that stdout
+		  goes into.
+
+The shell will also assign the console to the stderr stream
+should stderr be an interactive stream.
+
+Added support for "script stdin". A "<<" will pull the next
+symbol from the shell script and will push all following
+lines up to a line starting with this symbol as input into 
+the command. Hence, "<<" is exactly the Un*xoid input redirection.
+
+Added a new command line token, the "&" character, 
+the "implicit run". If found, the shell opens named consoles
+with of a name generated thru utility/GetUniqueID(), and assigns
+these to the stdin/stdout/stderr of the command, shouldn't 
+redirection be used anyhow. Then the command is detached from
+the shell segment.
+
+Added automatic stack size setup for shell commands. This is a 
+new feature that would hopefully limit the number of stack
+underflows as it allows application developers to increase the 
+stack automatically without the need for stack swap code. The 
+shell scans now the first 1K of each segment of a loaded binary 
+for the magic cookie "$STACK:". The string behind this cookie 
+is expected to be a decimal number, terminated with a line feed 
+(and an ASCII NUL, i.e. '\0', as for all C strings).
+This number is then interpreted as the stack size in bytes. The shell
+will automatically increase the stack size *for this command only*.
+If the pre-defined stack size is larger than the program-implicit,
+nothing will happen.
+
+AGENDA:
+
+Rewrite the parser for shell-variables. This looks currently messy
+and not very well thought-about. Especially the handling of
+asterisks is broken here.
+
+Rewrite the parser for backticks. This happend already to some
+degree, but it is not yet perfect.
+

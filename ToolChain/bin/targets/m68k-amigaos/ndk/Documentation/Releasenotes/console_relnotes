@@ -1,0 +1,26 @@
+kickstart/console
+
+    Fixed the window list walk bug and made some minor corrections
+    and improvements to the code. The open function should behave
+    better now internally. Hopefully it will be possible to not
+    have it rely on Forbid() in the future as this can hold up the
+    machine for a *long* time when a new large console is opened.
+    Froze 44.3
+    An internal signal could have been not caught under very
+    strange circumstances. Not that anyone out there would have
+    ever really noticed.
+    Froze 44.4
+    console.device should no longer try to mask bitplanes on chunky
+    displays. This should fix it on gfx boards. console.device
+    should no longer depend on Forbid() during open. Note that
+    this may not be of general usefulness due to the way the
+    system is and has been hacked up to now.
+    Froze 44.5.
+    The mask magic for chunky bitplanes was calculated correctly
+    but the calculated values were not used correctly. 2nd try.
+    Froze 44.6.
+    A minor glitch could have caused a trashed window border when
+    resizing a console when the cursor needed to be rendered.
+    Froze 44.7.
+    Removed a potential semaphore deadlock situation.
+    Froze 44.8.

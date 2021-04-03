@@ -1,0 +1,41 @@
+bevel.image 45.1 (18.11.2000)
+
+· settings REACTION_ChangePrefs (is now done before openeing window) changed
+  interpretation of style due to preferences. The "field" type was not longer
+  converted to inverted "group" type in XEN and thin XEN style.
+
+· expunging the library did not delete the memory pool. Possible this was 
+  the biggest memory leak you see if you test with "avail flush".
+
+
+bevel.image 45.2 (28.02.2001)
+
+· the image never freed its temporary rastports when it had no label.
+
+· FreeClass() is allowed to fail which was ignored by this class.
+
+
+bevel.image 45.3 (03.03.2001)
+
+· while trying to fix the NewYork/getfont.gadget bug, I found
+  out that bevel.image threw a lot of hits when NY couldn't
+  load its speedbar images. Once again this stupid StrUCpy()
+  function of classact ...
+
+
+bevel.image 45.4 (09.03.2001)
+
+· changed placement of text (1 pixel down) so that it matches
+  the text placement of the other ReAction classes. The underscore
+  moved a 1 pixel up. I think it was Mario, who requested this 
+  change in 1999.
+
+· the IM_FRAMEBOX method interpreted the resolution parameter
+  of the DrawInfo structure as screen size in pixels and not as
+  screen aspect ratio.
+
+
+bevel.image 45.5 (17.03.2001)
+
+· changed vertical "in bevel" text placement, so that it is really
+  centered.

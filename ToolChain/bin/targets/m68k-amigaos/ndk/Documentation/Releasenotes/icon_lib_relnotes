@@ -1,0 +1,775 @@
+icon.library 44.1 (18.3.99)
+
+- Now requires Kickstart 3.1.
+
+
+icon.library 44.11 (18.3.99)
+
+- Changed the error handling.
+
+
+icon.library 44.69 (19.3.99)
+
+- NewIcons reader works.
+
+- Added new API functions FreeRem(), DupDiskObject(),
+  IconControl() and DrawIconState().
+
+- Implemented proper mask creation for regular backfill
+  icons and transparent chunky pixel images.
+
+
+icon.library 44.74 (19.3.99)
+
+- GetIcon() is now an obsolete routine.
+
+- Now preserves NewIcons image tool types.
+
+
+icon.library 44.87 (19.3.99)
+
+- Added new API function GetIconBox().
+
+- Added new control tags for NewIcons compatibility.
+
+- DupDiskObject() now duplicates the entire source
+  object (including image masks and chunky image
+  data) if requested.
+
+- IconControl() now does much more error checking
+  on the parameters passed in.
+
+- Added new API function NewIcon().
+
+
+icon.library 44.109 (19.3.99)
+
+- Backfill/transparent icons now render properly in
+  non-RTG modes.
+
+- NewIcons compatible tool types would not get stored
+  properly if they were the only tool types around.
+
+- Now attempts to preserve the original image data
+  loaded when saving a NewIcons compatible icon.
+
+
+
+icon.library 44.110 (20.3.99)
+
+- The icon data consistency check now rejects images
+  which are 0 pixels wide or tall.
+
+- Implemented the new tag based icon read/write API
+  functions. All the old API functions for this
+  purpose now call these routines.
+
+
+icon.library 44.127 (20.3.99)
+
+- The icon borderless query was looking at the wrong
+  flag. Fixed.
+
+- GetIconTagList() now has an option to tell you
+  whether the icon returned is a "fake" default icon.
+
+- Renamed and modified GetIconBox().
+
+- Added the ICONA_SetGlobalIdentifyHook/ICONA_GetGlobalIdentifyHook
+  tags to IconControlA().
+
+- Implemented the file identification hook code.
+
+- The icon identification hook message now also gets a file
+  handle passed in, if available.
+
+
+icon.library 44.148 (21.3.99)
+
+- Icons can now have aspect ratio information attached.
+
+- Implemented the new storage format; both reading and
+  writing work.
+
+
+icon.library 44.193 (21.3.99)
+
+- Changed the image data compression method.
+
+- When saving new format icons to disk, the old image
+  data is preserved, just like with the NewIcons format
+  data.
+
+
+icon.library 44.208 (22.3.99)
+
+- Added a new option to drop the original planar icon image
+  when saving a palette mapped chunky icon image to disk.
+
+- Renamed and modified DupDiskObject() which now takes
+  parameters in a taglist.
+
+- Added another new option to PutIconTagList() that allows
+  it to optimize the image data to be stored to yield
+  better compression.
+
+
+icon.library 44.216 (22.3.99)
+
+- Added control options to set and get the icon image
+  dimensions.
+
+- Now does a bit more error checking in DrawIconState().
+
+
+icon.library 44.220 (23.3.99)
+
+- The icon type returned by the identify hook is now
+  checked against the type of the object the icon
+  was obtained for. If it doesn't match, it will
+  be released.
+
+- The library now knows how to store and retrieve
+  default icons by name.
+
+- The tracked memory allocation code now checks for
+  unused slots in the memory list before adding to
+  the tracking list.
+
+
+icon.library 44.224 (23.3.99)
+
+- Added the AutoDocs.
+
+- Added new API function LayoutIcon().
+
+
+icon.library 44.227 (23.3.99)
+
+- Further documentation corrections.
+
+- Now reserves 256 colour allocation pens per icon image,
+  just in case somebody requests that many.
+
+- Now releases as many allocated pens as were allocated
+  in the first place and not just how many colours are
+  currently to be used.
+
+- Implemented backwards compatible GetDiskObject() and
+  GetDiskObjectNew() functionality to return empty
+  objects in case the name pointer passed in is NULL.
+
+
+icon.library 44.232 (24.3.99)
+
+- Added a new tag to GetIconTagList() to keep the
+  palette mapped icon data from getting remapped.
+
+- More, small corrections to the autodocs.
+
+
+icon.library 44.234 (24.3.99)
+
+- Added another parameter to DrawIconState() to
+  specify the border pens to be used.
+
+- In DrawIconState(), if shine and shadow pen
+  are the same when drawing the border, the
+  background pen is now used in place of the
+  shadow pen.
+
+- Added new tags to PutIconTagList() to control
+  whether NewIcons tool types and chunky icon
+  image data are stored.
+
+
+icon.library 44.237 (25.3.99)
+
+- Fall-back colours for 2 colour mode were wrong
+  in DrawIconState(). Fixed.
+
+- Rearranged the parameters for DrawIconState()
+  and added a new parameter to GetIconRectangle().
+
+- Added a new tag to query the screen an icon
+  is attached to.
+
+
+icon.library 44.239 (25.3.99)
+
+- icon.library now fills in the do_Magic, do_Version
+  and icon format revision numbers. Previously,
+  Workbench did this all on its own.
+
+- icon.library now also makes sure that the stack
+  size value stored in an icon does not become
+  smaller than 4096 bytes.
+
+- No longer uses "SYS:System/DiskCopy" as the
+  default tool for default disk icons.
+
+
+icon.library 44.305 (27.3.99)
+
+- Changed the parameters for DrawIconState()
+  and GetIconRectangle().
+
+- Spent five hours chasing a crash caused by Picasso96
+  tripping up the WShell file name completer in
+  the Flood() code used when generating backfill icon
+  masks. Sick. Put a kludge in place to keep the mask
+  from getting generated. There must be more to this.
+
+- Fixed a bug in IconControlA() which would cause the
+  chunky image setup to fail due to uninitialized
+  data.
+
+- Noticed that the Palette preferences editor jams
+  the new user colours into the Workbench screen
+  palette. Not a nice thing to do with palette
+  sharing active and icons using the old
+  colours. This should be fixed.
+
+- Discovered a real bug in the original ByteRun1 packer
+  (of which the library uses a modified version) nobody
+  appears to have discovered in the previous 14 years.
+  Fixed. Note: must fix the same bug in picture.datatype.
+
+- Fixed a bug in the IFF reader.
+
+- The icon reader code now notices EOF conditions.
+
+
+icon.library 44.316
+
+- Added a new tag ICONA_GenerateImageMasks to control
+  whether icon image masks are generated or not.
+
+- Rewrote the mask generation code to mimick the
+  old Workbench code behaviour it was supposed to
+  replace. The biggest differences are that the
+  BitMap the mask is generated in is no longer
+  created using AllocBitMap(), that the CPU
+  is put to use to combine the mask generation results
+  and that Flood() is called on every pixel on the
+  image border rather than once.
+
+- Removed the kludge for the WShell file name completer.
+
+- GetDiskObject(), GetDiskObject() and GetDefDiskObject() no
+  longer generate icon image masks.
+
+
+icon.library 44.327 (28.3.99)
+
+- FreeDiskObject() was releasing icon image pens from
+  the wrong screen. Fixed.
+
+- Changed the calling parameters for LayoutIcon().
+
+- Icon image size and drawing options were not set up
+  properly if a palette mapped icon was not to be remapped
+  right after loading. Fixed.
+
+- The identification hook now gets invoked with a new
+  parameter in the message it receives, a copy of the
+  tag list passed to GetIconTagList().
+
+- GetIconRectagleA() did not take the embossing border
+  into account when measuring the size of the area
+  covered by the icon label. Fixed.
+
+
+icon.library 44.330 (5.4.99)
+
+- Now supports WBDEVICE icons in a limited way; it will
+  create and read them but will not write them. This is
+  necessary to stay out of trouble with older Workbench
+  versions.
+
+- Cleaned up the icon.library tag name space.
+
+
+icon.library 44.332 (7.4.99)
+
+- Oops, didn't support NewIcons with only a single
+  image.
+
+
+icon.library 44.337 (7.4.99)
+
+- Icons without a select image now properly render in
+  complement mode without the regular image mask being
+  used.
+
+- Cleaned up the documentation again.
+
+- FindToolType() now accepts blanks surrounding the
+  '=' character, such as in "FILETYPE = text".
+
+- MatchToolValue() now tolerates blank spaces surrounding
+  the option strings and the value to search for, such
+  as in MatchToolValue("a | b | c","c").
+
+
+icon.library 44.348 (7.4.99)
+
+- Changed rendering of icons without a select image; if
+  there is an image mask for the regular image, it will
+  be used in all cases, including dragging and rendering.
+
+- For palette mapped icons without a select image, the
+  library now generates a fake select image from the
+  regular image.
+
+
+icon.library 44.350 (8.4.99)
+
+- Changed the order in which tags are processed in
+  IconControlA().
+
+
+icon.library 44.353 (12.4.99)
+
+- Changed the manner in which the select image is
+  set up for palette mapped icons without an actual
+  select image. Instead of brighter, the palette
+  now gets a shade darker (by a third) and the code
+  also respects opaque images.
+
+
+icon.library 44.358 (14.4.99)
+
+- No longer prints empty ("") icon label strings.
+
+- The library now has a configurable icon file name
+  length limit. Currently, the default is 25 characters.
+  The limit takes effect in the put/get/delete routines.
+  For the get case, the code checks whether it may have
+  accidentally read the original file (rather than the
+  icon file). For the put case it specifically avoids
+  overwriting the original file and aborts rather than
+  trashing data (the abort case is still reported as
+  a successful write). For the delete case, the library
+  will refuse to delete a file whose name is longer than
+  the limit, but will still tell Workbench to consider
+  it deleted.
+
+
+icon.library 44.360 (15.4.99)
+
+- Added the ICONGETA_Screen tag.
+
+- Froze the tag item identifiers.
+
+
+icon.library 44.362 (18.4.99)
+
+- Borderless icons now get their background filled with
+  EraseRect(); this allows for icons to be displayed
+  properly that have widely different regular and
+  select images.
+
+
+icon.library 44.374 (19.4.99)
+
+- Found an AllocRaster() followed by a FreeMem() on the
+  memory chunk returned. Ouch.
+
+- Added another tag to keep a borderless icon from having
+  its background erased.
+
+
+icon.library 44.376 (21.4.99)
+
+- Added a new tag ICONPUTA_OnlyUpdatePosition which selectively
+  allows to update just the position data of an icon.
+
+
+icon.library 44.384
+
+- Yet another attempt to make the backfill icon mask creation
+  code more robust and less complicated.
+
+
+icon.library 44.390 (8.5.99)
+
+- Now does an EraseRect() over the icon label area before
+  printing JAM1 mode text.
+
+- Changed all __aligned attributes to a different method of
+  guaranteeing long word alignment.
+
+
+icon.library 44.393 (13.5.99)
+
+- Fixed a bug in the IFF writer code which would cause
+  the chunk length padding to be registered in the
+  header chunk length. The reader was unaware of this,
+  too. The bug is fixed, but at the expense of making
+  some icons written by icon.library 44.393 unreadable
+  with icon.library versions 44.392 and below.
+
+- The icon reader code now preserves chunk types it does
+  not know. The icon writer will write them back in the
+  order they were read in, but not necessarily in the
+  same relative positions. All this is done in order to
+  allow the icon file format to be extended in a future
+  release.
+
+
+icon.library 44.394 (15.5.99)
+
+- With damaged extended icon data (such as the palette
+  mapped icons), the icon reader will report an error
+  and flag the icon as unreadable. This is most undesirable
+  when reading disk icons: since the icon will fail to be
+  read, you won't see the volume it belongs to. You won't
+  even get a default icon for that volume. Fixed (the
+  icon reader now supplies a default icon).
+
+
+icon.library 44.397 (26.5.99)
+
+- With damaged extended icon data there also is a fallback
+  in place now which takes care of the ICONGETA_FailIfUnavailable
+  option.
+
+- Implemented yet another strategy for setting up the select
+  image for palette mapped icons without such an image. Now
+  the image is made brighter.
+
+
+icon.library 44.399 (6.6.99)
+
+- Added new private tags to control which type of memory the
+  icon image data is allocated from. The default is chip
+  memory, but some people might want to change this...
+
+- Changed the strategy for setting up the select image for palette
+  mapped icons without such an image (again). Now the image
+  is made darker (again).
+
+
+icon.library 44.405 (12.6.99)
+
+- Reallocating an icon's pens and the following remapping process
+  would lose memory. Usually, the memory allocated for the
+  select image would not be reclaimed. With many icons on the
+  screen, changing the screen palette would eat up so much memory
+  that after 5-6 palette changes virtually all chip memory would
+  have been eaten. Fixed.
+
+- The icon image drawing code now does an extra test to see whether
+  the Image->ImageData reference looks halfway valid. This makes
+  sense with one of the fall-back cases in the icon remapping code,
+  which, if things go really wrong, may end up with no data in the
+  image. Rather than throwing Enforcer hits, we don't draw the icon...
+
+
+icon.library 44.407 (13.6.99)
+
+- The simplistic IFF writer would get the number of bytes registered
+  in the FORM header wrong due to inappropriate rounding applied to
+  the image and palette data. Fixed.
+
+
+icon.library 44.411 (23.6.99)
+
+- Added better error reporting to IconControl() and also updated
+  the AutoDocs accordingly.
+
+
+icon.library 44.413 (9.7.99)
+
+- GetDiskObject() no longer hides the NewIcons tool types. I'm not
+  sure, but this might resolve the problems with the existing
+  newicons.library and other tools to depend upon them.
+
+
+icon.library 44.414 (12.7.99)
+
+- GetIconRectangle() now sports an option to leave the size of
+  the icon border out of the calculation [Frank Mariak].
+
+
+icon.library 44.416 (15.7.99)
+
+- To drop the chunky icon image data, set the icon's Image1 and
+  Image2 to NULL via IconControl().
+
+- When creating an alternate icon image for a palette mapped icon
+  which does not include an alternate image, the new image's
+  colour palette entries are now chosen through a new API
+  function (ChangeToSelectedIconColor).
+
+
+icon.library 44.417 (17.7.99)
+
+- Added new control tags which allow coloured icon support to
+  be disabled altogether.
+
+- Updated the autodocs.
+
+
+icon.library 44.430
+
+- For drawer/disk/trashcan icons without valid DrawerData information
+  the icon loader now supplies a default DrawerData.
+
+- PutDiskObject/PutIconTagList now provides a default DrawerData
+  structure in case it is missing.
+
+- GetIconTagList() no longer attempts to cache the global remap
+  screen pointer.
+
+- GetIconTagList() now fails if the global remap screen is NULL.
+
+- Added a new query tag to check if an icon is of the NewIcon
+  type.
+
+
+icon.library 44.432 (27.7.99)
+
+- Writing a WBDISK type icon no longer changes its name to
+  "Disk.info" if the name isn't just a volume name. Thus,
+  PutDiskObject("foo:",&diskIcon) will store a file by the
+  name of "foo:Disk.info", but PutDiskObject("foo:bar",&diskIcon)
+  will store the file as "foo:bar.info".
+
+- Data consistency checks now also test for valid chunky image
+  size (width and height) and number of palette entries.
+
+
+icon.library 44.434 (29.7.99)
+
+- Added another query tag to check whether an icon was allocated
+  by icon.library or is of the statically allocated type.
+
+- Fixed four Enforcer hits in IconControl().
+
+
+icon.library 44.436 (4.8.99)
+
+- GetDiskObjectNew() and GetDefDiskObject() still filtered out
+  NewIcons tool types. Fixed.
+
+
+icon.library 44.438 (7.8.99)
+
+- icon.library now notifies workbench.library if the size of the
+  icon embossing rectangle changes.
+
+
+icon.library 44.445 (10.8.99)
+
+- When drawn in disabled state, the hit box of borderless icons is
+  no longer covered completely by the ghosting pattern. The drawing
+  code now takes the actual image size into account.
+
+
+icon.library 44.453 (10.8.99)
+
+- icon.library now makes sure that every drawer-like icon that
+  gets written to disk has a proper DrawerData structure
+  attached to it. This is a fix I put in there before, it just
+  didn't work all the time :(
+
+- Added more error checking to the DupDiskObject() code. If it
+  doesn't like the contents of an Image to duplicate, it now
+  complains with an ERROR_OBJECT_WRONG_TYPE rather than considering
+  this a memory allocation failure.
+
+
+icon.library 44.455 (11.8.99)
+
+- The fix for the DrawerData entry nuked the existing drawer data
+  if there was one. Fixed.
+
+
+icon.library 44.458 (15.8.99)
+
+- Querying icon information, such as checking for the size of the
+  colour palette, no longer allocates the necessary data structures
+  if they are missing. I was probably too generous... Anyway, this
+  new behaviour prevents false-detection of plain bitmapped icons
+  as palette mapped icons.
+
+- Reading an icon and requesting that it should not be remapped,
+  then later remapping it with the LayoutIcon() function no longer
+  fails. LayoutIcon() will allocate the necessary data structures.
+
+
+icon.library 44.471 (25.8.99)
+
+- The DupDiskObject() call now sports a new control tag
+  ICONDUPA_ActivateImageData which will activate unused potential
+  in the copy of an icon: the duplicate will feature the palette
+  information associated, but not used by the original icon.
+
+
+icon.library 44.476 (2.9.99)
+
+- When using the new ICONDUPA_ActivateImageData tag, the palette
+  mapped images did not get their masks generated. This would
+  leave transparent images opaque. Fixed.
+
+- "Borderless" and "frameless" icons are now something different.
+  I changed the names of all control tags involving borderless
+  drawing to "frameless" since that's what they do. In two cases
+  (drawing and sizing) "borderless" now has a particular, new
+  meaning. It means "without the frame and without taking the
+  embossing border" into account.
+
+
+icon.library 44.477 (6.9.99)
+
+- For default icons, the drawer display flags and display mode
+  are now automatically reset to defaults when they are loaded.
+
+
+icon.library 44.478 (10.9.99)
+
+- Changing the size of the palette of the alternate icon image
+  could clear the transparency flag when it shouldn't do that
+  in the first place. Fixed.
+
+
+icon.library 44.479 (14.9.99)
+
+- Added new control tag "ICONPUTA_PreserveOldIconImages" for
+  PutIconTagList().
+
+
+icon.library 44.482 (18.9.99)
+
+- More cleanup work.
+
+
+icon.library 44.489 (20.9.99)
+
+- IconControlA() didn't check for the version of workbench.library
+  it opened, which could cause trouble with V39/V40. Fixed.
+
+- Got bitten by the SAS/C global optimizer again and had to
+  rearrange code in order to make it work. Ouch.
+
+- LayoutIconA() never built/rebuilt the icon image masks. Fixed.
+
+
+icon.library 44.491 (23.9.99)
+
+- PutIconTags() will now provide a hint if writing an icon file to
+  disk was aborted because the file name was too long.
+
+
+icon.library 44.492 (24.9.99)
+
+- When loading a palette mapped icon with no preset default screen to
+  remap its images to, icon.library will now remap them "in place"
+  using a default colour palette. This should fix IconEdit when
+  launched from DirOpus, running as a Workbench replacement.
+
+
+icon.library 44.500 (25.9.99)
+
+- Fixed a Wipeout hit in the image mask deallocation code (harmless,
+  but still...).
+
+
+icon.library 44.502 (27.9.99)
+
+- The global "frameless" attribute is now propagated further to
+  workbench.library.
+
+
+icon.library 44.505 (3.11.1999)
+
+- When loading an icon that is not to be remapped, icon.library now
+  leaves the original icon image data untouched instead of resetting
+  the image data pointers to NULL.
+
+
+icon.library 44.506 (3.11.1999)
+
+- LayoutIcon() could forget to correct the size of the images after
+  remapping took place.
+
+
+icon.library 44.525 (7.11.1999)
+
+- When writing an icon back to disk, the DiskObject->do_Gadget.UserData
+  member is no longer cleared and set to WB_DISKREVISION. The upper
+  24 bits of the original value of this member are now preserved.
+  The DiskObject->go_Gadget.MutualExclude member also stays untouched.
+
+- Fixed a major memory leak in GetIconTagList() associated with the
+  default icon functionality.
+
+
+icon.library 44.529 (7.11.1999)
+
+- DupDiskObjectA() now also duplicates the original image data
+  attached to a palette mapped icon.
+
+
+icon.library 44.541 (24.12.1999)
+
+- When loading a default icon, as requested by the client, icon.library
+  now explicitely records this via the ICONGETA_IsDefaultIcon tag.
+
+- When updating an icon's position, icon.library no longer depends upon
+  OpenFromLock() to succeed. It now falls back on opening the icon file
+  to update in read/write mode.
+
+- DupDiskObjectA() now allows for a screen to be specified the palette
+  mapped image data should be remapped to.
+
+- Clarified the documentation for IconControlA().
+
+- icon.library no longer loads icons whose type is unknown, i.e.
+  anything beyond the range WBDISK..WBAPPICON is rejected. For
+  the rare WBAPPICON case, icon.library now quietly converts it
+  into a WBPROJECT icon when it is loaded. The same happens when
+  icon data is to be written back to disk. If the type is not
+  in the valid range, icon.library will refuse to write the icon
+  and WBAPPICON files are quietly converted into WBPROJECT files.
+
+- Similar to the regular icon loader code, icon.library now
+  makes up a new select image in LayoutIconA() if the icon
+  provided does not have a select image to start with.
+
+- When reading the tool types associated with a NewIcons format
+  icon file, icon.library now attempts to separate NewIcons
+  image tool types from the others which may have been added to
+  the end of the tool types list. Those tool types are extracted
+  and added in front of the NewIcons image tool types. This is to
+  avoid a nasty side-effect of the original NewIcons tool type
+  processing technique: tool types that would live among the
+  NewIcons tool types would be hidden from view in the
+  Worbench "Information" requester and applications which loaded
+  palette mapped icons would not see those tool types either.
+
+
+icon.library 44.542 (31.12.1999)
+
+- The code that reopened an icon file after a failed OpenFromLock()
+  call did not clear the error code before it returned, rendering
+  this particular bug fix useless and keeping a file open that
+  would never get closed. Great job. I doubt anyone could have
+  done more damage with a simple "fix".
+
+
+icon.library 44.543 (6.6.2000)
+
+- Setting an alternate icon image's palette mapped image data to
+  NULL did not exactly drop the alternate image, it just rendered
+  a pointer useless, leading to Enforcer hits later. Now the entire
+  data structure is release and a NULL pointer put in its place.
+  This should fix the Enforcer hits in LayoutIconA().
+
+
+icon.library 45.1 (8.2.2001)
+
+- Added support for the 'ICONDRAWA_IsLink' to the 'DrawIconA()'
+  routine.

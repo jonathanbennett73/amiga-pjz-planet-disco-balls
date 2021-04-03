@@ -1,0 +1,41 @@
+	SetVNC 41.43
+
+- If the guide lacks an icon, the browser
+  defaults now to MultiView. 
+- SetVNC does now no longer try to allocate
+  a sprite for showing an additional color if
+  openend on a non-native screen. Causes only
+  trouble, and there is no hardware sprite anyhow.
+- SetVNC prints now RGB values as ranges from 0
+  to 255 similar to the preferences "Palette"
+  tool.
+- SetVNC allows now adjustment of the double TAB
+  delay time with the special value of zero.
+- Fixed an Enforcer hit in the argument parser.
+
+	SetVNC 41.44
+
+- The color selection increments now in steps of
+  one unit instead of steps of 16 units.
+- Included the "Easy Setup" flag. You find it
+  on the second "About" page. Please check wether
+  the selection of flags is convenient for the
+  beginner.
+
+	SetVNC 41.45
+
+- The first System page forbid the user to exit
+  if the guide location was incorrect. Note that
+  this is intentional, but I nevertheless changed
+  the behaivour.
+
+	SetVNC 41.46
+
+- Due to an oversight (a trashed register) 
+  "SetVNC Help" could have crashed in case the
+  guide file came with a ".info".
+
+	SetVNC 41.47
+
+- Strange enough, the argument parser enforcer 
+  hit reappeared in 41.45. Fixed again.

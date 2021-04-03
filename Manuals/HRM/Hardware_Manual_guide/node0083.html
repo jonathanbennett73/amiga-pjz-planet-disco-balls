@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-4-1-4" TITLE="3 / / Picture Larger / Selecting the Display Window Starting Position" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / Picture Larger / Selecting the Display Window Starting Position</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0082.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0084.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The display window starting position is the horizontal and vertical
+coordinates of the upper left-hand corner of the display window. One
+register,  <a href="../Hardware_Manual_guide/node0070.html">DIWSTRT</a> , holds both the horizontal and vertical coordinates,
+known as HSTART and VSTART. The eight bits allocated to HSTART are
+assigned to the first 256 positions, counting from the leftmost possible
+<a name="line7">position. Thus, you can start the display window at any pixel position</a>
+<a name="line8">within this range.</a>
+
+      0                         255                      511 ($1FF)
+       __________________________|___________________________
+      |                          |                           |
+      |                          |                           |
+      |&#060;------------------------&#062;|                           |
+      |        HSTART of         |                           |
+      |  DISPLAY WINDOW occurs   |                           |
+      |     is this region       |                           |
+      |                          |                           |
+      |                          |                           |
+      |                          |                           |
+      |                          |                           |
+      |                          |                           |
+      |                          |                           |
+      |                          |                           |
+      |__________________________|___________________________|
+
+      Figure 3-19: Display Window Horizontal Starting Position
+
+
+The eight bits allocated to VSTART are assigned to the first 256 positions
+<a name="line31">counting down from the top of the display.</a>
+
+       ______________________________________________________
+      |                                  /|\                 |  0
+      |                                   |                  |
+      |                         VSTART of |                  |
+      |                    DISPLAY WINDOW |                  |
+      |                         occurs in |                  |
+      |                       this region |                  |
+      |                                   |                  |
+      |                                   |                  |
+      |                                  \|/                 |
+      |------------------------------------------------------+- 255
+      |                                                      |
+ 262 -+------------------- (NTSC)                            |
+      |                                                      |
+      |______________________________________________________|  383 ($17F)
+
+       Figure 3-20: Display Window Vertical Starting Position
+
+
+Recall that you select the values for the starting position as if the
+display were in low resolution, non-interlaced mode. Keep in mind, though,
+that for interlaced mode the display window should be an even number of
+lines in height to allow for equal-sized odd and even fields.
+
+To set the display window starting position, write the value for HSTART
+into bits 0 through 7 and the value for VSTART into bits 8 through 15 of
+ <a href="../Hardware_Manual_guide/node0070.html">DIWSTRT</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-8-2" TITLE="K / AUTOCONFIG(TM) / Register Bit Assignments" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / AUTOCONFIG(TM) / Register Bit Assignments</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02C7.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02C9.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The actual register assignments are below.  Most of the registers are the
+same as for the Zorro II bus, and are included here for completeness.  The
+Amiga OS software names for these registers in the ExpansionRom or
+ExpansionControl structures are included.
+
+
+Reg    ZII    ZIII    Bit
+---    ---    ----    ---
+00     02     100     7,6     These bits encode the PIC type:
+--     (er_Type)
+                                00      Reserved
+                                01      Reserved
+                                10      Zorro III
+                                11      Zorro II
+
+                      5       If this bit is set, the PIC's memory will
+                              be linked into the system free pool.  The
+                              Zorro III register 08 may modify the size
+                              of the linked memory.
+
+                      4       Setting this bit tells the OS to read an
+                              autoboot ROM.
+
+                      3       This bit is set to indicate that the next
+                              board is related to this one; often
+                              logically separate PICs are physically
+                              located on the same card.
+
+                      2-0     These bits indicate the configuration size
+                              of the PIC.  This size can be modified for
+                              the Zorro III cards by the size extension
+                              bit, which is the new meaning of bit 5 in
+                              register 08.
+
+                                Bits    Unextended      Extended
+                                ----    ----------      --------
+                                000     8 megabytes     16 megabytes
+                                001     64 kilobytes    32 megabytes
+                                010     128 kilobytes   64 megabytes
+                                011     256 kilobytes   128 megabytes
+                                100     512 kilobytes   256 megabytes
+                                101     1 megabyte      512 megabytes
+                                110     2 megabytes     1 gigabyte
+                                111     4 megabytes     RESERVED
+
+04     06     104     7-0     The device's product number, which is
+--     (er_Product)           completely up to the manufacturer. This is
+                              generally unique between different
+                              products, to help in identification of
+                              system cards, and it must be unique between
+                              devices using the automatic driver binding
+                              features.
+
+08     0A     108     7       This was originally an indicator to place
+--     (er_Flags)             the card in the 8 megabyte Zorro II space,
+                              when set, or anywhere it'll fit, if
+                              cleared.  Under the Zorro III spec, this is
+                              set to indicate that the board is basically
+                              a memory device, cleared to indicate that
+                              the board is basically an I/O device.
+
+                      6       This bit is set to indicate that the board
+                              can't be shut up by software, cleared to
+                              indicate that the board can be shut up.
+
+                      5       This is the size extension bit.  If
+                              cleared, the size bits in register 00 mean
+                              the same as under Zorro II, if set, the
+                              size bits indicate a new size. The most
+                              common new Zorro III sizes are the smaller
+                              ones; all new sized cards get aligned on
+                              their natural boundaries.
+
+                      4       Reserved, must be 1 for all Zorro III cards.
+
+                      3-0     These bits indicate a board's sub-size; the
+                              amount of memory actually required by a
+                              PIC.  For memory boards that auto-link,
+                              this is the actual amount of memory that
+                              will be linked into the system free memory
+                              pool. A memory card, with memory starting
+                              at the base address, can be automatically
+                              sized by the Operating System.  This
+                              sub-size option is intended to support
+                              cards with variable setups without
+                              requiring variable physical configuration
+                              capability on such cards.  It also may
+                              greatly simplify a Zorro III design, since
+                              16-megabyte cards and up can be designed
+                              with a single latch and comparator for base
+                              address matching, while 8 megabyte and
+                              smaller PICs require large latch/comparator
+                              circuits not available in standard TTL
+                              packages.
+
+                                Bits    Encoding
+                                ----    --------
+                                0000    Logical size matches physical size
+                                0001    Automatically sized by the
+                                           Operating System
+                                0010    64 kilobytes
+                                0011    128 kilobytes
+                                0100    256 kilobytes
+                                0101    512 kilobytes
+                                0110    1 megabyte
+                                0111    2 megabytes
+                                1000    4 megabytes
+                                1001    6 megabytes
+                                1010    8 megabytes
+                                1011    10 megabytes
+                                1100    12 megabytes
+                                1101    14 megabytes
+                                1110    Reserved
+                                1111    Reserved
+
+                              For boards that wish to be automatically
+                              sized by the operating system, a few rules
+                              apply.  The memory is sized in 512K
+                              increments, and grows from the base address
+                              upward.  Memory wraps are detected, but the
+                              design must insure that its data bus
+                              doesn't float when the sizing routine
+                              addresses memory locations that aren't
+                              physically present on the board; data bus
+                              pullups or pulldowns are recommended.  This
+                              feature is designed to allow boards to be
+                              easily upgraded with additional or
+                              increased density memoried without the need
+                              for memory configuration jumpers.
+
+0C     0E     10C     7-0     Reserved, must be 0.
+--     (er_Reserved03)
+
+10     12     110     7-0     Manufacturer's number, high byte.
+--
+14     16     114     7-0     Manufacturer's number, low bytes.  These
+--     (er_Manufacturer)      are unique, and can only be assigned by
+                              Commodore (CATS).
+
+18     1A     118     7-0     Optional serial number, byte 0 (msb)
+--
+1C     1E     11C     7-0     Optional serial number, byte 1
+--
+20     22     120     7-0     Optional serial number, byte 2
+--
+24     26     124     7-0     Optional serial number, byte 3 (lsb)
+--     (er_SerialNumber)      This is for the manufacturer's use and can
+                              contain anything at all.  The main intent
+                              is to allow  a manufacturer to uniquely
+                              identify individual cards, but it can
+                              certainly be used for revision information
+                              or other data.
+
+28     2A     128     7-0     Optional ROM vector, high byte.
+--
+2C     2E     12C     7-0     Optional ROM vector, low byte.
+--     (er_InitDiagVec)       If the ROM address valid bit (bit 4 of
+                              register (00|02)) is set, these two
+                              registers provide the sixteen bit offset
+                              from the board's base at which the start of
+                              the ROM code is located.  If the ROM
+                              address valid bit is cleared, these
+                              registers are ignored.
+
+30     32     130     7-0     Reserved, must be 0.  Unsupported base
+--     (er_Reserved0c)        register reset register under Zorro II*.
+
+34     36     134     7-0     Reserved, must be 0.
+--     (er_Reserved0d)
+
+38     3A     138     7-0     Reserved, must be 0.
+--     (er_Reserved0e)
+
+3C     3E     13C     7-0     Reserved, must be 0.
+--     (er_Reserved0f)
+
+40     42     140     7-0     Reserved, must be 0.  Unsupported control
+--     (ec_Interrupt)         state register under Zorro II**.
+
+44     46     144     7-0     High order base address register, write only.
+--
+48     4A     148     7-0     Low order base address register, write only.
+--     (ec_Z3_HighByte)       The high order register takes bits 31-24 of
+       (ec_BaseAddress)       the board's configured address, the low
+                              order register takes bits 23-16.  For Zorro
+                              III boards configured in the Zorro II
+                              space, the configuration address is written
+                              both nybble and byte wide, with the
+                              ordering:
+
+                                Reg   Nybble     Byte
+                                ---   ------     ----
+                                46    A27-A24    N/A
+                                44    A31-A28    A31-A24
+                                4A    A19-A16    N/A
+                                48    A23-A20    A23-A16
+
+                              Note that writing to register 48 actually
+                              configures the board for both Zorro II and
+                              Zorro III boards in the Zorro II
+                              configuration block.  For Zorro III PICs in
+                              the Zorro III configuration block, the
+                              action is slightly different. The software
+                              will actually write the configuration as
+                              byte and word wide accesses:
+
+                                Reg   Byte       Word
+                                ---   ----       ----
+                                48    A23-A16    N/A
+                                44    A31-A24    A31-A16
+
+                              The actual configuration takes place when
+                              register 44 is written, thus supporting any
+                              physical size of configuration register.
+
+4C     4E     14C     7-0     Shut up register, write only.  Anything
+--     (ec_Shutup)            written to 4C will cause a board that
+                              supports shut-up to completely disappear
+                              until the next reset.
+
+50     52     150     7-0     Reserved, must be 0.
+--
+54     56     154     7-0     Reserved, must be 0.
+--
+58     5A     158     7-0     Reserved, must be 0.
+--
+5C     5E     15C     7-0     Reserved, must be 0.
+--
+60     62     160     7-0     Reserved, must be 0.
+--
+64     66     164     7-0     Reserved, must be 0.
+--
+68     6A     168     7-0     Reserved, must be 0.
+--
+6C     6E     16C     7-0     Reserved, must be 0.
+--
+70     72     170     7-0     Reserved, must be 0.
+--
+74     76     174     7-0     Reserved, must be 0.
+--
+78     7A     178     7-0     Reserved, must be 0.
+--
+7C     7E     17C     7-0     Reserved, must be 0.
+--
+
+ *  The original Zorro specifications called for a few registers, like
+    these, that remained active after configuration.  Support for this is
+    impossible, since the configuration registers generally disappear
+    when a board is configured, and absolutely must move out of the
+    $00E8xxxx space.  So since these couldn't really be implemented in
+    hardware, system software has never supported them.  They're included
+    here for historical purposes.
+
+ ** IBID
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

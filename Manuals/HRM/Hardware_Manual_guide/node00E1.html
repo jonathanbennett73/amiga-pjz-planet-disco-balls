@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-2-7" TITLE="5 / Forming and Playing a Sound / Stopping the Audio Dma" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / Forming and Playing a Sound / Stopping the Audio Dma</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00E0.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00E2.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+You can stop the channel by writing a 0 into the  <a href="../Hardware_Manual_guide/node00E0.html#line7">AUDxEN</a>  bit at any time.
+However, you cannot resume the output at the same point in the waveform by
+just writing a 1 in the bit again. Enabling an audio channel almost always
+starts the data output again from the top of the list of data pointed to
+by the  <a href="../Hardware_Manual_guide/node00DB.html">location registers</a>  for that channel. If the channel is disabled
+for a very short time (less than two  <a href="../Hardware_Manual_guide/node00DD.html">sampling periods</a> ) it may stay on
+and thus continue from where it left off.
+
+The following example shows how to stop audio DMA for one channel.
+
+STOPAUDCHAN0:
+        LEA     CUSTOM,a0
+        MOVE.W  #(DMAF_AUD0),<a href="../Hardware_Manual_guide/node0170.html">DMACON</a>(a0)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

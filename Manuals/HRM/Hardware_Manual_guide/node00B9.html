@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-2-6" TITLE="4 / Forming a Sprite / Building the Data Structure" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 / Forming a Sprite / Building the Data Structure</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00B8.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00BA.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+After defining the sprite, you need to build its data structure, which is
+a series of 16-bit words in a contiguous memory area. Some of the words
+contain position and control information and some contain color
+descriptions. To create a sprite's data structure, you need to:
+
+   *  Write the  <a href="../Hardware_Manual_guide/node00B2.html">horizontal</a>  and  <a href="../Hardware_Manual_guide/node00B3.html">vertical position</a>  of the sprite into
+      the first control word.
+
+   *  Write the vertical stopping position into the second control word.
+
+   *  Translate the decimal color numbers 0 - 3  in your sprite grid
+      picture into binary color numbers. Use the binary values to build
+      color descriptor (data) words and write these words into the data
+      structure.
+
+   *  Write the control words that indicate the end of the sprite data
+      structure.
+
+   Warning:
+   --------
+   Sprite data, like all other data accessed by the custom chips, must
+   be loaded into Chip RAM. Be sure all of your sprite data structures
+<a name="line24">   are word aligned in Chip Memory.</a>
+
+Table 4-1 shows a sprite data structure with the memory location and
+<a name="line27">function of each word:</a>
+
+
+ Memory
+ Location   16-bit Word                 Function
+ --------   -----------                 --------
+   N     Sprite control word 1       Vertical and horizontal start position
+   N+1   Sprite control word 2       Vertical stop position
+   N+2   Color descriptor low word   Color bits for line 1
+   N+3   Color descriptor high word  Color bits for line 1
+   N+4   Color descriptor low word   Color bits for line 2
+   N+5   Color descriptor high word  Color bits for line 2
+                  -
+                  -
+                  -
+         End-of-data words           Two words indicating
+                                     the next usage of this sprite
+
+
+              Table 4-1: Sprite Data Structure
+<a name="line47"></a>
+
+All memory addresses for sprites are word addresses. You will need enough
+contiguous memory to provide room for two words for the control
+information, two words for each horizontal line in the sprite, and two
+end-of-data words.
+
+Because this data structure must be accessible by the special-purpose
+chips, you must ensure that this data is located within chip memory.
+
+<a name="line57">Figure 4-7 shows how the data structure relates to the sprite.</a>
+
+
+          &#060;- - - - 16 bits - - - - -&#062;
+          ___________________________  __
+      |  |                           |   |    Each group of words
+         |      VSTART, HSTART       |   |    defines one vertical
+      |  |---------------------------|   |    usage of a sprite.
+         |    VSTOP, control bits    |   |--- Each one contains the
+      |  |___________________________|   |    starting location and
+                                         |    physical appearance
+      |   ___________________________  - | -  of this sprite image.
+         |                           |   |  |
+      |  | low word of data, line 1  |   |
+         |---------------------------|   |  |
+      |  | high word of data, line 1 |   |
+         |___________________________|   |  |
+      |                                  |
+               ------                    |  |
+  increasing   ------  data describing   |       Pairs of words
+  addresses    ------  central lines     |  |- - containing color
+               ------  if this sprite    |       information for
+      |        ------                    |  |    pixel lines.
+          ___________________________    |
+      |  |                           |   |  |
+         | low word of data, line 1  |   |
+      |  |---------------------------|   |  |
+         | high word of data, line 1 |   |
+      |  |___________________________| __|  |
+                                       - - -
+      |   ___________________________
+         |                           |        Last word pair contains
+      |  |     0000000000000000      |        all zeros if this sprite
+         |---------------------------|- - - - processor is to used
+      |  |     0000000000000000      |        only once vertically in
+     \|/ |___________________________|        the display frame.
+
+
+            Part of a screen display
+            _______________________
+           |                       |
+           |                       |
+           |                       |
+           |                       |
+           |                       |
+           |          HSTART       |
+           |                       |
+           |            |          |            Each word pair
+           |                       |          ___________________
+           |  VSTART _ _|  _       |         |                   |
+           |             _/_\_  _ _|_ _      | low word of pair  |
+           |            |_____| _ _|_ _ &#060;----|-------------------|
+           |   VSTOP _ _  \_/      |         | high word of pair |
+           |            |     |    |         |___________________|
+           |                       |
+           |            |&#060;---&#062;|    |          describes one video
+           |_______________________|          line of the sprite
+
+
+                    Figure 4-7: Data Structure Layout
+
+
+ <a href="../Hardware_Manual_guide/node00BA.html">Sprite Control Word 1 : SPRxPOS</a>      <a href="../Hardware_Manual_guide/node00BC.html">Sprite Color Descriptor Words</a> 
+ <a href="../Hardware_Manual_guide/node00BB.html">Sprite Control Word 2 : SPRxCTL</a>      <a href="../Hardware_Manual_guide/node00BD.html">End-of-data Words</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

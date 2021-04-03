@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-4-5-1" TITLE="7 / / Setting and Clearing Bits / Set and Clear" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 / / Setting and Clearing Bits / Set and Clear</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0165.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0167.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The  <a href="../Hardware_Manual_guide/node0164.html">interrupt registers</a> , as well as the  <a href="../Hardware_Manual_guide/node0170.html">DMA control register</a> , use a
+special way of selecting which of the bits are to be set or cleared. Bit
+15 of these registers is called the SET/CLR bit.
+
+When you wish to set a bit (make it a 1), you must place a 1 in the
+position you want to set and a 1 into position 15.
+
+When you wish to clear a bit (make it a 0), you must place a 1 in the
+position you wish to clear and a 0 into position 15.
+
+Positions 14-0 are bit selectors. You write a 1 to any one or more bits to
+select that bit. At the same time you write a 1 or 0 to bit 15 to either
+set or clear the bits you have selected. Positions 14-0 that have 0 value
+will not be affected when you do the write. If you want to set some bits
+and clear others, you will have to write this register twice (once for
+setting some bits, once for clearing others).
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

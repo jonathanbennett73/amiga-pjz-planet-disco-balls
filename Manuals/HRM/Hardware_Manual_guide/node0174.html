@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_G" NODE="G-2" TITLE="G Keyboard Interface / Keycodes" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>G Keyboard Interface / Keycodes</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0173.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0175.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Each key has a keycode associated with it (see accompanying  <a href="../Hardware_Manual_guide/node017A.html">table</a> ).
+Keycodes are always 7 bits long.  The eighth bit is a &#034;key-up&#034;/&#034;key-down&#034;
+flag; a 0 (high level) means that the key was pushed down, and a 1 (low
+level) means the key was released (the  <a href="../Hardware_Manual_guide/node0175.html">Caps Lock key</a>  is different -- see
+<a name="line6">below).</a>
+
+For example, here is a diagram of the &#034;B&#034; key being pushed down. The
+keycode for &#034;B&#034; is $35 = 00110101; due to the rotation of the byte, the
+bits transmitted are 01101010.
+
+             _____   ___   ___   ___   ___   ___   ___   ___   _________
+        KCLK      \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/
+             _________             _____       _____       _____________
+        KDAT          \___________/     \_____/     \_____/
+                   0     1     1     0     1     0     1     0
+
+In the next example, the B key is released.  The keycode is still $35,
+except that bit 7 is set to indicate &#034;key-up,&#034; resulting in a code of $B5
+= 10110101.  After rotating, the transmission will be 01101011:
+
+             _____   ___   ___   ___   ___   ___   ___   ___   _________
+        KCLK      \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/
+             _________             _____       _____             _______
+        KDAT          \___________/     \_____/     \___________/
+                   0     1     1     0     1     0     1     1
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

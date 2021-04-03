@@ -1,0 +1,69 @@
+Find 44.1 (21.10.2000)
+ - initial release
+
+Find 45.1 (29.10.2000)
+ - bumped version to 45
+ - now aborts the search if main window is closed
+ - added stop button in the result window
+ - initial main window height has been increased so that all devices
+   are shown now (I hope this works)
+ - deselected devices are now saved in ENVARC:sys/find.prefs
+ - ESC in the main window quits Find
+ - catalogs are now places in the sys sub directory
+
+Find 45.2 (31.10.2000)
+ - result list is now updated only every second
+ - added iconify gadget
+
+Find 45.3 (05.11.2000)
+ - result listbrowser is now selectable
+ - menu is now also in the result window
+ - doubleclicking on an entry will execute the object like on workbench
+ - path of current selected can be copied into the clipboard
+ - drawer of current selected object can be opened 
+ - added Settings Menu to alter some saveable search settings
+ - splitted date column into date and time, this looks better
+
+Find 45.4 (06.11.2000)
+ - supports Workbench args now. All drawers which are selected are now
+   in the drawer listbrowser
+
+Find 45.5 (11.11.2000)
+ - deselected devices are now saved into tooltypes and only on request
+ - changed "exact filename search" to "substring filename search"
+ - it's no longer necessary to hit the checkbox directly
+
+Find 45.6 (18.11.2000)
+ - Made the copyright text localizable
+ - Resultlist is now cleared after a new search starts
+ - Removed "..."'s from Open Drawer Menu entry
+
+Find 45.7 (22.11.2000)
+ - Windows are now opened centered
+
+-- OS3.9 Release
+
+Find 45.8 (22.01.2001)
+ - Added Results/Information Menuentry
+ - Ignore underscores in drawers while searching
+ - Windowpositions and dimensions are saved within the icon
+
+Find 45.9 (24.02.2001)
+ - The Find Window is an Appwindow. You can drop drawers into it
+   and they get added into the top of the path list
+
+Find 45.10 (28.02.2001)
+ - Added "Path List" Menu
+ - No path duplicates allowed anymore
+
+Find 45.11 (02.03.2001)
+ - fixed an Enforcer Hit
+
+Find 45.12 (19.10.2001)
+ - removed the seperate Result Window. Results are displayed
+   inside the main window now
+ - Uses C:WBRun if available to start a program
+ - Removed the cycle gadget from the main window
+
+Find 45.13 (09.10.2001)
+ - changes the layout a little bit

@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-2-6" TITLE="5 / Forming and Playing a Sound / Playing the Waveform" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / Forming and Playing a Sound / Playing the Waveform</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00DF.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00E1.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+After you have defined the audio data  <a href="../Hardware_Manual_guide/node00DB.html">location</a> ,  <a href="../Hardware_Manual_guide/node00DB.html#line26">length</a> ,  <a href="../Hardware_Manual_guide/node00DC.html">volume</a>  and
+ <a href="../Hardware_Manual_guide/node00DD.html">period</a> , you can play the waveform by starting the DMA for that audio
+channel. This starts the output of sound. Once started, the DMA continues
+until you specifically stop it. Thus, the waveform is played over and over
+again, producing the steady tone. The system uses the value in the
+<a name="line7"> <a href="../Hardware_Manual_guide/node00DB.html">location registers</a>  each time it replays the waveform.</a>
+
+For any audio DMA to occur (or any other DMA, for that matter), the
+DMAEN bit in  <a href="../Hardware_Manual_guide/node0170.html">DMACON</a>  must be set. When both DMAEN and AUDxEN are set, the
+DMA will start for channel x. All these bits and their meanings are shown
+<a name="line12">in table 5-3.</a>
+<a name="line13"></a>
+
+         Table 5-3: DMA and Audio Channel Enable Bits
+
+
+              <a href="../Hardware_Manual_guide/node0170.html">DMACON</a>  Register
+             ---------------
+
+          Bit     Name      Function
+          ---     ----      --------
+         15       <a href="../Hardware_Manual_guide/node0166.html">SET/CLR</a>   When this bit is written as a 1, it
+                            sets any bit in DMACONW for which
+                            the corresponding bit position is
+                            also a 1, leaving all other bits alone.
+
+          9       DMAEN     Only while this bit is a 1 can
+                            any direct memory access occur.
+
+          3       AUD3EN    Audio channel 3 enable.
+          2       AUD2EN    Audio channel 2 enable.
+          1       AUD1EN    Audio channel 1 enable.
+          0       AUD0EN    Audio channel 0 enable.
+
+
+For example, if you are using channel 0, then you write a 1 into bit 9 to
+enable DMA and a 1 into bit 0 to enable the audio channel, as shown below.
+
+BEGINCHAN0:
+        LEA     CUSTOM,a0
+        MOVE.W  #(DMAF_SETCLR!DMAF_AUD0!DMAF_MASTER),<a href="../Hardware_Manual_guide/node0170.html">DMACON</a>(a0)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

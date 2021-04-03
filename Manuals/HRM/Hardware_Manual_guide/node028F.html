@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-1-3" TITLE="K / General / The Zorro III Rationale" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / General / The Zorro III Rationale</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node028E.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0290.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+With the creation of the Amiga 3000, it became clear that the Zorro II bus
+would not be adequate to support all of that system's needs. The Zorro II
+bus would continue to be quite useful, as the current Amiga expansion
+standard, and so it would have to be supported.   A few unused pins on the
+Zorro II bus and the option of a bus controller custom LSI, gave rise to
+the Zorro III design, which supports the following features:
+
+   *   <a href="../Hardware_Manual_guide/node0290.html">Compatibility</a>  with all Zorro II devices.
+   *  Full  <a href="../Hardware_Manual_guide/node02A4.html">32-bit address</a>  path for new devices.
+   *  Full  <a href="../Hardware_Manual_guide/node02A4.html">32-bit data</a>  path for new devices.
+   *   <a href="../Hardware_Manual_guide/node0291.html">Bus speed independent</a>  of host system CPU speed.
+   *   <a href="../Hardware_Manual_guide/node02AA.html#line11">High speed</a>  bus block transfer mode.
+   *   <a href="../Hardware_Manual_guide/node02A8.html">Bus locking</a>  for multiprocessor support.
+   *   <a href="../Hardware_Manual_guide/node02A9.html">Cache disable</a>  for simple cache support.
+   *   <a href="../Hardware_Manual_guide/node0296.html">Fair arbitration</a>  for all bus masters.
+   *   <a href="../Hardware_Manual_guide/node02AB.html">Cycle-by-cycle</a>  bus arbitration mode.
+   *   <a href="../Hardware_Manual_guide/node02AC.html">High speed interrupt</a>  mode.
+
+Some of the advanced features, such as  <a href="../Hardware_Manual_guide/node02B5.html">burst modes</a> , are designed in such
+a way as to make them optional; both master and slave arbitrate for them.
+In addition, it is possible with a bit of extra cleverness, to design a
+card that automatically configures itself for either Zorro II or Zorro III
+<a name="line24">operation, depending on the status of a sensing pin on the bus.</a>
+
+The Zorro III bus is physically based on the same  <a href="../Hardware_Manual_guide/node02C9.html">100-pin</a>  single piece
+connector as the Zorro II bus.  While some bus signals remain unchanged
+throughout bus operation, other signals change based on the specific bus
+mode in effect at any time.  The bus is geographically mapped into three
+main sections: Zorro II Memory Space, Zorro II I/O Space, and Zorro III
+Space. The  <a href="../Hardware_Manual_guide/node00D4.html">memory map</a> , in Figure K-1 shows how these three spaces are
+mapped in the A3000 system.  The Zorro II space is limited to a 16
+megabyte region, and since it has DMA access by convention to chip memory,
+it is in the original 68000 memory map for any bus implementation.  The
+<a name="line35">Zorro III space can physically be anywhere in 32-bit memory.</a>
+
+
+      $80000000  ____________       _ _ _ ____________  $01000000
+                |            |           |            |
+                |            |     |     | Motherboard|
+                |            |           |     ROM    |
+                |            |     |     |------------| $00F00000
+                |            |           |Zorro II I/O|
+                | Zorro III  |     |     |------------| $00E80000
+                | expansion  |           |    A2000   |
+                |   space    |     |     | motherboard|
+                |            |           |  register  |
+                |            |     |     |    space   |
+                |            |           |------------| $00B80000
+                |            |     |     |  Zorro II  |
+                |            |           |  expansion |
+                |            |     |     |    space   |
+      $10000000 |------------|           |------------| $00A00000
+                |   32-bit   |     |     |            |
+                |   memory   |           |  Zorro II  |
+                | expansion  |     |     |   memory   |
+                |   space    |           |  expansion |
+      $08000000 |------------|    /      |    space   |
+                |   A3000    |           |            |
+                | motherboard|  /        |------------| $00200000
+                |   space    |           | Amiga Chip |
+      $01000000 |____________|/          |   memory   |
+      $00000000 |____________|_ _ _ _ _ _|____________| $00000000
+
+
+                   Figure K-1: Expansion Memory Map
+
+
+The Zorro III bus functions in one of two different major modes, depending
+on the memory address on the bus.  All bus cycles start with a 32-bit
+address, since the full 32-bit address is required for proper cycle
+typing.  If the address is determined to be in Zorro II space, a Zorro II
+compatible cycle is initiated, and all responding slave devices are
+expected to be Zorro II compatible 16-bit PICs.  Should a Zorro III
+address be detected, the cycle completes when a Zorro III slave responds
+or the bus times out, as driven by the motherboard logic.  It is very
+important that no Zorro III device respond in Zorro III mode to a Zorro II
+bus access; the two types of cycles make very different use of many of the
+expansion bus lines, and serious buffer contention can result if the cycle
+types are somehow mixed up.   The Zorro III bus of course started with the
+Zorro II bus as its necessary base, but the Zorro III bus mechanisms were
+designed as much as possible to solve specific needs for high end Amiga
+systems, rather than extend any particular Zorro II philosophy when that
+philosophy no longer made any sense.  There are actually several
+variations of the basic Zorro III cycle, though they all work on the same
+principles. The variations are for optimization of cycle times and for
+service of interrupt vectors.  But all of this in due time.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

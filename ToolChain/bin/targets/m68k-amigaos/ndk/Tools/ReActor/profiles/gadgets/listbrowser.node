@@ -1,0 +1,19 @@
+listbrowser.node
+BOOLEAN   0x85003501 (I····) LBNA_Selected "Selected" FALSE "Selected"
+FLAGS     0x85003502 (I····) LBNA_Flags "Flags" 5 0x00 0x01 0x01 "Read Only" 0x02 0x02 "Custom Pens" 0x04 0x04 "Has Children" 0x08 0x08 "Show Children" 0x10 0x10 "Hidden"
+INTEGER   0x8500350C (I····) LBNA_Generation "Generation" 0 0 65535
+INTEGER   0x85003504 (I····) LBNA_Column "Column" 0 0 32767
+STRING    0x85003505 (I····) LBNCA_Text "Text" ""
+REM POINTINT  0x85003506 (I····) LBNA_Integer "Integer" 0 0x80000000 0x7fffffff
+PEN       0x85003507 (I····) LBNCA_FGPen "Foreground Pen" TEXTPEN
+PEN       0x85003508 (I····) LBNCA_BGPen "Background Pen" BACKGROUNDPEN
+IMAGE     0x85003509 (I····) LBNCA_Image "Image"
+IMAGE     0x8500350A (I····) LBNCA_SelImage "Select Image"
+SELECT    0x8500350B (I····) LBNCA_Justification "Justification" 3 0 0 "Left" 1 "Center" 2 Right"
+BOOLEAN   0x8500350D (I····) LBNCA_Editable "Editable" FALSE "Editable"
+INTEGER   0x8500350E (I····) LBNCA_MaxChars "Maximum Chars" 15 1 32767
+BOOLEAN   0x8500350F (I····) LBNCA_CopyText "Copy Text" FALSE "Copy"
+BOOLEAN   0x85003510 (I····) LBNCA_CeckBox "Check Box" FALSE "Check Box"
+BOOLEAN   0x85003511 (I····) LBNCA_Checked "Checked" FALSE "Checked"
+REM TAGITEMS  0x85003513 (I····) LBNCA_EditTags "Edit Tags" string.node
+END

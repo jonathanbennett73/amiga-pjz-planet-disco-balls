@@ -1,0 +1,81 @@
+
+    USE Code
+       in        Active
+    BLTCON0     Channels             Cycle Sequence
+   ---------    --------             --------------
+       F        A B C D     A0 B0 C0 -  A1 B1 C1 D0 A2 B2 C2 D1 D2
+       E        A B C       A0 B0 C0 A1 B1 C1 A2 B2 C2
+       D        A B   D     A0 B0 -  A1 B1 D0 A2 B2 D1 -  D2
+       C        A B         A0 B0 -  A1 B1 -  A2 B2
+       B        A   C D     A0 C0 -  A1 C1 D0 A2 C2 D1 -  D2
+       A        A   C       A0 C0 A1 C1 A2 C2
+       9        A     D     A0 -  A1 D0 A2 D1 -  D2
+       8        A           A0 -  A1 -  A2
+       7          B C D     B0 C0 -  -  B1 C1 D0 -  B2 C2 D1 -  D2
+       6          B C       B0 C0 -  B1 C1 -  B2 C2
+       5          B   D     B0 -  -  B1 D0 -  B2 D1 -  D2
+       4          B         B0 -  -  B1 -  -  B2
+       3            C D     C0 -  -  C1 D0 -  C2 D1 -  D2
+       2            C       C0 -  C1 -  C2
+       1              D     D0 -  D1 -  D2
+       0         none       -  -  -  -
+
+
+       Table 6-2: Typical Blitter Cycle Sequence
+
+
+Here are a few caveats to keep in mind about Table 6-2.
+
+*  No fill.
+*  No competing bus activity.
+*  Three-word blit.
+
+(Three words appear to be D0,D1,D2 etc.)
+
+(Ticks in this paragraph appear to be cycles from above)
+The speed of the blitter depends entirely on which  DMA channels  are
+enabled.  You might be using a  DMA channel  as a constant, but unless it
+is enabled, it does not count against you.  The minimum blitter cycle is
+four ticks; the maximum is eight ticks.  Use of the A register is always
+free. Use of the B register always adds two ticks to the blitter cycle.
+Use of either C or D is free, but use of both adds another two ticks.
+Thus, a copy cycle, using A and D, takes four clock ticks per cycle; a
+copy cycle using B and D takes six ticks per cycle, and a generalized bit
+copy using B, C, and D takes eight ticks per cycle. When in  line mode ,
+each pixel takes eight ticks.
+
+
+
+Other notes on EAB:
+
+Fill is always at least 3 blitter cycles/word. Plain clear takes 2 blitter cycles.
+Both have one idle cycle which is usable by the CPU and only by the CPU.
+
+Both idle and non-idle blitter cycles require DMA cycle that was not used by 
+any other higher priority DMA channel. If this Blitter cycle was not actually 
+used by Blitter (was blitter idle cycle), it becomes available for the CPU.
+
+HRM blitter cycle diagram ("Typical Blitter Cycle Sequence") should help but 
+note that it does not explain when fill mode adds 1 extra cycle. Also note that 
+blitter idle cycles ('-' in diagram) need free cycle, they are not true idle 
+cycles. Only difference compared to normal blitter cycle is that CPU can use 
+blitter idle cycles. (blitter nasty makes no difference, CPU will still get the 
+cycle)
+
+- Normal line mode is C-D-C-D- (8 cycles per pixel?)
+
+- Availabhle cycles: http://eab.abime.net/showpost.php?p=1118466&postcount=4
+
+Other notes from ADA:
+
+The picture is 320x200 pixels in 4 bitplanes. That is 320/16*200*4 = 16000 words. 
+With 140000 available blitter cycles per frame, this theoretically allows for fully 
+cookie-cut masked blits at 8 cycles per word, but the masking is only needed at the 
+words containing the seams, while the rest can be plain copying blits at 4 cycles 
+per word. So there is a bit of time to be saved there (especially for the large zoom 
+factors) by splitting the blits up further. The two thin blits from the original 
+don't take much time.
+
+With only 4 bitplanes and not much copper activity (just setting modulos once 
+per scanline) the blitter can run at close to full speed. So the above method 
+should easily fit within one frame.

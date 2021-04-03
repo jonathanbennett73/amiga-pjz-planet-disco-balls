@@ -1,0 +1,16 @@
+ReqOnOff
+--------
+
+Template: ON/S, OFF/S, TOGGLE/S
+
+If AmigaDOS openes a dialog requester ("Please inseret volume "foobar" into
+any drive") it typically uses the Workbench screen to open it. ReqOnOff
+is used to tell the process not to open any AmigaDOS dialogs anymore.
+
+ON: allow AmigaDOS requesters
+
+OFF: forbid AmigaDOS requesters
+
+TOGGLE: toggle status of AmigaDOS requesters
+
+ReqOnOff returns 5 (WARN) if the AmigaDOS requesters are disabled on exit.

@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_D" NODE="D-2" TITLE="D System Memory Maps / A3000 Memory Map" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>D System Memory Maps / A3000 Memory Map</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00D3.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00D5.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+
+Address Range				Description
+-----------------------		-------------------------------
+$0000 0000 - $001F FFFF		Amiga  <a href="../Hardware_Manual_guide/node009B.html">Chip Memory</a> 
+
+$0020 0000 - $009F 0000		 <a href="../Hardware_Manual_guide/node0293.html">Zorro II Memory Expansion Space</a> 
+
+$00A0 0000 - $00B7 FFFF		 <a href="../Hardware_Manual_guide/node0293.html">Zorro II I/O Expansion Space</a> 
+
+
+$00B8 0000 - $00BE FFFF		Reserved
+
+$00BF 0000 - $00BF FFFF		 <a href="../Hardware_Manual_guide/node012E.html">CIA Ports &#038; Timers</a> 
+
+
+$00C0 0000 - $00C7 FFFF		Expansion Memory
+
+$00C8 0000 - $00D7 FFFF		Reserved
+
+
+$00D8 0000 - $00DB FFFF		Reserved
+
+$00DC 0000 - $00DD FFFF		Memory Mapped Clock
+
+$00DD 0000 - $00DE FFFF		SCSI Control
+
+$00DE 0000 - $00DE FFFF		Motherboard Resources
+
+$00DF 0000 - $00DF FFFF		Amiga  <a href="../Hardware_Manual_guide/node0011.html">Chip Registers</a> 
+
+
+$00E0 0000 - $00E7 FFFF		Reserved
+
+$00E8 0000 - $0EFF FFFF		 <a href="../Hardware_Manual_guide/node0293.html">Zorro II I/O &#038; Configuration</a> 
+
+$00F0 0000 - $00F7 FFFF		Diagnostic ROM (Reserved)
+
+$00F8 0000 - $00FF FFFF		High ROM (512K)
+
+
+$0100 0000 - $03FF FFFF		Reserved
+
+$0400 0000 - $07FF FFFF         Motherboard Fast RAM
+
+$0800 0000 - $0FFF FFFF 	Coprocessor Slot Expansion
+
+$1000 0000 - $7FFF FFFF		Zorro III Expansion
+
+
+$8000 0000 - $FEFF FFFF		Reserved
+
+$FF00 0000 - $FF00 FFFF		 <a href="../Hardware_Manual_guide/node02C7.html#line31">Zorro III Configuration Unit</a> 
+
+<a name="line55">$FF01 0000 - $FFFF FFFF		Reserved</a>
+
+
+         32-BIT ADDRESS SPACE                HIGH MEMORY
+            (4 GIGABYTES)                    (16 MBYTES)
+ $FFFF FFFF  ____________ _ _ _
+            |____________|_     $FFFF FFFF  ____________
+            |            | \               |            |
+            |            |                 |            |
+            |            |   \            /            /
+            |            |                \            \
+            |            |    |            \            \
+            |            |                  \            \
+            |            |    |             /            /
+            |            |                 |            |
+            |  Reserved  |    |            |  Reserved  |
+            |            |                 |            |
+            |            |    | $FF01 0000 |------------|
+            |            |                 |  Zorro III |
+            |            |    |            |Config. Unit|
+            |            |      $FF00 0000 |____________|
+            |            |    |_ _ _
+            |            |
+            |            |
+            |            |     _ _ _         LOW MEMORY
+            |            |    |             (256 MBYTES)
+ $8000 0000 |------------|      $0FFF FFFF  ____________
+            |            |    |            |            |
+            |            |                 |            |
+            |            |    |            | Coprocessor|
+            |            |                 |    Slot    |
+            |            |    |            |  Expansion |
+            |  Zorro III |                 |            |
+            |  Expansion |    | $0800 0000 |------------|
+            |            |                 | Motherboard|
+            |            |   /             |  Fast RAM  |
+            |            |      $0700 0000 |------------|
+            |            | /               |            |
+ $1000 0000 |------------|-                |  Reserved  |
+            |            |                 |            |
+            |            |      $0100 0000 |------------|- -    - -
+            | Low Memory |                 |   24-bit   |   \  /
+            |(256 MBytes)|                 |   Address  |    \/ (continued
+            |            |                 |   Space    |    /\   below)
+ $0000 0000 |____________|_ _ _ $0000 0000 |____________|_ _/  \_
+                                                                    |
+
+                   _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|
+                  |
+
+                  |
+                               _ _ _     HIGH I/O REGISTERS
+                  |           |
+                                  $DF FFFF  ____________
+                 \|/          |            |            |
+                                           | Amiga Chips|
+       (continued from above) |   $DF 0000 |------------|
+                                           | Motherboard|
+        24-BIT ADDRESS SPACE  |            |  Resources |
+            (16 MBYTES)           $DE 0000 |------------|
+ $00FF FFFF  ____________     |            |SCSI Control|
+            |            |        $DD 0000 |------------|
+            |  High ROM  |    |            |   Memory-  |
+ $00F8 0000 |------------|                 |   mapped   |
+            | Diagnostic |    |            |   clock    |
+            |    ROM     |        $DC 0000 |------------|
+ $00F0 0000 |------------|    |            |  Reserved  |
+            |Zorro II I/O|        $DD 0000 |------------|
+            | and config.|   /             |  Reserved  |
+ $00E8 0000 |------------|        $DA 0000 |------------|
+            |  Reserved  | /               |  Reserved  |
+ $00E0 0000 |------------|-       $D9 0000 |------------|
+            |  High I/O  |                 |  Reserved  |
+            |  registers |        $D8 0000 |____________|
+ $00D8 0000 |------------|- - - -
+            |            |
+            |  Reserved  |
+            |            |
+ $00C8 0000 |------------|
+            | Ranger RAM |
+ $00C0 0000 |------------|- - - -
+            |   Low I/O  |        $BF FFFF  ____________
+            |  registers |                 |            |
+ $00B8 0000 |------------|-                | CIA Ports  |
+            |            | \               | and Timers |
+            |Zorro II I/O|        $BF 0000 |------------|
+            | Expansion  |   \             |  Reserved  |
+            |            |        $BE 0000 |------------|
+ $00A0 0000 |------------|    |            |  Reserved  |
+            |            |        $BD 0000 |------------|
+            |  Zorro II  |    |            |  Reserved  |
+            |   Memory   |        $BC 0000 |------------|
+            | Expansion  |    |            |  Reserved  |
+            |            |        $BB 0000 |------------|
+ $0020 0000 |------------|    |            |  Reserved  |
+            |  Standard  |        $BA 0000 |------------|
+            |  Chip RAM  |    |            |  Reserved  |
+            |   (Up to   |        $B9 0000 |------------|
+            |  2 MBytes) |    |            |  Reserved  |
+ $0000 0000 |____________|        $B8 0000 |____________|
+                              |_ _ _
+
+
+                 Figure D-1: Amiga 3000 Memory Map
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

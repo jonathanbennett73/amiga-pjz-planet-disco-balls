@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-6" TITLE="8 Interface Hardware / Display Output Connections" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 Interface Hardware / Display Output Connections</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node01A6.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node01A8.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+All Amigas provide a 23-pin connector on the back.  This jack contains
+video outputs and inputs for external genlock devices. Two separate type
+<a name="line4">of RGB video are available on the connector:</a>
+
+   *  RGB Monitors (&#034;analog RGB&#034;). Provides four outputs; Red (R),
+      Green (G), Blue (B), and Sync (S). They can generate up to 4,096
+      different colors on-screen simultaneously using the circuitry
+<a name="line9">      presently available on the Amiga.</a>
+
+   *  Digital RGB Monitors. Provides four outputs, distinct from those
+      shown above, named Red (R), Green (G), Blue (B), Half-Intensity
+      (I), and Sync (S).  All output levels are logic levels (0 or 1).
+      On some monitors these outputs allow up to 15 possible color
+      combinations, where the values 0000 and 0001 map to the same
+      output value (Half intensity with no color present is the same
+      as full intensity, no color). Some monitors arbitrarily map the
+      16 combinations to 16 arbitrary colors.
+
+   Note that the sync signals from the Amiga are unbuffered.  For use
+   with any device that presents a heavy load on the sync outputs,
+<a name="line22">   external buffers will be required.</a>
+
+The Amiga 500 and 2000 provide a full-bandwidth monochrome video jack for
+use with inexpensive monochrome monitors.  The Amiga colors are combined
+into intensities based on the following table:
+
+                       Red     Green   Blue
+                       ---     -----   ----
+<a name="line30">                       30%      60%    10%</a>
+
+<a name="line32">The A3000 is not equipped with a monochrome video jack.</a>
+
+The Amiga 1000 provides an RF modulator jack.  An adapter is available
+that allows all Amiga models to use a television set for display.  Stereo
+sound is available on the jack, but will generally be combined into
+<a name="line37">monaural sound for the TV set.</a>
+
+The Amiga 1000 provides a color composite video jack.  This is suitable
+for recording directly with a VCR, but the output is not broadcast
+quality. For use on a monochrome monitor, the color information often has
+undesired effects; careful color selection or a modification to the
+internal circuitry can improve the results.  The A500, A2000 and A3000 do
+not have a color composite video jack. High quality composite adapters for
+<a name="line45">the A500, A1000, A2000 and A3000 plug into the 23 pin RGB port.</a>
+
+The Amiga 2000 and 3000 provide a special &#034;video slot&#034; that contains many
+more signals than are available elsewhere:  all the 23-pin RGB port
+signals, the unencoded digital video, light pen, power, audio, colorburst,
+pixel switch, sync, clock signals, etc.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

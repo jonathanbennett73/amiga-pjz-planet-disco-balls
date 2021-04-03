@@ -1,0 +1,150 @@
+lowlevel.library
+================
+
+Version						Date 							Change                            Changed by
+----------------------------------------------------------------------------------
+
+V45.01            11/15/00          SetJoyMap() added                 S.Haeuser
+                                    GetJoyMap() added
+                                    SetDeadZone() added
+                                    GetDeadZone() added
+                                    SetCalibration() added
+                                    GetCalibration() added
+                                    GetButtons() added
+                                    GetAxis() added
+                                    AllocateAnalogStick() added
+                                    FreeAnalogStick() added
+                                    ReadAnalogStick() added
+                                    GetJoyType() added
+                                    GetAxisName() added
+                                    GetButtonName() added
+                                    GetKeyPPC() added
+                                    ReadJoyPortPPC() added
+                                    SetJoyPortAttrsPPC() added
+                                    SetJoyMapPPC() added
+                                    GetJoyMapPPC() added
+                                    SetDeadZonePPC() added
+                                    GetDeadZonePPC() added
+                                    SetCalibrationPPC() added
+                                    GetCalibrationPPC() added
+                                    GetButtonsPPC() added
+                                    GetAxisPPC() added
+                                    AllocateAnalogStickPPC() added
+                                    FreeAnalogStickPPC() added
+                                    ReadAnalogStickPPC() added
+                                    GetJoyTypePPC() added
+                                    GetAxisNamePPC() added
+                                    GetButtonNamePPC() added
+                                    BeginLowLevelPPC() added
+                                    EndLowLevelPPC() added
+                                    SetJoyPortAttrs(): added PSX Port and SEGA Pad Support
+                                    ReadJoyPortAttrs(): added PSX Port and SEGA Pad Support
+
+Short comments to the new functions (...PPC does the same like ..., only PPC
+Native, SetJoyPortAttrsPPC/FreeAnalogStickPPC/AllocateAnalogStickPPC might involve
+context switches though, but reading the Pads is PPC Native, in the current version
+the PPC Native Joy-Reading versions only work with CD32 Pads in Port 1, though):
+
+Note: The new functions are only needed for "new style lowlevel" apps, which add some
+more features (analog support, more buttons), old-style apps work without the new functions
+just fine.
+
+SetJoyMap: To map a port to a different number (default uses CD32 0-3, PSX 5-8, SEGA 9-12, 4 reserved)
+GetJoyMap: To get the current Mapping
+SetDeadZone: Set the Deadzone for a analog Pad
+GetDeadZone: Get the Deadzone for a analog Pad
+SetCalibration: Set the Calibration for a analog Pad
+GetCalibration: Get the Calibration for a analog Pad
+GetButtons: Get the number of Buttons a Pad offers
+GetAxis: Get the number of analog axis a Pad offers
+AllocateAnalogStick: Allocate a Pad with certain features
+FreeAnalogStick: Free the Pad again
+ReadAnalogStick: Read data from an analog Pad
+GetJoyType: Get a more detailed Joystick Type (like: "PSX Pad:Lightgun Controller")
+GetAxisName: Get the Name of a Axis with a certain Number (or 0 for not existing)
+GetButtonName: Get the Name of a Button with a certain Number (or 0 for not existing)
+GetKeyPPC: PowerPC Native (WarpOS) version of GetKey of lowlevel.library
+BeginLowLevelPPC: Needs to get called before the first PPC Native lowlevel.library call is done
+EndLowLevelPPC: Free PPC Resources again
+
+Current Bugs:
+
+- Native psxport.device apps and lowlevel.library apps can occupy a PSX Pad the same time
+- SEGA Pads report to ReadJoyPort as two-button joysticks, not as GameControllers
+- No Prefs-Tool to switch the Mapping exists yet
+- ReadJoyPortPPC/ReadAnalogStickPPC do nothing if the Pad is not CD 32 Controller in Unit 1
+
+V45.02            11/16/00          Fixed ReadJoyPortPPC()            S. Haeuser													
+				    Fixed ReadAnalogStickPPC()
+
+Now in case a CD 32 Controller in port 0 or a different controller (PSX Port, Sega,...)
+is used the PPC functions contextswitch back to the 68k functions (in V45.01 they did just
+return 0). PPC-ization of the other Controllers will come in later Revisions.
+
+V45.03		  11/17/00	    Fixed SetJoyPortAttrs() Bug	      S. Haeuser
+
+SetJoyPortAttrs() (and because of them also AllocateAnalogStick() and the PPC functions)
+would crash, if the non-existent CD32-Controller-Ports 2 or 3 would be accessed (actually
+the crash happened when accessing them for the second time). This has been fixed. Actually
+there is still a bug in the CD32-Controller-Type-Recognition (Mouse/Game-Controller) which
+does not always work. This is a bug in the original lowlevel.library which happens in the
+original Library too (Concerning SJA_TYPE_AUTOSENSE only). I will look if I can do anything
+about it. But the original ReadJoyPort Code looks - partially strange.		
+
+Open Bugs:
+
+- psxport.device vs. lowlevel.library Bug (both can use the Pad at the same time)
+- Sega Pad Bug (only 2 Firebuttons are used in ReadJoyPort)
+- SJA_TYPE_AUTOSENSE Bug
+
+V45.04      11/17/00      Fixed Joyport Type                S. Haeuser
+
+I introduced a workaround on the SJA_TYPE_AUTOSENSE Bug which works fine.
+
+V45.05	    11/17/00	  Port 0 CD32 PPC Native	    S. Haeuser
+
+I added PPC Native Code for CD 32 Port 0 Handling (before this was a Contextswitch).
+Port 0 Allocations always failed with the "old" lowlevel.library, I was not sure
+if this is a bug or a feature, so I left it unchanged for 68k. But for Contextswitch
+reduction at least the PPC functions *can* handle port 0. Out of implementation reasons
+they always handle CD32 port 0 as a Mouse, though. Added another final fix for the
+SJA_TYPE_AUTOSENSE problem (for both 68k and PPC). It is still recommended (like for
+the old lowlevel.library) for programmers to directly specify what sort of stick
+they want instead of using AUTOSENSE. At least for the Analog Stick functions this
+is *highly* recommended. Also programmers should avoid asking for a stick of
+type "Unknown" (if these recommendations are not followed the program behaviour
+might depend on the manufacturer of the actual Joystick used... Amiga Joystick/CD32 Hardware
+is far from perfect...
+
+V45.06	    11/20/00	  Speedup+Sega 			    S. Haeuser
+
+Speedup for CD32 68k functions, and implementation of PPC Native functions for Sega Pad
+(port 1). Hopefully the Sega Pad PPC Native Stuff works, I have to wait for the results
+from the Sega Pad Betatester now...
+
+V45.07	    11/21/00	  Speedup+Sega Bugfix		    S. Haeuser
+
+Speedup for CD32 PPC Functions, and Bugfix of PPC Native functions for Sega Pad (hopefully
+it works now, time for the Sega Pad Beta Tester again :) )
+
+V45.08      11/21/00	  Sega Bugfix+Cache Fix		    S. Haeuser
+
+Okay, this should work now (I do not have a Sega Pad myselves...)
+Cleaned up a Cache-related Problem which is unlikely to cause problems, to be on the
+safe side.
+
+V46.09	    11/21/00      Sega 68k Bugfix		    S. Haeuser
+
+Okay, now the 68k side of the Sega-Stuff should work too, hopefully...
+
+V46.10	    11/21/00	  SetJoyPortAttrs-Bugfix	    S. Haeuser
+
+Cleared up with a misconception on my side (I assumed that SetJoyPortAttrs is required,
+before ReadJoyPort can be used). Now ReadJoyPort/ReadAnalogStick can be used, even if
+SetJoyPortAttrs has never been called. The restriction that
+the functions of the new Analog-API and also the PPC functions *require* proper 
+initialization does still apply, though. I will document this properly in the Autodocs,
+as soon as I update the autodocs. The mentioned misconception was also the reason
+why Joe could not get ADoom running with the Sega Pad (ADoom does not call SetJoyPortAttrs). Well,
+should work now with the Sega-Pad.
+						

@@ -1,0 +1,217 @@
+
+AsyncWB 45.0 (27.11.00)
+
+- first beta release.
+
+
+AsyncWB 45.1 (28.11.00)
+
+- (hopefully) fixed some enforcer hits that were reported by Mario.
+  I couldn't reproduce it here but I found the place where the program
+  could have thrown them.
+
+ 
+AsyncWB 45.2 (01.12.00)
+
+- starting the program a 2nd time terminates it.
+
+- can be started from wb, now.
+
+
+AsyncWB 45.3 (07.12.00)
+
+- all texts except "Create Icon?" (New Drawer function) are localized, now.
+  the workbench.catalog is used for that <Mario Cattaneo>.
+
+- the makedir function can create several drawers at once, now. For example:
+  1/2/3 creates drawer 1 and 2 in 1 and 3 in 2 in 1 :) <Mario Cattaneo>.
+
+- a few internal changes.
+
+
+AsyncWB 45.4 (15.12.00)
+
+- pressing tab doesn't terminate the textinput requester any longer <Mario Cattaneo>.
+
+- the "Create Icon?" text is now localized (the Q_ICON_MENU label is used).
+
+- displays the greeting text (the text above the string.gadget of a textinput
+  request), now.
+
+- for rename and new drawer the contents of the string.gadget will be marked.
+
+- when renaming/creating an iconless file/drawer, the contents of the parent
+  drawer will be updated via "wbarexx/MENU WINDOW.UPDATE".
+
+
+AsyncWB 45.5 (16.12.00)
+
+- when renaming an object *with* an icon, the icon was removed from the display
+  without adding it to the display again. Bug was introduced in 45.4. 
+
+- replacing a drawer failed when the window of the drawer to replace was open
+  <Eike M. Lang>.
+
+- when replacing an object its icon won't be overwritten anymore <also Eike>.
+
+
+AsyncWB 45.6 (27.12.00)
+
+- even for large drawers, the copy/delete progress window should appear after
+  2-3 secs.
+
+- copying a disk should (correctly) duplicate its icon, now. when the disk
+  to be copied doesn't have an icon the default drawer icon will be used
+  (before def_disk was used) <Mario Cattaneo>.
+  
+- fixed byte-write to #0 enforcer hit when sending arexx commands to wb <Mario>.
+
+- AllegroCDFS returns ERROR_OBJECT_NOT_FOUND when trying to read beyond the
+  end of a file, the filesystem should simply return zero for this case. AsyncWB
+  takes care of this problem, now.
+
+- the prompt of a textinput requester is now always marked <Mario Cattaneo>.
+
+- when a textinput requester went inactive, its string.gadget will be activated
+  again when the window becomes the active one, again <also Mario>. Don't know
+  whether the text should be marked again in this case.
+
+- rename doesn't put up an error requester any longer when the icon to rename
+  doesn't have a corresponding file or drawer <Andrea Vallinotto>.
+  
+- the button of the greeting message (the text above the string.gadget) didn't
+  have underscoring disabled <also Andrea>.
+
+
+AsyncWB 45.7 (31.12.00)
+
+- when copying an iconless file or drawer, the destination drawer will be 
+  rescanned to update the display. That's not a perfect solution but the
+  best I can do for now (before an icon was created to update the display).
+  Don't like to create an icon and deleting it immediately ...
+
+- deleting only icons (icons without a corresponding file or drawer) didn't
+  work because I forgot to set a variable back to NULL <Vit Sindlar>.
+
+
+AsyncWB 45.8 (12.01.01)
+
+- when updating a drawer (after copying something) the program (actually wb)
+  could throw some enforcer hits because of a flag that wasn't cleared
+  <Vit Sindlar>. Thanks to David Rey and Mario Cattaneo for reproducing the
+  bug.
+
+
+AsyncWB 45.9 (17.01.01)
+  
+- improved (soft)link support, possibly not perfect but the best I could do
+  <Francis Labrie>.
+
+
+AsyncWB 45.10 (24.01.01)
+
+- this version should really fix what 45.8 should have fixed ;)
+
+
+AsyncWB 45.11 (13.02.01)
+
+- no longer rescans the drawer when changing/copying an iconless file
+  in a "show all files" drawer, UpdateWorkbench() will be used to 
+  update the display, now. Requires at least workbench.library 45.121!
+
+- no longer leaves filehandles open when skipping files that already
+  exist on the destination.
+
+- misc changes and fixes not really worth to mention :)
+
+
+AsyncWB 45.12 (19.02.01)
+
+- deleting a drawerless drawer icon didn't work.
+
+- makedirs also works when the mother drawer is in use <Mario Cattaneo>.
+
+
+AsyncWB 45.13 (13.03.01)
+
+- integrated Joanne Dow's makedir magic <Mario Cattaneo>.
+
+- too sad it's not Friday ;)
+
+
+AsyncWB 45.14 (17.03.01)
+
+- when the source does not have an icon but the destination, the program no
+  longer puts up the "Replace/Skip/Abort" requester <Mario Cattaneo>.
+
+
+AsyncWB 45.15 (06.04.01)
+
+- now really handles "Skip All/Replace All" of .info files correctly.
+
+- AsyncWB no longer spawns new processes for the rename/relabel operation,
+  this way there will be only one rename window at a time.
+
+- rename reselects the icon after renaming it, this is what wb does.
+
+
+AsyncWB 45.16 (18.04.01)
+
+- rename or new drawer no longer overwrite the command cache of the execute
+  command function.
+
+- holding down RAMIGA when clicking on the "Cancel" button (or closegadget) 
+  of a rename window, will also cancel all queued rename requests.
+  
+- selecting a button of an inactive window won't be aborted any longer.
+
+- the delete progress window shouldn't come up too early, now.
+
+
+AsyncWB 45.17 (10.06.01)
+
+- now clones the filedate <Mario Cattaneo>.
+ 
+- makedir complains about already existing dirs, now <Mario>.
+
+- some new code in 45.16 caused the delete/copy to abort when
+  the user clicked on the progress window <also Mario>.
+
+
+AsyncWB 45.18 (18.06.01)
+
+- Forgot to remove some debugging output <Mario Cattaneo>.
+
+- the rename and newdrawer function allows to enter all wildcards, now
+  <David Rey>.
+
+
+AsyncWB 45.19 (15.08.01)
+
+- Now keeps the filename uptodate (lower-/uppercase) when replacing files.
+
+
+AsyncWB 45.20 (19.09.01)
+
+- pressing Esc in a string.gadget cancels the requester, now.
+
+
+AsyncWB 45.21 (25.10.01)
+
+- added NOASYNC as an attempt to reduce CPU usage a bit on IDE
+  based systems.
+  
+- you can drop icons on the "Execute Command" window, now.
+
+- also added a simple history function (use cursor up/dn keys) to the 
+  window.
+
+- when entering an URL the program will attempt to open it in a 
+  browser (requires openurl package from the Aminet).
+
+- entering a path to a drawer opens the window of the drawer.
+
+
+AsyncWB 45.22 (16.12.01)
+
+- makedir accepts '/', again <David Rey>.

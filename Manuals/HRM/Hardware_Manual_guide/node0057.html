@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-7-2" TITLE="2 / Starting and Stopping the Copper / Stopping the Copper" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / Starting and Stopping the Copper / Stopping the Copper</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0056.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0058.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+No stop instruction is provided for the Copper. To ensure that it will
+stop and do nothing until the screen display ends and the program counter
+starts again at the top of the instruction list, the last instruction
+should be to  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for an event that cannot occur. A typical instruction
+is to  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for VP = $FF and HP = $FE. An HP of greater than $E2 is not
+possible. When the screen display ends and  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  starts, the
+Copper will automatically be pointed to the top of its instruction list,
+<a name="line9">and this final  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  instruction never finishes.</a>
+
+You can also stop the Copper by disabling its ability to use DMA for
+retrieving instructions or placing data. The register called  <a href="../Hardware_Manual_guide/node0170.html">DMACON</a> 
+controls all of the DMA channels. Bit 7, COPEN, enables Copper DMA when
+set to 1.
+
+For information about  <a href="../Hardware_Manual_guide/node0170.html">controlling the DMA</a> , see Chapter 7, &#034;System
+Control Hardware.&#034;
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

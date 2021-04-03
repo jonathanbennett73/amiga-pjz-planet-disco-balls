@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_F" NODE="F-4-3" TITLE="F / Serial Shift Register (SDR) / Bidirectional Feature" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>F / Serial Shift Register (SDR) / Bidirectional Feature</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0140.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0142.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The bidirectional capability of the shift register and CNT clock allows
+many 8520s to be connected to a common serial communications bus on
+which one 8520 acts as a master, sourcing data and shift clock, while
+all other 8520 chips act as slaves.     Both CNT and SP outputs are open
+drain to allow such a common bus.  Protocol for master/slave selection
+can be transmitted over the serial bus or via dedicated handshake lines.
+
+        REG  NAME       D7   D6   D5   D4   D3   D2   D1   D0
+        ---  ----       ---- ---- ---- ---- ---- ---- ---- ----
+        C     SDR       S7   S6   S5   S4   S3   S2   S1   S0
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

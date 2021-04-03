@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-2-3-2" TITLE="K / / Signal Description / Clock Signals" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Signal Description / Clock Signals</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node029D.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node029F.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The Zorro III expansion bus provides  <a href="../Hardware_Manual_guide/node02B0.html">clock signals</a>  for expansion boards.
+These clocks are for  <a href="../Hardware_Manual_guide/node02A5.html">synchronous</a>  Zorro II designs and for other
+synchronous activity such as bus arbitration.  While originally based on
+Amiga local bus clocks, these have no guaranteed relationship to any local
+bus activity in newer Amiga computers, but are maintained in Amiga
+computers as part of the expansion bus specification.  The relationship
+<a name="line8">between these clocks is illustrated in Figure K-3.</a>
+
+/C1 Clock
+   This is a 3.58 MHz clock (3.55 MHz on PAL systems) that's synched to
+<a name="line12">   the falling edge of the 7M system clock.</a>
+
+/C3 Clock
+   This is a 3.58 MHz clock (3.55 MHz on PAL systems) that's synched to
+<a name="line16">   the rising edge of the 7M system clock.</a>
+
+CDAC Clock
+   This is a 7.16 MHz system clock (7.09 MHz on PAL systems) which
+<a name="line20">   trails the 7M clock by 90 degrees (approximately 35ns).</a>
+
+E Clock
+   This is the 68000 generated &#034;E&#034; clock, used for 6800 family
+   peripherals driven by &#034;E&#034; and 6502 peripherals driven by phi(2).
+   This clock is four 7M clocks high, six clocks low, as per the 68000
+   spec.  Note that the bus does not support the rest of the 68000's
+   6800/6502 compatible interface; there may be better ways to clock
+<a name="line28">   such devices.</a>
+
+E7M Clock
+   This is the 7.16 MHz system clock (7.09 MHz on PAL systems).  This
+   clock forms the basis for all  <a href="../Hardware_Manual_guide/node02A5.html#line10">Zorro II/68000</a>  compatible activity, and
+<a name="line33">   for various other system functions, such as bus arbitration.</a>
+
+
+           140ns
+         |&#060;-----&#062;|
+      ___     ___     ___     ___     ___     ___     ___     ___     _
+ C7M |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+     |   |___|   |___|   |___|   |___|   |___|   |___|   |___|   |___|
+
+         |   | 75|   |
+         | -&#062;| ns|&#060;- |
+         | | |   |   |
+     35-&#062;| |&#060;-   |   |
+     ns ___  |  ___  |  ___     ___     ___     ___     ___     ___
+CDAC   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+     __|   |___|   |___|   |___|   |___|   |___|   |___|   |___|   |___
+         |       |
+         |   |   |   |
+     ____    |    _______         _______         _______         _____
+ /C1     |       |       |       |       |       |       |       |
+         |_______|       |_______|       |_______|       |_______|
+
+         |   |   |   |
+      _______    |    _______         _______         _______         _
+ /C3 |       |       |       |       |       |       |       |       |
+     |       |_______|       |_______|       |_______|       |_______|
+         |
+         |   |   |   |
+     ____    |   |   |                                    _____________
+   E     |                                               |
+         |_______________________________________________|
+
+
+                     Figure K-3: Expansion Bus Clocks
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

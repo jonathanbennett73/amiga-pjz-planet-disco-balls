@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-5-2" TITLE="2 / Using the Copper Registers / Jump Strobe Address" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / Using the Copper Registers / Jump Strobe Address</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0050.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0052.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+When you write to a Copper strobe address, the Copper reloads its program
+counter from the corresponding  <a href="../Hardware_Manual_guide/node0050.html">location register</a> . The Copper can write
+its own location registers and strobe addresses to perform programmed
+jumps. For instance, you might  <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  an indirect address into the
+ <a href="../Hardware_Manual_guide/node0050.html">COP2LC</a>  location register. Then, any  <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  instruction that addresses
+COPJMP2 strobes this indirect address into the program counter.
+
+There are two jump strobe addresses:
+
+     COPJMP1/Restart Copper from address contained in  <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a> .
+     COPJMP2/Restart Copper from address contained in  <a href="../Hardware_Manual_guide/node0050.html">COP2LC</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

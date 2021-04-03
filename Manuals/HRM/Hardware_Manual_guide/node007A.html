@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-3-2" TITLE="3 / Dual-playfield Display / Color Registers in Dual-Playfield Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Dual-playfield Display / Color Registers in Dual-Playfield Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0079.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node007B.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+When you are using dual playfields, the hardware interprets color numbers
+for playfield 1 from the bit combinations of bitplanes 1, 3, and 5.  Bits
+from PLANE 5 have the highest significance and form the most significant
+digit of the color register number. Bits from PLANE 0 have the lowest
+<a name="line6">significance. These bit combinations select the first eight color</a>
+registers from the color palette as shown in Table 3-10.
+
+                             PLAYFIELD 1
+
+                          Bit          Color
+                      Combination     Selected
+                      -----------     --------
+                          000     Transparent mode
+                          001          COLOR1
+                          010          COLOR2
+                          011          COLOR3
+                          100          COLOR4
+                          101          COLOR5
+                          110          COLOR6
+                          111          COLOR7
+
+
+     Table 3-10: Playfield 1 Color Registers -- Low resolution Mode
+
+
+The hardware interprets color numbers for playfield 2 from the bit
+combinations of bitplanes 2, 4, and 6. Bits from PLANE 6 have the highest
+significance. Bits from PLANE 2 have the lowest significance. These bit
+<a name="line30">combinations select the color registers from the second eight colors in</a>
+the color table as shown in Table 3-11.
+
+                             PLAYFIELD 2
+
+                          Bit          Color
+                      Combination     Selected
+                      -----------     --------
+                          000     Transparent mode
+                          001          COLOR9
+                          010          COLOR10
+                          011          COLOR11
+                          100          COLOR12
+                          101          COLOR13
+                          110          COLOR14
+                          111          COLOR15
+
+
+     Table 3-11: Playfield 2 Color Registers -- Low resolution Mode
+
+
+Combination 000 selects transparent mode, to show the color of whatever
+object (the other playfield, a sprite, or the background color) may be
+<a name="line53">&#034;behind&#034; the playfield.</a>
+
+<a name="line55">Table 3-12 shows the color registers for high resolution, dual-playfield</a>
+mode.
+
+                             PLAYFIELD 1
+
+                          Bit          Color
+                      Combination     Selected
+                      -----------     --------
+                          00      Transparent mode
+                          01           COLOR1
+                          10           COLOR2
+                          11           COLOR3
+
+
+                             PLAYFIELD 2
+
+                          Bit          Color
+                      Combination     Selected
+                      -----------     --------
+                          00      Transparent mode
+                          01           COLOR9
+                          10           COLOR10
+                          11           COLOR11
+
+
+     Table 3-12: Playfields 1 and 2 Color Registers -- High resolution Mode
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,40 @@
+
+resource.library
+----------------
+
+resource.library 44.1 (26.03.99)
+
+	Initial release
+
+
+resource.library 44.2 (04.05.99)
+
+	bug fix: some tags need to be set after all objects from one
+	RL_NewObjectA call are created. This was simply not done in most
+	cases.
+
+resource.library 44.101 (19.06.99)
+
+	bumped revision to 101 to avaoid reviision number irritations.
+	
+	settings attributes after object creation are now also done for
+	gadget groups
+	
+	Some actions (like OM_ADDMEMBER) can be done now after object creation
+	and settings the additional attributes for both single object creation
+	and gadget groups.
+
+resource.library 44.102 (29.09.99)
+
+	Disposing gadget group only disposed the first root object (in most
+	cases).
+
+resource.library 44.103 (28.11.01) (StR)
+
+	Fixed crash when locale.library isn't available.
+	
+	Ported to StormC4 (gcc) and pure AnsiC (was CPP but gcpp gave
+	me too much errors;)
+	
+	Wasn't able to track down the memoryleak reported by
+	some people (don't get any leaks here).

@@ -1,0 +1,80 @@
+
+RCS file: RCS/OS3.9Install
+Working file: OS3.9Install
+head: 45.7
+branch:
+locks:
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 7;	selected revisions: 7
+description:
+AmigaOS CD-ROM Installer script
+----------------------------
+revision 45.7
+date: 2001/01/30 14:37:10;  author: Helios;  state: Exp;  lines: +4 -4
+- corrected some typos
+----------------------------
+revision 45.6
+date: 2001/01/30 10:15:26;  author: Helios;  state: Exp;  lines: +2 -2
+- also don't copy "wbpattern.prefs" from Emergency-Boot system
+----------------------------
+revision 45.5
+date: 2001/01/24 09:57:31;  author: Helios;  state: Exp;  lines: +40 -61
+- changes as proposed by Michael from Cloanto
+  - "CAREFULL" --> "CAREFUL"
+  - "OS 3.9 full installation over OS3.0/3.1" instead of only 3.0
+  - unified "Workbench 3.9", "AmigaOS3.9" and "OS3.9" to "AmigaOS 3.9"
+    where possible. Same goes with 3.5. Did not change it in radio
+    button menu due to text length.
+  - did not yet unsnapshot CD ROM and Emergency-Boot icon, probably a
+    good idea tough
+  - did not yet check for icon text exceeding window boundaries with
+    Topaz, probably the icon window layouting should be done under
+    Topaz/8? Well I prefer some Helvetica font
+- Changed some other text
+- added descriptions to internet package in english help text
+----------------------------
+revision 45.4
+date: 2001/01/23 16:33:04;  author: Helios;  state: Exp;  lines: +1 -3
+- I switched some copy files from "(all)" to "(pattern something")
+  and forgot to delete the "(all)" switch.
+----------------------------
+revision 45.3
+date: 2001/01/23 11:28:01;  author: Helios;  state: Exp;  lines: +63 -90
+- CD driver after full installation will be named "CD", not
+  "EMERGENCY_CD" anymore
+- fixed IDEFix installation, copied over (CD0|CD1|CD2|CD3) named
+  as "EMERGENCY_CD" but then tried to copy over (CD#?) from
+  Emergency-Disk to CD whereas it was named "EMERGENCY_CD"
+- used patmatch to detect booting from Emergency-Disk,
+  GuessBootDev matches "#?Emergency-Boot#?", this allows testin
+  from harddisk ;-)
+- possibly forgot some changes and enhancements ;)
+----------------------------
+revision 45.2
+date: 2001/01/23 11:25:50;  author: Helios;  state: Exp;  lines: +4 -4
+- some fixes, default icons copying from CD over to ENV: didn't
+  work if I remember correctly
+- removed bogus and wrong EXCEPT argument from LoadMonDrvs thus
+  fixing up RTG initialisation. The EXCEPT argument I gave told
+  LoadMonDrvs to never load any drivers.
+----------------------------
+revision 45.1
+date: 2001/01/18 16:18:36;  author: Helios;  state: Exp;
+- too many pre-RCS changes to be listed here, here only
+  the most recent
+  - added SurfSquirrel-Support (18.1.2001)
+  - added BindDriver-Controller-Support aka X-Surf IDE and
+    GVPSCSI (18.1.2001)
+  - AmigaMail will be installed to a directory of choice
+  - fixed some other AmigaMail issues
+    (does not need FOLDER files in SYS:Email)
+    (does not need SYS:Email direcory, all stuff created
+    on fly)
+  - Emergency-Disk: Only #?.library, #?.card and #?.chip
+    files are copied from Libs:Picasso96 (Harald Frank)
+  - FontCache will be activated (was not a change in
+    Installer script, just added Env var and _Cache
+    directory to the CD-ROM distribution)
+=============================================================================

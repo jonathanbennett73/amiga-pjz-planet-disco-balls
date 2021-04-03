@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-2" TITLE="3 / Forming a Basic Playfield / Bitplanes and Color" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Forming a Basic Playfield / Bitplanes and Color</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0065.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0067.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+You define playfield color by:
+
+   1. Deciding how many colors you need and how you want to color
+      each pixel.
+   2. Loading the colors into the color registers.
+   3. Allocating memory for the number of bitplanes you need and setting
+      a pointer to each bitplane.
+   4. Writing instructions to place a value in each bit in the bitplanes
+      to give you the correct color.
+
+<a name="line12">Table 3-1 shows how many bitplanes to use for the color selection you need.</a>
+
+
+                    Number of     Number of
+                     Colors       Bitplanes
+                    ---------     ---------
+                      1 - 2           1
+                      3 - 4           2
+                      5 - 8           3
+                     9 - 16           4
+                    17 - 32           5
+
+
+           Table 3-1: Colors in a Single Playfield
+
+
+ <a href="../Hardware_Manual_guide/node0067.html">The Color Table</a> 
+ <a href="../Hardware_Manual_guide/node0068.html">Selecting the Number of Bitplanes</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_E" NODE="E-2-3-5" TITLE="E / / Game Controller Interface Specification / Light Pen" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>E / / Game Controller Interface Specification / Light Pen</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node010D.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node010F.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A light pen is an optoelectronic device whose light-sensitive portion is
+placed in proximity to a CRT.  As the electron beam sweeps past the light
+pen, a trigger pulse is generated which can be enabled to latch the
+horizontal and vertical beam positions.  There is no hardware bit to
+indicate this trigger, but this can be determined in the  <a href="../Hardware_Manual_guide/node018A.html#line26">two ways</a>  as
+shown in chapter 8, &#034;Interface Hardware.&#034;
+
+Light pen position is usually read during blanking, but MAY be available
+prior to that.
+<a name="line11"></a>
+
+CONNECTOR PIN USAGE FOR LIGHT PEN INPUTS
+----------------------------------------
+
+   PIN   MNEMONIC   DESCRIPTION              HARDWARE REGISTER/NOTES
+   ---   --------   -----------              -----------------------
+   1     Unused
+   2     Unused
+   3     Unused
+   4     Unused
+   5     LPENPR*    Light pen pressed        See  <a href="../Hardware_Manual_guide/node010D.html#line44">Proportional Inputs</a> 
+   6     LPENTG*    Light pen trigger        VPOSR, VHPOSR
+   7      +5V       125ma max, 200 ma surge  Both ports
+   8     Ground
+   9     Unused
+
+<a name="line28">   * Note: depending on the maker, the light pen input may be either.</a>
+
+             _____________________________
+            |                             | VPOSR read only
+            |                             | DFF004
+            |_____________________________|
+
+             _____________________________
+            |                             | VHPOSR read only
+            |                             | DFF006
+            |_____________________________|
+
+             _____________________________
+            |                             | BPLCON0 write only
+            |                      |      | DFF104
+            |_|_|_|_|_|_|_|_|_|_|_|||_|_|_|
+
+            15                     3     0
+                                   ^
+                                   |_ _ _ _ light pen enable
+
+             _____________________________
+            |                             | POTINP read only
+            |                             | DFF104
+            |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
+                         ^
+            15           |               0
+
+                         | PEN PRESS = POT0X
+
+                         |_ _ _ _ _ _ _ _
+                                         |
+                         ___________
+                PORT 1  /         5 \    |
+                       |  o o o o o -|- -
+                        \  6        /
+                         \ o o o o /
+                          \|______/
+               light
+                pen _ _ _ _|
+
+             _ _ _ _ _
+                      |
+
+                      |
+                     _v_ _ _ latches V &#038; H positions
+
+
+                 Figure E-3: Light Pen
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

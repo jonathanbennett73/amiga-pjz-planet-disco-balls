@@ -1,0 +1,123 @@
+TABLE OF CONTENTS
+
+ddebug.lib/DDoFmt
+ddebug.lib/DGetChar
+ddebug.lib/DGetNum
+ddebug.lib/DMayGetChar
+ddebug.lib/DPutChar
+ddebug.lib/DPutFmt
+ddebug.lib/DPutStr
+ddebug.lib/KCmpStr
+ddebug.lib/DDoFmt                                           ddebug.lib/DDoFmt
+
+   NAME
+	DDoFmt -- format data into a character stream.
+
+   SYNOPSIS
+	DDoFmt(FormatString, DataStream, PutChProc, PutChData);
+	      A0	    A1		A2	   A3
+
+   FUNCTION
+	perform "C"-language-like formatting of a data stream,
+	outputting the result a character at a time
+
+   INPUTS
+	FormatString - a "C"-language-like null terminated format
+		string, with the following supported % types:
+	DataStream - a stream of data that is interpreted according to
+		the format string.
+	PutChProc - the procedure to call with each character to be
+		output, called as:
+	    PutChProc(Char,  PutChData);
+		      D0-0:8 A3
+		the procedure is called with a null Char at the end of
+		the format string.
+	PutChData - an address register that passes thru to PutChProc.
+
+ddebug.lib/DGetChar                                       ddebug.lib/DGetChar
+
+   NAME
+	DGetChar - get a character from the parallel port
+
+   SYNOPSIS
+	char = DGetChar()
+	D0
+
+   FUNCTION
+	get the next character from the parallel port.
+
+ddebug.lib/DGetNum                                         ddebug.lib/DGetNum
+
+   NAME
+	DGetNum - get a number from the parallel port
+
+   SYNOPSIS
+	number = DGetNum()
+	D0
+
+   FUNCTION
+	get a signed decimal integer from the parallel port.
+
+ddebug.lib/DMayGetChar                                 ddebug.lib/DMayGetChar
+
+   NAME
+	DMayGetChar - return a char iff present, but don't block
+
+   SYNOPSIS
+	flagChar = DMayGetChar()
+	D0
+
+   FUNCTION
+	return either a -1, saying that there is no char present, or
+	the char that was waiting
+
+ddebug.lib/DPutChar                                       ddebug.lib/DPutChar
+
+   NAME
+	DPutChar - put a character to the parallel port
+
+   SYNOPSIS
+	char = DPutChar(char)
+	D0	       D0
+
+   FUNCTION
+	put a character to the parallel port.
+
+ddebug.lib/DPutFmt                                         ddebug.lib/DPutFmt
+
+   NAME
+	DPutFmt - print formatted data to the parallel port
+
+   SYNOPSIS
+	DPutFmt(format,values)
+	       A0     A1
+
+   FUNCTION
+	print formatted data to the parallel port
+
+ddebug.lib/DPutStr                                         ddebug.lib/DPutStr
+
+   NAME
+	DPutStr - put a string to the parallel port
+
+   SYNOPSIS
+	DPutStr(string)
+	       A0
+
+   FUNCTION
+	put a null terminated string to the parallel port.
+
+ddebug.lib/KCmpStr                                         ddebug.lib/KCmpStr
+
+   NAME
+	KCmpStr - compare two null terminated strings
+
+   SYNOPSIS
+	mismatch = KCmpStr(string1, string2)
+	D0		  A0	   A1
+
+   FUNCTION
+	string1 is compared to string2 using the ASCII collating
+	sequence.
+
+

@@ -1,0 +1,905 @@
+@DATABASE ReActor.guide
+@$VER ReActor 1.0 (25.10.99)
+@(C) Copyright 1999 by HAAGE & PARTNER Computer GmbH
+
+@SMARTWRAP
+@TAB 3
+
+@MACRO HEADER "@{b}@{FG Shine}"
+@MACRO UHEADER "@{FG Text}@{UB}@{PAR}"
+@MACRO SUBHDR "@{u}"
+@MACRO USUBHDR "@{uu}@{PAR}"
+
+@MACRO MARK "@{u}"
+@MACRO UMARK "@{uu}"
+@MACRO LETTER "@{b}@{FG Shine}"
+@MACRO ULETTER "@{FG Text}@{ub}"
+@MACRO LABEL "@{b}"
+@MACRO ULABEL "@{ub}"
+@MACRO REF "@{b}"
+@MACRO UREF "@{ub}@{PAR}"
+
+@NODE Main "ReActor"
+
+@{HEADER} ReActor - A resource construction toolkit for BOOPSI@{UHEADER}
+
+        © 1999 by HAAGE & PARTNER Computer GmbH@{PAR}
+
+    @{" Overview       " LINK "Overview"} What is ReActor?@{PAR}
+    @{" Installation   " LINK "Installation"} How to install?@{PAR}
+    @{" Main           " LINK "Main_Window"} The main window@{PAR}
+    @{" Gadget Groups  " LINK "Gadget_Groups"} The gadget group window@{PAR}
+    @{" Attributes     " LINK "Attributes"} The attributes window@{PAR}
+    @{" Profiles       " LINK "Profiles"} Class descriptions@{PAR}
+    @{" Configuration  " LINK "Configuration"} Changing profiles for your needs@{PAR}
+    @{" Making it work " LINK "Making_it_work"} How to use the GUI in your programs@{PAR}
+    @{" Tutorial       " LINK "Tutorial"} Making a GUI@{PAR}
+    @{" Support        " LINK "Support"} You have questions?@{PAR}
+
+This is a beta release. This documentation is only for beta purposes and
+not finished.@{PAR}
+
+KNOWN BUGS@{PAR}
+
+1. Removing an object that is used by another one (for example a label image that
+is used by a button) may lead to an incorrect data structure. The test window may not
+be openable anymore. You must remove the tag that is adressing the removed object by
+hand.@{PAR}
+
+2. Images that are used by other images must stay upper in the tree.@{PAR}
+
+3. The Raw String buffersize is not supported yet, the string buffer is
+always as big as the length of the string.@{PAR}
+
+4. Pointer to empty strings are replaced with NULL in the resource file but
+a locale message identifier is still written. Point to empty localized
+strings should be written.
+
+@ENDNODE
+
+@NODE Overview "Overview"
+  ReActor is a tool to provide easy creation of GUIs (Graphical User Interfaces). It is
+directly connected to BOOPSI Classes (see @{"profiles" link "Profiles"}), so you need
+some knowledge of BOOPSI Classes and how they are initialized and how they work together
+to make good use of ReActor.@{PAR}
+
+The BOOPSI Classes are created pretty much the same way as one would create them in a
+programming environment. You create an Object by specifing its Tags. The Tags should
+be self-explanetory. Detailed Information about how the Tags work can be found in the
+Reaction autodocs.@{PAR}
+
+The GUI will be saved as a resource file, a linkable object-file (.o) and along with it a
+catalog-description-file (.cd) is created, as well as an C-header-file (.h).
+You will need a special version of catcomp to make localization work.@{PAR}
+
+See @{"Making it work" LINK "Making_it_work"}.
+
+@ENDNODE
+
+@NODE Installation "Installation"
+  No special installation is needed. Simply move the ReActor directory to a location of your
+choice. To work properly ReActor needs correct @{"profiles" LINK "Profiles"}, which reside in the
+profiles directory.@{PAR}
+
+@{b}REQUIERMENTS:@{ub}@{PAR}
+wizard.library@{PAR}
+appmanager.library@{PAR}
+resource.library (OS 3.5)@{PAR}
+Reaction classes (OS 3.5)@{PAR}
+
+To use the Resources created with ReActor in your own code you will need
+a special version of catcomp to create correct assembler files, which
+contain references to the strings inside the object file created by
+ReActor for localization purpose.
+
+@ENDNODE
+
+@NODE Main_Window "Main Window"
+
+  The main window contains many lists on different pages. Every list contains
+one type of objects: Windows, Gadget Groups, Images, Interconnections,
+Requesters and all the rest.@{PAR}
+
+Windows, Images, Interconnections and Requester and Misc. Objects are handled
+indentically: Select one of the classes from the @{LABEL}Add »@{ULABEL} popup
+menu. A new object of this class will be created. The
+@{LABEL}Rem@{ULABEL} button deletes an object, the @{LABEL}Up@{ULABEL} and
+@{LABEL}Down@{ULABEL} buttons move the objects in the list.@{PAR}
+
+The @{LABEL}Object Name@{ULABEL} string field lets you change the name of the
+object.@{PAR}
+
+Selecting an object from the list with double-clicking opens the
+@{"Attributes Window" LINK "Attributes"}.@{PAR}
+
+The window page contains the @{LABEL}Test@{ULABEL} button. Pressing this button
+opens the window. To see something in your window, you first have to
+connect it to your gadgetgroup.@{PAR}
+
+The Gadget Groups page differ from the other pages in that you will not
+create an object immediatly but an gadget group. Press the
+@{LABEL}Add@{ULABEL} button for a new gadget group. The
+@{"Gadget Group Window" LINK "Gadget_Groups"} will be opened for the new
+group.@{PAR}
+
+@{LABEL}Rem@{ULABEL}, @{LABEL}Up@{ULABEL},
+@{LABEL}Down@{ULABEL} and @{LABEL}Object Name@{ULABEL} works like the
+buttons in the other pages.@{PAR}
+
+@ENDNODE
+
+@NODE Gadget_Groups "Gadget Groups"
+
+  The gadget group window contains two lists: A hierarchical list containing
+the objects and a smaller list containing the classes. You can create an
+object by selecting a class and pressing the @{LABEL}Add@{ULABEL} button
+or by double-clicking the class name.@{PAR}
+
+The @{LABEL}Rem@{ULABEL} button deletes an object.@{PAR}
+
+The @{LABEL}Up@{ULABEL} and @{LABEL}Down@{ULABEL} button moves an object
+in the tree. An object will be moved into a group (an object that can contain
+other objects) if the group is opened and allows to add that type of moved
+object.@{PAR}
+
+Typically a gadget group contains one root layout gadget and a couple of children
+(which can be layout groups or other objects).@{PAR}
+
+Note: Every gadget is a group. But only layout gadgets ("Layout" and "Page")
+allows to add gadgets as children. Normal gadgets ("Button", "String" etc)
+only accepts images and interconnections objects as children. You should only
+add that images and interconnections as children that are used by the
+parent class.@{PAR}
+
+@ENDNODE
+
+@NODE Attributes "Attributes"
+
+  The attributes window contains 2 lists and free space for additional gadgets
+which are shown in dependency from the selected tag.@{PAR}
+
+The left list contains the possible tags of the object. Add a tag to the
+right list by selecting an tag and double-clicking it or pressing the
+@{LABEL}Add@{ULABEL} button. Every gadget can be added one or more times.@{PAR}
+
+Select a tag from the middle list to change its value. In the right space
+of the window differen gadgets will be shown in dependency from the type
+of the tag. Possible tag types are string, integer, file selection,
+directory selection, selection from cycle gadgets, list of flags, boolean,
+gadget-list, image-list, object-list, interconnection maps, member list
+etc.@{PAR}
+
+Localized strings have one string gadget for the value and one for the
+locale id. If you don't fill the locale id or use "---" as locale id
+no locale id entry is generated for that string.@{PAR}
+
+The tag name in the middle list is highlighted if the tag is enabled.
+double-click the tag to enable it. Only enabled tags are copied into the
+tag lists which are used to create the objects.@{PAR}
+
+@ENDNODE
+
+@NODE Profiles "Profiles"
+
+  Every class is described by one or more profiles. A profile contains commands
+and tag descriptors. The profiles resides in different subdrawers of the
+drawer "profiles". Every class tree (Windows, Gadgets, Layout gadgets etc)
+has its own filename suffixes:@{PAR}
+
+Class type           Directory            Suffix@{PAR}
+
+Window              profiles/windows       .window@{PAR}
+Gadget              profiles/gadgets       .gadget@{PAR}
+Layout Gadgets      profiles/gadgets       .group and .child@{PAR}
+Images              profiles/images        .images@{PAR}
+Interconnections    profiles/models        .ic@{PAR}
+Models (IC Groups)  profiles/models        .model@{PAR}
+Requesters          profiles/requesters    .req@{PAR}
+Misc. Objects       profiles/misc          .misc@{PAR}
+ClassAct Lists      profiles/gadgets       .node@{PAR}
+Arrays              ----                   ----@{PAR}
+
+A profile starts with the name of the profile, followed by commands and tag
+desriptions and end with the command END.@{PAR}
+
+The flags is a string of chars that are interpreted case-insensitiv:@{PAR}
+
+'I' or 'i': User can add this tag to taglist.@{PAR}
+'S' or 's': User can add this tag to taglist.@{PAR}
+'G' or 'g': Reserved.@{PAR}
+'N' or 'n': Tag will be send by object in notifications.@{PAR}
+'U' or 'u': Tag can be updated from notifications.@{PAR}
+'A' or 'a': Tag will be added automatically to taglist.@{PAR}
+'F' or 'f': Tag cannot be removed from taglist.@{PAR}
+'W' or 'w': Value is size of UWORD (for arrays).@{PAR}
+'B' or 'b': Value is size of UBYTE (for arrays).@{PAR}
+
+The flag 'I' and 'S' should be differ if the tag is used in creation of
+object or set right after all objects are created. Currently the tagtypes
+itself makes this decision (Target and Object pointers are set after the
+objects are created).@{PAR}
+
+Example:@{PAR}
+
+space.gadget@{PAR}
+LABEL "Space"@{PAR}
+LIBRARY "gadgets/space.gadget" 0 PRIVATE@{PAR}
+INCLUDE "classact.baseclass"@{PAR}
+INTEGER   0x8509001 (I····) SPACE_MinHeight "Minimum Height" 0 0 32767@{PAR}
+INTEGER   0x8509002 (I····) SPACE_MinWidth "Minimum Width" 0 0 32767@{PAR}
+BOOLEAN   0x8509003 (I····) SPACE_Transparent "Transparent" FALSE "Transparent"@{PAR}
+IBOX      0x8509006 (I····) SPACE_AreaBox "Area Box"@{PAR}
+END@{PAR}
+
+@{SUBHDR}Reference of commands:@{USUBHDR}
+
+@{REF}LABEL <label>@{UREF}
+
+Set a name for the class. This label will be used in the user interface for
+this class.@{PAR}
+
+@{REF}INCLUDE <filename>@{UREF}
+
+Includes the filename <filename>. The classname, the LABEL and LIBRARY
+commands are ignored in the INCLUDE file. This allows to reuse existing
+profiles (like inheritance).@{PAR}
+
+@{REF}LIBRARY <libraryname> <version> <PUBLIC|PRIVATE|LVO <lvo>>@{UREF}
+
+Defines the name of the shared library which contains the class. This library
+will be opened before creating an object. @{PAR}
+
+PUBLIC: The class is a public class. The name of the profile (first
+line of file) will be used as the class name.@{PAR}
+
+PRIVATE: The class is private. The class pointer is fetched calling
+the library function at LVO -30.@{PAR}
+
+LVO <lvo>: The class is private. The class pointer is fetched calling
+the library function at LVO <lvo>. This is used for unusual library
+layouts (the Reaction page.gadget for example).@{PAR}
+
+@{REF}NOTIFY <ALL|MARKED>@{UREF}
+
+ALL: Marks a class as interconnection class which accepts every tag as
+source tag in the ICA_MAP.@{PAR}
+
+MARKED: Only tags which marked as "Notify" of this class will be presented
+as source tag  for ICA_MAP.@{PAR}
+
+@{REF}CHILDS <filename>@{UREF}
+
+A filename of a profile that is used for the child tags for layout groups. Child tags
+are tags which can be added to every single object that is child of the layout object.@{PAR}
+
+@{REF}SPECIALISATION@{UREF}
+
+The profile describes a specialisation of a more general class.@{PAR}
+
+@{REF}PARENTPROFILE <labelname>@{UREF}
+
+The class is sorted into a list of subclasses or specialisation of the named parent
+class. This tree is used to select a class in thge gadget group window.@{PAR}
+
+@{REF}PRIORITY <priority>@{UREF}
+
+The priority of the class in the list of subclasses.@{PAR}
+
+@{REF}REM@{UREF}
+
+The rest of the line is ignored.@{PAR}
+
+@{REF}END@{UREF}
+
+End of profile.@{PAR}
+
+@{SUBHDR}Tag descriptions:@{USUBHDR}
+
+Every tag description starts with the type, follewed by the tag number, flags,
+and the name of the tag. The rest is type dependend: Most types expects a
+title (used in the user interface) as short description of the tag and
+default values.@{PAR}
+
+@{REF}STRING <tag> <flags> <name> <title> <default string>@{UREF}
+
+A text string. Every string will be localized.@{PAR}
+
+@{REF}INTEGER <tag> <flags> <name> <title> <default value> <min> <max>@{UREF}
+
+An integer.@{PAR}
+
+@{REF}PERCENT <tag> <flags> <name> <title> <default value>@{UREF}
+
+A percantage value (min 0 %, max 100 %).@{PAR}
+
+@{REF}BOOLEAN <tag> <flags> <name> <title> <FALSE|TRUE> <label>@{UREF}
+
+A boolean. <label> is string which is displayed right of the checkbox.@{PAR}
+
+@{REF}FLAGS <tag> <flags> <name> <title> <count> <def value> [flag describtions]@{UREF}
+
+A list of flags. The user can enable and disable single flags. The flag values
+are 'or'ed together into one 32 bit number.@{PAR}
+
+<count> defines the number of flag describtions. Every flag description
+contains a value, a mask and a name of the flag. If the flag is enabled
+every other flag that is part of the mask is disabled.@{PAR}
+
+@{REF}SELECT <tag> <flags> <name> <title> <count> <def value> [select descriptions]@{UREF}
+
+A list of selections. The user can select one of the selections. The values
+are integers.@{PAR}
+
+<count> defines the number of selections. Every select description contains
+a numeric value and a name for that selection.@{PAR}
+
+@{REF}SCREEN <tag> <flags> <name>@{UREF}
+
+The screen pointer.@{PAR}
+
+@{REF}DRAWINFO <tag> <flags> <name>@{UREF}
+
+The DrawInfo pointer.@{PAR}
+
+@{REF}ICTARGET <tag> <flags> <name> <title>@{UREF}
+
+An gadget, image or interconnection object.@{PAR}
+
+@{REF}ICMAP <tag> <flags> <name> <title>@{UREF}
+
+A map of tags. The user can add tags that are flagged for "Notify" as source
+tags and tags that are flagged for "Update" as target tags.@{PAR}
+
+@{REF}GADGET <tag> <flags> <name> <title>@{UREF}
+
+A gadget pointer.@{PAR}
+
+@{REF}IMAGE <tag> <flags> <name> <title>@{UREF}
+
+An image pointer.@{PAR}
+
+@{REF}TWOPENS <tag> <flags> <name> <title> <default pen1> <default pen2>@{UREF}
+
+Two logical pens (TEXTPEN, SHINEPEN, FILLPEN etc) that are 'or'ed into one
+word.@{PAR}
+
+@{REF}PEN <tag> <flags> <name> <title> <default pen>@{UREF}
+
+A logical pen (TEXTPEN, SHINEPEN, FILLPEN etc).@{PAR}
+
+@{REF}IBOX <tag> <flags> <name> <title>@{UREF}
+
+Pointer to struct IBox.@{PAR}
+
+@{REF}TEXTATTR <tag> <flags> <name> <title>@{UREF}
+
+Pointer to struct TextAttr.@{PAR}
+
+@{REF}ICMAPTAG <tag> <flags> <name> <title>@{UREF}
+
+A special tag to use in interconnection classes. It allows to map a tag value into
+the IDCMP message code field.@{PAR}
+
+@{REF}MEMBER <tag> <flags> <name> <title>@{UREF}
+
+A pseudo tag that is converted to the object method OM_ADDMEMBER.@{PAR}
+
+@{REF}FILE <tag> <flags> <name> <title>@{UREF}
+
+A file name.<{PAR}
+
+@{REF}DIR <tag> <flags> <name> <title>@{UREF}
+
+A directory name.@{PAR}
+
+@{REF}GADGROUP <tag> <flags> <name> <title>@{UREF}
+
+The user selects one of the gadget groups. Only the first gadget on top
+level of the group hierarchy and all its children will be created. The
+pointer to the first gadget on top level will be used as tag value.@{PAR}
+
+@{REF}LCLABEL <tag> <flags> <name> <title>@{UREF}
+
+A Reaction layout group label.@{PAR}
+
+@{REF}PATTERN <tag> <flags> <name> <title>@{UREF}
+
+Reserved.@{PAR}
+
+@{REF}TEXT <tag> <flags> <name> <title> <default string>@{UREF}
+
+A multiline text string. This string will be localized.@{PAR}
+
+@{REF}STRARRAY <tag> <flags> <name> <title>@{UREF}
+
+An array of string pointers. The user enters a multiline text but
+every line is translated into a single string.@{PAR}
+
+@{REF}PENMAP <tag> <flags> <name> <title> <tag2>@{UREF}
+
+The user enters a name of a picture file. This file is loaded with
+picture.datatype. The first tag gets a pointer to a ClassAct chunky map
+and the second tag gets a pointer to a ClassAct palette.@{PAR}
+
+@{REF}CHAR <tag> <flags> <name> <title> <default string>@{UREF}
+
+A char. Note: The default value is a string.@{PAR}
+
+@{REF}LIST <tag> <flags> <name> <title> <keyword>@{UREF}
+
+A Reaction list. The <keyword> names one of the possible Reaaction lists. These
+lists are used from some gadgets (Chooser, Clicktab, ListBrowser, Radiobutton
+and Speedbar).@{PAR}
+
+@{REF}ARRAY <tag> <flags> <name> <title> <array description> <size> <entries>@{UREF}
+
+The <array description> is a filename of a profile that is loaded to describe
+the array entries. The tag numbers of this profile are interpreted as
+offsets into an array entry.@{PAR}
+
+<size> is the size of one array entry in bytes.@{PAR}
+
+<entries> is currently unused. It defines the minimum size of the array.@{PAR}
+
+@ENDNODE
+
+@NODE Configuration "Configuration"
+
+Changing a profile for your needs:@{PAR}
+
+1. Load a profile in a text editor. Save it under a different name into the same
+directory. Don't change the suffix of the name.@{PAR}
+
+2. Change the LABEL.@{PAR}
+
+3. For tags you want to add automatically to the taglist add flag 'A'.@{PAR}
+
+4. Change the default values for the tags. If an BOOLEAN tag is added to the
+taglist its value is automatically inverted: FALSE gets automatically TRUE. So
+don't change the default value for BOOLEAN tags.@{PAR}
+
+5. Save the profile.@{PAR}
+
+Don't forget to copy the .child profiles if you make a new layout or page
+profile.@{PAR}
+
+@ENDNODE
+
+@node Making_it_work "Making it work"
+To use the GUIs created with ReActor in your programs you have to:@{PAR}
+
+1. Add the object-file to your project@{PAR}
+
+2. Include the C-header-file in your sources (in order to refer to the objects)@{PAR}
+
+3. Generate an assembler-file from the catalog-descriptor-file (with a special version
+of catcomp) and adding this file to your project.@{PAR}
+
+4. Open resource.library in your program and initialize your objects.@{PAR}
+
+
+@{b}Here is an example: @{ub}@{PAR}
+
+@{fg shine}#include "test.h" @{fg text}@{PAR}
+
+#include <intuition/gadgetclass.h>@{PAR}
+#include <intuition/classusr.h>@{PAR}
+#include <workbench/startup.h>@{PAR}
+#include <wbstartup.h>@{PAR}
+#include <classes/window.h>@{PAR}
+#include <classes/arexx.h>@{PAR}
+
+#include <clib/intuition_protos.h>@{PAR}
+#include <clib/exec_protos.h>@{PAR}
+#include <clib/alib_protos.h>@{PAR}
+#include <clib/resource_protos.h>@{PAR}
+#include <clib/locale_protos.h>@{PAR}
+#include <clib/icon_protos.h>@{PAR}
+#include <clib/dos_protos.h>@{PAR}
+#include <clib/gadtools_protos.h>@{PAR}
+#include <stdlib.h>@{PAR}
+
+struct Library *IntuitionBase;@{PAR}
+struct Library *LocaleBase;@{PAR}
+struct Library *IconBase;@{PAR}
+struct Library *GadToolsBase;@{PAR}
+struct Library *ResourceBase;@{PAR}
+
+struct Screen *GlbScreenP;@{PAR}
+struct Catalog *GlbCatalogP;@{PAR}
+struct MsgPort *GlbIDCMPortP;@{PAR}
+struct MsgPort *GlbAppPortP;@{PAR}
+RESOURCEFILE @{fg shine}GlbResourceP@{fg text};@{PAR}
+Object *GlbWindowP;@{PAR}
+struct Window *GlbIWindowP;@{PAR}
+struct Gadget **GlbGadgetsP;@{PAR}
+
+void loop(void) {@{PAR}
+    ULONG windowsignals, waitsigs, mask, result, code;@{PAR}
+    BOOL closeF;@{PAR}
+
+    GetAttr(WINDOW_SigMask,GlbWindowP,&windowsignals);@{PAR}
+    waitsigs = windowsignals;@{PAR}
+    closeF = FALSE;@{PAR}
+    while(!closeF)  {@{PAR}
+        mask = Wait(waitsigs);@{PAR}
+        if(mask & windowsignals) {@{PAR}
+            while((result = DoMethod(GlbWindowP, WM_HANDLEINPUT, &code)) != WMHI_LASTMSG) {@{PAR}
+                switch (result & WMHI_CLASSMASK) {@{PAR}
+                    case WMHI_CLOSEWINDOW:@{PAR}
+                        closeF = TRUE;@{PAR}
+                        break;@{PAR}
+
+                    case WMHI_GADGETUP:@{PAR}
+                         /* Note: we use RL_GADGETMASK instead of WMHI_GADGETMASK@{PAR}
+                          * because ReActor ors the gadget ID and the group ID to@{PAR}
+                          * the final gadget ID. If you want to know in which group@{PAR}
+                          * the gadget was use (result & RL_GROUPMASK).@{PAR}
+                          */@{PAR}
+                        switch (result & RL_GADGETMASK) {@{PAR}
+                            default:@{PAR}
+                                break;@{PAR}
+                        }@{PAR}
+                        break;@{PAR}
+
+                    case WMHI_ICONIFY:@{PAR}
+                        DoMethod(GlbWindowP, WM_ICONIFY);@{PAR}
+                        GetAttr(WINDOW_Window,GlbWindowP,(ULONG *) &GlbIWindowP);@{PAR}
+                        break;@{PAR}
+
+                    case WMHI_UNICONIFY:@{PAR}
+                        DoMethod(GlbWindowP, WM_OPEN);@{PAR}
+                        GetAttr(WINDOW_Window,GlbWindowP,(ULONG *) &GlbIWindowP);@{PAR}
+                        break;@{PAR}
+                }@{PAR}
+            }@{PAR}
+        }@{PAR}
+    }@{PAR}
+}@{PAR}
+
+void run(void) {@{PAR}
+    GlbRC = 20;@{PAR}
+    GlbCatalogP = OpenCatalogA(NULL,"test.catalog",NULL);@{PAR}
+    if(GlbScreenP = LockPubScreen(NULL)) {@{PAR}
+        if(GlbIDCMPortP = CreateMsgPort()) {@{PAR}
+            if(GlbAppPortP = CreateMsgPort()) {@{PAR}
+                if(@{fg shine}GlbResourceP@{fg text} = @{fg fill}@{b}RL_OpenResource@{ub}@{fg text}(@{fg shine}RCTResource@{fg text},GlbScreenP,GlbCatalogP)) {@{PAR}
+                    if(GlbWindowP = @{fg fill}@{b}RL_NewObject@{ub}@{fg text}(@{fg shine}GlbResourceP@{fg text},@{fg shine}WIN_1_ID@{fg text},@{PAR}
+                                WINDOW_SharedPort,GlbIDCMPortP,@{PAR}
+                                WINDOW_AppPort,GlbAppPortP,@{PAR}
+                                TAG_END)) {@{PAR}
+                        ULONG error;@{PAR}
+                        GlbGadgetsP = (struct Gadget **) @{fg fill}@{b}RL_GetObjectArray@{ub}@{fg text}(@{fg shine}GlbResourceP@{fg text},GlbWindowP,@{fg shine}GROUP_2_ID@{fg text});@{PAR}
+                        DoMethod(GlbWindowP,WM_OPEN);@{PAR}
+                        GetAttr(WINDOW_Window,GlbWindowP,(ULONG *) &GlbIWindowP);@{PAR}
+                        loop();@{PAR}
+                        DoMethod(GlbWindowP,WM_CLOSE);@{PAR}
+                        GlbRC = 0;@{PAR}
+                    }@{PAR}
+                    @{fg fill}@{b}RL_CloseResource@{ub}@{fg text}(@{fg shine}GlbResourceP@{fg text});@{PAR}
+                }@{PAR}
+                DeleteMsgPort(GlbAppPortP);@{PAR}
+            }@{PAR}
+            DeleteMsgPort(GlbIDCMPortP);@{PAR}
+        }@{PAR}
+        UnlockPubScreen(NULL,GlbScreenP);@{PAR}
+    }@{PAR}
+}@{PAR}
+
+void closelibs(void ) {@{PAR}
+    CloseLibrary(@{fg shine}ResourceBase@{fg text});@{PAR}
+    CloseLibrary(GadToolsBase);@{PAR}
+    CloseLibrary(IconBase);@{PAR}
+    CloseLibrary(LocaleBase);@{PAR}
+    CloseLibrary(IntuitionBase);@{PAR}
+}@{PAR}
+
+BOOL openlibs(void) {@{PAR}
+    if(!(IntuitionBase = OpenLibrary("intuition.library",39)))  return FALSE;@{PAR}
+    if(!(LocaleBase = OpenLibrary("locale.library",39)))    return FALSE;@{PAR}
+    if(!(IconBase = OpenLibrary("icon.library",39)))    return FALSE;@{PAR}
+    if(!(GadToolsBase = OpenLibrary("gadtools.library",39)))    return FALSE;@{PAR}
+    @{fg shine}if(!(ResourceBase = OpenLibrary("resource.library",0))) return FALSE; @{fg text}@{PAR}
+    return TRUE;@{PAR}
+}@{PAR}
+
+// CLI start@{PAR}
+
+void main(void) {@{PAR}
+    if(openlibs()) {@{PAR}
+        run();@{PAR}
+    }@{PAR}
+    closelibs();@{PAR}
+    exit(GlbRC);@{PAR}
+}@{PAR}
+
+// StormC WB start@{PAR}
+
+void wbmain(struct WBStartup *wb) {@{PAR}
+    if(openlibs()) {@{PAR}
+        run();@{PAR}
+    }@{PAR}
+    closelibs();@{PAR}
+}@{PAR}
+
+@{b}Explanation of Symbols:@{ub}@{PAR}
+
+@{fg shine}WIN_1_ID@{fg text}:       This is the ID of a window object, as you have named it.@{PAR}
+                (WIN_1_ID is the default name)@{PAR}
+
+@{fg shine}GAD_2_ID@{fg text}:       This is the ID of a gadget group, as you have named it.@{PAR}
+                (GAD_2_ID is the default name)@{PAR}
+
+@{fg shine}RCTResource@{fg text}:    This is your GUI, as it is saved in the object-file. This variable is defined 
+in the C header-file as extern char RCTResource[].@{PAR}
+
+@{fg shine}GlbResourceP@{fg text}:   This is your GUI object, as you refer to it when using resource.library routines.@{PAR}
+
+@{fg shine}ResourceBase@{fg text}:   This is (of course) the librarybase of resource.library@{PAR}
+
+@{fg fill}RL_OpenResource@{fg text},@{PAR}
+@{fg fill}RL_CloseResource@{fg text},@{PAR}
+@{fg fill}RL_NewObject@{fg text},@{PAR}
+@{fg fill}RL_GetObjectArray@{fg text}: These are routines of resource.library. See resource Autodocs for datails.@{PAR}
+
+
+
+@endnode
+
+@node Tutorial "Tutorial"
+Now we will build a GUI step by step using ReActor.@{PAR}
+
+@{HEADER}ReActor Tutorial - create a GUI with pages@{UHEADER}
+
+    @{" Getting started       " link "tut_1"} Setting up everything.@{PAR}
+    @{" Creating some objects " link "tut_2"} The main stuff.@{PAR}
+    @{" Creating page objects " link "tut_3"} Some special things.@{PAR}
+
+    @{" Tips                  " link "tut_4"} Hints about some objects@{PAR}
+
+And if you want to make your GUI alive read how to @{"make it work" link Making_it_work}.@{PAR}
+
+@endnode
+
+@NODE tut_1 "Getting started"
+  Start ReActor by doubleclicking on its icon. The main window will open.@{PAR}
+switch to the page @{LABEL}Windows@{ULABEL}.@{PAR}
+Add an @{LABEL}Application Window@{ULABEL} and then add two gadget groups in
+the @{LABEL}Gadget Groups@{ULABEL} page.@{PAR}
+Now doubleclick on the Windowobject you have created. The
+@{LABEL}Attributes@{ULABEL} window will open.@{PAR}
+The first tag in the objects
+Taglist (the right listview) is @{fg highlight}WA_Title@{fg text}. Click on it and enter a Window
+Title.@{PAR}
+    For Example: @{i}Test @{ui}@{PAR}
+
+The last tag in this list is called @{fg highlight}WINDOW_Layout@{fg text}. Click on it. Now
+a new listview will appear, where you can choose beetween your gadget
+groups. Here it is GROUP_2_ID and GROUP_3_ID. Select GROUP_2_ID.@{PAR}
+This tag is very important, because it attaches the Layout you create with
+your gadget groups to the window. Otherwise you won`t see anything.@{PAR}
+
+Now we will add some tags. Select the @{fg highlight}WINDOW_IconTitle@{fg text} from the leftmost
+listview and doubleclick on it or press the @{LABEL}Add@{ULABEL} button
+in the upper left corner. The tag is added to the objects taglist.
+Select the new inserted tag and enter a name for it.@{PAR}
+    For Example: @{i}Test.iconified @{ui}@{PAR}
+
+Press the @{LABEL}Use@{ULABEL} button to save your changes to the
+object.@{PAR}
+Now would also be a great time to save the whole resource, you are
+creating. Do this frequently, because ReActor might crash sometimes.
+Remember that this is a BETA version.
+Choose @{LABEL}Save@{ULABEL} from the Project Menu, or press Amiga-S. Enter your GUIs name.@{PAR}
+    For Example: @{i}test.res @{ui} @{PAR}
+
+We created a window and some gadget groups, in order to make our
+GUI usefull we now will @{"add some objects." link tut_2}.
+
+@ENDNODE
+
+@NODE tut_2 "Creating some objects"
+  When you added your gadget groups, a window for each gadget group has
+opened, titled with the name of the gadget group.@{PAR}
+So in the @{"Main Window" link Main_Window} you can now switch to the
+@{LABEL}Windows@{ULABEL} page, where the @{LABEL}Test@{ULABEL} button is.@{PAR}
+
+A gadget group normaly consists of a hierarchical list of layout groups,
+whose children are the gadgets. The first object you add to your gadget
+group normaly is the @{LABEL}Root layout@{ULABEL} object.@{PAR}
+
+Activate the window titled GROUP_2_ID and doubleclick
+on @{LABEL}Root layout@{ULABEL} in the right list. Now the fun begins.@{PAR}
+
+In our Example we only need a Vertical Layout group and a Horizontal one.
+The vertical group will contain a page group and a Clicktab gadget, so the user can
+choose the page, and the horizontal layout group will consist of two buttons.
+Therefor the Horizontal Layout group will be a Button Layout group.@{PAR}
+Here we go in 5 steps:@{PAR}
+
+1. Add a Vertical Layout group@{PAR}
+
+2. Add a Clicktab object@{PAR}
+
+3. Add a Button Layout group@{PAR}
+
+4. Add first Button@{PAR}
+
+5. Add second Button@{PAR}
+
+Now doubleclick on the first button. The Button Attributes window opens.
+There we add the @{fg highlight}GA_Text@{fg text} tag and enter@{PAR}
+    for example: @{i}_Use @{ui} @{PAR}
+
+The underscore marks the Key shortcut. The keyhandling is done
+automatically by the Class-Act classes. Press @{LABEL}Use@{ULABEL} so that
+the changes aplly to the object. The second button will be labeled@{PAR}
+    for example: @{i}_Cancel @{ui} @{PAR}
+
+Now you may press the @{LABEL}Test@{ULABEL} button in the
+@{"Main Window" link Main_Window} and view your GUI.@{PAR}
+If you want to have direct access to an object from within your program,
+you should not forget to name your objects.@{PAR}
+We will proceed with our page gadget now.
+@ENDNODE
+
+@NODE tut_3 "Creating page objects"
+  Page gadgets are created as own gadget groups. Their root layout object
+is a page object.@{PAR}
+
+So activate the gadget group window titled GROUP_3_ID and add a page
+gadget as root layout gadget. The page objects, are layout objects, so
+they are described in the layout.gadget autodocs.@{PAR}
+
+Each (direct) child of a page object is a own page. We want 3 pages so we
+add 2 vertical layout objects and one horizontal layout object to the page
+object.@{PAR}
+
+In the first vertical layout group we will just add a palette gadget.
+In this palette gadget we will add the @{fg highlight}PALETTE_NumColors@{fg text} and @{fg highlight}PALETTE_Color@{fg text}
+tags.@{PAR}
+    For Example:    @{fg highlight}PALETTE_NumColors@{fg text} = @{i}32 @{ui} @{PAR}
+                    @{fg highlight}PALETTE_Color@{fg text} = @{i}0 @{ui} @{PAR}
+
+This was our first page.
+
+In the second page we now add in this order:@{PAR}
+
+    Objectname                  Tags                        Value @{PAR}
+
+    @{LABEL}Label@{ULABEL}                       @{fg highlight}LABEL_JUSTIFICATION@{fg text}         @{i}Left @{ui} @{PAR}
+                                @{fg highlight}LABEL_Text@{fg text}                  @{i}"Percent:" @{ui}@{PAR}
+
+    @{LABEL}Fuelgauge@{ULABEL}                   @{fg highlight}FUELGAUGE_Min@{fg text}               @{i}0 @{ui} @{PAR}
+                                @{fg highlight}FUELGAUGE_Max@{fg text}               @{i}50 @{ui} @{PAR}
+                                @{fg highlight}FUELGAUGE_Level@{fg text}             @{i}20 @{ui} @{PAR}
+                                @{fg highlight}FUELGAUGE_Orientation@{fg text}       @{i}Horizontal @{ui} @{PAR}
+                                @{fg highlight}FUELGAUGE_Percent@{fg text}           @{i}TRUE @{ui} @{PAR}
+                                @{fg highlight}CHILD_MinHeight@{fg text}             @{i}20 @{ui} @{PAR}
+
+    @{LABEL}String@{ULABEL}                      @{fg highlight}STRINGA_MaxChars@{fg text}            @{i}155 @{ui} @{PAR}
+                                @{fg highlight}STRINGA_TextVal@{fg text}             @{i}"A Chain of chars "@{ui} @{PAR}
+
+    @{LABEL}Label@{ULABEL}                       @{fg highlight}LABEL_Text@{fg text}                  @{i}"Enter stuff:" @{ui} @{PAR}
+
+    @{LABEL}Space@{ULABEL}                       @{fg highlight}CHILD_WeightedHeight@{fg text}        @{i}100 @{ui} @{PAR}
+
+
+We connect the label to the @{LABEL}String@{ULABEL} gadget and add the @{fg highlight}CHILD_Label@{fg text} = @{i}(Label 8) @{ui}tag
+to the String gadget. This was page 2.@{PAR}
+
+In page 3 we will now add a @{LABEL}Listbrowser@{ULABEL} and later we will do some fancy stuff with it.
+But first we have to connect our clicktab gadget in GROUP_2_ID to our page
+object.@{PAR}
+
+Activate GROUP_2_ID window and doubleclick on the
+@{LABEL}Clicktab@{ULABEL} object.
+Add a tag @{PAR}
+@{fg highlight}CLICKTAB_PageGroup@{fg text} = @{i}GROUP_3_ID @{ui}@{PAR}
+
+Now we will create the labels for our page gadget. These labels are an
+Exec list with a special node structure. Some objects have these special
+Nodes. In your program these Nodes have to be allocated with the
+corresponding AllocXXXNode Routine. So do not forget to open the gadget as
+a shared library to have access to these functions. For detailed
+Information see the Class-Act autodocs.@{PAR}
+
+Add the tag @{fg highlight}CLICKTAB_Labels@{fg text}. And then add 3 nodes.
+Edit the nodes by doublclikcking on them as follows:@{PAR}
+
+    Node                    Tags                    Value @{PAR}
+
+    @{b}First node@{ub}              @{fg highlight}TNA_Text@{fg text}                @{i}"Page 1" @{ui} @{PAR}
+                            @{fg highlight}TNA_Number@{fg text}              @{i}0 @{ui} @{PAR}
+
+    @{b}Second node@{ub}             @{fg highlight}TNA_Text@{fg text}                @{i}"Page 2" @{ui} @{PAR}
+                            @{fg highlight}TNA_Number@{fg text}              @{i}1 @{ui} @{PAR}
+
+    @{b}Third node@{ub}              @{fg highlight}TNA_Text@{fg text}                @{i}"List" @{ui} @{PAR}
+                            @{fg highlight}TNA_Number@{fg text}              @{i}2 @{ui} @{PAR}
+
+
+Now again you can enter the @{LABEL}Test@{ULABEL} Gadget in the
+@{"Main Window" link "Main_Window"} and your page object should work.@{PAR}
+
+Save your work again and start your StormC compiler...
+
+As we have reached the end of this tutorial you may want some @{"tips" link tut_4}.
+
+@ENDNODE
+
+@NODE tut_4 "Tips"
+@{b}Tip 1: @{ub}
+
+    When you want to create Multicolumn Listviews (Listbrowser) you have@{PAR}
+    to make a ColumnInfo structure. For each column add a @{LABEL}ColumnInfo@{ULABEL} node.@{PAR}
+    And then add one more node with @{fg highlight}ci_Width@{fg text} set to @{i}-1 @{ui}.@{PAR}
+
+    When you add Labels then to your Listbrowser you first must add a@{PAR}
+    @{fg highlight}LBNA_Column@{fg text} tag and then the tags that you want to apply to that column.@{PAR}
+    Usually you may want a @{fg highlight}LBNCA_Text@{fg text} tag. So here is an example of a 2 column@{PAR}
+    Listbrowser:@{PAR}
+
+
+    Tags                        Value@{PAR}
+
+    @{fg highlight}LISTBROWSER_ColumnInfo@{fg text}      node 1:     @{fg highlight}ci_Title@{fg text}        @{i}"First" @{ui}@{PAR}
+                                            @{fg highlight}ci_Width@{fg text}        @{i}50 @{ui} @{PAR}
+                                            @{fg highlight}ci_Flags@{fg text}        @{i}Draggable @{ui}@{PAR}
+
+                                node 2:     @{fg highlight}ci_Title@{fg text}        @{i}"Second" @{ui} @{PAR}
+                                            @{fg highlight}ci_Width@{fg text}        @{i}50 @{ui}  @{PAR}
+                                            @{fg highlight}ci_Flags@{fg text}        @{i}Draggable @{ui}@{PAR}
+
+                                node 3:     @{fg highlight}ci_Width@{fg text}        @{i}-1 @{ui}@{PAR}
+
+
+    @{fg highlight}LISTBROWSER_Labels@{fg text}          <node>      @{fg highlight}LBNA_Column@{fg text}     @{i}0 @{ui}@{PAR}
+                                            @{fg highlight}LBNCA_Text@{fg text}      @{i}"This is spread" @{ui}@{PAR}
+                                            @{fg highlight}LBNA_Column@{fg text}     @{i}1 @{ui}@{PAR}
+                                            @{fg highlight}LBNCA_Text@{fg text}      @{i}"over 2 columns" @{ui}@{PAR}
+                                            @{fg highlight}:@{fg text} @{PAR}
+                                            @{fg highlight}:@{fg text} @{PAR}
+                                            @{fg highlight}.@{fg text} @{PAR}
+
+
+    @{fg highlight}LISTBROWSER_ColumnTitles@{fg text}    @{i}TRUE @{ui} @{PAR}
+
+    @{fg highlight}CHILD_WeightedHeight@{fg text}        @{i}100 @{ui}  @{PAR}
+
+
+@{b}Tip 2: @{ub}@{PAR}
+
+	If you want to create a button that uses a complex label.image object as its label@{PAR}
+	move embedded images (penmaps or glyphs) before the label image. The embedded@{PAR}
+	images must be created before the label image.@{PAR}
+
+
+@{b}Tip 3: @{ub}@{PAR}
+
+    When you want to use images in your GUI, use the @{LABEL}Penmap@{ULABEL} class, as it@{PAR}
+    needs no extra palette Information. But be carefull, you have to add the@{PAR}
+    @{fg highlight}PENMAP_Screen@{fg text} tag, otherwise the class will @{b}CRASH@{ub}. This is not a bug of@{PAR}
+    ReActor.@{PAR}
+
+
+
+@ENDNODE
+
+@node Support "Support"
+@{PAR}
+If you have questions please write an email to@{PAR}
+
+reactor-support@haage-partner.com@{PAR}
+
+Our address@{PAR}
+
+HAAGE&PARTNER Computer GmbH@{PAR}
+Schlossborner Weg 7@{PAR}
+D-61479 Glashuetten@{PAR}
+
+Phone +49 (0) 6174-966100@{PAR}
+Fax   +49 (0) 6174-966101@{PAR}
+
+@endnode
+

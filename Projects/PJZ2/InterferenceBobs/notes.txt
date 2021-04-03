@@ -1,0 +1,16 @@
+Variant of a similar routine from "Blast from the Past". I assume it works in the same way as
+the WinUAE visual DMA debugger shows a blitter fill occuring.
+
+The way this works:
+
+We have a single 64x64 BOB which is an unfilled circle. It's in blitter fill friendly format so
+only 2 pixels per line. 
+
+The BOBS and draw area are 1 bitplane.
+
+The BOBS are drawn in a normal bob-snake way but using an XOR operation so that the same BOB
+drawn in place will erase the first. This ensures that each line is left with an even number
+of pixels so that a blitter fill will stay in bounds.
+
+Then just blitter fill the entire screen and use previously drawn frames for additional
+bitplanes/mirroring.

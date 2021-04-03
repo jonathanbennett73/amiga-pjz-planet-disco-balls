@@ -1,0 +1,43 @@
+layout.gadget
+LABEL "Vertical Layout"
+SPECIALISATION
+PARENTPROFILE "Layout"
+PRIORITY 5
+LIBRARY "gadgets/layout.gadget" 0 PRIVATE
+CHILDS "layout.childs"
+INCLUDE "reaction.baseclass"
+SELECT    0x85007001 (I···UA) LAYOUT_Orientation "Orientation" 2 1 0 "Horizontal" 1 "Vertical"
+BOOLEAN   0x85007002 (I···U) LAYOUT_FixedHoriz "Fix Horizontal" FALSE "Fixed"
+BOOLEAN   0x85007003 (I···U) LAYOUT_FixedVert "Fix Vertical" FALSE "Fixed"
+SELECT    0x85007004 (I···U) LAYOUT_HorizAlignment "Horizontal Alignment" 3 0 0 "Left" 1 "Right" 2 "Center"
+SELECT    0x85007005 (I···U) LAYOUT_VertAlignment "Vertical Alignment" 3 0 0 "Left" 1 "Right" 2 "Center"
+BOOLEAN   0x85007006 (I···U) LAYOUT_ShrinkWrap "Shrink Wrap" FALSE "Shrink"
+BOOLEAN   0x85007007 (I···U) LAYOUT_EvenSize "Even Size" FALSE "Even Size"
+BOOLEAN   0x85007025 (I···U) LAYOUT_SpaceInner "Inner Space" FALSE "Inner Space"
+BOOLEAN   0x85007026 (I···U) LAYOUT_SpaceOuter "Outer Space" FALSE "Outer Space"
+INTEGER   0x85007009 (I···U) LAYOUT_InnerSpacing "Inner Spacing" 4 0 65535
+INTEGER   0x8500700A (I···U) LAYOUT_TopSpacing "Top Spacing" 0 0 65535
+INTEGER   0x8500700B (I···U) LAYOUT_BottomSpacing "Bottom Spacing" 0 0 65535
+INTEGER   0x8500700C (I···U) LAYOUT_LeftSpacing "Left Spacing" 0 0 65535
+INTEGER   0x8500700D (I···U) LAYOUT_RightSpacing "Right Spacing" 0 0 65535
+SELECT    0x8500700E (I···U) LAYOUT_BevelState "Bevel State" 2 0 0 "Raised" 1 "Recessed" 
+SELECT    0x8500700F (I···U) LAYOUT_BevelStyle "Bevel Style" 10 0 4 "None" 2 "Group" 0 "Thin" 8 "Box" 9 "Standard" 1 "Button" 3 "Field" 5 "Drop" 6 "Horizontal Bar" 7 "Vertical Bar"
+STRING    0x85007010 (I···U) LAYOUT_Label "Label" ""
+IMAGE     0x85007011 (I···U) LAYOUT_LabelImage "Label Image"
+SELECT    0x85007012 (I···U) LAYOUT_LabelPlace "Label Place" 9 1 0 "Top Center" 1 "Top Left" 2 "Top Right" 3 "In Center" 4 "In Left" 5 "In Right" 6 "Bottom Center" 7 "Bottom Left" 8 "Bottom Right"
+PEN       0x8500701D (I····) LAYOUT_TextPen "Text Pen" TEXTPEN
+PEN       0x8500701E (I····) LAYOUT_FillPen "Fill Pen" FILLPEN
+REM PATTERN   0x8500701F (I····) LAYOUT_Fill Pattern "Fill Pattern"
+LINK      0x85000001 (I····) LAYOUT_BackFill "Backfill Hook"
+SELECT    0x85007022 (I··N·) LAYOUT_LabelColumn "Label Column" 2 0 0 "Left" 2 "Right"
+GADGET    0x85007024 (I····) LAYOUT_AlignLabels "Align Label Object"
+BOOLEAN   0x8500701A (I····) LAYOUT_DeferLayout "Deferred Layout" FALSE "Defer"
+BOOLEAN   0x8500702A (I····) LAYOUT_Inverted "Inverted Layout" FALSE "Invert"
+BOOLEAN   0x85007017 (···N·) LAYOUT_RelVerify "Release Verify" FALSE "Verify"
+INTEGER   0x85007018 (···N·) LAYOUT_RelCode "Release Code" 0 0 0
+BOOLEAN   0x85007021 (···N·) LAYOUT_TabVerify "Tabulator Verify" FALSE "Verify"
+GADGET    0x85007027 (···N·) LAYOUT_RelAddress "Release Gadget"
+INTEGER   0x85007028 (···N·) LAYOUT_HelpHit "Help Hit" 0 0 0
+GADGET    0x8500701B (···N·) LAYOUT_RequestLayout "Request Layout Object"
+GADGET    0x8500701C (···N·) LAYOUT_RequestRefresh "Request Refresh Object"
+END

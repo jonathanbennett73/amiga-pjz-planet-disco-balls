@@ -1,0 +1,158 @@
+PlayCD 44.1 (30.5.99)
+
+- Bumped to V44.
+
+- No longer automatically restarts playback when the entire CD has
+  been played. The code now restarts playback only if the repeat
+  mode is active.
+
+
+PlayCD 44.2 (6.6.99)
+
+- Changed the implementation of the code that attempts to read the
+  next character from a tcp stream after learning that "0" is a
+  perfectly valid return value when reading data from a socket that
+  has been closed.
+
+- The code to start playing a title some few seconds into the track
+  could end up requesting an MSF offset with a "Seconds" offset > 59.
+  Well-behaved drives would handle this gracefully, others I'm not so
+  sure about. Anyway, the problem is fixed.
+
+
+PlayCD 44.3 (9.6.99)
+
+- The eject button now loads/eject media as necessary.
+
+
+PlayCD 44.4 (10.6.99)
+
+- Rewrote the code that renders the current track name and position.
+  Updating the data no longer causes the display to flicker.
+
+
+PlayCD 44.5 (13.7.99)
+
+- "Stop" no longer does just about the same thing as "Pause"
+  [Dirk Harlaar].
+
+
+PlayCD 44.6 (24.7.99)
+
+- Took out the "Quit" menu. The window close gadget and the
+  keyboard equivalents should be sufficient.
+
+- Finally wrote some sort of documentation.
+
+
+PlayCD 44.7 (27.7.99)
+
+- Program mode now allows more than just a single track to
+  be entered, doesn't randomly flip through all titles programmed
+  any more and stops after playing the last track.
+
+
+PlayCD 44.8 (29.7.99)
+
+- In program mode with "Repeat" enabled, playback now restarts with
+  the first programmed track.
+
+- The more I've tinkered with the play list code and the playback
+  stuff, the unhappier I get about this program design. Someday,
+  I'll have to redo it all from scratch in C++...
+
+
+PlayCD 45.1 (03.11.2000)
+
+- New GUI. Now Reaction, now with skin.
+
+- Falls back to default public screen, if the specified one could
+  not be found.
+
+- Option SKIP removed (no longer suitable with the new GUI).
+
+- New option SKIN or SKINDIR to specify the directory, where the skin 
+  can be found (default is "Sys:Prefs/Presets/PlayCD/silver").
+
+
+PlayCD 45.2 (06.11.2000)
+
+- FIX: when inserting the same CD directly after removing it, the
+  total duration shown was 00:00.
+
+- Now shows a warning requester, if the specified skin could not be
+  found and the default skin is used instead.
+
+- Added some more text for the counter.
+
+- Added an invisible depth-gadget at the location of the Amiga ball.
+
+- Added the ability to search for a CD-ROM in 
+  (%|2nd.|3rd.|4th.|5th.|6th.|7th.|8th.)scsi.device
+  if hdwrench.library is present and no DOSDEV or DEVICE has been 
+  provided.
+
+
+PlayCD 45.3 (08.11.2000)
+
+- If PlayCD can't find a CD-ROM drive, it does no longer fallback to
+  scsi.device, unit 2, but pops up an error-requester instead.
+
+- Added these devices to search for a CD-ROM drive:
+  atapi.device, 2060scsi.device, 1260scsi.device, 1230scsi.device,
+  cybscsi.device, cybppc.device, z3scsi.device, tekscsi2.device,
+  wildfirescsi.device, squirrelscsi.device, oktagon.device, 
+  gvpscsi.device, dracoscsi.device.
+
+- Now needs fixed silder.gadget V45.
+
+
+PlayCD 45.4 (13.11.2000)
+
+- Added dkbscsi.device and blizzppc.device to the devices to search 
+  for a CD-ROM drive.
+
+- Added a simple project-menu to quit the program (lost in 45.1).
+
+- Fix: PlayCD crashed, if a nonexistent DOSDEV was provided 
+  (came in with 45.2).
+
+- Fix: PlayCD didn't redraw the correct frame of the shuttle animation
+  in the upper left corner of the window during a refresh.
+
+- If the automatic search found more than one CD-ROM drive, a `Device'-menu
+  is added, where the user can select which device should be used for
+  playing.
+
+
+PlayCD 45.5 (20.11.2000)
+
+- Added omniscsi.device to the devices to search for a CD-ROM drive.
+
+
+PlayCD 45.6 (27.11.2000)
+
+- Fix: The bitmaps for the animations were not allocted with the screen's
+  bitmap as friend, which caused heavy flickering on native Amiga screen
+  modes - but it didn't help much.
+
+- Fix: Now using DrawDTObjectA() to draw the ball animation. This way it
+  works correctly on AGA 256 color screens, too.
+
+
+PlayCD 45.7 (22.03.2001)
+
+- Fix: Changed SCSI INQUIRY size to 56 bytes. This way it should work with
+  omniscsi.device and old gvpscsi.device, too.
+
+
+PlayCD 45.8 (07.08.2001)
+
+- Added CDDB-support by using the cddb.library.
+
+
+PlayCD 45.9 (28.09.2001)
+
+- Added support for the whole Amiga character table for printing
+  CDDB data.
+

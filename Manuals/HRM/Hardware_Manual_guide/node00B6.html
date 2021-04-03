@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-2-3" TITLE="4 / Forming a Sprite / Shape of Sprites" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 / Forming a Sprite / Shape of Sprites</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00B5.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00B7.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A sprite can have any shape that will fit within the 16-pixel width. You
+define a sprite's shape by specifying which pixels actually appear in each
+of the sprite's locations. For example, Figures 4-3 and 4-4 show a
+spaceship whose shape is marked by Xs. The first figure shows only the
+spaceship as you might sketch it out on graph paper. The second figure
+shows the spaceship within the 16-pixel width. The 0s around the spaceship
+<a name="line8">mark the part of the sprite not covered by the spaceship and transparent</a>
+when displayed.
+
+                               XX
+                             XXXXXX
+                           XXXXXXXXXX
+                           XXXXXXXXXX
+                             XXXXXX
+                               XX
+
+<a name="line18">                  Figure 4-3: Shape of Spaceship</a>
+
+
+                        0000XX0000000000
+                        00XXXXXX00000000
+                        XXXXXXXXXX000000
+                        XXXXXXXXXX000000
+                        00XXXXXX00000000
+                        0000XX0000000000
+
+          Figure 4-4: Sprite with Spaceship Shape Defined
+
+
+In this example, the widest part of the shape is ten pixels and the shape
+is shifted to the left of the sprite. Whenever the shape is narrower than
+the sprite, you can control which part of the sprite is used to define the
+shape. This particular shape could also start at any of the pixels from
+2-7 instead of pixel 1.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

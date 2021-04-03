@@ -1,0 +1,849 @@
+TABLE OF CONTENTS
+
+texteditor.gadget/texteditor.gadget
+texteditor.gadget/GA_TEXTEDITOR_AreaMarked
+texteditor.gadget/GA_TEXTEDITOR_ColorMap
+texteditor.gadget/GA_TEXTEDITOR_Contents
+texteditor.gadget/GA_TEXTEDITOR_CursorX
+texteditor.gadget/GA_TEXTEDITOR_CursorY
+texteditor.gadget/GA_TEXTEDITOR_DoubleClickHook
+texteditor.gadget/GA_TEXTEDITOR_ExportHook
+texteditor.gadget/GA_TEXTEDITOR_ExportWrap
+texteditor.gadget/GA_TEXTEDITOR_FixedFont
+texteditor.gadget/GA_TEXTEDITOR_Flow
+texteditor.gadget/GA_TEXTEDITOR_HasChanged
+texteditor.gadget/GA_TEXTEDITOR_ImportHook
+texteditor.gadget/GA_TEXTEDITOR_ImportWrap
+texteditor.gadget/GA_TEXTEDITOR_InsertMode
+texteditor.gadget/GA_TEXTEDITOR_InVirtualGroup
+texteditor.gadget/GA_TEXTEDITOR_Pen
+texteditor.gadget/GA_TEXTEDITOR_Prop_DeltaFactor
+texteditor.gadget/GA_TEXTEDITOR_Prop_Entries
+texteditor.gadget/GA_TEXTEDITOR_Prop_First
+texteditor.gadget/GA_TEXTEDITOR_Prop_Visible
+texteditor.gadget/GA_TEXTEDITOR_Quiet
+texteditor.gadget/GA_TEXTEDITOR_ReadOnly
+texteditor.gadget/GA_TEXTEDITOR_RedoAvailable
+texteditor.gadget/OM_TEXTEDITOR_Replace
+texteditor.gadget/GA_TEXTEDITOR_Separator
+texteditor.gadget/GA_TEXTEDITOR_Slider
+texteditor.gadget/GA_TEXTEDITOR_StyleBold
+texteditor.gadget/GA_TEXTEDITOR_StyleItalic
+texteditor.gadget/GA_TEXTEDITOR_StyleUnderline
+texteditor.gadget/GA_TEXTEDITOR_TypeAndSpell
+texteditor.gadget/GA_TEXTEDITOR_UndoAvailable
+texteditor.gadget/GA_TEXTEDITOR_WrapBorder
+texteditor.gadget/GM_TEXTEDITOR_ARexxCmd
+texteditor.gadget/GM_TEXTEDITOR_ClearText
+texteditor.gadget/GM_TEXTEDITOR_ExportBlock
+texteditor.gadget/GM_TEXTEDITOR_ExportText
+texteditor.gadget/GM_TEXTEDITOR_HandleError
+texteditor.gadget/GM_TEXTEDITOR_InsertText
+texteditor.gadget/GM_TEXTEDITOR_MacroBegin
+texteditor.gadget/GM_TEXTEDITOR_MacroEnd
+texteditor.gadget/GM_TEXTEDITOR_MacroExecute
+texteditor.gadget/GM_TEXTEDITOR_MarkText
+texteditor.gadget/GM_TEXTEDITOR_Search
+texteditor.gadget/texteditor.gadget
+
+texteditor.gadget is a fast multiline stringgadget. It can hold quite large texts
+without noticeable slowdowns. It supports the clipboard, it can show text with
+different styles, alignments and colors. It can hold separators, it has
+multilevel undo/redo and it can easily be configured to use an external spell
+checker for type'n'spell and word guessing.
+texteditor.gadget/GA_TEXTEDITOR_AreaMarked
+
+    NAME
+        GA_TEXTEDITOR_AreaMarked -- [..G], BOOL
+
+    FUNCTION
+        This tag will be set to TRUE when text is marked. And back to
+        FALSE when nothing is marked.
+        You can create a notifyevent with this tag and let your cut/copy
+        buttons become ghosted when nothing is marked.
+
+texteditor.gadget/GA_TEXTEDITOR_ColorMap
+
+    NAME
+        GA_TEXTEDITOR_ColorMap -- [IS.], LONG *
+
+    FUNCTION
+        This is a map of allocated colors, which corresponds to the pen number
+        you set with GA_TEXTEDITOR_Pen.
+        By default the map looks like this:
+
+           0 = Normal (user configured text/highlight color)
+           1 = Shine
+           2 = Halfshine
+           3 = Background
+           4 = Halfshadow
+           5 = Shadow
+           6 = Text
+           7 = Fill
+           8 = Mark
+           9 = Screen pen 0
+          10 = Screen pen 1
+          11 = Screen pen 3
+          .. = ...
+         255 = Screen pen 246
+
+        If you supply your own colormap, then pen value 0 will still be
+        "Normal", i.e. the first entry in your colormap has pen value 1.
+        This may seem a bit illogical, suggest an alternative if you want!
+
+        You are allowed to dynamically change the colormap. However if you
+        change an entry which is on-screen, then it won't have any immediate
+        effect. The idea is that you should e.g. supply a colormap with 16
+        unused LONGs, allow the user to select a custom color, allocate that
+        color and store the screen pen value into the colormap. Now you can
+        use that entry as argument to GA_TEXTEDITOR_Pen.
+
+        Have in mind that your application may change screen, so the best
+        place to allocate/free colors are in the MUIM_Show and MUIM_Hide
+        methods of the editorgadget. An example of this can be found in
+        TextEditor-Demo.c
+
+    SEE ALSO
+        GA_TEXTEDITOR_Pen
+
+texteditor.gadget/GA_TEXTEDITOR_Contents
+
+    NAME
+        GA_TEXTEDITOR_Contents -- [IS.], APTR
+
+    FUNCTION
+        Set the contents of this gadget. This should normally be a pointer to
+        a text buffer, but if you have supplied your own importhook, then you
+        can set this to anything you like, e.g. a filehandle.
+
+    SEE ALSO
+        GA_TEXTEDITOR_ImportHook, GM_TEXTEDITOR_InsertText
+
+texteditor.gadget/GA_TEXTEDITOR_CursorX
+
+    NAME
+        GA_TEXTEDITOR_CursorX -- [ISG], ULONG
+
+    FUNCTION
+        You can get or set the cursors x position with this tag.
+        The first character on a line has position 0.
+        The position is not affected by the gadgets `autowrap' feature.
+        If you set a value higher than the length of the current line, then
+        it will automatically be truncated.
+
+    SEE ALSO
+        GA_TEXTEDITOR_CursorY
+
+texteditor.gadget/GA_TEXTEDITOR_CursorY
+
+    NAME
+        GA_TEXTEDITOR_CursorY -- [ISG], ULONG
+
+    FUNCTION
+        You can get or set the cursors y position with this tag.
+        The first line has position 0.
+        The position is not affected by the gadgets `autowrap' feature.
+        If you set a value higher than the number of lines, then it will
+        automatically be truncated.
+
+    SEE ALSO
+        GA_TEXTEDITOR_CursorX
+
+texteditor.gadget/GA_TEXTEDITOR_DoubleClickHook
+
+    NAME
+        GA_TEXTEDITOR_DoubleClickHook -- [IS.], struct Hook *
+
+    FUNCTION
+        If you use the gadget in ReadOnly mode then you may want a special
+        action to take place when the user doubleclick certain words.
+        For example a mail or news client, using this gadget to show mails,
+        may want the user to be able to click on URL's to lookup the link.
+
+        The hook will be called with A1 pointing to a ClickMessage, and A0
+        will point to the hook itself.
+        Your hook should return TRUE if it wants to stop the editor from
+        blocking.
+
+    EXAMPLE
+        /* This hook will test if the user doubleclicked an http address */
+
+        BOOL URLHookCode (register __a1 struct ClickMessage *clickmsg)
+        {
+              UWORD pos = clickmsg->ClickPosition;
+
+           while(pos && *(clickmsg->LineContents+pos-1) != ' ' && *(clickmsg->LineContents+pos-1) != '<')
+           {
+              pos--;
+           }
+
+           if(strncmp(clickmsg->LineContents+pos, "http:", 5))
+           {
+              return(FALSE);
+           }
+           LookupURL(clickmsg->LineContents+pos);
+           return(TRUE);
+        }
+
+    SEE ALSO
+        GA_TEXTEDITOR_ReadOnly, mui/TextEditor_mcc.h
+
+texteditor.gadget/GA_TEXTEDITOR_ExportHook
+
+    NAME
+        GA_TEXTEDITOR_ExportHook -- [IS.], struct Hook *
+
+    SPECIAL INPUTS
+        GV_TEXTEDITOR_ExportHook_EMail
+        GV_TEXTEDITOR_ExportHook_Plain (default)
+
+    FUNCTION
+        The EMail export hook will convert a bold word to *bold*, italic
+        words to /italic/ and underlined words to _underline_.
+        It also export separators such as <sb> or <tsb>.
+
+        See GA_TEXTEDITOR_ImportHook for more documentation.
+
+    SEE ALSO
+        GA_TEXTEDITOR_ExportWrap, GA_TEXTEDITOR_ImportHook
+        GM_TEXTEDITOR_ExportText
+
+texteditor.gadget/GA_TEXTEDITOR_ExportWrap
+
+    NAME
+        GA_TEXTEDITOR_ExportWrap -- [ISG], ULONG
+
+    FUNCTION
+        This attribute allows the builtin export hooks to perform wordwrap.
+        Zero means no wrap (default).
+
+    SEE ALSO
+        GA_TEXTEDITOR_ExportHook, GA_TEXTEDITOR_WrapBorder
+
+texteditor.gadget/GA_TEXTEDITOR_FixedFont
+
+    NAME
+        GA_TEXTEDITOR_FixedFont -- [I.G], BOOL
+
+    FUNCTION
+        This attribute is not supported by the Reaction version of texteditor.gadget.
+        Use GA_TextAttr to set a fixed font.
+
+texteditor.gadget/GA_TEXTEDITOR_Flow
+
+    NAME
+        GA_TEXTEDITOR_Flow -- [.SG], UWORD
+
+    SPECIAL INPUTS
+        GV_TEXTEDITOR_Flow_Left
+        GV_TEXTEDITOR_Flow_Right
+        GV_TEXTEDITOR_Flow_Center
+        GV_TEXTEDITOR_Flow_Justified (not yet implemented)
+
+    FUNCTION
+        Set/get the current paragraphs alignment.
+        If an area is marked while you set this attribute, then the new
+        alignment will be set for the complete area.
+
+texteditor.gadget/GA_TEXTEDITOR_HasChanged
+
+    NAME
+        GA_TEXTEDITOR_HasChanged -- [ISG], BOOL
+
+    FUNCTION
+        This tag will show if the contents of the gadget has changed.
+        You can take notify on this tag, so that you can connect it with a
+        checkmark or textobject.
+        You should set this tag to FALSE whenever you export the contents of
+        the gadget or overwrite it with something new.
+
+        Even though you have set up notification on this tag you should
+        still get() it before you kill the text, because this makes it
+        possible to do some advanced testing to see if the text has actually
+        been modified. E.g. by checking the undobuffer, comparing checksums
+        or by checking whether or not the textbuffer is empty (none of this
+        is currently done, but it may be in the future).
+
+        The tag is currently not affected by:
+         GA_TEXTEDITOR_Contents, GM_TEXTEDITOR_ClearText
+         GM_TEXTEDITOR_Export, GM_TEXTEDITOR_Import
+
+texteditor.gadget/GA_TEXTEDITOR_ImportHook
+
+    NAME
+        GA_TEXTEDITOR_ImportHook -- [IS.], struct Hook *
+
+    SPECIAL INPUTS
+        GV_TEXTEDITOR_ImportHook_EMail
+        GV_TEXTEDITOR_ImportHook_MIME
+        GV_TEXTEDITOR_ImportHook_MIMEQuoted
+        GV_TEXTEDITOR_ImportHook_Plain (default)
+
+    FUNCTION
+        Since this gadget allows different text styles, you can supply an
+        importhook to parse the text correctly.
+
+        The default importhook understands the following escape sequences:
+
+         <ESC> + u      Set the soft style to underline.
+         <ESC> + b      Set the soft style to bold.
+         <ESC> + i      Set the soft style to italic.
+         <ESC> + n      Set the soft style back to normal.
+         <ESC> + h      Highlight the current line.
+         <ESC> + p[x]   Change to color x, where x is taken from the colormap.
+                        0 means normal. The color is reset for each new line.
+
+             The following sequences are only valid at the beginning of a line.
+
+         <ESC> + l      Left justify current and following lines.
+         <ESC> + r      Right justify current and following lines.
+         <ESC> + c      Center current and following lines.
+         <ESC> + [s:x]  Create a separator. x is a bit combination of flags:
+                         Placement (mutually exclusive):
+                           1 = Top
+                           2 = Middle
+                           4 = Bottom
+                         Cosmetical:
+                           8 = StrikeThru   - Draw separator ontop of text.
+                          16 = Thick        - Make separator extra thick.
+
+
+          GV_TEXTEDITOR_ImportHook_MIME:
+
+        This builtin hook will convert quoted-printables (e.g. "=E5") to the
+        ASCII representation, and merge lines ending with a "=", it will
+        wordwrap the text (using the value set with
+        GA_TEXTEDITOR_ImportWrap), it will highlight all lines which start
+        with ">" it will make real *bold*, /italic/, _underline_ and
+        #colored#, and it will replace <sb> or <tsb> with a real separator
+        bar. It stops parsing when it reaches a NULL byte.
+
+        The color used for #colored# text is colormap entry 6, which defaults
+        to MPEN_FILL. To override it, just supply a colormap with entry 6 set
+        to whatever color you would like.
+
+
+          GV_TEXTEDITOR_ImportHook_MIMEQuoted:
+
+        Like the MIME importhook, but each line gets quoted and highlighted.
+
+
+          GV_TEXTEDITOR_ImportHook_EMail:
+
+        Like the MIME importhook, but it doesn't convert quoted printables.
+
+
+        You can of course create your own importhook, there is an external
+        file which describes the procedure.
+
+    NOTE
+        Don't use custom hooks yet.
+
+    SEE ALSO
+        GA_TEXTEDITOR_ColorMap, GA_TEXTEDITOR_ExportHook
+        GA_TEXTEDITOR_ImportWrap
+
+texteditor.gadget/GA_TEXTEDITOR_ImportWrap
+
+    NAME
+        GA_TEXTEDITOR_ImportWrap -- [ISG], ULONG
+
+    FUNCTION
+        This is here to allow the builtin import hooks to perform wordwrap.
+        The builtin hooks accepts a value between 4 and 1024. Defaults to 1023.
+
+    SEE ALSO
+        GA_TEXTEDITOR_ImportHook, GA_TEXTEDITOR_WrapBorder
+
+texteditor.gadget/GA_TEXTEDITOR_InsertMode
+
+    NAME
+        GA_TEXTEDITOR_InsertMode -- [ISG], BOOL
+
+    FUNCTION
+        Not yet implemented...
+
+texteditor.gadget/GA_TEXTEDITOR_InVirtualGroup
+
+    NAME
+        GA_TEXTEDITOR_InVirtualGroup -- [I..], BOOL
+
+    FUNCTION
+        Set this to TRUE when the gadget is inside a virtualgroup.
+        The reason is cosmetical. The pattern will be relative to the gadget
+        instead of the window, since the gadget can be "moved" around.
+
+texteditor.gadget/GA_TEXTEDITOR_Pen
+
+    NAME
+        GA_TEXTEDITOR_Pen -- [.SG], UBYTE (do you need UWORD or ULONG?)
+
+    FUNCTION
+        The value of this tag reflects the current render pen.
+
+    SEE ALSO
+        GA_TEXTEDITOR_ColorMap
+
+texteditor.gadget/GA_TEXTEDITOR_Prop_DeltaFactor
+
+    NAME
+        GA_TEXTEDITOR_Prop_DeltaFactor -- [..G], ULONG (OBSOLETE)
+
+
+    FUNCTION
+        This tag can tell you how high a line is. This is useful when you set
+        the increment value of a slider, as GA_TEXTEDITOR_Prop_Entries holds
+        the lines in pixels.
+
+    SEE ALSO
+        GA_TEXTEDITOR_Prop_Visible
+        GA_TEXTEDITOR_Prop_First, GA_TEXTEDITOR_Prop_Entries
+
+texteditor.gadget/GA_TEXTEDITOR_Prop_Entries
+
+    NAME
+        GA_TEXTEDITOR_Prop_Entries -- [..G], ULONG (OBSOLETE)
+
+
+    FUNCTION
+        This value is the total number of lines in the editor.
+        If you want a slider attached to the gadget you should create a
+        notify on this attribute.
+
+    SEE ALSO
+        GA_TEXTEDITOR_Prop_Visible
+        GA_TEXTEDITOR_Prop_First, GA_TEXTEDITOR_Prop_DeltaFactor
+
+texteditor.gadget/GA_TEXTEDITOR_Prop_First
+
+    NAME
+        GA_TEXTEDITOR_Prop_First -- [.SG], ULONG (OBSOLETE)
+
+    FUNCTION
+        Get or set the first displayed line.
+        The purpose of this attribute is to allow connection between the
+        editorgadget and a scrollbar.
+
+    SEE ALSO
+        GA_TEXTEDITOR_Prop_Visible
+        GA_TEXTEDITOR_Prop_Entries, GA_TEXTEDITOR_Prop_DeltaFactor
+
+texteditor.gadget/GA_TEXTEDITOR_Prop_Visible
+
+    NAME
+        GA_TEXTEDITOR_Prop_Visible -- [..G], ULONG (OBSOLETE)
+
+    FUNCTION
+        This value is the number of lines that currently fits in the window.
+        If you want a slider attached to the gadget you should create a
+        notify on this attribute.
+
+    SEE ALSO
+        GA_TEXTEDITOR_Prop_Entries
+        GA_TEXTEDITOR_Prop_First, GA_TEXTEDITOR_Prop_DeltaFactor
+
+texteditor.gadget/GA_TEXTEDITOR_Quiet
+
+    NAME
+        GA_TEXTEDITOR_Quiet -- [ISG], BOOL
+
+    FUNCTION
+        If you need to insert a lot of text "line by line" you should
+        set this tag to TRUE before starting, and then back to FALSE when you
+        are done adding text.
+
+    SEE ALSO
+        GM_TEXTEDITOR_InsertText
+
+texteditor.gadget/GA_TEXTEDITOR_ReadOnly
+
+    NAME
+        GA_TEXTEDITOR_ReadOnly -- [ISG], BOOL
+
+    FUNCTION
+        This tag is not supported in the Reaction version. Use GA_ReadOnly instead.
+
+        In ReadOnly-mode there will be:
+        No cursor (but a normal TAB-frame).
+        TAB will activate the next gadget (instead of alt TAB).
+        The frame will be set to a ReadListFrame. (may change).
+        There is no ARexx support, except "Copy".
+
+        The GA_TEXTEDITOR_StyleXXX tags are still useable.
+
+texteditor.gadget/GA_TEXTEDITOR_RedoAvailable
+
+    NAME
+        GA_TEXTEDITOR_RedoAvailable -- [..G], BOOL
+
+    FUNCTION
+        This tag is set to TRUE when the user is able to redo his action(s)
+        (normally after an undo).
+        You can create a notify on this tag and let your redo button be
+        ghosted when there is nothing to redo.
+
+    SEE ALSO
+        GA_TEXTEDITOR_UndoAvailable
+
+texteditor.gadget/GA_TEXTEDITOR_Separator
+
+    NAME
+        GA_TEXTEDITOR_Separator -- [.SG], UWORD *
+
+    FUNCTION
+        Each line can act as a separator.
+
+        A separator can be either thick or thin. It can be rendered over the
+        lines contents, or only on both sides of the contents. The placement
+        can be either top, middle or bottom.
+
+        This tag reflects the current line. See gadgets/texteditor.h for
+        definitions.
+
+texteditor.gadget/GA_TEXTEDITOR_StyleBold
+
+    NAME
+        GA_TEXTEDITOR_StyleBold -- [.SG], BOOL
+
+    FUNCTION
+        This tag shows whether the cursor or block is over bolded text or not.
+        You can set this tag to TRUE or FALSE if you want the style changed.
+
+    SEE ALSO
+        GA_TEXTEDITOR_StyleItalic, GA_TEXTEDITOR_StyleUnderline
+
+texteditor.gadget/GA_TEXTEDITOR_StyleItalic
+
+    NAME
+        GA_TEXTEDITOR_StyleItalic -- [.SG], BOOL
+
+    FUNCTION
+        This tag shows whether the cursor or block is over text in italics or
+        not.
+        You can set this tag to TRUE or FALSE if you want the style changed.
+
+    EXAMPLE
+        see GA_TEXTEDITOR_StyleBold
+
+    SEE ALSO
+        GA_TEXTEDITOR_StyleBold, GA_TEXTEDITOR_StyleUnderline
+
+texteditor.gadget/GA_TEXTEDITOR_StyleUnderline
+
+    NAME
+        GA_TEXTEDITOR_StyleUnderline -- [.SG], BOOL
+
+    FUNCTION
+        This tag shows whether the cursor or block is over underlined text or
+        not.
+        You can set this tag to TRUE or FALSE if you want the style changed.
+
+    EXAMPLE
+        see GA_TEXTEDITOR_StyleBold
+
+    SEE ALSO
+        GA_TEXTEDITOR_StyleBold, GA_TEXTEDITOR_StyleItalic
+
+texteditor.gadget/GA_TEXTEDITOR_TypeAndSpell
+
+    NAME
+        GA_TEXTEDITOR_TypeAndSpell -- [.SG], BOOL
+
+    FUNCTION
+        This is a shortcut to the Type'n'spell switch that the user can set
+        in the .mcp module.
+        Never integrate this into the settings of your preferences.
+
+texteditor.gadget/GA_TEXTEDITOR_UndoAvailable
+
+    NAME
+        GA_TEXTEDITOR_UndoAvailable -- [..G], BOOL
+
+    FUNCTION
+        This tag is set to TRUE when the user is able to undo his action(s)
+        You can create a notify on this tag and let your undo button be
+        ghosted when there is nothing to undo.
+
+    SEE ALSO
+        GA_TEXTEDITOR_RedoAvailable
+
+texteditor.gadget/GA_TEXTEDITOR_WrapBorder
+
+    NAME
+        GA_TEXTEDITOR_WrapBorder -- [ISG], ULONG
+
+    FUNCTION
+        The gadget will insert a linebreak infront of the current word, if
+        the cursor comes beyond the column given here.
+
+        Please remember that the gadget does realtime wordwrap which is much
+        better! This tag is for special cases!!!
+
+    SEE ALSO
+        GA_TEXTEDITOR_ExportWrap, GA_TEXTEDITOR_ImportWrap
+
+texteditor.gadget/GM_TEXTEDITOR_ARexxCmd
+
+    NAME
+        GM_TEXTEDITOR_ARexxCmd
+
+    SYNOPSIS
+        DoGadgetMethod(obj, win, req, GM_TEXTEDITOR_ARexxCmd, NULL, STRPTR command);
+
+    FUNCTION
+        If the user spends much of his time in the TextEditor gadget, then he
+        may want to have the gadgets functions integrated in the programs
+        arexx command set.
+        This can easily be done with this method, simply call it with the
+        command that the user has executed. If the method returns something
+        else than FALSE, then the command has been used by the gadget. If it
+        does return FALSE, then you should parse the command yourself.
+
+        This method can also be used by you, to communicate with the gadget.
+
+        The following commands are currently supported:
+
+           CLEAR
+           CUT
+           COPY
+           PASTE
+           ERASE
+           GOTOLINE       Template: /N/A
+           GOTOCOLUMN     Template: /N/A
+           CURSOR         Template: Up/S,Down/S,Left/S,Right/S
+           LINE           Template: /N/A
+           COLUMN         Template: /N/A
+           NEXT           Template: Word/S,Sentence/S,Paragraph/S,Page/S
+           PREVIOUS       Template: Word/S,Sentence/S,Paragraph/S,Page/S
+           POSITION       Template: SOF/S,EOF/S,SOL/S,EOL/S,SOW/S,EOW/S,SOV/S,EOV/S
+           SETBOOKMARK    Template: /N/A
+           GOTOBOOKMARK   Template: /N/A
+           TEXT           Template: /F
+           UNDO
+           REDO
+           GETLINE
+           GETCURSOR      Template: Line/S,Column/S
+           MARK           Template: On/S,Off/S
+           DELETE
+           BACKSPACE
+
+    RESULT
+        The method will return FALSE if it couldn't use the command.
+        It will return TRUE if it did use the command, but the command didn't
+        give a result. It will return a pointer (STRPTR) when the command
+        gives a result, you should return this pointer to the user
+        (CreateArgString() it, and set it as the result, in the rexx message),
+        you must free the result yourself with FreeVec()
+
+texteditor.gadget/GM_TEXTEDITOR_ClearText
+
+    NAME
+        GM_TEXTEDITOR_ClearText
+
+    SYNOPSIS
+        DoGadgetMethod(obj, win, req, GM_TEXTEDITOR_ClearText, NULL);
+
+    FUNCTION
+        This will clear all text in the gadget.
+
+texteditor.gadget/GM_TEXTEDITOR_ExportBlock
+
+    NAME
+        GM_TEXTEDITOR_ExportBlock
+
+    SYNOPSIS
+        DoGadgetMethod(obj, win, req, GM_TEXTEDITOR_ExportBlock, NULL);
+
+    FUNCTION
+        Not yet implemented...
+
+    RESULT
+
+
+    SEE ALSO
+        GM_TEXTEDITOR_InsertText, GM_TEXTEDITOR_ExportText
+
+texteditor.gadget/GM_TEXTEDITOR_ExportText
+
+    NAME
+        GM_TEXTEDITOR_ExportText
+
+    SYNOPSIS
+        DoGadgetMethod(obj, win, req, GM_TEXTEDITOR_ExportText, NULL);
+
+    FUNCTION
+        This will export the text using the current exporthook.
+
+    RESULT
+        This depends on the exporthook. The builtin hooks will return a
+        pointer to a null terminated buffer containing all the text. You must
+        free this buffer with FreeVec() when you are done using it.
+
+    SEE ALSO
+        GM_TEXTEDITOR_InsertText, GM_TEXTEDITOR_ExportBlock
+
+texteditor.gadget/GM_TEXTEDITOR_HandleError
+
+    NAME
+        GM_TEXTEDITOR_HandleError
+
+    SYNOPSIS
+        DoMethod(obj, win, req, GM_TEXTEDITOR_InsertText, ULONG errorcode);
+
+    FUNCTION
+        This method is not supported by the editorgadget itself. The idea is
+        that you should subclass the gadget and implement your own error
+        handler. The handler should just bring up a requester or write the
+        error in a status line.
+
+        The different errors are:
+
+        Error_ClipboardIsEmpty:        The clipboard doesn't hold any data.
+        Error_ClipboardIsNotFTXT:      The clipboard doesn't hold any text.
+        Error_MacroBufferIsFull:       Not yet used.
+        Error_MemoryAllocationFailed:  Not yet used.
+        Error_NoAreaMarked:            The user has tried to copy or cut, but
+                                       hasn't marked anything.
+        Error_NoMacroDefined:          Not yet used.
+        Error_NothingToRedo:           There is nothing more to redo.
+        Error_NothingToUndo:           There is nothing more to undo.
+        Error_NotEnoughUndoMem:        The user has erased a block that is too
+                                       big to be saved. This results in a lost
+                                       undobuffer.
+        Error_StringNotFound:          Not yet used.
+
+    RESULT
+        NONE
+
+texteditor.gadget/GM_TEXTEDITOR_InsertText
+
+    NAME
+        GM_TEXTEDITOR_InsertText
+
+    SYNOPSIS
+        DoGadgetMethod(obj, win, req, GM_TEXTEDITOR_InsertText, NULL, STRPTR text, LONG pos);
+
+    FUNCTION
+        This will insert the given text using the current importhook.
+        The position of the inserted text can be:
+
+          GV_TEXTEDITOR_InsertText_Cursor
+          GV_TEXTEDITOR_InsertText_Top
+          GV_TEXTEDITOR_InsertText_Bottom
+
+    RESULT
+        NONE
+
+    SEE ALSO
+        GM_TEXTEDITOR_ExportText
+
+texteditor.gadget/GM_TEXTEDITOR_MacroBegin
+
+    NAME
+        GM_TEXTEDITOR_MacroBegin
+
+    SYNOPSIS
+        DoGadgetMethod(obj, win, req, GM_TEXTEDITOR_MacroBegin, NULL);
+
+    FUNCTION
+        Not yet implemented...
+
+    RESULT
+
+
+    SEE ALSO
+        GM_TEXTEDITOR_MacroEnd, GM_TEXTEDITOR_MacroExecute
+
+texteditor.gadget/GM_TEXTEDITOR_MacroEnd
+
+    NAME
+        GM_TEXTEDITOR_MacroEnd
+
+    SYNOPSIS
+        DoGadgetMethod(obj, win, req, GM_TEXTEDITOR_MacroEnd, NULL);
+
+    FUNCTION
+        Not yet implemented...
+
+    RESULT
+
+
+    SEE ALSO
+        GM_TEXTEDITOR_MacroBegin, GM_TEXTEDITOR_MacroExecute
+
+texteditor.gadget/GM_TEXTEDITOR_MacroExecute
+
+    NAME
+        GM_TEXTEDITOR_MacroExecute
+
+    SYNOPSIS
+        DoGadgetMethod(obj, win, req, GM_TEXTEDITOR_MacroExecute, NULL);
+
+    FUNCTION
+        Not yet implemented...
+
+    RESULT
+
+
+    SEE ALSO
+        GM_TEXTEDITOR_MacroBegin, GM_TEXTEDITOR_MacroEnd
+
+texteditor.gadget/GM_TEXTEDITOR_MarkText
+
+    NAME
+        GM_TEXTEDITOR_MarkText
+
+    SYNOPSIS
+        DoGadgetMethod(obj, win, req, GM_TEXTEDITOR_MarkText, NULL, ULONG start_x, ULONG start_y, ULONG stop_x, ULONG stop_y);
+
+    FUNCTION
+        This method will mark the given area.
+
+    RESULT
+        Not defined.
+
+texteditor.gadget/OM_TEXTEDITOR_Replace
+
+    NAME
+        OM_TEXTEDITOR_Replace
+
+    SYNOPSIS
+        DoGadgetMethod(obj, win, req, OM_TEXTEDITOR_Replace, NULL, STRPTR newstring, ULONG flags);
+
+    FUNCTION
+        This method replace the marked area with the string given.
+        Currently no flags are defined, so pass 0L for now.
+
+    RESULT
+        TRUE if the string was replaced. A failure is likely to be because
+        nothing was marked when this method got invoked.
+
+texteditor.gadget/GM_TEXTEDITOR_Search
+
+    NAME
+        OM_TEXTEDITOR_Search
+
+    SYNOPSIS
+        DoGadgetMethod(obj, win, req, OM_TEXTEDITOR_Search, NULL, STRPTR string, ULONG flags);
+
+    FUNCTION
+        Searches the text for the given string. The string mustn't exceed 120
+        characters.
+
+        Flags can be:
+
+         GF_TEXTEDITOR_Search_FromTop
+          Normally the search starts at the cursor position - this flag will
+          make it start at the beginning of the text.
+
+         GF_TEXTEDITOR_Search_CaseSensitive
+          If you want the search to be case sensitive, then set this flag.
+
+    RESULT
+        TRUE if the string was found, otherwise FALSE.
+
+    NOTE
+        If the string was found then it's left marked. So in case you want to
+        replace it, simply clear the marked string and insert the new one.
+
+

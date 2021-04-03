@@ -1,0 +1,40 @@
+Notes about most efficient way of setting flags in memory or in registers.
+
+Memory flags
+============
+lea vars(pc),a0
+...
+...
+
+moveq	#1,d0		4 (1/0)
+move.w	d0,(a0)		8 (1/1)
+			12 (2/1)
+
+clr.w	(a0)		12 (2/1)
+
+moveq	#0,d0		4 (1/0)
+move.w	d0,(a0)		8 (1/1)
+			12 (2/1)
+
+sf.b	(a0)		12 (2/1)
+
+move.w	#1,(a0)		12 (2/1)
+
+Summary: 
+clr.w is ok, but for everything else use moveq/move.w. Also clr does a read first so
+in theory don't use on write only registers (everyone did)
+
+
+Register flags
+==============
+
+moveq	#1,d0		4(1/0)
+
+sf	false		4(1/0)
+	true		6(1/0)
+
+clr.w	d0		4(1/0)
+
+Summary: moveq usually best unless trying to preserve upper word of dx. Or if you want to set flag
+based on a condition code then sxx is good.
+

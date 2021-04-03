@@ -1,0 +1,23 @@
+DiskCopy 44.1 (6.8.99)
+
+- Bumped to version 44
+- Implemented Reaction GUI
+
+DiskCopy 44.2 (10.8.99)
+
+- Corrected incorrect status report
+
+DiskCopy 44.3 (29.9.99)
+
+- Recompile with full optimization.
+- Frozen.
+
+--- OS 3.5 release ---
+
+Diskcopy 44.5 (7.12.99)
+
+- Rework, smaller code
+
+- Hopefully fixed a bug with crashes on startup from Icons menu (Copy...).
+  Couldn't reproduce this bug but changed one or two places of suspect
+  code.

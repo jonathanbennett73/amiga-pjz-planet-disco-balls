@@ -1,0 +1,9 @@
+workbench/c/status
+
+    No longer crashes the system if the CLI table changes underneath it.
+    Froze 43.2.
+    Really should no longer throw hits when the CLI table changes
+    underneath it now. I also work around a problem in dos.library
+    now.
+    Froze 44.1.
+

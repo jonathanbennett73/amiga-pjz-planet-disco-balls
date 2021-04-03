@@ -1,0 +1,13 @@
+	Eval 45.1
+
+- Complete rewrite of the old eval program, no old sources
+  have been used.
+  Added a lot of new operators (^,&&,||,>=,<=,==,!=,<>,^,!)
+  fixed priority of operators, added the HEX switch, fixed
+  LFORMAT double-% bug, added more format string options for
+  LFORMAT. Eval did not handle multiple arguments for "VALUE2"
+  properly and in fact ignored all but the first.
+
+	Eval 45.2
+
+- Eval accepts now the TAB character as blank.

@@ -1,0 +1,10 @@
+workbench/monitors/a2024
+
+    No longer trashes innocent memory.
+    Froze 43.6.
+    Fixed a few compiler complaints on possibly uninitialized
+    variables. This really affects pretty much all the monitor
+    files. No functional changes.
+    Froze 43.9.
+
+

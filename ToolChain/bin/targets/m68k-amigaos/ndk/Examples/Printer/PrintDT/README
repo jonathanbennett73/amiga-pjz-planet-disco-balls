@@ -1,0 +1,6 @@
+This drawer contains an example how to print a datatype using the generic
+datatype print method. It shows how to use the new printer driver specific
+preferences dialogs.
+
+Note: As of now the "File" printer driver is the only driver that supports
+printer driver specific preferences. Use it to test this feature.

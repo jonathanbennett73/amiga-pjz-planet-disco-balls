@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-8-5" TITLE="2 / Advanced Topics / Using the Copper with the Blitter" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / Advanced Topics / Using the Copper with the Blitter</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node005C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node005E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+If the Copper is used to start up a sequence of blitter operations, it
+must wait for the blitter-finished interrupt before starting another
+blitter operation. Changing blitter registers while the blitter is
+operating causes unpredictable results. For just this purpose, the  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a> 
+instruction includes an additional control bit, called BFD (for blitter
+finished disable). Normally, this bit is a 1 and only the beam counter
+comparisons control the  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a> .
+
+When the BFD bit is a 0, the logic of the Copper  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  instruction is
+modified. The Copper will  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  until the beam counter comparison is true
+and the blitter has finished. The blitter has finished when the
+blitter-finished flag is set. This bit should be unset with caution. It
+could possibly prevent some screen displays or prevent objects from being
+displayed correctly.
+
+For more information about using the blitter, see
+ <a href="../Hardware_Manual_guide/node0118.html">Chapter 6, Blitter Hardware</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

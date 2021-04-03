@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-3-1" TITLE="5 / Producing Complex Sounds / Joining Tones" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / Producing Complex Sounds / Joining Tones</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00E3.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00E5.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Tones are joined by writing the  <a href="../Hardware_Manual_guide/node00DB.html">location</a>  and  <a href="../Hardware_Manual_guide/node00DB.html#line26">length registers</a> ,
+starting the audio output, and rewriting the registers in preparation for
+the next audio waveform that you wish to connect to the first one. This is
+made easy by the timing of the  <a href="../Hardware_Manual_guide/node016B.html">audio interrupts</a>  and the existence of
+back-up registers. The  <a href="../Hardware_Manual_guide/node00DB.html">location</a>  and  <a href="../Hardware_Manual_guide/node00DB.html#line26">length registers</a>  are read by the
+DMA channel before audio output begins. The DMA channel then stores the
+values in back-up registers.
+
+Once the original registers have been read by the DMA channel, you can
+change their values without disturbing the operation you started with the
+original register contents. Thus, you can write the contents of these
+registers, start an audio output, and then rewrite the registers in
+<a name="line14">preparation for the next waveform you want to connect to this one.</a>
+
+ <a href="../Hardware_Manual_guide/node016B.html">Interrupts</a>  occur immediately after the audio DMA channel has read the
+ <a href="../Hardware_Manual_guide/node00DB.html">location</a>  and  <a href="../Hardware_Manual_guide/node00DB.html#line26">length registers</a>  and stored their values in the back-up
+registers. Once the  <a href="../Hardware_Manual_guide/node016B.html">interrupt</a>  has occurred, you can rewrite the
+registers with the location and length for the next waveform segment. This
+combination of back-up registers and  <a href="../Hardware_Manual_guide/node016B.html">interrupt</a>  timing lets you keep one
+step ahead of the audio DMA channel, allowing your sound output to be
+continuous and smooth.
+
+If you do not rewrite the registers, the current waveform will be
+repeated. Each time the  <a href="../Hardware_Manual_guide/node00F2.html#line17">length counter</a>  reaches zero, both the  <a href="../Hardware_Manual_guide/node00DB.html">location</a> 
+and  <a href="../Hardware_Manual_guide/node00DB.html#line26">length registers</a>  are reloaded with the same values to continue the
+audio output.
+
+ <a href="../Hardware_Manual_guide/node00E5.html">Audio DMA Example</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

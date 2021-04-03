@@ -1,0 +1,40 @@
+
+mathieeedoubbas.library	45.1
+
+- Fixed a stupid bug in IEEEDCmp(). It ordered some numbers
+  wrongly, namely negative numbers whose two most significant
+  mantissa long words are equal.
+
+- Added support for the fpsp.resource. If this resource is
+  present, emulation of the unsupported FINT and FINTRZ
+  instruction of the 68040 are passed to the resource
+  instead of requiring an emulator trap. This is more
+  multitasking friendly and, too, faster.
+
+mathieeedoubbas.library	45.2
+
+- Fixed the startup code which would have crashed in case it
+  would have run out of memory. *Shudder*.
+
+- Removed the ancient support code for 68881/882 FPUs installed
+  as IO devices by means of the mathieee resource. The performance
+  of these cards was rather poor anyhow, and they aren't widely
+  spreat, over-aged, obsolete and partially useless. Note that
+  this does not affect FPUs bound into the system in the form of
+  a coprocessor (which is the standard alternative anyhow).
+
+- Reworked the library vector init a bit, uses now relative offsets
+  instead of absolute addresses, making the binary quite reasonably
+  smaller.
+
+mathieeedoubbas.library	45.3
+
+- The library startup code used the FPU code even if the FPU support
+  code was never loaded. This would cause nothing bad except on the
+  68060 where a new exec dispatcher must be patched in before the FPU
+  can be initialized safely. Hence, this could have crashed badly.
+
+mathieeedoubbas.library 45.3 (no new release)
+
+- Included new autodoc files for all math-libraries documenting
+  the changes made for V45.

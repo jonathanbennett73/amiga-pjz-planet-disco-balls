@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-4-5-6" TITLE="7 / / Setting and Clearing Bits / Audio Interrupts" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 / / Setting and Clearing Bits / Audio Interrupts</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node016A.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node016C.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Bits 10 - 7, AUD3 - 0, are assigned to the audio channels. They are called
+AUD3, AUD2, AUD1, and AUD0 and are assigned to channels 3, 2, 1, and 0,
+respectively.
+
+This  <a href="../Hardware_Manual_guide/node016F.html">level 4 interrupt</a>  signals &#034;audio block done.&#034; When the audio DMA is
+operating in  <a href="../Hardware_Manual_guide/node00F2.html#line17">automatic mode</a> , this interrupt occurs when the last word in
+an audio data stream has been accessed. In  <a href="../Hardware_Manual_guide/node00EF.html">manual mode</a> , it occurs when
+the  <a href="../Hardware_Manual_guide/node0013.html">audio data register</a>  is ready to accept another word of data.
+
+See Chapter 5, &#034;Audio Hardware,&#034; for more information about
+ <a href="../Hardware_Manual_guide/node00F2.html">interrupt generation and timing</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

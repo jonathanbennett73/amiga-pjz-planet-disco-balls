@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-2-6-2" TITLE="4 / / Building the Data Structure / Sprite Control Word 2 : SPRxCTL" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 / / Building the Data Structure / Sprite Control Word 2 : SPRxCTL</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00BA.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00BC.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This word contains the vertical stopping position of the sprite on the
+screen (i.e., the line AFTER the last displayed row of the sprite). It
+also contains some data having to do with  <a href="../Hardware_Manual_guide/node00C6.html">sprite attachment</a> , which is
+<a name="line5">described later on.</a>
+
+                                <a href="../Hardware_Manual_guide/node00CE.html">SPRxCTL</a> 
+                               ---------
+          Bits 15-8       The low eight bits of VSTOP
+          Bit 7           (Used in attachment)
+          Bits 6-3        Unused (make zero)
+          Bit 2           The VSTART high bit
+          Bit 1           The VSTOP high bit
+          Bit 0           The HSTART low bit
+
+
+The value (VSTOP - VSTART) defines how many scan lines high the sprite
+will be when it is displayed.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

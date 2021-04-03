@@ -1,0 +1,133 @@
+TABLE OF CONTENTS
+
+page_gc/--datasheet--
+page_gc/PAGE_GetClass
+page_gc/RefreshPageGadget
+page_gc/SetPageGadgetAttrsA
+page_gc/--datasheet--                                   page_gc/--datasheet--
+
+  NAME
+      page.gadget -- a gadget for easy creation of GUI pages.
+
+  SUPERCLASS
+      gadgetclass
+
+  DESCRIPTION
+      Page gadget takes a list of BOOPSI objects and treats each as a
+      single page of a multi-page GUI group. Used together with
+      tabs.gadget and layout.gadget, it allows complex GUI layouts with
+      hidden objects with virtually no work for the developer.
+
+      This gadget class is contained within the layout.gadget binary.
+      Thus, you will need to OpenLibrary layout.gadget, but not
+      page.gadget.
+
+  METHODS
+      GM_DOMAIN
+      GM_RENDER
+      GM_LAYOUT
+      DTM_PROCLAYOUT
+      OM_SET
+      OM_UPDATE
+      OM_NEW
+      OM_DISPOSE
+
+      All other methods are passed to the currently visible object.
+
+  ATTRIBUTES
+      PAGE_Add (Object *)
+          A BOOPSI gadget (probably a layout.gadget) to add to the end of
+          the page list.
+
+          Applicability is (OM_NET, OM_SET)
+
+      PAGE_Remove (Object *)
+          Pointer to a gadget to remove from the page list. page.gadget
+          will automatically dispose all attached objects when disposed of.
+
+          Applicability is (OM_SET)
+
+      PAGE_Current (ULONG)
+          Sets/gets the currently visible page. Note that OM_SET will NOT
+          trigger a rerender, call RethinkLayout() afterwards. OM_UPDATE
+          will rerender automatically.
+
+          Applicability is (OM_NEW, OM_SET, OM_UPDATE)
+
+      PAGE_FixedVert, PAGE_FixedHoriz (BOOL)
+          Like the respective tags of layout.gadget, these will, if set
+          to FALSE, force the group's dimensions to the smallest possible
+          in the respective direction.
+
+          Applicability is (OM_NEW, OM_SET, OM_UPDATE)
+
+  SEE ALSO
+      layout.gadget/--datasheet--
+      ReAction example source for usage.
+page_gc/PAGE_GetClass                                   page_gc/PAGE_GetClass
+
+  NAME
+      PAGE_GetClass -- Gets the pointer to the Page class.
+
+  SYNOPSIS
+      page_class = PAGE_GetClass();
+      D0
+
+      Class * PAGE_GetClass(VOID);
+
+  FUNCTION
+      Obtains the pointer to the page gadget class for use with
+      NewObject().  This function always returns a valid pointer so
+      you do not need to check it.  The reason is that if the library
+      opens fine, then the pointer returned is already setup.  (Of course
+      this implies that if opening the library fails, you shouldn't be
+      calling this.)
+
+      Note that this function does not create the class, that is done
+      when the class library is opened.
+
+  INPUTS
+      Nothing.
+
+  NOTES
+      PAGE_GetClass() is contained in layout.gadget. There is no PageBase,
+      just LayoutBase.
+
+  RESULT
+      page_class - Pointer to the page gadget class.
+page_gc/RefreshPageGadget                           page_gc/RefreshPageGadget
+
+   NAME
+       RefreshPageGadget -- Refresh gadget in a paged layout
+   
+   SYNOPSIS
+       RefreshPageGadget(gad, page, win, req)
+                         A0     A1       A2   A3
+   
+       void RefreshPageGadget(struct Gadget *, Object *, 
+               struct Window *, struct Requester *)
+               
+   FUNCTION
+       Like RefreshGList(gad,win,req,1), but passes a NULL window and 
+       requester pointer if the gadget is not on the currently visible 
+       page.
+page_gc/SetPageGadgetAttrsA                       page_gc/SetPageGadgetAttrsA
+
+   NAME
+       SetPageGadgetAttrsA -- Set gadget attributes in a paged layout
+       SetPageGadgetAttrs -- Varargs stub for SetPageGadgetAttrsA
+   
+   SYNOPSIS
+       value = SetPageGadgetAttrsA(gad, page, win, req, tags)
+       D0                            A0     A1       A2   A3   A4
+   
+       ULONG SetPageGadgetAttrsA(struct Gadget *, Object *, 
+               struct Window *, struct Requester *, struct TagItem *)
+               
+       ULONG SetPageGadgetAttrs(struct Gadget *, Object *, 
+               struct Window *, struct Requester *, ULONG, ...)
+
+   FUNCTION
+       Like SetGadgetAttrs, but passes a NULL window and requester pointer
+       if the gadget is not on the currently visible page.
+

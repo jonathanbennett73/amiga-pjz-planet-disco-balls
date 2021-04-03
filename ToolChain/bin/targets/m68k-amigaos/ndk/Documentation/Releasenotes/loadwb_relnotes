@@ -1,0 +1,10 @@
+loadwb 44.1 (30.3.99)
+
+- New option "SKIPWBSTARTUP" added.
+
+- Removed the "Cleanup" catalog hack.
+
+
+loadwb 44.2 (1.5.99)
+
+- Added new option "SIMPLEGELS".

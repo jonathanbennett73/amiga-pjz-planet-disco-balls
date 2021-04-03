@@ -1,0 +1,34 @@
+gradientslider.gadget 45.0 (27.10.00)
+
+- just a version bump, no functional change.
+
+
+gradientslider.gadget 45.1 (11.11.00)
+
+- flicker-free knob moving, now.
+
+- added a small workaround for ReAction sharing the same
+  tag range as the gadget (REACTION_BackFill <-> GRADIENT_MaxVal).
+
+- fixed knob movement.
+
+- replaced <= 8bit dithering code by the code of the
+  original gradientslider.gadget. The old one is simpler
+  and faster.
+  
+
+gradientslider.gadget 45.2 (15.11.00)
+
+- now takes rp->TxHeight rather than rp->TxWidth to calculate
+  the domain of a vertical slider (this makes it look better).
+
+
+gradientslider.gadget 45.3 (21.11.00)
+
+- GREDRAW_UPDATE didn't draw the disabled pattern when necessary.
+
+
+gradientslider.gadget 45.4 (15.03.01)
+
+- the REACTION_TextAttr tag collides with the GRADIENT_PenArray
+  tag, I added a magic workaround for this problem.

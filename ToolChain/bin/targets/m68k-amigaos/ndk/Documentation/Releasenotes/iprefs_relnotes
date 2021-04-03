@@ -1,0 +1,240 @@
+iprefs 44.1 (11.4.99)
+
+- No longer does a dangerous segment split.
+
+- The stack size is now inherited from the parent CLI.
+
+- No longer uses the small data model.
+
+
+iprefs 44.2 (11.4.99)
+
+- No longer puts itself into danger of holding onto the IntuitionBase
+  master lock and triggering an OpenScreenTagList() call before
+  that lock is released.
+
+
+iprefs 44.3 (13.4.99)
+
+- Window and screen patterns are now allocated as friend bitmaps.
+  This greatly improves Workbench window update performance.
+
+
+iprefs 44.4 (25.4.99)
+
+- Switched over to smake.
+
+
+iprefs 44.5 (15.5.99)
+
+- A change in the printergfx.prefs file now also causes the printer.prefs
+  file to be reread.
+
+
+iprefs 44.6 (12.6.99)
+
+- Before notifying Intuition about changes in the palette.prefs file,
+  Workbench is now notified and asked to let go of its icon colour
+  palette. After the palette is changed, Workbench is then notified
+  again and asked to reallocate its icon colours again.
+
+
+iprefs 44.7 (27.6.99)
+
+- Added new, safer colour expansion code for pattern filling.
+
+- Fixed a memory leak in the pattern allocation code.
+
+
+iprefs 44.8 (7.8.99)
+
+- Added support for the workbench.prefs and reaction.prefs
+  configuration files. The reaction preferences configuration
+  code still uses the global semaphore name "CLASSACT-PREFS",
+  which it should not.
+
+
+iprefs 44.9 (11.8.99)
+
+- Updating any preferences would cause the hidden device list to
+  be cleared. Fixed.
+
+- Increased the IPrefs process stack size to 8192 bytes. This
+  fixed a few inexplicable crashes.
+
+- The global reaction semaphore now bears the name "REACTION-PREFS".
+
+
+iprefs 44.10 (17.8.99)
+
+- Now properly supports empty hidden device lists.
+
+
+iprefs 44.11 (22.8.99)
+
+- Changing the Workbench palette now also causes the
+  wbpattern.prefs file to be reread.
+
+- Now supports the window/screen pattern precision and
+  quality options.
+
+
+IPrefs 44.12 (9.9.99)
+
+- Changing the pointer colours now also causes the
+  Workbench icons to be remapped.
+
+
+IPrefs 44.13 (10.9.99)
+
+- Changing the pointer colours now also causes the wbpattern.prefs
+  file to be reread.
+
+- The IPrefs semaphore is now semi-public, to allow the Workbench
+  fill patterns to be accessed from outside.
+
+
+IPrefs 44.14 (11.9.99)
+
+- Cleaned up the code that loads the Workbench backdrop patterns.
+
+
+IPrefs 44.15 (17.9.99)
+
+- More cleanup work, this time affecting the global semaphore
+  data structures.
+
+
+IPrefs 44.16 (18.9.99)
+
+- Implemented limited FastIPrefs compatibility. This means for
+  example that the WBPattern prefs file chunks written by
+  the FastIPrefs version of that program will be understood
+  by IPrefs now. Workbench in turn supports the FastIPrefs
+  centering and fill options now.
+
+
+IPrefs 44.17 (20.9.99)
+
+- Rebuilt without internal header files and stub code, trying
+  to save some space.
+
+
+IPrefs 44.18 (20.9.99)
+
+- More tweaking for better FastIPrefs compatibility.
+
+
+IPrefs 44.19 (25.9.99)
+
+- Changing the pointer palette or the screen palette preferences
+  no longer resets and remaps the icons but attempts to close
+  and reopen the Workbench screen. This should be the cleanest
+  solution.
+
+
+--------------------------------------------------------------------------------
+
+
+IPrefs 44.20 (7.10.99)
+
+- Changed the order in which the Workbench backdrop pattern loader code
+  obtains the semaphores. The code also protects itself better against
+  changes in backdrop data structures now.
+
+
+IPrefs 44.21 (6.11.1999)
+
+- The backdrop pattern loader code no longer shows error requesters
+  while it holds onto more than one semaphore for protection. It now
+  loads the data, remembers which picture didn't load, releases the
+  semaphores and then complains about the problems it encountered.
+
+
+IPrefs 44.22 (10.11.1999)
+
+- Found a bug which could wreck the limited FastIPrefs compatibility
+  (and which did wreck it most of the time). Fixed.
+
+
+IPrefs 44.23 (30.11.1999)
+
+- The code didn't properly cache SysBase, leading to a slowdown. Fixed.
+
+
+IPrefs 45.1 (29.10.2000)
+
+- Added support for the new ASL preferences settings.
+
+
+IPrefs 45.3 (2.11.2000)
+
+- The ASL preferences file did not get processed. Fixed.
+
+- The IPrefs global semaphore now holds a copy of the IControl
+  flags value (string gadget filter options, etc.).
+
+
+IPrefs 45.4 (14.11.2000)
+
+- Added support for the new picture.datatypes feature to scale pictures.
+
+- For a reload of the picture, not only the filename may have changed, but
+  also the flags (dither quality, scaling, ...).
+
+- Fixed a bug that caused a reload of every pattern for Workbench, Window
+  and Screen, even if only one or none of them has changed, without freeing
+  the old unchanged pattern.
+
+
+IPrefs 45.5 (17.11.2000)
+
+- Added support for Workbench to hide the screen titlebar, hide the gauge, 
+  lock the MagicWB pens and set the memory type for the icons.
+
+
+IPrefs 45.6 (20.11.2000)
+
+- Improved the handling for locking the colors for MagicWB icons.
+
+- Support for 1:1 aspect ratio sysi classes.
+
+
+IPrefs 45.7 (21.11.2000)
+
+- Fix: for removing the gauge, all workbench windows should be closed
+  to avoid a lock.
+
+
+IPrefs 45.8 (23.11.2000)
+
+- Improved the determination, if the 1:1 aspect ration for the size image
+  should be used.
+
+
+IPrefs 45.9 (24.11.2000)
+
+- Fix: the determination, if the new SysIClasses should be used for a
+  certain screen, caused a lock under certain circumstances.
+
+
+IPrefs 45.10 (10.01.2001)
+
+- Fix: OpenWindow() lost its TagList, if WFLG_NW_EXTENDED was used.
+
+
+IPrefs 45.11 (21.06.2001)
+
+- Uses AHI instead of the audio.device for sound output, if present.
+
+
+IPrefs 45.12 (28.06.2001)
+
+- Added support for AmigaXL preferences.
+
+
+IPrefs 45.13 (02.10.2001)
+
+- PDTA_DestMode is now explicitly set to PMODE_V43 for loading 
+  backdrop pictures.
+

@@ -1,0 +1,3 @@
+This drawer contains an example how to read the printer.device unit names.
+You can use it in your appilcation to create a popup menu with readable
+names for printer.device unit selection instead of an integer gadget.

@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-17" TITLE="6 Blitter Hardware / Blitter Key Points" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 Blitter Hardware / Blitter Key Points</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node012C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node012E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This is a list of some key points that should be remembered when
+programming the blitter.
+
+*  Write  <a href="../Hardware_Manual_guide/node011B.html#line82">BLTSIZE</a>  last; writing this register starts the blit.
+
+*  Modulos and pointers are in bytes; width is in words and height is in
+   pixels.  The least significant bit of all pointers and modulos is
+   ignored.
+
+*  The order of operations in the blitter is  <a href="../Hardware_Manual_guide/node011F.html#line42">masking</a> ,  <a href="../Hardware_Manual_guide/node011F.html">shifting</a> , logical
+   combination of sources,  <a href="../Hardware_Manual_guide/node0122.html">area fill</a> , and  <a href="../Hardware_Manual_guide/node0126.html">zero flag</a>  setting.
+
+*  In ascending mode, the blitter increments the pointers, adds the
+   modulos, and  <a href="../Hardware_Manual_guide/node011F.html">shifts</a>  to the right.
+
+*  In  <a href="../Hardware_Manual_guide/node0120.html">descending mode</a> , the blitter decrements the pointers, subtracts
+   the modulos, and shifts to the left.
+
+*   <a href="../Hardware_Manual_guide/node0122.html">Area fill</a>  only works correctly in  <a href="../Hardware_Manual_guide/node0120.html">descending mode</a> .
+
+*  Check  <a href="../Hardware_Manual_guide/node0123.html">BLTDONE</a>  before writing blitter registers or using the results
+   of a blit.
+
+*   <a href="../Hardware_Manual_guide/node011F.html">Shifts</a>  are done on immediate data as soon as it is loaded.
+
+
+    <a href="../Hardware_Manual_guide/node00AA.html">ECS blitter</a> .
+   -------------
+   For information relating to the blitter hardware in the Enhanced Chip
+   Set, see  <a href="../Hardware_Manual_guide/node0099.html">Appendix C</a> .
+
+
+ <a href="../Hardware_Manual_guide/node02DE.html">Example:  Clearmem</a> 
+ <a href="../Hardware_Manual_guide/node02DF.html">Example:  Simpleline</a> 
+ <a href="../Hardware_Manual_guide/node02E0.html">Example:  Rotatebits</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

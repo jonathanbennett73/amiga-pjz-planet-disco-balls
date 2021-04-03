@@ -1,0 +1,46 @@
+countries 44.1 (5.8.99)
+
+- Converted year numbers to four digit display in country definitions for
+  australia, belgie, belgique, canada, deutschland, españa, france,
+  great_britain, norge, united_kingdom and united_states.
+
+- Changed the short date definitions for italia and portugal so that
+  they no longer include long month names.
+
+
+countries 44.2 (16.8.99)
+
+- Changed the short date/time format for italia.country. It now
+  formats the hour with leading zeroes.
+
+
+euro_countries 44.1 (5.8.99)
+
+- Changed all currency declarations to use "Euro" as the currency
+  name, "¢" as the small currency name, "EUR" as the ISO currency
+  name and set the number of digits in the small currency to be 2.
+
+
+euro_countries 44.2 (15.8.99)
+
+- Changed the small currenty name to "Cent". "¢" was dead wrong.
+
+
+countries 44.3 (16.8.99)
+
+- Changed the short date/time format for italia.country. It now
+  formats the hour with leading zeroes.
+
+----------------------------------------------------------------------
+
+countries 44.1 (22.8.99)
+
+- Merged all country definitions to yield a single database
+  creation tool.
+
+- Renamed belgie.country to belgië.country.
+
+
+countries 44.2 (28.9.1999)
+
+- Renamed belgië.country to belgie.country again.

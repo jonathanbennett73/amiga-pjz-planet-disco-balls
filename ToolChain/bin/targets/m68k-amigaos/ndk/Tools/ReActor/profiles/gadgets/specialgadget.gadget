@@ -1,0 +1,5 @@
+unknown.gadget
+LABEL "Special Gadget"
+LIBRARY "gadgets/unknown.gadget" 0 PUBLIC
+INCLUDE "reaction.baseclass"
+END

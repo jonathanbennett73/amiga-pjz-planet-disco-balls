@@ -1,0 +1,4 @@
+drawlist.image 45.0 (28.02.2001)
+
+· Another one bites the dust: The IM_DRAW method 
+  allocated a temporary rastport but never freed it.

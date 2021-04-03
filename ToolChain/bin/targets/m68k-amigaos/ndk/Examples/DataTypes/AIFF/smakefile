@@ -1,0 +1,76 @@
+#
+# $Id: smakefile 44.4 1999/03/12 19:57:33 olsen Exp olsen $
+#
+# :ts=8
+#
+
+###############################################################################
+
+VERSION = 44
+
+###############################################################################
+
+OPTIMIZE =	optimize opttime nooptinlocal optschedule
+DEBUG =		debug=line
+
+###############################################################################
+
+CFLAGS =	streq strmerge nostkchk params=r \
+		data=faronly $(OPTIMIZE) $(DEBUG)
+LFLAGS =	smallcode noicons
+
+###############################################################################
+
+OBJS = ClassBase.o Dispatch.o
+LIBS = lib:scnb.lib lib:amiga.lib lib:debug.lib
+
+###############################################################################
+
+all: aiff.datatype
+
+aiff.datatype: $(OBJS) Assert.o
+	slink from $(OBJS) to $@.debug lib $(LIBS) Assert.o $(LFLAGS) \
+		map $@.map,fhx fwidth 32 pwidth 32 swidth 32 width 100
+	slink from $@.debug to $@ nodebug noicons
+
+###############################################################################
+
+ClassBase.o: aiff.datatype_rev.h ClassBase.c
+
+###############################################################################
+
+aiff.datatype_rev.h:
+	smake version
+
+version:
+	bumprev $(VERSION) aiff.datatype
+
+###############################################################################
+
+clean:
+	delete $(OBJS) aiff.datatype(%|.debug)
+
+install: aiff.datatype
+	copy aiff.datatype sys:classes/datatypes
+
+rcs:
+	makedir $@
+
+###############################################################################
+
+C_FILES =	ClassBase.c Dispatch.c
+
+H_FILES =	Data.h
+
+OTHER_FILES =	aiff.datatype_rev.h aiff.datatype_rev.i aiff.datatype_rev.rev \
+		smakefile Assert.c Assert.h releasenotes
+
+ALL_FILES =	$(C_FILES) $(H_FILES) $(OTHER_FILES)
+
+###############################################################################
+
+checkin: rcs
+	ci -M -d -l$(VERSION) -m. -t-. $(ALL_FILES)
+
+freeze: rcs
+	rcs -q -nV$(VERSION)_`type aiff.datatype_rev.rev`: $(ALL_FILES)

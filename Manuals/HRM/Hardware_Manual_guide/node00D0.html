@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-12" TITLE="4 Sprite Hardware / Summary of Sprite Color Registers" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 Sprite Hardware / Summary of Sprite Color Registers</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00CF.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00D1.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Sprite  <a href="../Hardware_Manual_guide/node00BC.html">data words</a>  are used to select the color of the sprite pixels from
+the system color register set as indicated in the following tables.
+
+If the bit combinations from single sprites are as shown in Table 4-6,
+<a name="line6">then the colors will be taken from the registers shown.</a>
+
+
+          Table 4-6: Color Registers for Single Sprites
+
+
+                     Single Sprites
+                     --------------
+
+               Sprite     Value    Color Register
+               ------     -----    --------------
+               0 or 1      00        Not used *
+                           01            17
+                           10            18
+                           11            19
+
+               2 or 3      00        Not used *
+                           01            21
+                           10            22
+                           11            23
+
+               4 or 5      00        Not used *
+                           01            25
+                           10            26
+                           11            27
+
+               6 or 7      00        Not used *
+                           01            29
+                           10            30
+                           11            31
+
+               * Selects transparent mode.
+<a name="line38"></a>
+
+If the bit combinations from  <a href="../Hardware_Manual_guide/node00C6.html">attached sprites</a>  are as shown in Table 4-7,
+<a name="line41">then the colors will be taken from the registers shown.</a>
+
+
+           Table 4-7: Color Registers for  <a href="../Hardware_Manual_guide/node00C6.html">Attached Sprites</a> 
+
+
+                      <a href="../Hardware_Manual_guide/node00C6.html">Attached Sprites</a> 
+                     ------------------
+
+               Value               Color Register
+               -----               --------------
+               0000           Selects transparent mode
+               0001                      17
+               0010                      18
+               0011                      19
+               0100                      20
+               0101                      21
+               0110                      22
+               0111                      23
+               1000                      24
+               1001                      25
+               1010                      26
+               1011                      27
+               1100                      28
+               1101                      29
+               1110                      30
+               1111                      31
+
+
+ <a href="../Hardware_Manual_guide/node00D1.html">Interactions Among Sprites and Other Objects</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

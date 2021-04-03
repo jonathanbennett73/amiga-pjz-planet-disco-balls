@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-8" TITLE="3 / Basic Playfield / Displaying and Redisplaying the Playfield" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Basic Playfield / Displaying and Redisplaying the Playfield</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0074.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0076.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+You start playfield display by making certain that the bitplane pointers
+are set and bitplane DMA is turned on. You turn on bitplane DMA by writing
+a 1 to bit BPLEN in the  <a href="../Hardware_Manual_guide/node0170.html">DMACON</a>  (for DMA control) register. See Chapter
+7, System Control Hardware, for instructions on setting this register.
+
+Each time the playfield is redisplayed, you have to reset the bitplane
+pointers. Resetting is necessary because the pointers have been
+incremented to point to each successive word in memory and must be
+repointed to the first word for the next display. You write
+ <a href="../Hardware_Manual_guide/node0053.html">Copper instructions</a>  to handle the redisplay or perform this operation as
+part of a  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  task.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

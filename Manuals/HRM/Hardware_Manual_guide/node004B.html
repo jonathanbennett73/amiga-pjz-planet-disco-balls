@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-4" TITLE="2 Coprocessor Hardware / The WAIT Instruction" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 Coprocessor Hardware / The WAIT Instruction</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node004A.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node004C.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The WAIT instruction causes the Copper to wait until the video beam
+counters are equal to (or greater than) the coordinates specified in the
+instruction. While waiting, the Copper is off the bus and not using memory
+cycles.
+
+The first instruction word contains the vertical and horizontal
+coordinates of the beam position. The second word contains enable bits
+that are used to form a &#034;mask&#034; that tells the system which bits of the
+beam position to use in making the comparison.
+
+
+     FIRST WAIT INSTRUCTION WORD (IR1)
+     ---------------------------------
+     Bit 0           Always set to 1.
+
+     Bits 15 - 8      <a href="../Hardware_Manual_guide/node004D.html">Vertical beam position</a>  (called VP).
+
+     Bits 7 - 1       <a href="../Hardware_Manual_guide/node004C.html">Horizontal beam position</a>  (called HP).
+
+
+     SECOND WAIT INSTRUCTION WORD (IR2)
+     ----------------------------------
+     Bit 0           Always set to 0.
+
+     Bit 15          The  <a href="../Hardware_Manual_guide/node005D.html">blitter-finished-disable bit</a> .  Normally, this
+                     bit is a 1. (See the &#034;Advanced Topics&#034; section below.)
+
+     Bits 14 - 8     Vertical position compare enable bits (called VE).
+
+     Bits 7 - 1      Horizontal position compare enable bits (called HE).
+
+
+The following example WAIT instruction waits for scan line 150 ($96) with
+the horizontal position masked off.
+
+        DC.W    $9601,$FF00     ;Wait for line 150,
+                                ;   ignore horizontal counters.
+
+The following example WAIT instruction waits for scan line 255 and
+horizontal position 254. This event will never occur, so the Copper stops
+until the next  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  interval begins.
+
+        DC.W    $FFFF,$FFFE     ;Wait for line 255,
+                                ;   H = 254 (ends Copper list).
+
+To understand why position VP=$FF HP=$FE will never occur, you must look
+at the comparison operation of the Copper and the size restrictions of the
+position information. Line number 255 is a valid line to wait for, in fact
+it is the maximum value that will fit into this field. Since 255 is the
+maximum number, the next line will wrap to zero (line 256 will appear as a
+zero in the comparison.) The line number will never be greater than $FF.
+The horizontal position has a maximum value of $E2.  This means that the
+largest number that will ever appear in the comparison is $FFE2. When
+waiting for $FFFE, the line $FF will be reached, but the horizontal
+<a name="line56">position $FE will never happen. Thus, the position will never reach $FFFE.</a>
+
+You may be tempted to wait for horizontal position $FE (since it will
+never happen), and put a smaller number into the vertical position field.
+This will not lead to the desired result. The comparison operation is
+waiting for the beam position to become greater than or equal to the
+entered position. If the vertical position is not $FF, then as soon as the
+line number becomes higher than the entered number, the comparison will
+<a name="line64">evaluate to true and the wait will end.</a>
+
+The following notes on horizontal and vertical beam position apply to both
+the WAIT instruction and to the  <a href="../Hardware_Manual_guide/node0059.html">SKIP</a> . instruction. The  <a href="../Hardware_Manual_guide/node0059.html">SKIP</a>  instruction
+is described below in the  <a href="../Hardware_Manual_guide/node0058.html">Advanced Topics</a>  section.
+
+ <a href="../Hardware_Manual_guide/node004C.html">Horizontal Beam Position</a> 
+ <a href="../Hardware_Manual_guide/node004D.html">Vertical Beam Position</a> 
+ <a href="../Hardware_Manual_guide/node004E.html">The Comparison Enable Bits</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

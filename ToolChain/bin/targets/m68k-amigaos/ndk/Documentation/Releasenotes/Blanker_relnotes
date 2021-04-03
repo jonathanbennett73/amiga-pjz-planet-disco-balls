@@ -1,0 +1,64 @@
+Blanker 44.8 (7.8.99)
+
+- Corrected startup issue. Cx would notify that the arexx port could not be
+  created but yet would not cause the Cx if running to show itself.
+
+Blanker 44.9 (11.8.99)
+
+- Implemented 'Test' button
+- Corrected hits on quit
+- Quit menuitem now quits instead of hide (Mario Cattaneo)
+
+Blanker 44.10 (13.8.99)
+
+- Hopefully corrected color cycle issue when animation is disabled (Mario Cattaneo)
+  Unable to test this as it doens't happen under P96.
+
+Blanker 44.11 (18.8.99)
+
+- appicon now uses v44 icon.library call.
+
+Blanker 44.12 (21.8.99)
+
+- Test button is now sized evenly.
+
+Blanker 44.13 (26.8.99)
+
+- Window now opens at bottom of screen border
+
+Blanker 44.14 (10.9.99)
+
+- Recompiled using new options and compilation skeleton.
+
+NOTE: The color cycling issue is mainly related to RTG screenmodes > 8bit.
+      So, being as Blanker clones WB and it would be alot of work to interrogate
+      the system for all possible RTG system screenmodes <= 8bit, H&P have
+      made the decision to remove this option if animation is disabled.
+
+Blanker 44.15 (25.9.99)
+
+- Fixed bug where Icon wouldn't be displayed if app was ran from CLI.
+- Replaced static app name for icon with dynamic determined on startup.
+
+Blanker 44.16 (29.9.99)
+
+- Recompile with full optimization.
+- Frozen.
+
+--- OS 3.5 release ---
+
+Blanker 44.19 (30.11.99)
+
+- extracted framework
+
+- fixed saving of tooltypes: old tooltypes are preserved
+
+- fixed workbench startup: current dir is not longer modified on exit
+
+- catalog was opened too late (framework)
+
+--- OS 3.9 release ---
+
+Blanker 45.3 (13.12.2000)
+
+- fixed save of tooltypes which used constant program name "Blanker".

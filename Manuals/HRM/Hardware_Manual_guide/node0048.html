@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-1" TITLE="2 Coprocessor Hardware / About the Copper" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 Coprocessor Hardware / About the Copper</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0047.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0049.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The Copper is a general purpose coprocessor that resides in one of the
+Amiga's custom chips. It retrieves its instructions via direct memory
+access (DMA). The Copper can control nearly the entire graphics system,
+freeing the 680x0 to execute program logic; it can also directly affect
+the contents of most of the chip control registers. It is a very powerful
+tool for directing mid-screen modifications in graphics displays and for
+directing the register changes that must occur during the
+ <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  periods.  Among other things, it can control register
+updates, reposition sprites, change the color palette, update the audio
+<a name="line11">channels, and control the blitter.</a>
+
+One of the features of the Copper is its ability to  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for a specific
+video beam position, then  <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  data into a system register. During the
+ <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  period, the Copper examines the contents of the video beam position
+counter directly. This means that while the Copper is waiting for the beam
+to reach a specific position, it does not use the memory bus at all.
+Therefore, the bus is freed for use by the other DMA channels or by the
+680x0.
+
+When the  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  condition has been satisfied, the Copper steals memory
+cycles from either the blitter or the 680x0 to move the specified data
+<a name="line23">into the selected special-purpose register.</a>
+
+The Copper is a two-cycle processor that requests the bus only during
+odd-numbered memory cycles. This prevents collision with audio, disk,
+refresh, sprites, and most low resolution display DMA access, all of which
+use only the even-numbered memory cycles. The Copper, therefore, needs
+priority over only the 680x0 and the blitter (the DMA channel that handles
+<a name="line30">animation, line drawing, and polygon filling).</a>
+
+As with all the other DMA channels in the Amiga system, the Copper can
+retrieve its instructions only from the chip RAM area of system memory.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,28 @@
+getfont.gadget
+LABEL "Getfont"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/getfont.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+TEXTATTR   0x85040001 (I··N·) GETFONT_TextAttr "Text Attribute"
+BOOLEAN    0x85040002 (I····) GETFONT_DoFrontPen "Front Pen Mode" FALSE "Do Front Pen"
+BOOLEAN    0x85040003 (I····) GETFONT_DoBackPen "Back Pen Mode" FALSE "Do Back Pen"
+BOOLEAN    0x85040004 (I····) GETFONT_DoStyle "Style Mode" FALSE "Do Style"
+BOOLEAN    0x85040005 (I····) GETFONT_DoDrawMode "Draw-Mode Mode" FALSE "Do Draw-Mode"
+INTEGER    0x85040006 (I····) GETFONT_MinHeight "Minimum Font Height" 6 1 32767
+INTEGER    0x85040007 (I····) GETFONT_MaxHeight "Maximum Font Height" 20 1 32767
+BOOLEAN    0x85040008 (I····) GETFONT_FixedWidthOnly "Fixed With Only Mode" FALSE "Fixed Width Only"
+STRING     0x85040009 (I····) GETFONT_TitleText "Title" ""
+INTEGER    0x8504000A (I····) GETFONT_Height "Height" 200 0 32767
+INTEGER    0x8504000B (I····) GETFONT_Width "Width" 300 0 32767
+INTEGER    0x8504000C (I····) GETFONT_LeftEdge "Left Edge" 30 0 32767
+INTEGER    0x8504000D (I····) GETFONT_TopEdge "Top Edge" 20 0 32767
+PEN        0x8504000E (I··N·) GETFONT_FrontPen "Front Pen" TEXTPEN
+PEN        0x8504000F (I··N·) GETFONT_BackPen "Back Pen" BACKGROUNDPEN
+SELECT     0x85040010 (I··N·) GETFONT_DrawMode "Draw Mode" 2 0 0 "JAM1" 1 "JAM2"
+INTEGER    0x85040011 (I····) GETFONT_MaxFrontPen "Max Front Pen" 255 0 255
+INTEGER    0x85040012 (I····) GETFONT_MaxBackPen "Max Back Pen" 255 0 255
+ARRAY      0x85040013 (I····) GETFONT_ModeList "Mode Names" "getfont.names" 4 1
+REM PALETTE  0x85040014 (I····) GETFONT_FrontPens "Front Pens"
+REM PALETTE  0x85040015 (I····) GETFONT_BackPens "Back Pens"
+FLAGS      0x85040016 (I··N·) GETFONT_SoftStyle "Soft Style" 4 0 0 7 "Normal" 1 1 "Underlined" 2 2 "Bold" 4 4 "Italics"
+END

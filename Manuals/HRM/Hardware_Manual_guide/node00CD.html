@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-11-2-1" TITLE="4 / / Control Registers / SPR0POS" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 / / Control Registers / SPR0POS</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00CC.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00CE.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This is the sprite 0 position register. The  <a href="../Hardware_Manual_guide/node00BA.html">word</a>  written into this
+register controls the position on the screen at which the upper left-hand
+corner of the sprite is to be placed. The most significant bit of the
+first  <a href="../Hardware_Manual_guide/node00BC.html">data word</a>  will be placed in this position on the screen.
+
+   Sprite placement resolution.
+   ----------------------------
+   The sprites have a placement resolution on a full screen of 320 by
+   200 NTSC (320 by 256 PAL). The sprite resolution is independent of
+   the bitplane resolution.
+
+Bit positions:
+
+   *  Bits 15-8 specify the vertical start position, bits V7 - V0.
+   *  Bits 7-0 specify the horizontal start position, bits H8 - H1.
+
+   Warning:
+   --------
+   This register is normally only written by the sprite  <a href="../Hardware_Manual_guide/node00BF.html">DMA channel</a> 
+   itself. See the details above regarding the organization of the
+   sprite data.  This register is usually updated directly by DMA.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

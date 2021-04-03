@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-2-1" TITLE="3 / / Bitplanes and Color / The Color Table" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / Bitplanes and Color / The Color Table</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0066.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0068.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The color table contains 32 registers, and you may load a different color
+into each of the registers. Here is a condensed view of the contents of
+<a name="line4">the color table:</a>
+
+
+     Register Name   Contents                Meaning
+     -------------   --------                -------
+       <a href="../Hardware_Manual_guide/node006D.html">COLOR00</a>        12 bits        User-defined color for the
+                                     background area and borders.
+
+       COLOR01        12 bits        User-defined color number 1
+                                     (For example, the alternate color
+                                     selection for a two-color playfield).
+
+       COLOR02        12 bits        User-defined color number 2.
+
+          .              .
+          .              .
+          .	         .
+
+       COLOR31	      12 bits	     User-defined color number 31.
+
+
+              Table 3-2: Portion of the Color Table
+<a name="line26"></a>
+
+ <a href="../Hardware_Manual_guide/node006D.html">COLOR00</a>  is always reserved for the background color. The background color
+shows in any area on the display where there is no other object present
+and is also displayed outside the defined display window, in the border
+<a name="line31">area.</a>
+
+   Genlocks and the background color.
+   ---------------------------------
+   If you are using the optional genlock board for  <a href="../Hardware_Manual_guide/node0091.html">video input</a>  from a
+   camera, VCR, or laser disk, the background color will be replaced by
+   the incoming video display.
+
+Twelve bits of color selection allow you to define, for each of the 32
+<a name="line40">registers, one of 4,096 possible colors, as shown in Table 3-3.</a>
+
+
+                  Bits            Color
+                  ----            -----
+                  Bits 15 - 12    Unused
+                  Bits 11 - 8     Red
+                  Bits 7 - 4      Green
+                  Bits 3 - 0      Blue
+
+
+       Table 3-3: Contents of the Color Registers
+
+
+Table 3-4 shows some sample color register bit assignments and the
+resulting colors. At the end of the chapter is a more extensive
+<a name="line56"> <a href="../Hardware_Manual_guide/node0094.html">Color Register list</a> .</a>
+
+
+            Contents of the       Resulting
+            Color Register          Color
+            ---------------       ---------
+                 $FFF               White
+                 $6FE               Sky blue
+                 $DB9               Tan
+                 $000               Black
+
+
+        Table 3-4: Sample Color Register Contents
+<a name="line69"></a>
+
+Some sample instructions for loading the color registers are shown below:
+
+   LEA     CUSTOM,a0              ; Get base address of custom hardware...
+   MOVE.W  #$FFF,COLOR00(a0)      ; Load white into color register 0
+<a name="line75">   MOVE.W  #$6FE,COLOR01(a0)      ; Load sky blue into color register 1</a>
+
+
+   The color registers are write-only.
+   ----------------------------------
+   Only by looking at the screen can you find out the contents of
+   each color register.  As a standard practice, then, for these
+   and certain other write-only registers, you may wish to keep a
+   &#034;back-up&#034; or &#034;shadow&#034; copy in RAM.  As you write to the color
+   register itself, you should update this RAM copy.  If you do so,
+   you will always know the value each register contains.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

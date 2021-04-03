@@ -1,0 +1,146 @@
+AREXX FUNCTION LIBRARIES
+========================
+
+ARexx maintains a list of function libraries and function hosts. The
+"rexxsupport.library" included in the ARexx distribution is an example of a
+function library, the ARexx resident process "REXX" is an example of
+a function host. Every function is passed through this list until a
+library or host responds to it. The list of function libraries and hosts is
+sorted by priority with the ARexx interpreter itself at priority -60
+near the end of the list. Priorities range from 100 to -100, inclusive.
+
+
+The query routine
+-----------------
+A function library must implement a special function known as the "query"
+entry point whose function definition looks like this:
+
+    Result = Query(RexxMsg)
+     d0:a0           a0
+
+    LONG Query(struct RexxMsg *);
+
+The RexxMsg will hold the name of the function and up to 15 function
+arguments in the RexxMsg->rm_Args[..] array. The function name is stored
+in RexxMsg->rm_Args[0], the arguments follow in the slots 1 through 15.
+Name and arguments are stored as pointers to null-terminated strings.
+To find out how many arguments were passed to the query routine you
+should look at the lower eight bits of the RexxMsg->rm_Action entry:
+
+    NumArgs = RexxMsg->rm_Action & 0xFF;
+
+The query routine must preserve all registers except for d0/d1 and
+a0/a1 and return a result in registers d0 and a0. This is not feasible with
+all `C' compilers which will return results only in register d0. Your
+implementation may need to fall back on using assembly language "glue"
+code like this:
+
+       xref _C_Query
+       xdef _Asm_Query
+
+   _Asm_Query:
+
+       clr.l  -(sp)     ; Make room for a pointer on the stack
+       move.l sp,a1     ; Store the address of the pointer in
+                        ; in register a1
+
+       jsr    _C_Query  ; Invoke the `C' language function
+
+       move.l (sp)+,a0  ; Load the pointer into register a0
+       rts              ; and return to ARexx
+
+The `C' language query routine could then look like this (for
+the SAS/C compiler):
+
+    LONG __asm
+    C_Query(register __a0 struct RexxMsg * msg,
+            register __a1 STRPTR *         res)
+    {
+        STRPTR result;
+
+        result = "Result string";
+
+        (*res) = CreateArgstring(result,strlen(result));
+        if((*res) != NULL)
+            return(0);
+        else
+            return(ERR10_003);
+    }
+
+
+What the query routine must do
+------------------------------
+The query routine must decide whether it can handle the function and if so,
+if all the function parameters are in place and correct. If the function is
+not known to the library, it must return error code ERR10_001 (see
+"rexx/errors.h"). The function will then get passed to the next library or
+host on the list.
+
+    NOTE: To find out if the function is known to your library
+          use a CASE-INSENSITIVE name comparison. You can make
+          no assumption on whether the name your function
+          receives will be written in upper case, lower case or
+          mixed case letters. The method of choice is to use
+          utility.library/Stricmp() for comparison.
+
+If the function is known to your library, you need to check if the arguments
+are correct. The wrong number of arguments should be reported with error
+code ERR10_017. Further error checking is up to you, see "rexx/errors.h"
+for a list of errors known to ARexx.
+
+If everything went well and no error occured your function should return 0
+in register d0 to indicate successful execution. This is what every `C'
+compiler will do with the "return" statement.
+
+    NOTE: The query routine must use a non-standard way to return
+          function results.
+
+What your query routine returns is generally only the error code. The
+functions the routine implements have to use a different technique to pass
+their results to ARexx. Any function result has to be converted into a
+string and needs to be wrapped into an ARexx string using
+rexxsyslib.library/CreateArgstring. The result of CreateArgstring must
+then be returned in register a0.
+
+
+Library design
+--------------
+A function library need not look different from any other Amiga shared
+library, it just has to implement the special query function in one of the
+library function slots. To use the library from ARexx you need to know the
+function offset, though. For example, if the query function were the first
+to follow the four standard library function entries (open, close, expunge,
+reserved) it would be located at offset -30.
+
+
+Usage from ARexx
+----------------
+To make a function library available to ARexx you need to add it to the
+library list. This must happen before any of the library functions can be
+used, so a good place to do it is at the beginning of an ARexx script.
+Libraries are added using the built-in ARexx function ADDLIB which looks
+like this:
+
+    Success = ADDLIB(Name,Priority,Offset,Version)
+
+So, if you were to add the library "rexxsample.library" at priority 0 whose
+query function is located at offset -30 you were to use the following
+command in your ARexx script:
+
+    addlib("rexxsample.library",0,-30,0)
+
+Note that this will make the library known to ARexx but will not yet open
+it. To find out if the library is already known you can use the built-in
+ARexx function SHOW which looks like this:
+
+   Success = SHOW(Option,Name,Pad)
+
+The Pad parameter is not used here and may be omitted. To find out if the
+library "rexxsample.library" is already known to ARexx and to add it if it
+is not you would use the following commands:
+
+    if ~show(libraries,"rexxsample.library") then do
+        if ~addlib("rexxsample.library",0,-30,0) then do
+            say "Could not add rexxsample.library"
+        end
+    end

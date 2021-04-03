@@ -1,0 +1,94 @@
+
+listbrowser.gadget 45.1 (01.03.01)
+
+· compiled with new startup-code and 68020+ optimiziation.
+
+· the minimum size calculation of the GM_DOMAIN method
+  was somehow weird as it contained multiplications with a
+  boolean. This did not give any senseful result when
+  compiled with StormC4.
+
+· the gadget no longer crashs when allocating nodes from
+  a user specified pool (via the LBNA_MemPool tag, the
+  memory needed to be cleared).
+
+· fixed the v44 AllocLBColumnInfo() function which passed
+  two arguments in wrong order to the memory allocater.
+  Because of this all v44 functions never worked, they
+  weren't documentated anyway ...
+
+· added ListBrowserClearAll() to function table, it existed 
+  since v42 but was never made available. Don't know why,
+  it's almost identical to ListBrowserShowAll.
+
+· no longer leaves garbage at the right side.
+
+listbrowser.gadget 45.2 (11.03.01)
+
+· the size of the scrollers will be set to the value their
+  GM_DOMAIN method returns.
+
+· LISTBROWSER_MakeVisible and LISTBROWSER_Top works even
+  when the gadget has not been rendered before.
+
+· nodes using a custom rendering hook won't be drawn with an
+  extra spacing line below them anymore.
+
+· string.gadget v45 (when available) will be used for node
+  editing, now.
+
+· LISTBROWSER_Spacing should not mess around with the text
+  placement anymore.
+
+listbrowser.gadget 45.3 (17.03.01)
+
+· the computed total vertical size of the listbrowser (VPropTotal)
+  was one 1 pixel too small because the bottomborder <-> text spacing
+  was ignored.
+
+listbrowser.gadget 45.4 (03.04.01)
+
+· fixed the "AWeb popup gadget with only two entries" problem.
+  The gadget didn't render because I set the minimum required space
+  for rendering the gadget a bit too high.
+
+listbrowser.gadget 45.5 (05.05.01)
+
+· after a font change (via Font prefs) the gadget was still using
+  the old (rastport) font. The gadgets could even access this font
+  when it (the font) was removed from memory already.
+
+listbrowser.gadget 45.6 (11.06.01)
+
+· LBM_ADDNODE didn't render when adding the first entry to the list
+  <Thorsten Hansen>.
+
+· LBM_ADDNODE didn't update the horizontal scroller.
+
+listbrowser.gadget 45.7 (13.06.01)
+
+· the 45.5 fix wasn't perfect as it made AWeb to use two different 
+  fonts for the network state listbrowser <Andrea Vallinotto>.
+  This could be a bug of AWeb which seems to use a "handmade"
+  DoGadgetMethod() function but I'm not sure about this.
+
+· fixed LBM_ADDNODE once again. The first attempt didn't fix the
+  bug at its roots.
+
+listbrowser.gadget 45.8 (01.08.01)
+
+· LISTBROWSER_Top and LISTBROWSER_MakeVisible can be set to "out-of-range"
+  values, now. HDToolBox sets LISTBROWSER_MakeVisible to -1 on a UAE
+  based machine (no scsi.device) making the gadget to act weird.
+
+listbrowser.gadget 45.9 (13.10.01)
+
+· added GA_GadgetHelpText support.
+
+· implemented horizontal "autoscrolling" when the mousepointer leaves
+  the gadgetbox while the holds down the mousebutton <Sebastian Bauer>.
+
+listbrowser.gadget 45.10 (14.12.01)
+
+· a missing DisposeRegion() was causing a memoryloss of 16bytes for
+  each lboject.

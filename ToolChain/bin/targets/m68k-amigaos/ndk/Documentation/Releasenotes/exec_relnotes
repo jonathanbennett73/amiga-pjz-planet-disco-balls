@@ -1,0 +1,51 @@
+kickstart/exec.library
+
+    This is the start of exec V45. First of all, it should be
+    flexible enough now to allow general RAM loading.
+    First I have to be convinced that all of this is solid! BTW,
+    this exec also should make PrepareEmul obsolete, adds fast
+    large pools, the exec related SetPatch content, and AVL tree
+    support.
+    Froze 45.7.
+    The beta alert will show the exec type now for easier bug
+    reporting. I still can't reproduce a single issue. *sigh*
+    Froze 45.9.
+    Argh! I think I have the main issue. Due to a stupid oversight,
+    Exec tried to checksum RAM, not ROM areas, depending on the
+    memory map of the machine in question. A label change fixed
+    this. As it turned out, I also stomped on some registers that
+    I better should not have messed up.
+    Froze 45.10.
+    If Exec turns out to be in chip mem, it shouldn't be able
+    to blow itself out of the water anymore when sizing chip mem.
+    Froze 45.11.
+    Header cleanup for types and proto generation. Beta Alert
+    turned off.
+    Froze 45.12.
+    The builtin check for Exec not to trash itself on startup ...
+    did unfortunately exactly that due to an incorrect label. This
+    should be fixed now.
+    Froze 45.13.
+    Slight tweaks to the memory layout for better loading support.
+    No code change.
+    Froze 45.15.
+    As it turns out, Exec could find Ranger memory on many machines
+    and die at times, even if there was no Ranger memory. Basically,
+    this depended on the state the machine was in when it was
+    rebooted. This is an old <=V40 bug and has been fixed now. The
+    internal ReadGayle() function was similarly affected and could
+    have found a Gayle where there is none. This *should* be fixed
+    now. Strange what you can find when you are looking for
+    something completely different. It took me quite a while to
+    debug this because it stopped the other work completely. Arghh!
+    Froze 45.16.
+    ColdReboot() now tries harder to do the right thing on 040/060
+    systems and on any systems that had the VBR moved.
+    Froze 45.17.
+    Streamlined exec pools handling. No more need for V40 style
+    pool support. No functional change.
+    Froze 45.18.
+    Header generation was not completely correct. No functional
+    change. Headers should be ok now.
+    Still at 45.18.
+

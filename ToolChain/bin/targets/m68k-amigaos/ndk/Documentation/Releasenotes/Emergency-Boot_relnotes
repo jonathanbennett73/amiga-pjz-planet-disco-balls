@@ -1,0 +1,45 @@
+
+RCS file: Sonne:Daten/Texte/Amiga/H&P/AmigaOS/Installation&Startup/Emergency-Boot/RCS/Startup-Sequence
+Working file: Sonne:Daten/Texte/Amiga/H&P/AmigaOS/Installation&Startup/Emergency-Boot/Startup-Sequence
+head: 45.4
+branch:
+locks:
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 5;	selected revisions: 5
+description:
+Startup-Sequence for Emergency AmigaOS CD-ROM boot
+----------------------------
+revision 45.4
+date: 2001/01/19 16:19:58;  author: Helios;  state: Exp;  lines: +2 -2
+- removed EXCEPT "~(#?.info|VGAOnly)" parameter from the LoadMonDrvs line
+  that loads the monitor drivers from the Emergency-Disk. Doesn't seem
+  to work
+----------------------------
+revision 45.3
+date: 2001/01/19 14:37:19;  author: Helios;  state: Exp;  lines: +2 -1
+- copying deficons from EBOOT: to RAM:Env/Sys now. This is
+  faster in both creating and booting the Emergency-Disk,
+  but it removes configurability of DefIcons. Well so what
+  this is a Emergency system.
+----------------------------
+revision 45.2
+date: 2001/01/19 14:06:41;  author: Helios;  state: Exp;  lines: +22 -2
+- added automatic disabling of ROM Update for IDEFix,
+  XSurfIDE and Env var "NOSCSIUPDATE"
+----------------------------
+revision 45.1
+date: 2001/01/18 14:42:13;  author: Helios;  state: Exp;  lines: +6 -16
+- use LoadMonDrvs
+- hopefully BindDrivers will load drivers from DF0: without
+  exclusive SYS: assign to Emergency-Disk:
+----------------------------
+revision 44.1
+date: 2001/01/18 14:00:50;  author: Helios;  state: Exp;
+- 44.1 (22.6.1999)
+- C:MakeDir goes >NIL: to avoid message
+- Also loading monitors from floppy disk to allow RTG
+- Also assign LIBS: to floppy disk to allow reading
+  RTG libraries
+=============================================================================

@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-13" TITLE="6 Blitter Hardware / Line Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 Blitter Hardware / Line Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0127.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0129.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+In addition to all of the functions described above, the blitter can draw
+patterned lines.  The line draw mode is selected by setting bit 0
+(LINEMODE) of  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a> , which changes the meaning of some other bits in
+<a href="../Hardware_Manual_guide/node001A.html">BLTCON0</a>  and  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a> .  In line draw mode, the blitter can draw lines up
+to 1024 pixels long, it can draw them in a variety of modes, with a
+variety of textures, and can even draw them in a special way for simple
+<a name="line8"> <a href="../Hardware_Manual_guide/node0122.html">area fill</a> .</a>
+
+Many of the blitter registers serve other purposes in line-drawing mode.
+Consult  <a href="../Hardware_Manual_guide/node0011.html">Appendix A</a>  for more detailed descriptions of the use of these
+registers and control bits.  You should also see Appendix C for the
+<a name="line13"> <a href="../Hardware_Manual_guide/node00AA.html">new limits</a>  on line-drawing mode in the Enhanced Chip Set (ECS).</a>
+
+In line mode, the blitter draws a line from one point to another, which
+can be viewed as a vector.  The direction of the vector can lie in any of
+the following eight octants.  (In the following diagram, the standard
+Amiga convention is used, with x increasing towards the right and y
+increasing down.) The number in parenthesis is the octant numbering; the
+<a name="line20">other number represents the value that should be placed in bits 4 through</a>
+2 of  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a> .
+
+                               |
+                               |
+                      \   (2)  |  (1)   /
+                       \       |       /
+                        \   3  |  1   /
+                         \     |     /
+                          \    |    /
+                     (3)   \   |   /   (0)
+                            \  |  /
+                        7    \ | /    6
+                              \|/
+                  -------------*-------------
+                              /|\
+                        5    / | \    4
+                            /  |  \
+                     (4)   /   |   \   (7)
+                          /    |    \
+                         /     |     \
+                        /   2  |  0   \
+                       /       |       \
+                      /   (5)  |  (6)   \
+                               |
+                               |
+
+              Figure 6-8: Octants for Line Drawing
+
+
+Line drawing based on octants is a simplification that takes advantage of
+symmetries between x and -x, y and -y. The following Table lists the
+<a name="line52">octant number and corresponding values:</a>
+
+
+      Table 6-3:  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  Code Bits for Octant Line Drawing
+
+
+                <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  Code Bits      Octant #
+               -------------------       --------
+                     4  3  2
+                     -  -  -
+                     1  1  0               0
+                     0  0  1               1
+                     0  1  1               2
+                     1  1  1               3
+                     1  0  1               4
+                     0  1  0               5
+                     0  0  0               6
+                     1  0  0               7
+
+
+We initialize  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  bits 4 through 2 according to the above Table.
+Now, we introduce the variables dx and dy and set them to the absolute
+values of the difference between the x coordinates and the y coordinates
+of the endpoints of the line, respectively.
+
+dx = abs(x2 - x1) ;
+dy = abs(y2 - y1) ;
+
+Now, we rearrange them if necessary so dx is greater than dy.
+
+if (dx &#060; dy)
+        {
+        temp = dx ;
+        dx = dy ;
+        dy = temp ;
+        }
+
+Alternately, set dx and dy as follows:
+
+dx = max(abs(x2 - x1), abs(y2 - y1)) ;
+dy = min(abs(x2 - x1), abs(y2 - y1)) ;
+
+These calculations have the effect of &#034;normalizing&#034; our line into octant
+0; since we have already informed the blitter of the real octant to use,
+<a name="line96">it has no difficulty drawing the line.</a>
+
+We initialize the A  <a href="../Hardware_Manual_guide/node011B.html#line6">pointer register</a>  to 4 * dy - 2 * dx. If this value
+is negative, we set the sign bit (SIGNFLAG in  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a> ), otherwise we
+clear it.  We set the A   <a href="../Hardware_Manual_guide/node011B.html#line102">modulo register</a>  to 4 * (dy - dx) and the B
+ <a href="../Hardware_Manual_guide/node011B.html#line102">modulo register</a>  to 4 * dy.
+
+The A  <a href="../Hardware_Manual_guide/node011B.html#line31">data register</a>  should be preloaded with $8000. Both word  <a href="../Hardware_Manual_guide/node011F.html#line42">masks</a> 
+should be set to $FFFF. The A  <a href="../Hardware_Manual_guide/node011F.html">shift</a>  value should be set to the x
+<a name="line105">coordinate of the first point (x1) modulo 15.</a>
+
+The B  <a href="../Hardware_Manual_guide/node011B.html#line31">data register</a>  should be initialized with the line texture pattern,
+if any, or $FFFF for a solid line. The B  <a href="../Hardware_Manual_guide/node011F.html">shift</a>  value should be set to
+the bit number at which to start the line texture (zero means the last
+significant bit.)
+
+The C and D  <a href="../Hardware_Manual_guide/node011B.html#line6">pointer registers</a>  should be initialized to the word
+containing the first pixel of the line; the C and D  <a href="../Hardware_Manual_guide/node011B.html#line102">modulo registers</a> 
+<a name="line114">should be set to the width of the bitplane in bytes.</a>
+
+The SRCA, SRCC, and DEST bits of  <a href="../Hardware_Manual_guide/node001A.html">BLTCON0</a>  should be set to one, and the
+SRCB flag should be set to zero.  The OVFLAG should be cleared. If only a
+single bit per horizontal row is desired, the ONEDOT bit of  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a> 
+<a name="line119">should be set; otherwise it should be cleared.</a>
+
+The logic function remains.  The C  <a href="../Hardware_Manual_guide/node011B.html">DMA channel</a>  represents the original
+source, the A channel the bit to set in the line, and the B channel the
+pattern to draw.  Thus, to draw a line, the function
+        _
+   AB + A
+
+is the most common.  To draw the line using exclusive-or mode, so it can
+be easily erased by drawing it again, the function
+     _   _
+   ABC + AC
+
+<a name="line132">can be used.</a>
+
+We set the blit height to the length of the line, which is dx + 1. The
+width must be set to two for all line drawing.  (Of course, the  <a href="../Hardware_Manual_guide/node011B.html#line82">BLTSIZE</a> 
+register should not be written until the very end, when all other
+registers have been filled.)
+
+ <a href="../Hardware_Manual_guide/node0129.html">Register Summary for Line Mode</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

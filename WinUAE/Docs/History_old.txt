@@ -1,0 +1,736 @@
+8. Fixes/Changed in the WinUAE version:
+=======================================
+______________________________________________________________________________
+0.8.8 Release 7 - August 5, 1999
+==============================================================================
+- FIXED: Displaying the GUI and then dragging it around no longer "erases" the
+         background.  Even works in full-screen mode (finally).
+- FIXED: More changes to source-code archive, and more information online at
+         http://www.CodePoet.com/UAE/source.htm
+- FIXED: No longer allow Zorro-III memory sizes larger than 64-megs, due to
+         stability issues.
+- ADDED: More debug information about the type of surfaces that DirectDraw is
+         creating.
+______________________________________________________________________________
+0.8.8 Release 6 - August 3, 1999
+==============================================================================
+- FIXED: Picasso96 screen-modes are now limited by the amount of RTG memory
+         which has been allocated.  This way, if the user has selected 1-meg
+         of RTG memory, they can't try and open a 1600x1200 24-bit display.
+- FIXED: TCP/IP Networking from within WinUAE works better for some cases.
+- FIXED: .dms files FINALLY work again, provided that xdms.exe is available
+         on your system.
+- FIXED: Creating a new drawer from Workbench and changing its default name
+         no longer crashes.
+- FIXED: File-system bugs like renaming, and some obscure problems regarding
+         sub-directories being in-use and undeletable, even when they're not.
+- FIXED: Obscure bug relating to the 'a' bit (archive-bit) as seen with the
+         AmigaDOS PROTECT command.
+- FIXED: And yet more file-system bugs.
+- FIXED: Option to disable sound when WinUAE is minimized wouldn't properly
+         restart sound when WinUAE became visible again.
+- FIXED: MIDI selection is only available in the GUI when serial-emulation
+         has been enabled.
+- FIXED: Second joystick button now works properly for some games which
+         didn't initialize the POTGO register correctly.  (B.C. Kid)
+- FIXED: Speedup in windowed-mode file-system access, due to use of a
+         DirectDraw Clipper, and not parsing the clip-list manually.
+         NOTE: This may cause a slow-down on some systems???  Feedback!
+- FIXED: Source-archive has been properly updated to include some missing
+         files.
+- ADDED: DirectX 6.x support for a Picasso96 speed increase.  This also lets
+         people have different refresh-rates for full-screen mode, as
+         opposed to the old version's 60Hz limitation.
+- ADDED: DirectSoundNotification support, for better double-buffered
+         DirectSound under Win98 and Win2000 (if sound-card supports it).
+- ADDED: Refresh of the window while dragging the GUI around on top of it.
+         Only works in windowed-mode for now.  Fullscreen with a GUI will
+         still result in black painting.
+- ADDED: Support for serial-on-demand (shared serial-port) in the GUI.
+         NOTE: Untested.  Feedback!
+- ADDED: Enforcer-hits generate a beep and flash the window.
+- ADDED: Amiga In A Box (AIAB) link in About tab of GUI.
+- ADDED: About tab of GUI has a nicer look.
+- CHANGED: Line-mode default is "Doubled", so that the proper height screens
+           are displayed by default.
+- CHANGED: Compile options and some source-code, for a speed increase and
+           size decrease.
+______________________________________________________________________________
+0.8.8 Release 5 - May 15, 1999
+==============================================================================
+- FIXED: Picasso96 screen-problem involving mouse-pointers, refreshes, etc.
+- FIXED: MIDI port-selection is disabled in the GUI once WinUAE is running.
+- FIXED: Source-archive has been properly updated to include some missing
+         files.
+- ADDED: Instructions on where to get the HtmlHelp system.
+- ADDED: Warning about HtmlHelp not being installed on the machine will only
+         be given when the user uses the Help button for a page of the GUI.
+- ADDED: ShapeShifter 'PrepareEmul' support, so you don't have to KickShift
+         your ROM-images.  This also allows Amiga Forever users (which have
+         encrypted ROM-images which can't be KickShift'ed) to use Shape-
+         Shifter.
+         NOTE: If you don't know what ShapeShifter is, or what 'PrepareEmul'
+               is, then don't use this option!
+- ADDED: Enforcer-like logging, so that memory accesses to location zero can
+         be tracked by WinUAE.  A log will be generated with the complete CPU
+         state (registers, program-counter, etc.).  This should ONLY be used
+         during software development by experienced Amiga developers.
+- CHANGED: HtmlHelp file is in seperate archive now.
+______________________________________________________________________________
+0.8.8 Release 4 - April 20, 1999
+==============================================================================
+- FIXED: MUI installation will now work.
+- FIXED: Serial-port detection routine was partially broken.
+- FIXED: Zorro-III memory sizes greater than 64-Megs now work.
+- ADDED: WinUAE now remembers the last path where an .hdf file was selected.
+         NOTE: This was already done for .rom and .adf files.
+- ADDED: Selection of MIDI device in the I/O Ports page of the GUI.
+- ADDED: First cut of Online-Help system.
+- ADDED: Installer no longer creates any registry keys, since WinUAE will do
+         this itself when run for the first time.  Additionally, this fixes
+         the problems of those users running WinUAE off of a central network
+         file-server install, where a local install of WinUAE had not been
+         done.
+______________________________________________________________________________
+0.8.8 Release 3 - April 20, 1999
+==============================================================================
+- FIXED: Bug in new DX_FillRect() function, which affected DX_Blit().
+- FIXED: Bug in MIDI speed-detection.  Bars'n'Pipes works now!
+- FIXED: Bug in MIDI setup - I never set the MIDI output volume.
+- FIXED: Auto-detect of VPOSW register changes has been cleaned up (from Toni)
+- FIXED: Only serial-ports that exist on the PC will show up in the GUI - no
+         more hardcoded COM1 - COM4.
+______________________________________________________________________________
+0.8.8 Release 2 - April 15, 1999
+==============================================================================
+- FIXED: Bizarre error with hardfiles, config-files, kickstart ROMs, and other
+         areas.  Some places in the code were fopen() a file, and never
+         releasing the file-handle for later use.
+- FIXED: I *think* I've found the bug which was causing slow-downs on Cyrix
+         processors.
+- FIXED: Serial-port set to "none" always produced "COM1".
+- FIXED: Command-line now accepts the old "-config=blah.uae" format, so that
+         Amiga Forever users can just drop in the new WinUAE.exe and still use
+         their MenuBox to start.  This also gave us a smaller executable!
+- FIXED: 24-bit display-mode support should work again.
+- FIXED: FPS display updates quicker when toggling between PAL and NTSC, since
+         it now averages just the last 128 frames.
+- FIXED: LED display in full-screen was corrupting Picasso screens, and would
+         sometimes overwrite the Amiga graphics.  LED display is now only
+         available in full-screen Amiga screens (not Picasso screens), and
+         only when the resolution is at least 800x600.
+- FIXED: Bug with PAL/NTSC control through VPOS register of custom-chips.
+- FIXED: HTML links in the About panel of the GUI are now up-to-date.
+- FIXED: Source-archive is now up-to-date, and includes a proper VisualC++ 6.0
+         project for doing debug-builds.
+- ADDED: Automatic MIDI output for Amiga software, such that when they select
+         the MIDI baudrate, the serial-port output support stops sending bytes
+         to a COM-port, and redirects outgoing MIDI bytes to the default
+         Windows MIDI-out device.  NOTE: This is output-only for now.
+- ADDED: Picasso96 speed-increase for modes greater than 256 colours.
+- ADDED: More diagnostics for serious problems.
+- ADDED: Settings in Misc panel of GUI for controlling WinUAE's behaviour when
+         minimized.  User can now decrease the CPU usage of WinUAE when it is
+         minimized.  User can now disable sound in WinUAE when it is minimized.
+- CHANGED: Resolution selection under the Display panel in the GUI has changed
+           so that the resolution drop-down list is available when you've got
+           full-screen selected for Amiga screens, and is greyed-out when in
+           windowed mode.
+- CHANGED: Back to old-style DirectDraw support, which makes no use of the
+           DirectDraw2 or DirectSurface2 COM interfaces.  Some users were
+           complaining that all versions since WinUAE 0.8.6 R5 have failed on
+           their machines.
+- CHANGED: Even SMALLER executable now!
+______________________________________________________________________________
+0.8.8 Release 1 - March 31, 1999
+==============================================================================
+- FIXED: Random crashes (WinUAE exits).
+- FIXED: Rename problems in filesystem code.
+- FIXED: Mounting illegal volume-names using the "automount" option.
+- FIXED: Mounting the same volume-name twice.
+- FIXED: Mounting of network-drives using the "automount" option.
+- FIXED: Joystick/keyboard mappings no longer force the keypad into a joystick
+         mode.
+- FIXED: Hard-files of 2-Gig size will work.
+- FIXED: Problem with Cyrix processors running VERY slowly in certain hardware
+         configurations.
+- FIXED: Huge bug with loading configuration files, relating to harddrive
+         settings.
+- FIXED: array-buffer glitch when using .dms and .adz files.
+- FIXED: Now cleans up numerous memory and resource-leaks.  Windows is
+         SUPPOSED to clean these up for a process which exits, but I don't
+         want to rely on that.
+- FIXED: CPU vs. Chipset slider under CPU Panel of GUI is available again
+         while running.
+- FIXED: Default resolution selection in the GUI is done now, so no "blank"
+         resolution is selected.
+- FIXED: ACTION_SET_DATE on directories will work
+- FIXED: ACTION_SET_COMMENT with an empty comment will work.
+- ADDED: LED/track-display in full-screen
+- ADDED: Basic DiskChange support for READ-ONLY REMOVABLE drives - like CD-ROM
+         drives.  If you have a PC CD-ROM drive mounted using the "Mount PC
+		 Drives" option, and you change the CD, just issue a DiskChange
+		 command at the shell-prompt, and the proper volume-name should then
+		 appear.
+- ADDED: Help button added to GUI.  Not functional yet.  But we're one step
+         closer.
+- ADDED: Mechanism for serious alerts to be displayed on-screen, rather than
+         just in the log-file.
+- ADDED: Preliminary support for writes to the VPOS register, so that games
+         like B.C. Kid can program the chipset for 60Hz even when the custom-
+         chips are set for PAL mode.
+- ADDED: Chipset can be specified in GUI, including AGA
+- ADDED: NTSC or PAL refresh-rate can be specified in the GUI.
+- ADDED: Track-display of disk-drives in both windowed-mode and fullscreen.
+- CHANGED: Configuration file-format has changed, but should still be able to
+           read old configurations.  Blame this on Bernd!  8^)
+- CHANGED: CPU-engine should be 5-10% faster now.
+- CHANGED: Certain Picasso96 operations should be 5-10% faster now.
+- CHANGED: Command-line parametes have changed as well.  Read the UNIX docs.
+           To load a config-file, use 'winuae.exe -f configfile.uae'
+		   To set an option, use 'winuae.exe -s option=parameter', such as
+		   'winuae.exe -s use_gui=yes'
+- CHANGED: log-file name is now winuaelog.txt instead of winuaelogs.txt
+- CHANGED: Default bit-depth is 16-bit again, since AGA modes require that.
+- CHANGED: Sound Panel is NOT available once running, since too many problems.
+______________________________________________________________________________
+0.8.6 Release 6 - December 19, 1998 - Merry Christmas Edition!
+==============================================================================
+- FIXED: 68020/68881 combination works again (finally).
+- FIXED: Multiple joysticks are possible again.  Also improved GUI in this
+         area, including an easy way to "swap" ports.
+- FIXED: COM-ports higher than COM1 now work and can be saved.
+- FIXED: Selecting a Picasso96 screen-mode that had the same dimensions and
+         depth as the current screen would result in a non-functional
+         P96-screen.
+- FIXED: Mounted filesystems are faster for small-packet accesses, such as
+         TAR or 'type'.  AddBuffers was missing when filesystems were
+         mounted.
+- FIXED: Palette changes on Windows Desktop (from utilities like Panorama)
+         no longer corrupt the palette of an 8-bit (256 colour) full-screen
+         Amiga.
+- FIXED: Renaming files had a small bug, which caused "Put Away Icon" from
+         Workbench to crash WinUAE.
+- FIXED: Switching between full-screen and windowed Amiga screens now keeps
+         the proper colour-depth.
+- FIXED: Picasso screen-modes that matched the Windows Desktop dimensions
+         would continue drawing even while WinUAE was minimized.
+- FIXED: FPS area of status-bar can now accomodate large fonts.
+- CHANGED: Single-click of a configuration no longer auto-loads it.  "Load"
+           button added to Configurations panel of the GUI because of this
+           change.
+- CHANGED: UAEx: device-names renamed to DHx: for compatibility.
+- CHANGED: "Windows" keyboard "Menu" key is now Right-Alt in Amiga, for all
+           the German-keyboard users.
+- CHANGED: WinUAE window-title is now simply "WinUAE".
+- CHANGED: Display ModeID constants have changed, but should now be
+           compatible across user installations.
+- ADDED: Support for "no-DCI provider" graphics-cards.  Please let me know if
+         this has solved any display-problems that some users may have had...
+         NOTE: You will not achieve maximum speed of WinUAE without proper
+         drivers for your video-card.  This new support is meant to allow all
+         machines to run WinUAE, but not necessarily run it optimally.
+- ADDED: Support for RTG/P96 Screens on your Windows Desktop.  Be warned,
+         the performance of these screens are poor, and for maximum speed
+         you should set your RTG Screen's number of colours to the same as
+         your Windows Desktop.
+- ADDED: New "Add PC Drives at Startup" option under Hard Drives panel in GUI.
+  This option will automagically mount the available PC drive-letters for the
+  Amiga to use, using the following naming convention:
+  1. If the drive-letter has a Windows volume-name associated with it, the
+     drive will get mounted in the Amiga using its volume-name.
+  2. If no volume-name, the drive gets assigned an Amiga volume-name based on
+     its drive-type:
+         Hard Drives      --> WinDH_x:
+         CD-ROM Drives    --> WinCD_x:
+         Floppy Drives    --> WinDF_x:
+         Network Drives   --> WinNW_x:
+         Removable Drives --> WinRMV_x:
+         RAM Disk Drives  --> WinRAM_x:
+     where the 'x:' is the PC drive-letter.
+  The beauty of this option is that the config-file can be used on ANY PC and
+  the Amiga will automatically have access to all PC-drives valid on that PC.
+  NOTE: If a drive doesn't currently have a disc in it (floppy, CD-ROM, etc.),
+        then this option will NOT mount the drive for use by the Amiga.
+- ADDED: Support for variable block-sizes in hardfiles.  Great for a .hdf
+         generated by Amiga Explorer (part of Amiga Forever) which includes
+         support for storage devices with block-sizes other than 512-bytes.
+- ADDED: Right-click on a .uae config-file will now give "Open" and "Edit"
+  choices.
+- ADDED: API so the "Amiga" can minimize itself.
+- ADDED: Log-file option in GUI and config-file.  Log-file is NOT generated by
+         default.
+- ADDED: Deleting a configuration prompts for confirmation.
+- ADDED: Windowed-mode remembers its last position on-screen.
+- CHANGED: This documentation has been updated slightly.
+______________________________________________________________________________
+0.8.6 Release 5 - October 27, 1998
+==============================================================================
+- Fixed the new ACTION_PARENT_FH DOS-packet, so that saving MUI and PPaint
+  prefs works again.  This will hopefully make Fiasco work as well.
+- Fixed networking support?
+- Fixed 68020/68881 option in CPU-panel of GUI (now disabled since it isn't
+  working right now).
+- Added feature to use the refresh-rate of your Windows desktop as a cue for
+  setting the DirectDraw full-screen frequency.
+- Windowed Picasso96 is no longer available in GUI or config-files, because its
+  not finished yet.
+______________________________________________________________________________
+0.8.6 Release 4 - October 22, 1998
+==============================================================================
+- The GUI is now functional!  Please report all bugs with it!  A single-click
+  will load a configuration, with a double-click launching the configuration.
+- Changed to be a true Windows Application again, meaning NO UGLY CONSOLE
+  WINDOW when running WinUAE.exe from the Explorer, a Desktop shortcut, etc.
+  All former console-output now goes to the winuaelogs.txt file in the same
+  directory as the WinUAE executable.
+- Changed configuration-file format and command-line parameters (ugh!).
+  These should NOT change again.  Ever.  Never, ever!  Aaaaargh!
+- Added mini-Installation program, which helps set up WinUAE, and maps the
+  .uae extension of the new config-file format to directly run WinUAE.
+- Removed the screen-swapping, monitor-popping, display-cycling at startup.
+  This will only happen once after you've installed, and it will remember the
+  setting for the future.
+- The floppy-disk requester and kickstart ROM/Key-file requesters remember
+  your favorite directory for .adf files and for .rom/.key files.
+- Added waveout-looping sound support, from Mathias' "experimental" version.
+- Added bsdsocket.library support (from Mathias as well).
+- Added file-system code to allow ACTION_FH_FROM_LOCK, for ShowDVI/TeX.
+- Added file-system code to allow ACTION_PARENT_FH, for Fiasco.
+- Added drive-lights, power-LED, and FPS indicators when running in a window
+  on the Windows Desktop.
+- Fixed mounting of root-volumes.  If you cannot mount your root drive letter
+  using X: then try using X:\ instead, or even X:\.. or X:\....
+- Fixed the -w -1 and -w 0 options to work better.
+- Fixed vertical-blanking interval to always be 50Hz, or as close as possible.
+- Fixed serial-port support.  Same as in 0.7.5 releases.  Still no support for
+  RTS/CTS on the Amiga-side.  With the bsdsocket.library implementation, you
+  probably don't need the serial-port much.
+- Fixed the '\' and '|' key.
+- Fixed the numeric-keypad 'Enter' key to be different than the main 'Enter'.
+- Fixed the left vs. right Ctrl and Alt keys.
+- Fixed the ability to rename files/dirs to same name with different case:
+  > rename tools Tools
+  now works properly.  Please report any bugs with this.
+- Included version 0.9 of uaegfx.card driver for P96.  This should go in
+  your devs:Monitors/ drawer on the Amiga.  Newer P96 distributions should
+  include this one, as well.  Fixes a couple of small bugs.
+- Web page updated.
+______________________________________________________________________________
+0.8.6 Release 3 - August 25, 1998
+==============================================================================
+- Fixed random mounting of file-systems (-M or -m), due to uninitialized ptr.
+- Fixed file-system code to handle illegal Windows file-names coming from the
+  Amiga - they get mapped to/from valid names.  This allows MUI-3.8 to install
+  with Installer 43.3 (tested).  Hopefully this fixes other Installer probs.
+- Fixed file-system code to allow ACTION_SET_FILESIZE packet, for ShapeShifter
+  usage (Create FileDisks now works).
+- Sound now works in full-screen.
+- Sound can be configured as either DirectSound or older waveOut-style.  See
+  the help (-h) for WinUAE.  I recommend the following combination of sound
+  and cpu-speed settings:  -w -1 -S 2:s:16:22050:1
+- Fixed a slow-down bug in Picasso96 regarding blitting, where the blit was
+  being done BOTH by native x86 code and by emulated 68k code.
+- Fixed the A500 vs. Turbo parameter settings (-w) to match the Linux version.
+  This means that "-w -1" gives full use of your x86 CPU, with "-w 0" only
+  using enough x86 CPU power to emulate an A500.  These options only work
+  right if sound is enabled (using at least -S 1).  On a PentiumII-266, and
+  using -w 0 -S 2:s:16:22050:1 your CPU usage will hover around 50%, thus
+  allowing your PC to still be useful while emulating the Amiga.
+- Included version 0.9 of uaegfx.card driver for P96.  This should go in
+  your devs:Monitors/ drawer on the Amiga.  Newer P96 distributions should
+  include this one, as well.  Fixes a couple of small bugs.
+- Fixed obscure bug with mounted CD-ROM drives and Audio CDs which caused a
+  GURU.  The Audio CD will now show up on the Amiga as a list of files, but
+  the Amiga will have no way to "play" the CD.
+- Fixed .adz support.  Make sure gzip.exe is in your PATH somewhere.
+- Fixed the help and this document regarding hard-file mounting.
+- Web page updated.
+______________________________________________________________________________
+0.8.6 Release 2 - August 10, 1998
+==============================================================================
+- Finally fixed Picasso-screen refreshes when restoring minimized WinUAE!
+- CD-ROM drives should be mountable using EITHER x: or x:\ or x:/, where x is
+  the drive-letter of the CD-ROM drive.
+- Fixed detection of 16-bit colour-modes, so that specifying a 16-bit Picasso
+  mode shouldn't crap out your UAE-session.
+- Fixed bug with -H option, such that specifying a "-H 2" to get 16-bit Amiga
+  screens wouldn't work, and would drop you back to an 8-bit screen - even if
+  your machine had a 15-bit mode available.
+- Fixed -w options, and Cyrix users should be able to use this new version.
+- Web page updated.
+______________________________________________________________________________
+0.8.6 Release 1 - August 8, 1998
+==============================================================================
+- Synchronized with Bernd's latest source-tree.
+- GUI is missing (temporary).
+- 68020/68881 CPU type is not working yet.
+- 8-bit display is now the default.  Use -H option to specify other modes.
+- New -O options for Amiga and/or Picasso displays in window or full-screen.
+- New -w options for CPU speed settings.
+- Web page updated (new Frequently Asked Questions section, donation count
+  updated, Picasso96 1.40 link, new mirrors, etc.)
+______________________________________________________________________________
+0.7.5b Release 1 - May 23, 1998
+==============================================================================
+- Synchronized with Bernd's latest source-tree.  No significant changes which
+  affect WinUAE.
+- No longer have seperate archives for documentation, main program, etc.
+- Include the necessary Amiga utilities in the archive: transdisk, transrom
+- Default to 70Hz refresh-rate for full-screen display modes, not 75Hz.
+- Eliminated the "Cyrix or 486 CPU" option in the Advanced panel of the GUI.
+- Web page updated (new Frequently Asked Questions section, donation count
+  updated, Picasso96 1.39 link, new mirrors, etc.)
+______________________________________________________________________________
+0.7.2 Release 2 - May 12, 1998
+==============================================================================
+- Fixed the freeze when running WinUAE in a window on your Win95 desktop.
+- Fixed the CD-ROM mounting problems.
+- Hard-files DO WORK - if you're having problems with an old one, try adjust-
+  ing the parameters.
+- Web page updated.
+- Donations now accepted ($10 US) - see the web page for details.
+______________________________________________________________________________
+0.7.2 Release 1 - May 7, 1998
+==============================================================================
+- Ported in 0.7.2 changes (read the ChangeLog file) from Bernd.
+  . Fixes BlitPattern() bug on Picasso96 screens
+  . Fixes some bugs in the custom-chip emulation
+- Hard-drive Files work.
+- Added support in GUI for "slow" memory emulation (some games require this).
+- Sound-code now based on WinUAE 0.6.9r12 (from Mathias Ortmann).  Thanks to
+  Mathias for taking a break from school to help with this!
+- Implemented DirectSound for fun.  Slightly slower than the standard sound
+  handling code by Mathias, but should be more compatible?  This may help
+  Gravis Ultra Sound users.
+- Joystick settings can be changed while the emulation is running.
+- Using F12 (or the "menu" key beside the right-Windows key) will bring up the
+  GUI, and NOT crash/guru the "Amiga".
+- 24-bit, 32-bit desktops are supported again.
+- "Julian"-mode renamed, and saved with configurations.
+- Added LED status to WinUAE when running in a window on your desktop.
+- Now using assembly-code for planar-to-chunky conversion.  May be slower in
+  some cases, depending on the machine.  Should generally be faster though.
+- GUI problems cleaned up.
+- Added new check for Cyrix (or other stupid CPU).  CYRIX USERS, PLEASE TRY
+  DISABLING THE "Cyrix or 486 CPU" OPTION IN THE ADVANCED SETTINGS.  IF THIS
+  WORKS, THE AUTO-DETECTION CODE IS GOOD, AND I CAN ELIMINATE THE "Cyrix" GUI
+  SETTINGS, AND THE "-Q n" OPTION.
+- Quitting WinUAE when running in a window would occasionally leave a piece
+  behind in memory which kept further copies of WinUAE from running.
+- WinUAE Home Page reworked yet again.
+______________________________________________________________________________
+0.7.0 Release 1 - March 23, 1998
+==============================================================================
+- Total rework of CPU-engine, thanks to Bernd Schmidt.  One single executable
+  is now used for *all* versions of WinUAE - 68000, 68010, 68020, and 68020
+  with 68881.
+- Now completely a Win32 application.  Up-side: no more annoying console
+  window appearing when you double-click on WinUAE.  Down-side: support for
+  command-line interface is reduced.  Also, no visible logging.
+  NOTE: I will most likely REMOVE the command-line support completely from
+        WinUAE in the next version, since the GUI provides a complete
+        interface to all of the commands.
+- Reworked the GUI to accomodate up to sixteen hard-files and/or mount-points,
+  as well as the new CPU settings.
+- Sound now works in 8-bit and 16-bit formats.
+- Scrolling bug in graphics has now been eliminated.
+- Stretched GUI problem can be resolved - read the information on my web-page.
+- Priority level of WinUAE is now NORMAL, rather than IDLE.  This should give
+  a small performance boost when WinUAE is the foreground application.
+- Directory-names with trailing slashes should be handled correctly now.
+- New configuration-file format, but old files should still load correctly.
+- New "Julian-Mode" option, so that middle-mouse-button can escape the mouse-
+  capture which occurs when running WinUAE in windowed-mode.  No more having
+  to press ALT-TAB just to lose the mouse-capture.  Just for you, Julian!
+- Source-code will be available shortly both at my web-site, and also at the
+  official UAE homepage.  Bernd is moving UAE to the GNU Public License.
+- WinUAE Home Page reworked yet again.
+______________________________________________________________________________
+0.7.0b2 Release 5 - March 10, 1998
+==============================================================================
+- Fixed problem with running WinUAE on your Windows desktop when the desktop
+  was not 16-bit.  An 8-bit Windows desktop is still not really supported.
+
+- Fixed the "No Logging" option to get rid of the Logging Console, when you
+  run WinUAE from the Explorer or a desktop-shortcut.
+
+- Fixed the mysterious "-w" glitch, where if you didn't specify it on the
+  command-line, WinUAE would complain about an out-of-range value.
+
+- Fixed the command-line parsing of "-P" and "-Q", so that if you don't give
+  them an argument, you won't get an Access Violation anymore, but instead a
+  warning that you're not using those parameters correctly.
+
+- Fixed an obscure bug with the 68000-versions.  If your "default" configur-
+  ation had any Graphics-Card memory specified, this would disable the
+  "Full-Screen" option in the Display panel, and you'd be stuck always running
+  in a window.  This didn't make sense, since the 68000-versions cannot *have*
+  any Graphics-Card memory.
+
+- Added more documentation to web-site.
+______________________________________________________________________________
+0.7.0b2 Release 4 - March 7, 1998
+==============================================================================
+- Fixed freezing problem.  No need to indicate a "Cyrix-CPU" when you don't
+  have one.  This fix also makes the sound and mouse-movement somewhat
+  smoother.
+
+- Fixed volumes not being mounted by the GUI.  Ooops!
+
+- Scrolling-bug still appears in scan-doubled modes (both windowed and full-
+  screen), but speed is finally improved and fixed.  All display modes should
+  be high-speed now, and sound should not break up when colour-cycling or
+  fading occurs - on a suitably fast machine.
+
+- Your "hardfile" is always mounted as 32:1:2, regardless of whether it has
+  boot priority or not.  Previously, a hardfile with boot-priority would get
+  mounted using 32:1:2, but if non-booting the hardfile was mounted with the
+  32:1:0 settings.  A future WinUAE release will include control of these
+  parameters in the GUI.
+______________________________________________________________________________
+0.7.0b2 Release 3 - March 7, 1998
+==============================================================================
+- Relative paths (..\shared\rom\kick.rom) should work now.  Additionally, if
+  an incorrect or empty kickstart filename is given, WinUAE will look in the
+  following order for "kick.rom":
+    o In the current directory of WinUAE
+    o In the location of "..\shared\rom\kick.rom", based from the current
+      directory of WinUAE
+  This philosophy also applies to the "rom.key" file for encyrpted Kickstarts.
+
+- If WinUAE is started with no parameters, the GUI will show up, but any
+  uae.rc file will be IGNORED.  This prevents confusion between the GUI and
+  the uae.rc file.  If you wish to use the uae.rc file, you'll have to start
+  WinUAE with a parameter (such as "-w 4" or something similar).
+
+- Backed out some changes from Release 2, relating to graphics updates. Screen
+  sizes should be back to normal, garbage should have dissappeared, and things
+  should be as before.  There is a SMALL increase in speed as compared to
+  Release 1, and an increase in compatibility as compared to Release 2.
+
+- For optimal speed in a window (smooth graphics and sound), use the "Lo-Res"
+  option, without the "Scan-Double" option.  The scrolling-bug does not appear
+  with these settings.
+
+- For larger size in a window, use the "Scan-Double" option, without the
+  "Lo-Res" option.  This is smoother than in previous versions, but still not
+  perfect.  The scrolling-bug will appear with these settings.
+______________________________________________________________________________
+0.7.0b2 Release 2 - March 5, 1998
+==============================================================================
+- Sound finally works at all quality settings and sampling rates, but only in
+  16-bit audio.
+
+- Screen refreshes when switching from Amiga to Picasso (and vice-a-versa)
+  should work better.
+
+- Major speed increase found for demos and games.  WinUAE 0.7.0b2, Release 2,
+  should now run as fast or faster than the WinUAE 0.6.9 Release 13 beta 9,
+  and be close to WinUAE 0.6.9 Release 12 (Mathias' version), DOS-UAE, etc.
+  Don't thank me for this fix, but instead thank Mathias Ortmann!
+
+- Yet another hard-file bug.  I stated that the GUI was passing options of
+  32:1:2:hardfile to the emulator, but I was actually passing 32:1:0:hardfile.
+  Therefore, if you could get your hardfile working in 0.7.0b2 Release 1 from
+  the command-line with the -W 32:1:2:hardfile option, that same hardfile will
+  *finally* work from the WinUAE GUI.
+______________________________________________________________________________
+0.7.0b2 Release 1 - February 27, 1998
+==============================================================================
+- Ported in 0.7.0b2 source.  Big deal.  Read my web-page for my views on this!
+
+- Hard-files work again, as long as your existing hard-file is a power-of-two
+  in megabytes (1, 2, 4, 8, 16, 32, 64 Megs, etc.).
+  NOTE: This may be DANGEROUS!  Bernd has changed the hardfile interface in
+        UAE, so you may toast your existing hardfile.  BACK IT UP FIRST, and
+        use a backup copy to test.  If it DOES NOT WORK from the GUI, but
+        does work from the cmd-line (using the new -W option), tell me the
+        parameters you're passing!  I'm currently passing 32:1:2:hardfile, but
+        if people can only get their existing hardfiles to work as 32:1:0 then
+        I'll revert back to that in future WinUAE versions.
+
+- Compiled with latest GCC 2.8.0 version, which supports Pentium and Pentium-
+  Pro optimizations finally.  These versions are compiled with the -mpentium
+  flag, as the -mpentiumpro flag seems to actually produce slower and larger
+  executables?!?!
+
+- Support for up to 64-Megs of Zorro-III "fast" memory.
+
+- Fixed nasty bug in the "Startup" panel in the GUI.  It prevented proper
+  awareness of various memory settings, which forced you to save and load a
+  configuration in order to actually get a memory-setting to take effect.
+
+- Added more logging options under the "Advanced" panel in the GUI.
+______________________________________________________________________________
+In Release 3 - February 25, 1998
+==============================================================================
+- Cyrix support is back in under the "Advanced" panel in the GUI, and can also
+  be turned on from the cmd-line again using "-Q -1".
+
+- FrameSync is working again, which keeps the clock in sync finally.  No high
+  speed second hand in the analog Clock program anymore!
+
+- Added Smart centering options, ala UAEL.  This is the equivalent of XY as
+  opposed to xy in the video-options cmd-line flags.  These centering options
+  only make sense when running games and demos, not Workbench.
+
+- If "Log Debug Info" is turned on under the "Advanced" panel in the GUI, then
+  the created console window gets closed by WinUAE, and all text output goes
+  to "outfile".  If launching WinUAE from an existing console window, that
+  window will remain.
+
+- If a configuration named "default" exists in your Configurations directory,
+  it will automatically be loaded when launching WinUAE.  Save your favorite
+  "default" configuration, and from then on just double-click on WinUAE and
+  then hit Enter (or click OK) to start the emulation.
+
+- Archives contain proper versions of WinUAE this time.  Ooops!
+______________________________________________________________________________
+In Release 2 - February 24, 1998
+==============================================================================
+- IMPORTANT: Sound Blaster AWE 64 users - enable your "Full Duplex" option.
+
+- Serial support works in both WinNT and Win95 again.  Win95 version doesn't
+  hang or crash with serial-support.
+
+- Exitting WinUAE should no longer hang your Win95 system.
+
+- Tested with Picasso96 1.35.
+
+- Doom Attack (Amiga Doom port) works, but colour cycling is abysmal.  Working
+  on this, since Doom ports make a great testing environment for WinUAE and
+  its Picasso96 support.
+
+- Sound is corrupted unless you select level 3 sound compatibility, otherwise
+  known as "Best Quality" in the GUI.  Working on this.
+
+- Black rectangle on display is a DirectX bug with some drivers.  It does NOT
+  appear on my system running DirectX-5 and a RIVA-128 AGP card under Win95.
+______________________________________________________________________________
+In Release 1 - November 9, 1997
+==============================================================================
+- IMPORTANT: Use Picasso96 1.31 now.  It is great, and includes the UAEGFX
+  card drivers in its installation script.
+
+- Picasso stuff mostly re-written for compatibility with the UN*X
+  implementation that Bernd Schmidt has done.  Things seem to work better,
+  but slightly slower again.  Watch for more updates.
+
+- Support for Cloanto's "Amiga Forever" encrypted ROMs.
+
+- Various GUI changes, some options removed to stay in sync with the UN*X
+  version.
+
+- 68000 versions (uae.exe and uaec.exe) now included.  uaec.exe is the
+  more compatible of the two, but is approximately 20% slower.
+____________________________________________________________________________
+In Beta 9 - October 27, 1997
+- IMPORTANT: Use Picasso96 1.29 rather than 1.30.  1.30 is broken.
+
+- Blitting in >8-bit was broken in Beta 8
+
+- Incorrect colours on some systems should now be fixed
+
+- Advanced Page: "Slow Pixel Write" option no longer needed, the Picasso96
+  DirectDraw system has been re-engineered
+
+- Port Settings Page: Printer and Serial shouldn't be invisible while running
+  UAE, just not selectable
+
+- Rectangle filling should now work flawlessly
+
+- Scroll-Lock again speeds up file-system accesses while in windowed mode
+
+- Stretched dialog box and About button crashes can be fixed by installing
+  Dial-Up Networking and/or Internet Explorer on the Win95 system
+_____________________________________________________________________________
+In Beta 8 - October 25, 1997
+- Removed all resolution and display-mode restrictions.  24-bit modes are
+  buggy and slower than 32-bit modes, so use them if you have problems.
+
+- Some DirectDraw drivers are broken, and don't let a Picasso-screen open as
+  8-bit (for example) if their Windows desktop resolution is greater than 8-
+  bits per pixel.  This used to cause me to display garbage all over the
+  desktop.  Now, I exit gracefully, with advice for the user to set their
+  Windows desktop to 8-bit and try the problematic steps again.
+  NOTE: This problem doesn't happen under WinNT, and is purely a result of
+        broken DirectDraw drivers.  Get the latest drivers for your card, and
+        contact them if the problem persists.  It happens on my AGP-based
+        nVidia RIVA 128 card, and I'm not happy about it...
+
+- InvertRect() function when using Picasso screens was broken, and always fell
+  back to the 68020 code to do things, instead of using DirectX.
+
+- CheckBoard (Picasso96 utility on Amiga side) now works when on an Amiga
+  screen.
+
+- Configurations Page: Description field would be associated with the wrong
+  configuration entries.
+
+- Port Settings Page: available again while the emulation is running, via the
+  GUI. This allows you to change between joystick and mouse mode while running.
+
+- About Page: Cloanto Copyright mentions are now removed.
+
+- Display Settings Page: Width/Height of Amiga Window can now be custom-set in
+  the GUI, and no longer restricted to *just* the DirectDraw display-modes
+  available in the drop-down list.  This is ONLY AVAILABLE FOR WINDOW MODE...
+
+- Advanced Page: Script-bit support removed, since it is too dangerous.
+
+NOTES: Some users have reported that ClassAct doesn't like my Picasso stuff,
+       or perhaps Picasso96 in general.  Removing "caprefs" from their startup
+       sequence solved many problems.
+
+       Additionally, I highly recommend using FastIPrefs instead of IPrefs. It
+       makes alot of things faster and more stable.  Try it please.  I'm not
+       including it in this archive, because I am unsure of its status.
+______________________________________________________________________________
+In Beta 7
+- Fixed major bug in my new Picasso implementation regarding masks and blits.
+  Things became REALLY slow when blitting things, because I was falling back
+  to Picasso96-RTG functions on the Amiga-side in too many cases.  Now, as in
+  BETA 4, more things are happening within UAE on Intel, rather than within
+  the "Amiga" itself.
+
+- Added .adz support to floppies requester.
+
+- Put the monitor driver back in the archive.
+
+In Beta 6
+- Removed "Powered by Amiga" logo.  It belongs on the packaging, not the
+  application.
+
+- New UAEGFX.card library which goes in sys:Libs/Picasso96/ directory.
+
+- GUI allows user to select resolution for Amiga ECS emulation, so that
+  games can be opened in a 320x240 screen (for example).
+
+- ZorroIII expansion support allows up to an additional 16-megs of RAM.
+  No cmd-line option, though.
+
+- FloppyDisk related ejection/insertion optimized.
+
+- Can create blank-floppy disks using GUI while emulation is running.
+
+- FloppyDisk settings page is the default page of the GUI once UAE is
+  running.
+
+- GUI has new "Advanced" settings page, which includes the adjustment
+  for copper-settings (like the cmd-line option 'C'), a new "Slow Pixel
+  Writes" option (see below), and a "Log Debug Information" option.
+
+- Yet more file-system bugs fixed.  This seems to fix IPrefs and MUI related
+  GURUs, and perhaps others.
+
+- Fix for some people having cursor remnants getting blitted around.  This
+  fix is with the new option "Slow Pixel Writes".  This option will not be
+  necessary in the future, because I'll fix the REAL problem.  For now, it
+  is a temporary work-around.
+
+- Obey mask-values of drawing-operations while in Picasso96 screens.  This
+  makes the Picasso96 modes slower, but more accurate.  I *may* add a new
+  option to the new Advanced settings page that allows you to "Ignore Mask
+  Setting", in order to recover some speed.  For now, however, accuracy is
+  the default.

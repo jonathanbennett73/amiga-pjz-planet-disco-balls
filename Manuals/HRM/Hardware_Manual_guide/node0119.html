@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-1" TITLE="6 Blitter Hardware / What is the Blitter?" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 Blitter Hardware / What is the Blitter?</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0118.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node011A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The blitter is one of the two coprocessors in the Amiga.  Part of the
+Agnus chip, it is used to copy rectangular blocks of memory around and to
+draw lines.  When copying memory, it is approximately twice as fast as the
+68000, able to move almost four megabytes per second.  It can draw lines
+<a name="line6">at almost a million pixels per second.</a>
+
+In block move mode, the blitter can perform any logical operation on up to
+three source areas, it can  <a href="../Hardware_Manual_guide/node011F.html">shift</a>  up to two of the source areas by one to
+fifteen bits, it can  <a href="../Hardware_Manual_guide/node0122.html">fill</a>  outlined shapes, and it can  <a href="../Hardware_Manual_guide/node011F.html#line42">mask</a>  the first
+and last words of each raster row.  In  <a href="../Hardware_Manual_guide/node0128.html">line mode</a> , any pattern can be
+imposed on a line, or the line can be drawn such that only one pixel per
+<a name="line13">horizontal line is set.</a>
+
+The blitter can only access Chip memory -- that portion of memory
+accessible by the display hardware.  Attempting to use the blitter to read
+or write Fast or other non-Chip memory may result in destruction of the
+<a name="line18">contents of Chip memory.</a>
+
+A &#034;blit&#034; is a single operation of the blitter -- perhaps the drawing of a
+line or movement of a block of memory.  A blit is performed by
+initializing the blitter registers with appropriate values and then
+starting the blitter by writing the  <a href="../Hardware_Manual_guide/node011B.html#line82">BLTSIZE</a>  register. As the blitter is
+an asynchronous coprocessor, the 680x0 CPU continues to run as the blit is
+executing.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

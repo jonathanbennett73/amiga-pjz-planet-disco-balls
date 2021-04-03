@@ -1,0 +1,6 @@
+This drawer contains examples for language drivers, such as found in
+"LOCALE:languages". Two examples are provided. One is a complete
+language driver implementation, as contained in locale.library itself:
+the "english.language" driver. The other example demonstrates how
+a language driver can be implemented which supports only a subset of
+the functions offered by the default language.

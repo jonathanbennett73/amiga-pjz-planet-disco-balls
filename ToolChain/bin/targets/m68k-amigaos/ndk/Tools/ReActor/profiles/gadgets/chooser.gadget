@@ -1,0 +1,15 @@
+chooser.gadget
+LABEL "Chooser"
+LIBRARY "gadgets/chooser.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+BOOLEAN  0x85001001 (I···U) CHOOSER_PopUp "PopUp Mode" FALSE "PopUp"
+BOOLEAN  0x85001002 (I···U) CHOOSER_DropDown "DropDown Mode" FALSE "DropDown"
+STRING   0x85001003 (I···U) CHOOSER_Title "Title" ""
+LIST     0x85001004 (I···U) CHOOSER_Labels "Labels" CHOOSER
+INTEGER  0x85001005 (I··NU) CHOOSER_Selected "Selected Label" 0 0 65535
+INTEGER  0x85001006 (I···U) CHOOSER_Width "Menu Width" 0 0 32767
+BOOLEAN  0x85001007 (I···U) CHOOSER_AutoFit "Auto Fit Menu" FALSE "Auto Fit"
+INTEGER  0x85001009 (I···U) CHOOSER_MaxLabels "Maximum # of labels" 12 1 32767
+INTEGER  0x8500100A (I····) CHOOSER_Offset "Offset for notifications" 0 0x80000000 0x7fffffff
+BOOLEAN  0x8500100B (I····) CHOOSER_Hidden "Hidden chooser" FALSE "Hidden"
+END

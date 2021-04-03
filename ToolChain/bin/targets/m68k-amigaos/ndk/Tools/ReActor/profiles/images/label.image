@@ -1,0 +1,15 @@
+label.image
+LABEL "Label"
+PARENTPROFILE "Image"
+LIBRARY "images/label.image" 0 PRIVATE
+TEXTATTR   0x80020013 (I····) IA_Font "Font"
+PEN        0x80020006 (I····) IA_FGPen "Foreground Pen" TEXTPEN
+PEN        0x80020007 (I····) IA_BGPen "Background Pen" BACKGROUNDPEN
+SELECT     0x80020012 (I····) IA_Mode "Draw Mode" 2 0 0 "JAM1" 1 "JAM2"
+DRAWINFO   0x80020018 (I····) LABEL_DrawInfo
+TEXT       0x85006001 (I····) LABEL_Text "Text"
+IMAGE      0x85006002 (I····) LABEL_Image "Image"
+SELECT     0x85006004 (I····) LABEL_Justification "Justification" 3 0 0 "Left" 1 "Center" 2 "Right"
+CHAR       0x85006006 (I····) LABEL_Underscore "Key Marker" "_"
+FLAGS      0x85006008 (I····) LABEL_SoftStyle "Soft Style" 4 0 0 7 "Normal" 1 1 "Underlined" 2 2 "Bold" 4 4 "Italics"
+END

@@ -1,0 +1,17 @@
+workbench/system/format
+
+    Used to wait idle for 30 seconds on formatting bad disks.
+    Froze 43.1.
+    Should now handle NSD FFS disks >4GB and block sizes >512 bytes
+    if the handler does not support ACTION_FORMAT. The latter is
+    pretty useless these days but included for completeness.
+    Format is always waiting for a validated disk after the final
+    Inhibit(FALSE). This wait can now be aborted with CTRL-C.
+    Froze 43.2.
+    The root block definition was not ok. This is a cosmetic source
+    change for future compatibility.
+    Froze 43.3.
+    Calculation for disksize was incorrect and showed 0.
+    Froze 43.4.
+
+

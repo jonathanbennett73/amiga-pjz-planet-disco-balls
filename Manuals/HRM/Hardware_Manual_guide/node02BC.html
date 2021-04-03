@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-6-1" TITLE="K / Electrical Specifications / Expansion Bus Loading" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Electrical Specifications / Expansion Bus Loading</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02BB.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02BD.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The Zorro III bus loading is specified based on typical TTL family &#034;F&#034;
+series buffer devices, though in reality, compatible CMOS devices are
+likely to be used in some bus controllers or PICs.   Thus, it's important
+to accept the TTL levels as a minimum voltage level, and make sure that
+all inputs are the appropriate TTL levels, while outputs can be at TTL or
+CMOS voltage levels as long as they provide the required source and sink.
+
+While some A2000 designs used &#034;LS&#034; or &#034;ALS&#034; buffers instead of &#034;F,&#034; the
+bus will generally work with these older cards, at least with current
+backplane designs such as the A3000 backplane.  However, Zorro III designs
+must exactly obey these loading rules; it's very probable that some future
+Zorro III machines will have a large number of slots.  In such machines,
+PICs built on the Zorro II specification will still work in a lightly
+loaded bus, but may not function in a fully loaded bus.  All Zorro III
+PICs built to spec will work in any Zorro III backplane, without any
+loading problems, if all loading and  <a href="../Hardware_Manual_guide/node02B6.html">timing</a>  rules are followed by the
+PIC designer. The bus signals are divided up into the four groups shown in
+Table K-2, based on the loading characteristics of the particular signal.
+The signals in each group are given here. Standard Signals
+
+The majority of signals on the bus are in this group.  These are bussed
+signals, driven actively on the bus by F-series (or compatible) drivers
+such as 74F245, usually tri-stated when ownership of the signal changed
+for master and slave, and generally terminated with a 220(omega)/330(omega)
+thevenin terminator.  PICs can apply two standard loads to each of these
+signals when necessary.
+
+        <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>      <a href="../Hardware_Manual_guide/node02B4.html#line53">/CCS</a>       <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS0-/DS3</a>   <a href="../Hardware_Manual_guide/node02A8.html">/LOCK</a> 
+        <a href="../Hardware_Manual_guide/node02B4.html#line21">A2-A7</a>     AD8-AD31   SD0-SD7     <a href="../Hardware_Manual_guide/node02B4.html#line6">READ</a> 
+        <a href="../Hardware_Manual_guide/node02B4.html#line28">FC0-FC2</a>   <a href="../Hardware_Manual_guide/node02B5.html#line5">DOE</a>        <a href="../Hardware_Manual_guide/node02B1.html#line40">/IORST</a>      <a href="../Hardware_Manual_guide/node02B3.html#line27">/BCLR</a> 
+        <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>     <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTACK</a> 
+
+
+ <a href="../Hardware_Manual_guide/node02BD.html">Clock Signals</a>      <a href="../Hardware_Manual_guide/node02BE.html">Open Collector Signals</a>      <a href="../Hardware_Manual_guide/node02BF.html">Non-bussed Signals</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

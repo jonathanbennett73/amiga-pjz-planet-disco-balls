@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-5-3" TITLE="K / Timing / Multiple Transfer Cycle Timing" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Timing / Multiple Transfer Cycle Timing</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02B8.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02BA.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+
+   No.  Name                                   Symbol  Min     Max
+   ---  ----                                   ------  ---     ---
+   1    Address setup to  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>                 TAFS    15ns     --
+   2    Address hold from  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>                THAF    10ns     --
+   3    <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  to  <a href="../Hardware_Manual_guide/node02B2.html#line3">/SLAVEn</a> ,  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTACK</a>  delay     TSLV     --     25ns
+   4    <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  to  <a href="../Hardware_Manual_guide/node02B5.html#line5">DOE</a>  delay                   TDOE    30ns     --
+   5    <a href="../Hardware_Manual_guide/node02B5.html#line5">DOE</a>  to  <a href="../Hardware_Manual_guide/node02B5.html#line17">/DSn</a> ,  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  delay          TDS     10ns     --
+   6    Data setup to  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>                  TRDS    0ns      --
+   7    <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>  to  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a> ,  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  off         TOFF    10ns     --
+   8    Master signal hold from  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  off     THMC    0ns     5ns
+   9    Slave signal hold from  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  off      THSC    0ns     15ns
+   10   Write data setup to  <a href="../Hardware_Manual_guide/node02B5.html#line17">/DSn</a>              TWDS    5ns      --
+   13   Address,  <a href="../Hardware_Manual_guide/node02B4.html#line6">READ</a>  setup to  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>        TAMS    5ns      --
+   14   <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  off to  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  on               TREF    10ns     --
+   15   Address,  <a href="../Hardware_Manual_guide/node02B4.html#line6">READ</a>  hold from  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>       THAM    0ns      --
+   16   <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTACK</a>  off to  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>                  TBCD    10ns     --
+<a name="line19">   17   Slave signal hold from  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  off     THSM    0ns     5ns</a>
+
+         ______                                                ___________
+    /FCS       \ |   |                                        /
+                \____________________________________________/ |   |    |
+                                                               |   |    |
+              2-&#062;|   |&#060;-                                    8-&#062;|   |&#060;-  |
+             _________                                         |   |    |
+  A31-A8 ___/         \___________________________________________________
+            \_________/
+                                                               |   |    |
+          1-&#062;|   |&#060;-             13-&#062;|   |&#060;-                   |   |    |
+             ______________________  _____________  ______________ |    |
+   A7-A2 ___/                      \/             \/              \_______
+            \______________________/\_____________/\______________/
+                                                                   |    |
+             |   |                   |   |     |&#060;-14--&#062;|   15-&#062;|   |&#060;-  |
+         ________________  |        ___  |     |  ___  |       ___________
+   /MTCR                 \ |       /   \ |     | /   \ |      /
+                          \_______/     \_______/     \______/ |        |
+                 |                   |                         |&#060;--17--&#062;|
+                 |         |         |                 |       |        |
+         __________________________  |             _______________________
+    READ                           \ |            /
+                 |         |        \____________/             |        |
+              3-&#062;|   |&#060;-   |                           |       |&#060;---9--&#062;|
+         __________  |     |                           |       |        __
+ /SLAVEn           \ |                                                 /
+                    \_________________________________________________/ |
+                 |                                                      |
+                 |   |     |                   16-&#062;|   |&#060;-     |   |    |
+         __________  |     |                       _______________________
+  /MTACK           \ |                            /
+                    \____________________________/ |   |
+                 |                                 |   |       |   |    |
+              4-&#062;|    |&#060;-  |                                   |   |    |
+                 |    |  ________________________________________  |    |
+     DOE         |    | /                                        \ |
+         ______________/   |                                   |  \_______
+                           |                                   |
+                 | 5-&#062;|    |&#060;-                                 |   |    |
+         ________________  |        ___  |        ___          ___________
+    /DSn                 \ |       /   \ |       /   \        /
+                          \_______/     \_______/     \______/ |
+                 |    |                |                       |   |    |
+                 |    |    |   |   10-&#062;| |&#060;-                   |   |    |
+                               ______  ___________        ________ |
+  D31-D0 _____________________/      \/           \______/        \_______
+                              \______/\___________/      \________/
+                 |    |                                            |    |
+                 |    |   6-&#062;| |&#060;-                       |&#060;-7-&#062;|   |    |
+         __________________  | |      ___           ___  |     | _________
+  /DTACK                   \ |       /   \         /   \ |      /
+                            \_______/     \_______/     \______/
+                 |    |                                            |    |
+                 |    |      |                           |         |    |
+
+               Figure K-12: Multiple Transfer Cycle Timing
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

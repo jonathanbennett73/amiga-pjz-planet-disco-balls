@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-3-1" TITLE="4 / Displaying Sprite / Selecting DMA Channel and Setting Pointers" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 / Displaying Sprite / Selecting DMA Channel and Setting Pointers</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00BE.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00C0.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+In deciding which DMA channel to use, you should take into consideration
+<a name="line3">the colors assigned to the sprite and the  <a href="../Hardware_Manual_guide/node00C3.html">sprites video priority</a> .</a>
+
+The sprite DMA channel uses two pointers to read in sprite  <a href="../Hardware_Manual_guide/node00BC.html">data</a>  and
+ <a href="../Hardware_Manual_guide/node00B9.html#line24">control words</a> . During the  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  interval before the first
+display of the sprite, you need to write the sprite's memory address into
+these pointers. The pointers for each sprite are called SPRxPTH and
+SPRxPTL, where &#034;x&#034; is the number of the sprite DMA channel. SPRxPTH
+contains the high three bits of the memory address of the first word in
+the sprite and SPRxPTL contains the low sixteen bits. The least
+significant bit of SPRxPTL is ignored, as sprite data must be word
+aligned. Thus, only fifteen bits of SPRxPTL are used. As usual, you can
+<a name="line14">write a long word into SPRxPTH.</a>
+
+In the following example the processor initializes the data pointers for
+sprite 0. Normally, this is done by the Copper. The sprite is at address
+$20000.
+
+     MOVE.L  #$20000,SPR0PTH+CUSTOM  ;Write $20000 to sprite 0 pointer...
+
+These pointers are dynamic; they are incremented by the sprite DMA channel
+to point first to the  <a href="../Hardware_Manual_guide/node00B9.html#line24">control words</a> , then to the  <a href="../Hardware_Manual_guide/node00BC.html">data words</a> , and
+finally to the  <a href="../Hardware_Manual_guide/node00BD.html">end-of-data words</a> . After reading in the sprite control
+information and storing it in other registers, they proceed to read in the
+ <a href="../Hardware_Manual_guide/node00BC.html">color descriptor words</a> . The  <a href="../Hardware_Manual_guide/node00BC.html">color descriptor words</a>  are stored in
+sprite data registers, which are used by the sprite DMA channel to display
+the data on screen. For more information about how the sprite DMA channels
+handle the display, see the  <a href="../Hardware_Manual_guide/node00C8.html">Hardware Details</a>  section below.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

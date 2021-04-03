@@ -1,0 +1,23 @@
+button.gadget
+LABEL "Textline"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/button.gadget" 0 PUBLIC
+INCLUDE "reaction.baseclass"
+BOOLEAN  0x80030029 (I···UA) GA_ReadOnly "Ready Only" FALSE "Non selectable"
+BOOLEAN  0x80030013 (I··N·) GA_Selected "Selected" FALSE "Selected"
+STRING   0x80030009 (I···UA) GA_Text "Textlabel" ""
+IMAGE    0x8003000A (I····) GA_Image "Image"
+IMAGE    0x8003000A (I····) GA_SelectImage "Select Image"
+BOOLEAN  0x84000001 (I···U) BUTTON_PushButton "Push Button" FALSE "Push Button?"
+PEN      0x84000005 (I···U) BUTTON_TextPen "Text Pen" TEXTPEN
+PEN      0x84000006 (I···U) BUTTON_FillPen "Fill Pen" FILLPEN
+PEN      0x84000007 (I···U) BUTTON_FillTextPen "Fill Text Pen" FILLTEXTPEN
+PEN      0x84000008 (I···U) BUTTON_BackgroundPen "Background Pen" BACKGROUNDPEN
+SELECT   0x8400000D (I····A) BUTTON_BevelStyle "Bevel Style" 10 4 4 "None" 2 "Group" 0 "Thin" 8 "Box" 9 "Standard" 1 "Button" 3 "Field" 5 "Drop" 6 "Horizontal Bar" 7 "Vertical Bar"
+BOOLEAN  0x8400000F (I····A) BUTTON_Transparent "Transparent" FALSE "Tranparent"
+SELECT   0x84000010 (I···U) BUTTON_Justification "Justification" 3 1 0 "Left" 1 "Center" 2 "Right" 
+FLAGS    0x84000011 (I····) BUTTON_SoftStyle "Font Attributes" 4 0 0 7 "Normal" 1 1 "Underlined" 2 2 "Bold" 4 4 "Italics"
+SELECT   0x84000012 (I···U) BUTTON_AutoButton "Automatic Button" 13 0 0 "None" 1 "Popup File" 2 "Popup Drawer" 3 "Popup Font" 10 "Popup Time" 11 "Popup Screen" 12 "Popup" 4 "Checkbox" 5 "Cancel" 6 "Up Arrow" 7 "Down Arrow" 8 "Right Arrow" 9 "Left Arrow"
+STRING   0x84000014 (I····) BUTTON_DomainString "Domain String" ""
+INTEGER  0x84000015 (I···U) BUTTON_Integer "Integer" 0 0x80000000 0x7fffffff
+END

@@ -1,0 +1,10 @@
+workbench/c/type
+
+    Can now be used for binary files. In the default output mode,
+    it will no longer append a newline to the last line if there
+    isn't one. This intentionally "uncorrects" BUG8731.
+    Froze 43.1.
+    Now prints a last partial hex line correctly.
+    Froze 43.2
+
+

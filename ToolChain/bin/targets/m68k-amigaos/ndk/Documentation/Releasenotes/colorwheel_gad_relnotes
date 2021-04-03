@@ -1,0 +1,70 @@
+colorwheel.gadget 45.0 (27.10.00)
+
+- the maximum number of pens the gadget will try to allocate
+  can be specified via an enviroment variable, now.
+  The variable is called "classes/gadgets/cw_maxpens", it can
+  be set to either 7,19,37,61 or 91 pens (you can set it to
+  other values, but only the listed ones make sense).
+
+
+colorwheel.gadget 45.1 (31.10.00)
+
+- integrated some code of the original colorwheel. the reason
+  for doing this was to test whether this gives a speed increase.
+  unfortunately, it didn't :( because H&P would like to avoid
+  the .060 version of the gadget, I did not undo the changes.
+  please note that this new (old) code doesn't work well for
+  elliptical shapes. It's now upto the betatester to "kick out"
+  the code, or not ...
+
+
+colorwheel.gadget 45.2 (10.11.00)
+
+- the border of the wheel is now drawn using graphics.library/
+  AreaEllipse(). This looks slightly better and fixes the problem
+  that the mask used for transparent blitting did not had exactly
+  the same shape as the wheel itself.
+  
+- uses AllocRaster() to allocated memory for the mask and ghosted
+  pattern, again. In the past I had some problems with that but it
+  seems to be fixed, now. At least I hope so ... ;)
+
+
+colorwheel.gadget 45.3 (15.11.00)
+
+- I must have been mentally absent when I wrote the GM_DOMAIN 
+  method. It threw some enforcer hits as it was expecting 
+  that gpd_GInfo->gi_DrInfo is != NULL.
+
+
+colorwheel.gadget 45.4 (20.11.00)
+
+- increased the minimum width to 75 and the nominal width to 100 
+  pixels, the height is (still) scaled based on the aspect ratio
+  <Sebastian Bauer>.
+
+
+colorwheel.gadget 45.5 (21.11.00)
+
+- Changing the disabled state of the gadget didn't force a complete
+  redraw.
+  
+
+colorwheel.gadget 45.6 (20.02.01)
+
+- there was a slight chance that notification didn't work due
+  to an uninitialized variable.
+
+
+colorwheel.gadget 45.7 (27.03.01)
+
+- the gadget is now a fat-binary including PPC support for WarpUP.
+
+
+colorwheel.gadget 45.8 (28.03.01)
+
+- just found out that something got broken after 44.7 (yes, 44), 
+  so that the knob wasn't erased correctly in a MUI layout when
+  the user has resized the window.
+  
+- replaced 68k sqrt() routine through a slightly faster one.

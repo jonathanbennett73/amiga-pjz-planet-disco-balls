@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-2-6-4" TITLE="4 / / Building the Data Structure / End-of-data Words" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 / / Building the Data Structure / End-of-data Words</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00BC.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00BE.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+When the vertical position of the  <a href="../Hardware_Manual_guide/node015E.html">beam counter</a>  is equal to the VSTOP
+value in the sprite  <a href="../Hardware_Manual_guide/node00BB.html">control words</a> , the next two words fetched from the
+sprite data structure are written into the sprite  <a href="../Hardware_Manual_guide/node00CC.html">control registers</a> 
+instead of being sent to the  <a href="../Hardware_Manual_guide/node00D0.html">color registers</a> . These two words are
+interpreted by the hardware in the same manner as the original words that
+were first loaded into the  <a href="../Hardware_Manual_guide/node00CC.html">control registers</a> . If the VSTART value
+contained in these words is lower than the current beam position, this
+sprite will not be reused in this display field. For consistency, the
+value 0 should be used for both words when ending the usage of a sprite.
+ <a href="../Hardware_Manual_guide/node00C4.html">Sprite reuse</a>  is discussed later.
+
+The following data structure is for the spaceship sprite. It will be
+located at V = 65 and H = 128 on the normally visible part of the
+screen.
+
+SPRITE:
+        DC.W    $6D60,$7200     ;VSTART, HSTART, VSTOP
+        DC.W    $0990,$07E0     ;First pair of descriptor words
+        DC.W    $13C8,$0FF0
+        DC.W    $23C4,$1FF8
+        DC.W    $13C8,$0FF0
+        DC.W    $0990,$07E0
+        DC.W    $0000,$0000     ;End of sprite data
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

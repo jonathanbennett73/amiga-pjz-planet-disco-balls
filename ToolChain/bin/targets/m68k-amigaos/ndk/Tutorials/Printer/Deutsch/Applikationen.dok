@@ -1,0 +1,484 @@
+
+printer.device V44 (OS 3.5)
+
+Änderungen
+
+Übersicht
+
+· bis 10 Units mit getrennten Benutzereinstellungen
+
+· Unterstützung der RTG Systeme mit CyberGfx API
+
+· vereinfachte und erweiterte Fehlerbehandlung
+
+· flexible Treibererweiterungen durch Taglisten
+
+· erweiterte Möglichkeiten für den Treiber für Farbkonvertierung und
+  Farbkorrektur
+
+· 24 Bit Farbraum (16 Millionen Farben) für Druckertreiber
+
+· flexiblere Druckereinstellungen durch Treiber steuerbar
+
+
+Änderungen für die Druckereinstellungen
+
+Die neue Version des printer.device bringt einige Änderungen für die
+Druckereinstellungen (Preferences) mit.
+
+1. Das printer.device unterstützt bis 10 Units, jede Unit hat eigene
+Einstellungen, die der Benutzer mit dem Voreinsteller "Printer" festlegt.
+Öffnen des printer.device und Auslesen der Einstellungen funktioniert wie
+bisher, nur eben für die Units 0 bis 9. Für die Auswahl der Unit gibt
+es zwei Möglichkeiten:
+
+A. Eine einfache Auswahl über eine Nummer 0 bis 9, z.B. als Zahleingabefeld.
+
+B. Die komfortable Auswahl über ein Popup-Menü o.ä. mit den Namen die der
+Benutzer für jede Unit vergeben kann. Dazu müssen die Preferencesdateien
+ENV:Sys/printer.prefs (für Unit 0) und ENV:Sys/printer1.prefs bis
+ENV:Sys/printer9.prefs gelesen werden. Diese Dateien sind alles IFF Dateien
+und enthalten möglicherweise eine FORM PDEV. Die FORM enthält dann eine
+folgende Struktur (Includedatei prefs/printertxt.h):
+
+struct PrinterDeviceUnitPrefs
+{
+	LONG	pd_Reserved[4];
+	LONG	pd_UnitNum;
+	UBYTE	pd_UnitName[UNITNAMESIZE];
+};
+
+Das Feld pd_UnitNum enthält nochmal die Nummer der Unit, das Feld pd_UnitName
+enthält den symbolischen Name. Dieser String kann allerdings leer sein
+(pd_UnitName[0] == 0), dann muß ein Ersatztext benutzt werden (zum Beispiel
+Unit N, wobei N durch die Nummer der Unit ersetzt wird).
+
+Das folgende Programm liest die Namen aller 10 Units aus der Preferences
+Datei aus und gibt sie in der Konsole aus. Der Name wird durch den Text
+"Unit N" (wobei N die Unitnummer ist) ersetzt, falls der Benutzer keinen
+Namen für die Unit angegeben hat.
+
+/* includes */
+#include <dos/dos.h>
+#include <libraries/iffparse.h>
+#include <prefs/prefhdr.h>
+#include <prefs/printertxt.h>
+
+/* prototypes */
+#include <clib/iffparse_protos.h>
+#include <clib/dos_protos.h>
+#include <clib/alib_protos.h>
+#include <clib/alib_stdio_protos.h>
+#include <string.h>
+
+BPTR stdout;
+
+/*****************************************************************************/
+
+#define IFFPrefChunkCnt 2
+static LONG IFFPrefChunks[] =
+{
+	ID_PREF, ID_PRHD,
+	ID_PREF, ID_PDEV,
+};
+
+void ReadUnitName(char *filename, char name[], int unitnum)
+{
+	BPTR fp;
+	BOOL ok;
+	struct IFFHandle *iff;
+	struct ContextNode *cn;
+	struct PrefHeader phead;
+	struct PrinterDeviceUnitPrefs pdev;
+
+	sprintf(name,"Unit %ld",unitnum);
+	if (fp = Open(filename, MODE_OLDFILE))
+	{
+		if (iff = AllocIFF())
+		{
+			iff->iff_Stream = fp;
+			InitIFFasDOS(iff);
+
+			if (!OpenIFF(iff, IFFF_READ))
+			{
+				if (!ParseIFF(iff, IFFPARSE_STEP))
+				{
+					cn = CurrentChunk(iff);
+					if (cn->cn_ID == ID_FORM && cn->cn_Type == ID_PREF)
+					{
+						if (!StopChunks(iff, IFFPrefChunks, IFFPrefChunkCnt))
+						{
+							ok = TRUE;
+							while (ok)
+							{
+								if (ParseIFF(iff, IFFPARSE_SCAN))
+									break;
+								cn = CurrentChunk(iff);
+								if (cn->cn_Type == ID_PREF)
+								{
+									switch (cn->cn_ID)
+									{
+										case ID_PRHD:
+											if (ReadChunkBytes(iff, &phead, sizeof(struct PrefHeader)) != sizeof(struct PrefHeader))
+											{
+												ok = FALSE;
+												break;
+											}
+											if (phead.ph_Version != 0)
+											{
+												ok = FALSE;
+												break;
+											}
+											break;
+										case ID_PDEV:
+											if (ReadChunkBytes(iff, &pdev, sizeof(pdev)) == sizeof(pdev))
+											{
+												if (pdev.pd_UnitName[0])
+													strcpy(name,pdev.pd_UnitName);
+											}
+											break;
+										default:
+											break;
+									}
+								}
+							}
+						}
+					}
+				}
+				CloseIFF(iff);
+			}
+			FreeIFF(iff);
+		}
+		Close(fp);
+	}
+}
+
+void main(void)
+{
+	char filename[30];
+	char name[UNITNAMESIZE];
+	int i;
+
+	stdout = Output();
+	ReadUnitName("ENV:Sys/printer.prefs",name,0);
+	printf("Printer Unit Names:\n 0: %s\n",name);
+	strcpy(filename,"ENV:Sys/printerN.prefs");
+	for (i = 1; i < 10; i++)
+	{
+		filename[15] = '0' + i;
+		ReadUnitName(filename,name,i);
+		printf(" %ld: %s\n",i,name);
+	}
+}
+
+Eine Applikation sollte diese Liste nicht nur bei Programmstart, sondern
+vor jedem Drucken neu einlesen, z.B. beim Öffnen des Druckerdialogs. Damit
+spiegelt die Liste alle Namensänderungen, die der Benutzer inzwischen an den
+Preferences gemacht haben kann wieder.
+
+
+2. In der Vergangenheit hat sich gezeigt, daß die Druckereinstellungen nicht
+umfassend genug sind. Daher interpretieren viele Druckertreiber die 
+Einstellungen neu. Für den Benutzer ist das häufig nicht einsichtig (wenn
+zum Beispiel hinter zwei gleichen Dichten unterschiedliche Tintenstärke
+steht). Der Treiber kann nun verschiedene Informationen der Applikation
+liefern, die diese im Druckereinsteller anzeigt.
+
+Dazu muß zuerst einmal zwischen alten und neuen Treibern unterschieden werden.
+Neue Treiber erkennt man an ihrer Version (>= 44) und einem gesetzten Flag
+PPCB_EXTENDED in ped_PrinterClass der Struktur PrinterExtendedData
+(Include devices/prtbase.h). In diesem Fall enthält der Treiber ein neues
+Feld ped_TagList. In dieser Tagliste stehen einige Informationen, die für die
+Druckereinstellungen wichtig sind:
+
+PRTA_DitherNames: Dieses Tag hat als Wert ein Array mit 3 STRPTRs und 
+bezeichnet damit neue Namen für die drei möglichen Dithereinstellungen. 
+Bislang waren dies immer "Ordered", "Halftone" und "Floyd-Steinberg". Der
+Treiber kann nun neue Namen vorgeben, die seiner Interpretation entsprechen.
+
+PRTA_ShadingNames: Dieses Tag hat als Wert ein Array mit 4 STRPTRs und
+bezeichnet damit neue Namen für die 4 möglichen Schattiereinstellungen.
+Bislang waren dies immer "Black & White", "Grey Scale 1", "Colored" und
+"Grey Scale 2". Diese Reihenfolge stimmt so, im Voreinsteller werden sie
+überlicherweise umsortiert zu "Black & White", "Grey Scale 1", "Grey Scale 2"
+und "Colored". Das Array benutzt allerdings die erste Reihenfolge. Der Treiber
+kann nun neue Namen vorgeben, die seiner Interpretation entsprechen (z.B.
+für Drucker, die keine Farbe, aber verschiedene Graustufenqualitäten
+unterstützen).
+
+PRTA_ColorCorrect: Wenn dieses Tag den Wert FALSE hat, so sollten die drei
+Häkchen für Rot-, Grün- und Blaukorrektur immer gesperrt sein. Der Treiber
+unterstützt dann entweder keine Farbkorrektur oder benutzt andere 
+Einstellungen dafür.
+
+PRTA_DensityInfo: Dieses Tag hat als Wert ein Array mit 8 STRPTRs. Der erste
+String ist derzeit unbenutzt, die 7 folgenden bezeichnen zusätzliche 
+Informationen für die Dichten 1 bis 7. Viele Treiber wählen über die Dichte
+nicht nur die reine Druckdichte, sonderen auch noch andere Qualitätsmerkmale
+des Druckers aus (z.B. Tintenmenge). Diese Strings sollen dem Benutzer darüber
+auskunft geben. Natürlich soll aber der Einsteller wie bisher auch noch die
+gewählte Dichte in DPI ausgeben (z.B: 300 × 300 DPI), wie sie aus der
+PrinterExtendedData ausgelesen werden kann.
+
+PRTA_Preferences: Hat dieses Tag einen Wert TRUE, so untersützt der Treiber
+zusätzlich eigene Druckereinstellungen. Der Druckereinsteller sollte dann
+einen Knopf "Optionen..." freigeben, mit dem der Benutzer die Einstellungen
+des Treibers ändern kann. Nähere Erläuterungen dazu folgen unten.
+
+
+Änderungen für das Drucken
+
+Das Drucken von Text hat sich nicht verändert.
+
+Das Drucken von Graphik erlaubt nun die Angabe von RTG Bitmaps. Dabei werden
+alle RTG Systeme untertützt, die das CyberGFX API cybergraphics.library
+unerstützen. Wenn Die Applikation bislang die Druckausgabe nur mit einer
+planaren Bitmap der graphics.library aufgebaut hat oder eine Bitmap eines
+dieser RTG Systeme auf 12 oder 8 Bit Farbtiefe konvertiert hat, so kann sie
+jetzt direkt die RTG Bitmaps ausgeben. Eine Colormap muß für eine High- (16 bit)
+oder Truecolor (24 oder 32 Bit) Bitmap nicht angegeben werden.
+
+Der neue Befehl PRD_DUMPRPORTTAGS erweitert den alten Befehl PRD_DUMPRPORT
+um eine Tagliste. Derzeit sind 3 Tags definiert und implementiert:
+
+DRPA_SouceHook: Der Wert für dieses Tags muß ein Pointer auf eine struct Hook
+sein. Dieser Hook wird aufgerufen, um die Quelldaten zu lesen. Der Hook
+erhält als object NULL und als message einen Zeiger auf struct DRPSourceMsg.
+Diese Struktur enthält die Position und Größe des Arrays, das ausgelesen
+werden soll, sowie einen Zeiger auf ein Feld von ULONGs, in die die Daten
+geschrieben werden. Dieses Feld hat genau die Größe Breite*Höhe, wie sie
+in der message stehen. Jedes Pixel wird als ein ULONG mit der Form
+0x00RRGGBB eingetragen.
+
+Typischerweise ist die Höhe für normalen Druck und die Breite für Querdruck
+jeweils 1. Ein Programm kann für diesen Fall spezielle Optimierungen 
+verwenden, aber muß den allgemeinen Fall auch unterstützen.
+
+Benutzt man das Tag DRPA_SourceHook so braucht weder ein RastPort noch eine
+Colormap angegeben werden.
+
+DRPA_AspectX, DRPA_AspectY: Mit diesen Tags kann man das Seitenverhältnis
+der Graphik festlegen. Diese Werte überschreiben die Werte, die normalerweise
+aus dem Graphikmodus (io_Modes) oder der GfxBase gewonnen werden. Wenn der
+Ausdruck die Skalierung unterdrückt, so wird das Seitenverhältnis ignoriert.
+
+Weitere Informationen des Druckertreibers werden wiederum aus der Tagliste
+des Treibers ausgelesen:
+
+PRTA_LeftBorder und PRTA_TopBorder: Die meisten Drucker haben einen schmalen
+Rand auf dem Papier, den sie nicht bedrucken können. Meistens liegt dieser
+Rand bei modernen Druckern in der Größenordnung weniger Millimeter. Wenn
+eine Applikation auf dem Bildschirm nicht nur den bedruckbaren Bereich des
+Papiers, sondern die komplette Seite darstellt, so kann es nun diesen
+Rand berücksichtigen: Die beiden Tags geben den linken bzw. oberen Rand
+des Papiers in inches/1000 an. Dieser Wert muß je nach Druckerauflösung in
+die passende Anzahl Pixel umgerechnet werden (LeftBorder*ped_XDPI/1000 bzw.
+TopBorder*ped_YDPI/1000). Geben Sie diese Werte als Offset in den Rastport
+an, dessen Bitmap beim Drucken die ganze Seite enthält. Dadurch wird dieser
+schmale Rand beim Drucken ausgelassen und der bedruckbare Bereich auf dem
+Ausdruck stimmt sehr genau mit der Anzeige auf dem Bildschirm überein.
+
+PRTA_MixBWColor: Wenn dieses Tag den Wert TRUE hat, so kann die Applikation
+Schwarz/Weiß und Farbausdruck beliebig mischen. Bei Streifendruck kann eine
+Applikation, die z.B. viel schwarzen Text und nur selten Graphik im Ausdruck
+hat (typische Textverarbeitung) den Ausdruck deutlich beschleunigen, in dem
+sie Streifen, die nur schwarzen Text auf weißem Papier enthalten im
+Schwarz/Weiß Modus ausdruckt, Streifen mit Graphik und TExt gemischt aber
+im Farbmodus. Manche Drucker benutzen jedoch für den Schwarz/Weiß Druck und
+den Farbdruck unterschiedliche Farbpatronen oder Tinten, so daß der
+Geschwindigkeitsgewinn dahin ist oder eine sehr schlechte Ausdrucksqualität
+die Folge ist. Eine Applikation sollte diese Optimierung also unterlassen,
+wenn das Tag PRTA_MixBWColor den Wert FALSE hat.
+
+Eine weitere Information ist Teil der ped_PrinterClass und kann auch für
+alte Treiber zusätzlich gesetzt sein:
+
+PPCB_NOSTRIPE: Dieses Flag zeigt einen Druckertreiber an, der nicht in der
+Lage ist in Streifen zu drucken. Entweder muß man einem solchen Treiber
+die gesamten Druckdaten mit einem einzigen Druckauftrag übergeben 
+(insbesondere bei Farbdruck und Auflösungen ab 300 DPI absolut unakzeptabel),
+oder den SourceHook DRPA_SourceHook "intelligent" einsetzen, d.h. bei 
+Anforderung der Druckdaten durch den Source Hook diese in der Applikation
+passend erzeugen.
+
+Beachten Sie jedoch, daß der Source Hook immer im Kontext des Treibers
+aufgerufen wird. Dieser Kontext ist ein DOS Prozess mit derzeit 4 KByte
+Stack. Je nach Konzeptionierung Ihrer Applikation ist es notwendig im
+Source Hook mit Hilfe von Exec Messages die Kontrolle an die Applikation
+zur Erzeugung eines Druckstreifens zurückzugeben.
+
+
+Fehlerbehandlung
+
+Die Fehlerbehandlung kann nun komplett dem printer.device überlassen werden.
+Bislang konnte das printer.device bzw. ein Druckertreiber nur die Fehler
+zurückgeben, deren Fehlercodes in exec/error.h oder devices/printer.h
+festgelegt waren. Mit printer.device V44 und neuen Treibern können auch neue
+Fehlercodes zurückgegeben werden. Die Formatierung einer lokalisierten
+Fehlermeldung erfolgt auf Wunsch aber durch das printer.device oder den
+Treiber, die Ausgabe kann entweder auch das printer.device oder die
+Applikation übernehmen.
+
+Der neue Befehl PRD_SETERRORHOOK erwartet für den IO Request eine Struktur
+IOPrtErrReq:
+
+struct IOPrtErrReq {
+    struct  Message io_Message;
+    struct  Device  *io_Device;     /* device node pointer  */
+    struct  Unit    *io_Unit;       /* unit (driver private)*/
+    UWORD   io_Command;             /* device command */
+    UBYTE   io_Flags;
+    BYTE    io_Error;               /* error or warning num */
+    struct  Hook *io_Hook;
+};
+
+Das Feld io_Hook kann entweder den Wert PDHOOOK_NONE haben, um die
+automatische Fehlerbehandlung abzuschalten oder PDHOOK_STD, um einen
+Easy-Requester zur Fehlerausgabe zu benutzen oder einen Pointer auf eine
+Struktur Hook. Wird eine I/O Operation des printer.device mit einem
+Fehler abgeschlossen, so wird dieser Hook aufgerufen. Dabei enthält
+das Objekt einen Pointer auf den I/O Request bei dem der Fehler auftrat
+und das Nachrichtpacket einen Pointer auf eine Struktur PrtErrMsg:
+
+struct PrtErrMsg {
+	ULONG pe_Version; /* Version of this struct */
+	ULONG pe_ErrorLevel; /* RETURN_WARN, RETURN_ERROR, RETURN_FAIL */
+	struct Window *pe_Window; /* window for EasyRequest() */
+	struct EasyStruct *pe_ES;
+	ULONG *pe_IDCMP;
+	APTR pe_ArgList;
+};
+
+Das Feld pe_Version enthält den Wert PDHOOK_VERSION (derzeit 1). pe_ErrorLevel
+enthält einen Wert RETURN_WARN, RETURN_ERROR oder RETURN_FAIL um die schwere
+des Fehlers anzuzeigen. pe_Window enthält einen Pointer auf ein Fenster
+oder NULL, dieses Fenster soll dazu benutzt werden, den richtigen Screen
+für die Ausgabe zu benutzen. pe_ES enthält eine fertig formatierte
+Struktur EasyStruct mit Titel und Text für die Fehlermeldung. pe_IDCMP
+kann einen Pointer auf eine Langwort Variable mit IDCMP Flags enthalten, die
+einen Requester beenden sollen und pe_ArgList enthält ein Parameterfeld, das
+für die Formatierung der Fehlermelung und der Gadgets benutzt werden muß.
+Alle Felder können direkt für einen EasyRequest() Aufruf benutzt werden.
+
+Der Hook kann in verschiedenen Tasks aufgerufen werden: entweder in dem Task,
+der den I/O Request iniziert hat oder in dem Prozess der printer.device
+Unit. In zweiten Fall handelt es sich immer um einen DOS Process, so daß
+Ausgabe in Dateien oder andere DOS Aufrufe erlaubt sind. Es ist jedoch
+kein stdio für diesen Prozess definiert.
+
+Der folgende Quelltext ist ein Hook, der den Fehler in einem Easy-Requester
+ausgibt.
+
+struct Task *ApplicationTask;
+
+int easyRequestHook(struct Hook *, struct IORequest *ior, struct PrtErrMsg *msg)
+{
+	struct Task *me = ApplicationTask;
+	if (me->tc_Node.ln_Type != NT_PROCESS
+		|| ((struct Process *) me)->pr_WindowPtr != (struct Window *) -1)
+	{
+		struct Window *window = msg->pe_Window;
+		if (!window && me->tc_Node.ln_Type == NT_PROCESS)
+			window = ((struct Process *) me)->pr_WindowPtr;
+		return EasyRequestArgs(msg->pe_Window, msg->pe_ES, msg->pe_IDCMP, msg->pe_ArgList);
+	}
+	return 0;
+}
+
+struct Hook StdErrorHook =
+{
+	{ NULL, NULL },
+	(HOOKFUNC) HookEntry,
+	(HOOKFUNC) easyRequestHook,
+	NULL
+};
+
+Dieser Hook benutzt eine globale Variable ApplicationTask um festzustellen,
+ob die Fehlerausgabe unterdrückt werden soll (pt_WindowPtr == -1 bei 
+Prozessen) und welches Fenster bei EasyRequestArgs angegeben werden soll, um
+den Requester auf dem Screen dieses Fensters zu öffnen. Eine ähnliche
+Vorgehensweise benutzt der Hook PDHOOK_STD, allerdings bezieht er sich immer
+auf den Task, der die Unit geöffnet hat.
+
+Der Fehlerhook muß vor dem Schließen der Unit des printer.device wieder auf
+PDHOOK_NONE gesetzt werden.
+
+
+Treiberspezifische Einstellungen
+
+Die Druckereinstellungen des Voreinstellers "Printer" reichen für viele
+moderne Drucker und ihre Treiber nicht mehr aus. Schon seit Version 2.1
+hat das AmigaOS für den Post-Script Druckertreiber einen eigenen Einsteller,
+mit dem man weiteren Einfluß auf die Ausgabe nehmen kann. Damit solche
+Einstellungen auch aus Applikationen verändert werden können wurden
+drei neue Druckerbefehle und entsprechende Möglichkeiten für die Treiber
+vorgesehen. Um diese Möglichkeiten zu unterstützen müssen sie aus der
+Applikation folgendes tun:
+
+1. Testen sie, ob der Treiber eigene Einstellungen unterstützt. Das Tag
+PRTA_Preferences ist in diesem Fall TRUE.
+
+2. Sehen sie einen Knopf "Optionen..." in ihrem Druckereinsteller vor. Sperren
+sie den Knopf für alte Treiber oder Treiber, die keine eigenen Einstellungen
+haben.
+
+3. Wenn der Benutzer den Knopf drückt sperren sie die ganze Oberfläche
+und öffnen sie durch den Befehl PRD_EDITPREFS mit DoIO das 
+Einstellungsfenster. Das DoIO kehrt zurück, wenn der Benutzer den Einsteller
+beendet hat. Der Fehler ist PDERR_CANCEL, wenn der Benutzer den Dialog
+abgebrochen hat, sonst 0 (oder ein weiterer Fehler). Der Druckerbefehl
+PRD_EDITPREFS erwartet eine Sturktur IOPrtPrefsReq. Diese enthält ein
+zusätzliches Feld io_TagList und kennt folgende Tags:
+
+PPRA_Window: Pointer auf ein Fenster, das den Screen angibt und für Eingaben
+gesperrt wird, solange der Dialog offen ist.
+
+PPRA_Screen: Pointer auf einen Screen, falls PPRA_Window nicht angegeben
+wird.
+
+PPRA_PubScreen: Der Name eines öffentlichen Screen, falls PPRA_Window
+nicht angegeben wird.
+
+4. Sollen die Einstellungen, die der Benutzer getroffen hat gespeichert 
+werden, oder wird das printer.device zwischen dem Ändern der Einstellungen
+geschlossen und wieder geöffnet, so muß das Programm die Einstellungen mit
+dem Befehl PRD_READPREFS auslesen. Der Befehl PRD_READPREFS erwartet
+eine IOStdReq Struktur. io_Data enthält dabei einen Zeiger auf einen Puffer,
+der groß genug sein muß die Daten aufzunehmen, io_Length die Länge des
+Puffers, io_Offset muß 0 sein. Eine Länge von 8 KB sollte für die meisten
+Fälle genügen, wird der Fehler IOERR_BADLENGTH zurückgegeben, so sollte man
+die Puffergröße verdoppeln und nochmal versuchen (bis es funktioniert).
+
+LONG buflen = 8192;
+LONG err;
+for (;;)
+{
+	if (!(ior->io_Data = AllocVec(buflen,MEMF_PUBLIC)))
+	{
+		err = PDERR_BUFFERMEMORY;
+		break;
+	}
+	ior->io_Length = buflen;
+	ior->io_Offset = 0;
+	if ((err = DoIO(ior)) != IOERR_BADLENGTH)
+		break;
+	FreeVec(ior->io_Data);
+	buflen *= 2;
+}
+
+Die Anzahl der ausgefüllten Bytes im Puffer wird in io_Actual zurückgegeben.
+Dieser Puffer ist absolut privat für den Treiber. Er kann nur im Speicher
+stehen, byteweise kopiert oder in einer Datei gespeichert werden.
+
+5. Nach dem Öffnen einer printer.device Unit können die zuvor gelesenen
+Einstellungen wieder zurückgeschrieben werden. Dazu wird mit dem
+Befehl PRD_WRITEPREFS in einer Struktur IOStdReq der Puffer mit den
+Preferencesdaten an den Treiber zurückgebenen. io_Data zeigt dabei auf
+den Puffer, io_Length bezeichnet die Anzahl der ausgefüllten Bytes im
+Puffer (d.h. entspricht dem io_Actual von PRD_READPREFS).
+
+Wenn die Applikation die Einstellungen in einer Datei speichert und beim
+nächsten Programmlauf wieder benutzt, so kann es natürlich sein, daß der
+Benutzer inzwischen den Treiber für diese Unit geändert hat. Die Treiber
+erkennen jedoch selbst, ob die Einstellungen für sie bestimmt sind oder
+nicht. Deshalb braucht sich die Applikation um diesen Fall nicht zu kümmern.

@@ -1,0 +1,13 @@
+workbench/c/list
+
+    Added the V42 list with sort option and Envoy support.
+    Froze 43.1. List now formats for the full length of an FFS
+    filename. With keys, it's 22 instead of 17 characters now.
+    Froze 43.2.
+    Added a fix to avoid looping on "List ALL" with directory names
+    that contain pattern matching characters.
+    Froze 43.3.
+    Fixed buffer overruns with long file names.
+    Froze 43.4.
+
+

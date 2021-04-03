@@ -1,0 +1,18 @@
+integer.gadget
+LABEL "Integer"
+LIBRARY "gadgets/integer.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+BOOLEAN   0x8003200D (I····) STRINGA_ReplaceMode "Replace Mode" FALSE "Replace Chars"
+BOOLEAN   0x8003200E (I····) STRINGA_FixFieldMode "Fix Field Mode" FALSE "Fix Field"
+BOOLEAN   0x8003200F (I····) STRINGA_NoFilterMode "No Filter Mode" FALSE "No Filter"
+BOOLEAN   0x80032013 (I····) STRINGA_ExitHelp "Exit Help Mode" FALSE "Exit On Help-Key"
+SELECT    0x80032010 (I····) STRINGA_Justification "Justification" 3 0x0000 0x0000 "Left" 0x0200 "Center" 0x0400 "Right"
+TWOPENS   0x80032009 (I····) STRINGA_Pens "Pens" BACKGROUNDPEN TEXTPEN
+TWOPENS   0x8003200A (I····) STRINGA_ActivePens "Active Pens" BACKGROUNDPEN TEXTPEN
+INTEGER   0x85002001 (I··NU) INTEGER_Number "Number" 0 0x80000000 0x7fffffff
+INTEGER   0x85002002 (I··NU) INTEGER_MaxChars "Max Chars" 0 1 127
+INTEGER   0x85002003 (I··NU) INTEGER_Minimum "Minimum" 0x80000000 0x80000000 0x7fffffff
+INTEGER   0x85002004 (I··NU) INTEGER_Maximum "Maximum" 0x7fffffff 0x80000000 0x7fffffff
+BOOLEAN   0x85002005 (I····) INTEGER_Arrows "Arrows" TRUE "Arrows"
+INTEGER   0x85002006 (I····) INTEGER_MinVisible "Minimum visible digits" 0 0 127
+END

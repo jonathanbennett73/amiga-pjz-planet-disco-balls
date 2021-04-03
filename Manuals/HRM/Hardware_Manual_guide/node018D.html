@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-2-1" TITLE="8 / Floppy Disk Controller / Registers Used by the Disk Subsystem" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / Floppy Disk Controller / Registers Used by the Disk Subsystem</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node018C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node018E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The disk subsystem uses two ports on the system's  <a href="../Hardware_Manual_guide/node012E.html">8520 CIA</a>  chips, and
+several registers in the Paula chip:
+
+   <a href="../Hardware_Manual_guide/node018F.html">CIAAPRA</a>    ($BFE001)    four input bits for disk sensing
+   <a href="../Hardware_Manual_guide/node018F.html">CIABPRB</a>    ($BFD100)    eight output bits for disk selection, control
+                             and stepping
+   <a href="../Hardware_Manual_guide/node0194.html">ADKCON</a>     ($DFF09E)    control bits (write only register)
+   <a href="../Hardware_Manual_guide/node0194.html">ADKCONR</a>    ($DFF010)    control bits (read only register)
+   <a href="../Hardware_Manual_guide/node0191.html">DSKPTH</a>     ($DFF020)    DMA pointer (32 bits)
+   <a href="../Hardware_Manual_guide/node0192.html">DSKLEN</a>     ($DFF024)    length of DMA
+   <a href="../Hardware_Manual_guide/node0193.html">DSKBYTR</a>    ($DFF01A)    Disk data byte and status read
+   <a href="../Hardware_Manual_guide/node0195.html">DSKSYNC</a>    ($DFF07E)    Disk sync finder; holds a match word
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

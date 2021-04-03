@@ -1,0 +1,76 @@
+Palette 44.3 (19.7.99)
+
+· If a screen had not enough free pens for editing 8 colors a new screen
+  should be opened. Now it does!
+
+Palette 44.4 (31.7.99)
+
+· added stack extension
+
+· color sliders no longer flicker while dragging colorwheel or gradient slider
+
+Palette 44.5 (10.8.99)
+
+· fixed a typo "no colowheel"
+
+· fixed a small bug which broke the slecting of pens from sample.
+
+Palette 44.6 (11.8.99)
+
+· restricted gradientslider to 6 exlusive pens which still looks quite good.
+
+Palette 44.7 (12.8.99)
+
+· a small change for the DrawInfo but a big boom for the Amiga (tried to set
+  the depth of a hand made DrInfo to GetBitMapAttr() but this doesn't work
+  on Hi/True color screens. Returned to screen->BitMap.Depth).
+
+· removed the senseless minwidth/minheight for the "No Color Wheel!" button.
+
+Palette 44.9 (16.8.99)
+
+· improved selection of pen from listbrowserand pen palette: less flickering
+
+Palette 44.10 (17.8.99)
+
+· moving the gradient slider to black caused a color change to 0/0/0. Fixed.
+
+· moving the colorwheel knob flickered. Fixed.
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/use/Cancel layout
+
+· moved sample to top of window
+
+· bringing the window to front (start Palette second time) created the menu
+  strip again, waisted memory and trashed checkmark items
+
+· RGB/HSB menu items were not marked as mututal exclude items. Not a problem
+  with AmigaOS menus but with MagicMenu.
+
+· less flickering for selecting from sample
+
+· changed refresh call for color palette on hi/true color screen for less
+  flickering
+
+Palette 44.11 (20.8.99)
+
+· added some code to make selected pen visible in list
+
+Palette 44.12 (8.9.99)
+
+· "Last Saved" didn't show an error message if the file was not found.
+
+· fixed a cosmetic bug in DOS error output
+
+Palette 44.13 (16.9.99)
+
+· changed project icon name to def_palette_prefs.
+
+· new default palette
+
+· RGB values are now always using values from 0 to 255 instead of the real
+  hardware dependend resolution.

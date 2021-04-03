@@ -1,0 +1,10 @@
+page.gadget
+LABEL "Page"
+PARENTPROFILE "Layout"
+LIBRARY "gadgets/layout.gadget" 0 LVO -60
+CHILDS "page.childs"
+INCLUDE "layout.group"
+INTEGER   0x85007203 (I···U) PAGE_Current "Current Page" 0 0 0x7fffffff
+BOOLEAN   0x85007204 (I···U) PAGE_FixedVert "Fix Vertical" FALSE "Fixed"
+BOOLEAN   0x85007205 (I···U) PAGE_FixedHoriz "Fix Horizontal" FALSE "Fixed"
+END

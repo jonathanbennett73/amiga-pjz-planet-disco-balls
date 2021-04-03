@@ -1,0 +1,80 @@
+; *** catalog description file of "EuroCalcFrame.res"
+;
+TX_WinTitle (257//)
+Euro-Calculator
+;
+TX_TitleIconify (274//)
+Euro-Calculator.iconified
+;
+TX_GAD_DM (278//)
+DM
+;
+TX_GAD_BFR (279//)
+BFR
+;
+TX_GAD_FMK (280//)
+FMK
+;
+TX_GAD_FF (281//)
+FF
+;
+TX_GAD_IRF (282//)
+IRF
+;
+TX_GAD_LIT (283//)
+LIT
+;
+TX_GAD_LFR (284//)
+LFR
+;
+TX_GAD_HFL (285//)
+HFL
+;
+TX_GAD_OES (286//)
+OES
+;
+TX_GAD_ESC (287//)
+ESC
+;
+TX_GAD_PTA (288//)
+PTA
+;
+TX_GAD_EUROPE (289//)
+Europe:
+;
+TX_GAD_EUR (290//)
+EUR
+;
+TX_GAD_GERMANY (291//)
+Germany:
+;
+TX_GAD_BELGIUM (292//)
+Belgium:
+;
+TX_GAD_FINLAND (293//)
+Finland:
+;
+TX_GAD_FRANCE (294//)
+France:
+;
+TX_GAD_IRELAND (295//)
+Ireland:
+;
+TX_GAD_ITALY (296//)
+Italy:
+;
+TX_GAD_LUXEMBURG (297//)
+Luxemburg:
+;
+TX_GAD_NETHERLAND (298//)
+Netherland:
+;
+TX_GAD_AUSTRIA (299//)
+Austria:
+;
+TX_GAD_PORTUGAL (300//)
+Portugal:
+;
+TX_GAD_SPAIN (301//)
+Spain:
+;

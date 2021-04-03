@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-6" TITLE="2 Coprocessor Hardware / Putting Together a Copper Instruction List" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 Coprocessor Hardware / Putting Together a Copper Instruction List</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0052.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0054.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The Copper instruction list contains all the register resetting done
+during the  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  interval and the register modifications
+necessary for making mid-screen alterations. As you are planning what will
+happen during each display field, you may find it easier to think of each
+aspect of the display as a separate subsystem, such as playfields,
+sprites, audio, interrupts, and so on. Then you can build a separate list
+of things that must be done for each subsystem individually at each video
+beam position.
+
+When you have created all these intermediate lists of things to be done,
+you must merge them together into a single instruction list to be executed
+by the Copper once for each display frame. The alternative is to create
+this all-inclusive list directly, without the intermediate steps.
+
+For example, the  <a href="../Hardware_Manual_guide/node0075.html">bitplane pointers</a>  used in playfield displays and the
+ <a href="../Hardware_Manual_guide/node00C0.html">sprite pointers</a>  must be rewritten during the <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  interval
+so the data will be properly retrieved when the screen display starts
+again. This can be done with a Copper instruction list that does the
+following:
+
+    <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  until first line of the display
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  data to bitplane pointer 1
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  data to bitplane pointer 2
+<a name="line25">    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  data to sprite pointer 1, and so on.</a>
+
+As another example, the  <a href="../Hardware_Manual_guide/node00C4.html">sprite DMA channels</a>  that create movable objects
+can be reused multiple times during the same display field. You can change
+the size and shape of the reuses of a sprite; however, every multiple
+reuse normally uses the same set of colors during a full display frame.
+You can change sprite colors mid-screen with a Copper instruction list
+that waits until the last line of the first use of the sprite processor
+<a name="line33">and changes the colors before the first line of the next use of the same</a>
+sprite processor:
+
+    <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for first line of display
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  firstcolor1 to COLOR17
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  firstcolor2 to COLOR18
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  firstcolor3 to COLOR19
+    <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for last line +1 of sprite's first use
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  secondcolor1 to COLOR17
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  secondcolor2 to COLOR18
+<a name="line43">    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  secondcolor3 to COLOR19, and so on.</a>
+
+As you create Copper instruction lists, note that the final list must be
+in the same order as that in which the video beam creates the display. The
+video beam traverses the screen from position (0,0) in the upper left hand
+corner of the screen to the end of the display (226,262) NTSC (or
+(226,312) PAL) in the lower right hand corner. The first 0 in (0,0)
+represents the x position. The second 0 represents the y position. For
+example, an instruction that does something at position (0,100) should
+come after an instruction that affects the display at position (0,60).
+
+Note that given the form of the  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  instruction, you can sometimes get
+away with not sorting the list in strict video beam order.  The  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a> 
+instruction causes the Copper to wait until the value in the beam counter
+is equal to or greater than the value in the instruction.
+
+This means, for example, if you have instructions following each other
+like this:
+
+    <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for position (64,64)
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  data
+
+    <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for position (60,60)
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  data
+
+then the Copper will perform both moves, even though the instructions are
+out of sequence.  The &#034;greater than&#034; specification prevents the Copper
+from locking up if the beam has already passed the specified position.  A
+side effect is that the second  <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  below will be performed:
+
+    <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for position (60,60)
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  data
+
+    <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for position (60,60)
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  data
+
+At the time of the second  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  in this sequence, the beam counters will
+be greater than the position shown in the instructions. Therefore, the
+second  <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  will also be performed.
+
+Note also that the above sequence of instructions could just as easily be
+
+    <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for position (60,60)
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  data
+    <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  data
+
+because multiple  <a href="../Hardware_Manual_guide/node004A.html">MOVE</a> s can follow a single  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a> .
+
+ <a href="../Hardware_Manual_guide/node0054.html">Complete Sample Copper List</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,206 @@
+   NAME
+	sfd -- compile .sfd files
+
+   SYNOPSIS
+	sfd <_lib.sfd files>+		[lib/sfd usage]
+	sfd -a				[support #pragma amicall()]
+	sfd -e				[#pragma libcall SysBase becomes #pragma syscall]
+	sfd -h <_lib.sfd files>+	[lib/sfd usage w/o RAM]
+	sfd -i <_lib.sfd files>+	[local usage: create .i]
+	sfd -f <_lib.sfd files>+	[local usage: create .fd]
+	sfd -p				[generate private pragmas]
+	sfd -s <_lib.sfd files>+	[lib/sfd usage, this
+	                                 will generate A4 relative
+	                                 small data stubs]
+	sfd -t				[support #pragma tagcall()]
+	sfd -v				[determine version]
+	
+
+   FUNCTION
+	sfd consumes files that describe a library's entry points
+	and generates other files in different forms.
+
+   INPUT
+	_lib.sfd file - a file with the file suffix "_lib.sfd"
+	    containing lines describing the library entry points:
+
+	This file has the following format:
+
+	SFD COMMANDS
+
+	SFD Commands exist one to a line, introduced by the character
+	string "==" at the beginning of the line, and extending to the
+	end of the line.
+
+	id: to describe the RCS Id string for the sfd file.  Required
+	    to be the first line in the file.
+	base: to describe the link address for the source for the
+	    module a6 in the RAM/module/*.asm interfaces files, and the
+	    offset off of a6 for the module a6 in the ROM/module/*.asm
+	    interfaces.
+		==base _ModuleBase
+	    The offset is constructed from this: _ModuleBaseOffset
+
+	include: to cause an #include to be generated for the
+	    prototype file to resolve a typedef or #define used
+	    to describe arguments to some of the functions.
+		==include <graphics/gfx.h>
+	    [This defines PLANEPTR for use by graphics functions]
+
+	bias: to start the function off
+		==bias 30
+	    This skips over Open/Close/Expunge/Reserved for libraries.
+	    Use 42 for standard devices.
+
+	alias: to alias a function.  The following function definition
+	    keeps the bias of the previous one.
+		LONG DoPkt( struct MsgPort *port, LONG action, LONG arg1,
+			LONG arg2, LONG arg3, LONG arg4 ) (d1,d2,d3,d4,d5,d6)
+		==alias
+		LONG DoPkt1( struct MsgPort *port, LONG action, LONG arg1 )
+			(d1,d2,d3)
+
+	varargs: to introduce a varargs alias.  The following function
+	    definition keeps the bias of the previous one, and includes
+	    a prototype with one instance of the varargs parameter,
+	    followed by ...
+		struct Menu *CreateMenusA( struct NewMenu *newmenu,
+			struct TagItem *taglist ) (A0,A1)
+		==varargs
+		struct Menu *CreateMenus( struct NewMenu *newmenu,
+			Tag tag1, ... ) (A0,A1)
+
+	private: to declare the following functions as system use only,
+	    and hide them somewhat.  No #pragma nor RAM/module/*.asm
+	    interfaces are built.
+		==private
+
+	public: to declare the following functions for general use.
+		==public
+
+	reserve: to reserve space in the function table without
+	    generating *any* symbols.  Comments are placed in the
+	    _lib.fd, _pragmas.h, and _protos.h files, and the .fd
+	    file has a ##bias generated for the next function entry.
+	    If a _lib.i file is being created (with the -i option),
+	    FUNCDEF macros are generated for the names moduleReservedNN,
+	    where NN is the -bias of the reserved entry.
+		==reserve 2
+	    reserves two function slots.
+
+	    This is preferred over private/function-declaration/public
+	    as a way to skip over reserved entry points that have no
+	    meaning.
+
+	version: to describe the version of the module that subsequent
+	    functions appear in.  This causes comments to be generated
+	    in _lib.fd, _pragmas.h, and _protos.h files.
+		==version 33
+	    this causes the following comment in the .fd file and similar
+	    ones in the pragma & proto files:
+	    *--- functions in V33 or higher (distributed as Release 1.2) ---
+
+	end: to declare the end of the sfd file.  Required.
+		==end
+
+	copyright: to set the copyright string that appears in the
+		header files. If none is provided, a default will be used.
+		For this option to work, it must be on the first line of
+		the file, followed by the ==id line.
+
+	NOTES
+
+	As of v40.17 sfd a) compiles completely native on the Amiga,
+	b) has been stripped of BCPL and ROM lib support, c) generates
+	smakefiles for SAS/C
+
+	COMMENTS
+
+	Comments are any line starting with a "*", and last to the
+	end of the line.
+
+		* this is a comment.
+
+	They are converted to comments in the _lib.fd, _pragmas.h,
+	and _protos.h files.
+	o   .fd comments are identical to .sfd comments
+	o   .h comments use the following rules
+	    o   a "/" is prepended to the line
+	    o   if the second character is a blank or a tab, the
+		line is appended with " */", otherwise, it is
+		appended with "*/".
+
+
+	FUNCTION DEFINITION
+
+	Anything that is not an sfd command or a comment must be
+	part of a function definition.  A function definition
+	consists of three parts: the return value/function part,
+	the parameter definition, and the register definition:
+	    <return/function>(<parameters>)(<registers>)
+	All three parts must be present.  They may cross lines.
+	A particular function definition is terminated by the
+	second close paranthesis.  A function definition must
+	start on a fresh line.
+
+	    EXAMPLES
+		VOID OpenIntuition() ()
+
+		o   Even an empty parameter list needs an empty register
+		    list.
+		o   The C types void, unsigned, int, short, char, float
+		    and double are not allowed.  Use VOID, [U]LONG,
+		    [U]WORD, [U]BYTE, FLOAT or DOUBLE.  Use APTR, not VOID *.
+		o   Don't put a VOID in an empty parameter list.
+		    Currently, the sfd tool will put one there for you.
+
+		PLANEPTR AllocRaster( UWORD width, UWORD height ) (D0,D1)
+
+		o   The sfd tool must be taught about all-caps primitive
+		    types.  It knows about BPTR, BSTR, STRPTR, IX, and
+		    PLANEPTR so far.
+		o   The parameter list must contain typed variables.
+		o   The register list is generally delimited by commas.
+		    The sfd tool figures out which to cluster for the
+		    resulting _lib.fd file.
+
+		DOUBLE IEEEDPDiv( DOUBLE dividend, DOUBLE divisor )
+			(d0-d1,d2-d3)
+
+		o   The function definition can cross lines.
+		o   DOUBLE registers must be delimited by a dash.
+		o   The register list may use either capital or lower case.
+
+		struct Layer *CreateUpfrontLayer(struct Layer_Info *li,
+			struct BitMap *bm, LONG x0, LONG y0, LONG x1, LONG y1,
+			LONG flags, [struct BitMap *bm2] )
+			(A0,A1,D0,D1,D2,D3,D4,A2)
+
+		o   Optional parameters are indicated by being enclosed
+		    in braces.  Admittedly, the sfd tool currently
+		    outputs the same results as if they were not there,
+		    but we can change that by changing the tool if we
+		    decide to.  Changing the tool instead of changing
+		    the input is an important concept.
+
+		struct Window *OpenWindowTagList( struct NewWindow *newWindow,
+			struct TagItem *tagList ) (A0,A1)
+		==varargs
+		struct Window *OpenWindowTags( struct NewWindow *newWindow,
+			ULONG tag1Type, ... ) (A0,A1)
+
+		o   The only time ... may appear is for a varargs definition.
+		o   A varargs definition must have one instance of the type.
+
+
+   OUTPUT
+	[lib/sfd usage]
+	    FD/module_lib.fd - an .fd file
+	    LVO/module_lib.asm - assembler source for the _LVO offsets
+	    PROTOS/module_protos.h - an ANSI C prototype file
+	    PRAGMAS/module_pragmas.h - a Lattice C #pragma file
+	[...lib/sfd usage w/ RAM adds...]
+	    RAM/module/*.asm - stack-based C to assembler interfaces
+		for each function, w/ library base at absolute link address
+	[local usage]
+	    module_lib.i - macro file for function entries

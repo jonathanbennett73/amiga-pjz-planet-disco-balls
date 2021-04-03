@@ -1,0 +1,20 @@
+fuelgauge.gadget
+LABEL "Fuelgauge"
+LIBRARY "gadgets/fuelgauge.gadget" 0 PRIVATE
+PARENTPROFILE "Special Gadget"
+INCLUDE "reaction.baseclass"
+STRING   0x80030009 (I···U) GA_Text "Textlabel" ""
+INTEGER  0x85012001 (I···U) FUELGAUGE_Min "Minimum" 0 0x80000000 0x7fffffff
+INTEGER  0x85012002 (I···U) FUELGAUGE_Max "Maximum" 0 0x80000000 0x7fffffff
+INTEGER  0x85012003 (I···U) FUELGAUGE_Level "Level" 0 0x80000000 0x7fffffff
+SELECT   0x85012004 (I···U) FUELGAUGE_Orientation "Orientation" 2 0 0 "Horizontal" 1 "Vertical"
+BOOLEAN  0x85012005 (I···U) FUELGAUGE_Percent "Display percentage" FALSE "Percentage"
+INTEGER  0x85012006 (I···U) FUELGAUGE_Ticks "Number of tick marks" 0 0 32767
+BOOLEAN  0x85012007 (I···U) FUELGAUGE_ShortTicks "Display intermediate tick marks" FALSE "Tick marks"
+INTEGER  0x85012008 (I···U) FUELGAUGE_TickSize "Height of tick marks" 6 0 32767
+PEN      0x85012009 (I···U) FUELGAUGE_TickPen "Tick Mark Pen" TEXTPEN
+PEN      0x8501200A (I···U) FUELGAUGE_PercentPen "Percentage Pen" FILLTEXTPEN
+PEN      0x8501200B (I···U) FUELGAUGE_FillPen "Fill Pen" FILLPEN
+PEN      0x8501200C (I···U) FUELGAUGE_EmptyPen "Background Pen" BACKGROUNDPEN
+SELECT   0x8501200E (I···U) FUELGAUGE_Justification "Justification" 2 0 0 "Left" 1 "Center"
+END

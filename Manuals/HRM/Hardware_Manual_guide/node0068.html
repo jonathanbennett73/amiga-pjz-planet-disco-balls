@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-2-2" TITLE="3 / / Bitplanes and Color / Selecting the Number of Bitplanes" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / Bitplanes and Color / Selecting the Number of Bitplanes</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0067.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0069.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+After deciding how many colors you want and how many bitplanes are
+required to give you those colors, you tell the system how many bitplanes
+<a name="line4">to use.</a>
+
+You select the number of bitplanes by writing the number into the register
+ <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  (for Bitplane Control Register 0) The relevant bits are bits 14,
+13, and 12, named BPU2, BPU1, and BPU0 (for &#034;Bitplanes Used&#034;). Table 3-5
+shows the values to write to these bits and how the system assigns
+<a name="line10">bitplane numbers.</a>
+
+
+          Table 3-5: Setting the Number of Bitplanes
+
+
+                    Number of     Name(s) of
+          Value     Bitplanes     Bitplanes
+          -----     ---------     ----------
+           000       None *
+           001         1           PLANE 1
+           010         2           PLANES 1 and 2
+           011         3           PLANES 1 - 3
+           100         4           PLANES 1 - 4
+           101         5           PLANES 1 - 5
+           110         6           PLANES 1 - 6 **
+           111                     Value not used.
+
+
+     *  Shows only a background color; no playfield is visible.
+
+     ** Sixth bitplane is used only in  <a href="../Hardware_Manual_guide/node0079.html">dual-playfield mode</a>  and in
+         <a href="../Hardware_Manual_guide/node008F.html">hold-and-modify mode</a>  (described in the section called
+        Advanced Topics.
+
+
+   About the  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  register.
+   ----------------------------
+   The bits in the  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  register cannot be set independently.  To set
+   any one bit, you must reload them all.
+
+
+The following example shows how to tell the system to use two low
+resolution bitplanes.
+
+<a name="line45">        MOVE.W  #$2200,<a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>+CUSTOM   ; Write to it</a>
+
+Because register  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  is used for setting other characteristics of the
+display and the bits are not independently settable, the example above
+also sets other parameters (all of these parameters are described later
+in the chapter).
+
+   <a href="../Hardware_Manual_guide/node008F.html#line51">*</a>   Hold-and-modify mode is turned off.
+   <a href="../Hardware_Manual_guide/node007C.html">*</a>   Single-playfield mode is set.
+   <a href="../Hardware_Manual_guide/node0076.html">*</a>   Composite video color is enabled.  (Not applicable in all models.)
+   <a href="../Hardware_Manual_guide/node0092.html#line24">*</a>   Genlock audio is disabled.
+   <a href="../Hardware_Manual_guide/node018A.html#line26">*</a>   Light pen is disabled.
+   <a href="../Hardware_Manual_guide/node0069.html#line94">*</a>   Interlaced mode is disabled.
+   <a href="../Hardware_Manual_guide/node0092.html#line11">*</a>   External resynchronization is disabled. (genlock)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

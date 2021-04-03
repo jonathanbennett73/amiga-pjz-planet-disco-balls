@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-9" TITLE="2 Coprocessor Hardware / Summary of Copper Instructions" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 Coprocessor Hardware / Summary of Copper Instructions</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node005E.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0060.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The table below shows a summary of the bit positions for each of the
+<a name="line3"> <a href="../Hardware_Manual_guide/node0049.html">Copper instructions</a> . See  <a href="../Hardware_Manual_guide/node0011.html">Appendix A</a>  for a summary of all registers.</a>
+
+
+             Table 2-2: Copper Instruction Summary
+
+
+                   Move             Wait             Skip
+                   ----             ----             ----
+     Bit#       IR1    IR2       IR1    IR2       IR1    IR2
+     ----       ---    ---       ---    ---       ---    ---
+     15         X      RD15      VP7    BFD       VP7    BFD
+     14         X      RD14      VP6    VE6       VP6    VE6
+     13         X      RD13      VP5    VE5       VP5    VE5
+     12         X      RD12      VP4    VE4       VP4    VE4
+     11         X      RD11      VP3    VE3       VP3    VE3
+     10         X      RD10      VP2    VE2       VP2    VE2
+     09         X      RD09      VP1    VE1       VP1    VE1
+     08         DA8    RD08      VP0    VE0       VP0    VE0
+     07         DA7    RD07      HP8    HE8       HP8    HE8
+     06         DA6    RD06      HP7    HE7       HP7    HE7
+     05         DA5    RD05      HP6    HE6       HP6    HE6
+     04         DA4    RD04      HP5    HE5       HP5    HE5
+     03         DA3    RD03      HP4    HE4       HP4    HE4
+     02         DA2    RD02      HP3    HE3       HP3    HE3
+     01         DA1    RD01      HP2    HE2       HP2    HE2
+     00         0      RD00      1      0         1      1
+
+
+     X = don't care, but should be a 0 for upward compatibility
+     IR1 = first instruction word
+     IR2 = second instruction word
+     DA = destination address
+     RD = RAM data to be moved to destination register
+     VP =  <a href="../Hardware_Manual_guide/node004D.html">vertical beam position</a>  bit
+     HP =  <a href="../Hardware_Manual_guide/node004C.html">horizontal beam position</a>  bit
+     VE = enable comparison (mask bit)
+     HE = enable comparison (mask bit)
+     BFD =  <a href="../Hardware_Manual_guide/node005D.html">blitter-finished disable</a> 
+
+
+   ECS Copper.
+   -----------
+   For information relating to the Copper in the Enhanced Chip
+   Set (ECS), see  <a href="../Hardware_Manual_guide/node0099.html">Appendix C</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

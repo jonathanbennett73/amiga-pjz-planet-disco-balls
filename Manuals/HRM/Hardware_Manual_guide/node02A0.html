@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-2-3-4" TITLE="K / / Signal Description / Slot Control Signals" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Signal Description / Slot Control Signals</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node029F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02A1.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This group of signals is responsible for the control of operations between
+<a name="line3">expansion slots.</a>
+
+Slave (/SLAVEn)
+   Each slot has its own /SLAVE output, driven actively, all of which go
+   into the collision detect circuitry.  The &#034;n&#034; refers to the expansion
+   slot number of the particular /SLAVE signal. Whenever a Zorro II PIC
+   is responding to an address on the bus, it must assert its /SLAVE
+   output within 35ns of  <a href="../Hardware_Manual_guide/node02A2.html#line18">/AS</a>  asserted. The /SLAVE output must be negated
+   at the end of a cycle within 50ns of  <a href="../Hardware_Manual_guide/node02A2.html#line18">/AS</a>  negated.  Late /SLAVE
+   assertion on a Zorro II bus can result in loss of data setup times
+   and other problems.  A late /SLAVE negation for Zorro II cards can
+   cause a collision to be detected on the following cycle.  While the
+   Zorro III sloppy cycle logic eliminates this fatal condition, late
+   /SLAVE negation can nonetheless slow system performance
+   unnecessarily.  If more than one /SLAVE output occurs for the same
+   address, or if a PIC asserts its /SLAVE output for an address
+   reserved by the local bus, a collision is registered and results in
+<a name="line20">    <a href="../Hardware_Manual_guide/node029F.html#line4">/BERR</a>  being asserted.</a>
+
+Configuration Chain (/CFGINn, /CFGOUTn)
+   The slot configuration mechanism uses the bus signals /CFGOUTn and
+   /CFGINn, where &#034;n&#034; refers to the expansion slot number. Each slot has
+   its own version of each, which make up the configuration chain
+   between slots.  Each subsequent /CFGIN is a result of all previous
+   /CFGOUTs, going from slot 0 to the last slot on the expansion bus.
+   During the  <a href="../Hardware_Manual_guide/node02C7.html">AUTOCONFIG</a>  process, an unconfigured Zorro PIC responds to
+   the 64K address space starting at $00E80000 if its /CFGIN signal is
+   asserted.  All unconfigured PICs start up with /CFGOUT negated.  When
+   configured, or told to &#034;shut up,&#034; a PIC will assert its /CFGOUT,
+   which results in the /CFGIN of the next slot being asserted.  The
+   backplane passes on the state of the previous /CFGOUT to the next
+   /CFGIN for any slot not occupied by a PIC, so there's no need to
+<a name="line35">   sequentially populate the expansion bus slots.</a>
+
+Data Output Enable (DOE)
+   This signal is used by an expansion card to enable the buffers on the
+   data bus. The main Zorro II use of this line is to keep PICs from
+   driving data on the bus until any other device is completely off the
+   bus and the bus buffers are pointing in the correct direction.  This
+   prevents any contention on the data bus.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

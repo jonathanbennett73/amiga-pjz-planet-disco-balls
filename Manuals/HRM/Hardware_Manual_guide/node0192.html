@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-2-2-4" TITLE="8 / / Disk Subsystem Timing / DSKLEN - Length, Direction, DMA Enable" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / / Disk Subsystem Timing / DSKLEN - Length, Direction, DMA Enable</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0191.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0193.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+All of the control bits relating to this topic are contained in a
+<a name="line3">write-only register, called DSKLEN:</a>
+<a name="line4"></a>
+
+           Table 8-6: DSKLEN Register ($DFF024)
+
+       Bit
+       Number  Name    Usage
+       ------  ----    -----
+       15      DMAEN   Secondary disk DMA enable
+       14      WRITE   Disk write (RAM -&#062; disk if 1)
+       13-0    LENGTH  Number of words to transfer
+<a name="line14"></a>
+
+The hardware requires a special sequence in order to start DMA to the
+disk.  This sequence prevents accidental writes to the disk.
+In short, the DMAEN bit in the DSKLEN register must be turned on twice
+in order to actually enable the disk DMA hardware.
+<a name="line20">Here is the sequence you should follow:</a>
+
+   1. Enable disk DMA in the  <a href="../Hardware_Manual_guide/node0170.html">DMACON</a>  register (See Chapter 7 for more
+      information)
+   2. Set DSKLEN to $4000, thereby forcing the DMA for the disk to be
+      turned off.
+   3. Put the value you want into the DSKLEN register.
+   4. Write this value again into the DSKLEN register. This actually
+      starts the DMA.
+   5. After the DMA is complete, set the DSKLEN register back to
+      $4000, to prevent accidental writes to the disk.
+
+As each data word is transferred, the length value is decremented. After
+each transfer occurs, the value of the pointer is incremented. The pointer
+points to the the next word of data to written or read. When the length
+<a name="line35">value counts down to 0, the transfer stops.</a>
+
+The recommended method of reading from the disk is to read an entire track
+into a buffer and then search for the sector(s) that you want. Using the
+ <a href="../Hardware_Manual_guide/node0195.html">DSKSYNC</a>  register (described below) will guarantee word alignment of the
+data.  With this process you need to read from the disk only once for the
+entire track.  In a high speed loader, the step to the next head can occur
+while the previous track is processed and checksummed. With this method
+there are no time-critical sections in reading data, other high-priority
+subsystems (such as graphics or audio) are be allowed to run.
+
+If you have too little memory for track buffering (or for some other
+reason decide not to read a whole track at once), the disk hardware
+supports a limited set of sector-searching facilities. There is a register
+that may be polled to examine the disk input stream.
+
+There is a hardware bug that causes the last three bits of data sent to
+the disk to be lost. Also, the last word in a disk-read DMA operation may
+not come in (that is, one less word may be read than you asked for).
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

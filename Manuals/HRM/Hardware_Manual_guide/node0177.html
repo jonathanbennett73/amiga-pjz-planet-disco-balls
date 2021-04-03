@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_G" NODE="G-5" TITLE="G Keyboard Interface / Power-Up Sequence" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>G Keyboard Interface / Power-Up Sequence</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0176.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0178.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+There are two possible ways for the keyboard to be powered up under normal
+circumstances: &#060;1&#062; the computer can be turned on with the keyboard plugged
+in, or &#060;2&#062; the keyboard can be plugged into an already &#034;on&#034; computer.  The
+<a name="line5">keyboard and computer must handle either case without causing any upset.</a>
+
+The first thing the keyboard does on power-up is to perform a self-test.
+This involves a ROM checksum test, simple RAM test, and watchdog timer
+test.  Whenever the keyboard is powered up (or  <a href="../Hardware_Manual_guide/node0178.html">restarted</a>  -- see below), it
+must not transmit anything until it has achieved synchronization with the
+computer. The way it does this is by slowly  <a href="../Hardware_Manual_guide/node0176.html#line8">clocking out 1 bits</a> , as
+described above, until it receives a handshake pulse.
+
+If the keyboard is plugged in before power-up, the keyboard may continue
+this process for several minutes as the computer struggles to boot up and
+get running.  The keyboard must continue clocking out 1s for however long
+is necessary, until it receives its handshake.
+
+If the keyboard is plugged in after power-up, no more than eight clocks
+will be needed to achieve sync.  In this case, however, the computer may
+be in any state imaginable but must not be adversely affected by the
+ <a href="../Hardware_Manual_guide/node0176.html#line14">garbage character</a>  it will receive.  Again, because it receives a key
+release, the damage should be minimal.  The keyboard driver must
+anticipate this happening and handle it, as should any application that
+uses raw keycodes.
+
+   Warning:
+   --------
+   The keyboard must not transmit a &#034; <a href="../Hardware_Manual_guide/node0176.html">lost sync</a> &#034; code after
+   re-synchronizing due to a power-up or  <a href="../Hardware_Manual_guide/node0178.html">restart</a> ; only after
+<a name="line31">   re-synchronizing due to a handshake time-out.</a>
+
+Once the keyboard and computer are in sync, the keyboard must inform the
+computer of the results of the self-test.  If the self-test failed for any
+reason, a &#034;selftest failed&#034; code (value $FC = 11111100) is transmitted
+(the keyboard does not wait for a handshake pulse after sending the
+&#034;selftest failed&#034; code).  After this, the keyboard processor goes into a
+loop in which it blinks the Caps Lock LED to inform the user of the
+failure.  The blinks are coded as bursts of one, two, three, or four
+blinks, approximately one burst per second:
+
+     One blink        ROM checksum failure.
+     Two blinks       RAM test failed.
+     Three blinks     Watchdog timer test failed.
+     Four blinks      A short exists between two row lines or one of
+<a name="line46">                          the seven special keys (not implemented).</a>
+
+If the self-test succeeds, then the keyboard will proceed to transmit any
+keys that are currently down.  First, it sends an &#034;initiate power-up key
+stream&#034; code (value $FD = 11111101), followed by the key codes of all
+depressed keys (with keyup/down set to &#034;down&#034; for each key).  After all
+keys are sent (usually there won't be any at all), a &#034;terminate key
+stream&#034; code (value $FE = 11111110) is sent.  Finally, the Caps Lock LED
+is shut off. This marks the end of the start-up sequence, and normal
+processing commences.
+
+The usual sequence of events will therefore be:  power-up; synchronize;
+transmit &#034;initiate power-up key stream&#034; ($FD); transmit &#034;terminate key
+stream&#034; ($FE).
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

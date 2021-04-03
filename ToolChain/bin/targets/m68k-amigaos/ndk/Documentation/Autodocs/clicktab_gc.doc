@@ -1,0 +1,303 @@
+TABLE OF CONTENTS
+
+clicktab_gc/--datasheet--
+clicktab_gc/CLICKTAB_GetClass
+clicktab_gc/AllocClickTabNodeA
+clicktab_gc/FreeClickTabNode
+clicktab_gc/GetClickTabNodeAttrsA
+clicktab_gc/SetClickTabNodeAttrsA
+clicktab_gc/--datasheet--                           clicktab_gc/--datasheet--
+
+    NAME
+        clicktab.gadget--File folder tabs gadget.
+ 
+    SUPERCLASS
+        gadgetclass
+ 
+    REQUIRES
+        None.
+
+    DESCRIPTION
+        The tabs gadget class provides a custom control that has imagry
+        similar in style to the tabs seen in a drawer full of file folders.
+        The action of the gadget is the same as a conventional
+        mutual-exclusion control in that only one tab can be active at a
+        time and a tab is selected by clicking upon it.
+ 
+        The purpose of the tabs gadget class is to provide functionality like
+        the page selection cycle gadget on the top-right side of the AmigaOS
+        2.1 PrinterPS preferences editor, but allowing all the choices to be
+        visible at the same time. The tab "bar" allows strumming across the
+        selections. The current selection is slightly raised and its text
+        label displayed in bold.
+ 
+    METHODS
+        OM_NEW -- Create the button gadget.  Passed to superclass, then OM_SET.
+ 
+        OM_GET -- Get an object attribute.  Passed to superclass for unknown
+            attributes.
+ 
+        OM_SET -- Set object attributes.  Passed to superclass first.
+ 
+        OM_UPDATE -- Set object notification attributes.  Passed to superclass
+            first.
+
+        OM_NOTIFY -- Sets  taglist for notification and pass to superclass.
+
+        GM_DOMAIN -- Calculate imagery & positioning, and return
+            minimum/maximum domain size.
+
+        GM_RENDER -- Renders the gadget imagry.  Overrides the superclass.
+ 
+        GM_HITTEST -- Determines if mouse is within the gadget rectangle.
+            Overrides the superclass.
+ 
+        GM_GOACTIVE -- Handles activation, toggle-select and button-select.
+            Overrides the superclass.
+ 
+        GM_GOINACTIVE -- Deactivates object.  Overrides the superclass.
+
+        GM_HANDLEINPUT -- Handles selection input, RMB undo/abort, etc.
+ 
+        GM_KEYACTIVE -- Activates gadget via keyboard, selects appropriate
+            tab based on input key.  Invoked by window.class only.
+
+        GM_KEYINACTIVE -- Deactivates gadget.  Invoked by window.class only.
+        
+        GM_HELPTEST -- Handles gadget help. When the mouse is over a tab,
+            the method returns GMR_HELPCODE along with the tabindex. Before
+            v45 GMR_HELPHIT was the only return value besides 0L, also 
+            before v45 this method didn't return a reliabel result in all cases.
+
+        All other methods are passed to the superclass, including OM_DISPOSE.
+ 
+    ATTRIBUTES
+
+        GA_ID (WORD)
+            Applicability is (OM_NEW, OM_SET, OM_UPDATE, OM_NOTIFY)
+
+        GA_Top (LONG) 
+            The top of the gadget.  Typically win->BorderTop + 2 for proper
+            placement along the inner top of a window unless used within a
+            layout gadget group, then placement is automatic.
+ 
+        GA_Left (LONG)
+            The left edge of the gadget.
+ 
+        GA_Height (LONG)
+            Height of the gadget.  Typically font height plus eight.
+ 
+        GA_RelHeight (LONG)
+            Like all other ReAction gadgets, this attribute is supported.
+            However, due to the nature of the classes intended visuals
+            it is stylistically a bad thing to do.
+ 
+        GA_Disabled (BOOL) -- Determines whether the gadget is disabled or
+            not.  Changing disable state will invoke GM_RENDER.  A disabled
+            gadget's border and label are all rendered in SHADOWPEN and then
+            dusted in a ghosting pattern that is rendered in SHADOWPEN.
+
+            Defaults to FALSE.
+ 
+        GA_TextAttr (struct TextAttr *)
+            Optional text attribute for the font to use for the labels.
+ 
+            Defaults to NULL.
+            
+        GA_Text (STRPTR *) (v45)
+            A NULL terminated array of strings to use as labels. New for v45.1.
+            The array can be allocated on the stack, the text, however needs
+            to stay for the whole lifetime of the object.
+
+            Defaults to NULL.
+
+            Applicability is (OM_NEW)
+
+        CLICKTAB_Labels (struct List *)
+            A list of clicktab node structures used to indicate the labels
+            for each of the tabs.
+
+            Defaults to NULL.
+
+            Applicability is (OM_NEW)
+ 
+        CLICKTAB_Current (LONG)
+            Currently selected tab.
+
+            Defaults to 0.
+
+            Applicability is (OM_NEW, OM_SET, OM_UPDATE, OM_NOTIFY)
+            
+        CLICKTAB_CurrentNode (LONG)
+            Currently selected tab node.
+
+            Defaults to 0.
+
+            Applicability is (OM_GET, OM_NOTIFY)
+            
+        CLICKTAB_PageGroup (LONG) (v42)
+            Embedded PageObject child pointer.
+
+            Defaults to NULL.
+
+            Applicability is (OM_NEW, OM_SET)
+            
+        CLICKTAB_PageGroupBackFill (struct Hook *) (v42)
+            Embedded PageObject + selected ClickTab backfill pointer.
+
+            Defaults to NULL.
+
+            Applicability is (OM_NEW, OM_SET)
+
+    NOTES
+
+        This class is best suited for use in a ReAction layout group
+        and requires receiving GM_DOMAIN prior to the first GM_RENDER
+        in order to size & position its imagery correctly.
+clicktab_gc/CLICKTAB_GetClass                       clicktab_gc/CLICKTAB_GetClass
+
+    NAME
+        CLICKTAB_GetClass  --  Gets the pointer to the clicktab class.
+
+    SYNOPSIS
+        clicktab_class = CLICKTAB_GetClass();
+        D0
+
+        Class * CLICKTAB_GetClass(VOID);
+
+    FUNCTION
+        Obtains the pointer to the ClickTab gadget class for use with
+        NewObject().  This function always returns a valid pointer so
+        you do not need to check it.  The reason is that if the library
+        opens fine, then the pointer returned is already setup.  (Of course
+        this implies that if opening the library fails, you shouldn't be
+        calling this.)
+
+        Note that this function does not create the class, that is done
+        when the class library is opened.
+
+    INPUTS
+        Nothing.
+
+    RESULT
+        clicktab_class - Pointer to the ClickTab gadget class.
+
+    SEE ALSO
+clicktab_gc/AllocClickTabNodeA               clicktab_gc/AllocClickTabNodeA
+
+    NAME
+        AllocClickTabNodeA -- Allocate a ClickTab node.
+
+    SYNOPSIS
+        struct Node * AllocClickTabNode(Tag, ...)
+        node = AllocClickTabNode(Tag, ...)
+
+        struct Node * AllocClickTabNodeA(struct TagItem *)
+        node = AllocClickTabNodeA(taglist)
+
+    FUNCTION
+        Allocates a node that can be added to the Exec linked list of
+        labels in the clicktab.  This is the only way to allocate a
+        node for this list, you cannot allocate nodes yourself because
+        the ClickTab class uses a private node structure.
+
+    INPUTS
+        columns - How many columns your ClickTab has.
+        taglist - Attributes for the node, passed onto SetClickTabNodeAttrsA().
+
+    RESULT
+        node - A node that can be added into the Exec list of labels for
+            a ClickTab gadget.
+
+    SEE ALSO
+        FreeClickTabNode(), SetClickTabNodeAttrsA()
+clicktab_gc/FreeClickTabNode                   clicktab_gc/FreeClickTabNode
+
+    NAME
+        FreeClickTabNode -- Free a ClickTab node.
+
+    SYNOPSIS
+        VOID FreeClickTabNode(struct Node *)
+        FreeClickTabNode(node)
+
+    FUNCTION
+        Frees a ClickTabNode allocated with AllocClickTabNodeA().
+
+    INPUTS
+        node - The node to free.
+
+    SEE ALSO
+        AllocClickTabNodeA()
+clicktab_gc/GetClickTabNodeAttrsA         clicktab_gc/GetClickTabNodeAttrsA
+
+    NAME
+        GetClickTabNodeAttrsA -- Get attributes about a ClickTab node.
+
+    SYNOPSIS
+        VOID GetClickTabNodeAttrs(struct Node *, Tag, ...)
+        GetClickTabNodeAttrs(node, firsttag, ...)
+
+        VOID GetClickTabNodeAttrsA(struct Node *, struct TagItem *)
+        GetClickTabNodeAttrsA(node, taglist)
+
+    FUNCTION
+        The ClickTab uses a private node structure and all attributes
+        are hidden, and must therefore be accessed with this function.
+
+    INPUTS
+        node - The ClickTab node to get the information on.
+        taglist - A tag list of attributes to get.  ti_Tag is the attribute
+            to get and ti_Data is a pointer to a location to copy the result
+            to.  The exception is LBNA_Column, which is used to specify a
+            column to get attributes on.
+
+    SEE ALSO
+        SetClickTabNodeAttrsA()
+clicktab_gc/SetClickTabNodeAttrsA         clicktab_gc/SetClickTabNodeAttrsA
+
+    NAME
+        SetClickTabNodeAttrsA -- Set attributes of a ClickTab node.
+
+    SYNOPSIS
+        VOID SetClickTabNodeAttrs(struct Node *, Tag, ...)
+        SetClickTabNodeAttrs(node, firsttag, ...)
+
+        VOID SetClickTabNodeAttrsA(struct Node *, struct TagItem *)
+        SetClickTabNodeAttrsA(node, taglist)
+
+    FUNCTION
+        Changes attributes for a ClickTab node.  Since the ClickTab
+        class uses a private node structure, this is the only way to change
+        node attributes.
+
+        You may NOT change node attributes when the node is in a list
+        attached to a ClickTab gadget.  You must first detach the list
+        with CLICKTAB_Labels, ~0 before you can change attributes, and
+        then re-attach the list, and re-render the gadget to reflect
+        any changes. This should include re-domaining the gadget.
+        If used in a layout group, turn off domain caching for the
+        clicktab object if you intend to dynamically alter the tabs
+        and refresh the layout group with RethinkLayout().
+
+    TAGS
+        TNA_Text (STRPTR)
+
+            Text string to appear as a line in the ClickTab menu node.
+
+        TNA_Number (WORD)
+
+            ID Number assigned to a ClickTab menu node
+
+        TNA_TextPen (WORD) 
+
+            Specifies pen number to use for the label.
+
+            Defaults to pens[TEXTPEN].
+
+    INPUTS
+        node - Node whose attributes you are changing.
+        taglist - Tag list of attributes to change.
+
+    SEE ALSO
+        GetClickTabNodeAttrsA()
+

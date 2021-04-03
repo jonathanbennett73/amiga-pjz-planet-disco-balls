@@ -1,0 +1,222 @@
+Programmier-Beschreibung zum Programm "EuroCalc":
+=================================================
+von Michael Christoph <michael@meicky-soft.de>
+
+AmigaOS 3.5 bringt eine umfangreiche Sammlung an BOOPSI-Klassen mit,
+welche mit ReActor komfortabel zu einer Oberfläche zusammengestellt
+werden können. Dabei ist die Oberfläche komplett selbstlayoutend
+und paßt sich somit unterschiedlichen Fontgrößen ebenso an wie
+unterschiedlichen (Localen) Texten für die einzelnen Elemente.
+
+Anhand eines kleinen Beispielprogramms wird gezeigt, wie diese
+Oberflächen in den eigenen Quellcode einzubinden sind und wie der
+Datenaustausch mit den Elementen (Gadgets, Windows) funktioniert.
+
+Zuerst wird die Oberfläche mit dem Programm "ReActor" erstellt. Dabei
+werden die einzelnen Gadgets nicht mehr wie früher üblich, pixelweise
+positioniert, sondern das Layout mittels horizontaler und vertikaler
+Gruppen "beschrieben". Das kann zwar teilweise den Nachteil haben, daß
+einzelne Gadgets nicht mehr genau positioniert werden können, auf der
+anderen Seite dürfte aber das komplett automatisch ablaufende layouten
+aller Gadgets einen großen Vorteil bieten. Wurden früher die Fensterinhalte
+starr auf einen Font ausgerichtet, um den notwendigen Aufwand des variablen
+Layouts zu umgehen, gehört dieser Punkt nun der Vergangenheit an. Der
+Programmierer kann sich somit um die eigentlichen Programm-Aufgaben kümmern
+und braucht kaum noch Zeit zum Erstellen der zugehörigen Benutzeroberfläche.
+
+Für den geplanten Euro-Währungsrechner, soll die Eingabe einer beliebigen
+Währung möglich sein, die dann in alle anderen Währungen umgerechnet und
+angezeigt wird. Somit wird also pro Währung ein Eingabefeld benötigt, daß
+mit der entsprechenden Währungsbezeichnung und dem Ländernamen gekennzeichnet
+wird. Zusätzlich soll auch die Länderfahne mit abgebildet werden (Image).
+Pro Währung ist also eine horizontale Gruppe zu erstellen, die zuerst eine
+PenMap (mit der Grafik), dann das Eingabefeld mit angehängtem Label und ganz
+rechts noch ein seperates Label für das Währungskennzeichen enthält.
+Die Benutzung der PenMap hat den vorteil, daß die Grafik, bei Bedarf,
+automatisch auf die Bildschirmfarben angepaßt wird.
+Diese zwölf horizontale Gruppen (für die 11 Teilnehmerländer und eine Zeile
+für den Euro-Wert) werden in einer vertikal Gruppe zusammengefast, welche im
+Fenster verankert wird.
+Auf die genaue Bedienung von ReActor und dem Erstellen dieser Oberfläche
+wird hier nicht weiter eingegangen. Lesen Sie hierzu bei Bedarf in der Anleitung
+zu ReActor nach.
+Die fertige Oberflächenbeschreibung liegt in der Datei "EuroCalcFrame.res" vor.
+
+Nach dem Programmstart muß sofort überprüft werden, ob AmigaOS 3.5 und somit die
+benötigten Resourcen vorhanden sind. Das geschieht am einfachsten, indem die
+später noch benötigte "resource.library" geöffnet wird. Dabei ist auf Version 44
+zu prüfen (was AmigaOS 3.5 entspricht).
+Im Erfolgsfall können die weiter benötigten Libraries geöffnet werden (z.B.
+locale.library). Je nach verwendetem Compiler werden die benutzten Libraries
+automatisch geöffnet. In diesem Fall muß ein direkter Vergleich der Versionsnummer
+stattfinden:
+
+  if(ResourceBase->lib_Version >= 44)
+    /* weiter im Programm ... */
+  else printf("ERROR: workbench 3.5 is required.\n");
+
+Es ist zwar kein Catalog notwendig, er sollte aber trotzdem programmseitig immer
+geöffnet werden, um evtl. zukünftig erstellte Cataloge ohne Programmänderung
+verwenden zu können. Dann ist der zu benutzdende Bildschirm festzulegen. Entweder
+wird einfach der Workbench (bzw. Default-Public-Screen) verwendet, oder das
+Programm öffnet einen eigenen Bildschirm.
+Ein Zeiger auf diesen Screen und den Catalog werden dann an RL_OpenResource übergeben.
+Als erster Parameter wird 'RCTResource' erwartet. Dabei handelt es sich um eine
+globale Variable, die von ReActor mit in die Oberflächenbeschreibungsdatei
+eingebunden wird. RL_OpenResource() liefert einen Zeiger auf die erstellte
+Resource-Umgebung, der bei den weiteren Aufrufen noch benötigt wird.
+Zur Zeit müssen außerdem noch zwei Messageports für die interne Kommunikation
+(der Oberflächenelemente) erzeugt werden. Diese werden programmseitig normalerweise
+nicht benötigt und sollen in Zukunft automatisch von RL_OpenResource erzeugt werden.
+Über RL_NewObject() werden neue Objekte angefordert/reserviert. Dabei handelt es
+sich um die in ReActor erstellen Fenster- oder Gadgetgruppen, welche über die ID
+bestimmt werden. Soll auf die Gadgeteingaben vom Programm reagiert werden, müssen
+die einzelnen Gadget-Objekte bekannt sein. RL_GetObjectArray() liefert ein Array
+mit den entsprechenden Gadget-Zeigern. Anhand der IDs (aus der automatisch erzeugen
+Datei "EuroCalcFrame.h") kann dann gezielt auf ein Gadgetobjekt zugeriffen werden
+(z.B. gb_Gadgets[GAD_ID_EUR]). Danach wird die Menübeschreibung evtl. lokalisiert
+und das Menü erzeugt.
+
+Damit sind alle Vorbereitungsarbeiten abgeschlossen und das Fenster kann geöffnet
+werden. Dazu dient das Kommando WM_OPEN, daß mittels DoMethod() abgesetzt wird.
+Alternativ können auch die sprechenderen Defines aus "classact_macros.h" verwendet
+werden (hier CA_OpenWindow mit dem Window-Objekt).
+Beachten Sie unbedingt, daß es sich bei den Objekt-Zeigern um klasseneigene, meißt
+nicht näher beschriebene Strukturen handelt. Wollen Sie direkt auf die Fenster-
+daten (struct Window *) zugreifen, so ist diese Zeiger erst mittels 
+ GetAttr(WINDOW_Window,gb_WindowObj,&gb_Window)
+anzufordern (bzw. wird bei WM_OPEN auch als Returnwert geliefert). Die beiden
+Zeiger dürfen auf keinen Fall vertauscht benutzt werden ! 'gb_Window' enthält
+die altbekannte Windows-Struktur, während 'gb_WindowObj' das Fenster-Objekt
+repräsentiert. Bei allen Intuition-Funktionen ist, wie bisher auch, der
+'struct Window *' (also gb_Window) zu übergeben, während die Objektmethoden
+(DoMethod, GetAttr, SetAttr) nach einem Objekt (hier gb_WindowObj) verlangen.
+
+Den normalen Programmlauf bestimmt der Messageloop. Dieser ist wieder speziell
+auf die ReActor-Umgebung anzupassen, da z.B. die Gadgetshotcuts automatisch
+behandelt werden. Auch bei Größenänderungen des Fensters, werden die enthaltenen
+Gadgets automatisch neu positioniert/angepaßt. Ebenso wird eine Refreshanforderung
+automatisch an die Gadgets weitergegeben. Das Programm braucht sich also
+(normalerweise) um viele Dinge nicht mehr zu kümmern!
+
+Aus Zukunftskompatibilität sollte das Messagebit nicht direkt aus der
+Windows-Struktur ausgelesen werden, sondern beim Window-Objekt erfragt werden:
+
+  ULONG windowsignal;
+  GetAttr(WINDOW_SigMask,gb_WindowObj,&windowsignal);
+
+Dieses Bit wird wie bisher auch, mit den anderen Signalbits verodert, auf deren
+Ereignisse ebenfalls gewartet werden soll (andere Fenster, ARexx-Port, CTRL-C ect.).
+Beim Eintreffen von Nachrichten wird von Wait() das Fenstersignal (bzw. eines oder
+mehrere der anderen Signale) zurückgeliefert. Eine Auswertung der Nachrichten könnte
+wie folgt aussehen:
+
+  ULONG result, code;
+  while((result = CA_HandleInput(gb_WindowObj,&code)) != WMHI_LASTMSG)  
+  {
+    switch(result & WMHI_CLASSMASK)
+    {
+      case WMHI_CLOSEWINDOW:
+           /* ... */
+           break;
+
+      case WMHI_GADGETUP:
+           /* ... */
+           break;
+
+      case WMHI_MENUPICK:
+           /* ... */
+           break;
+    }
+  }
+
+Zu beachten ist, daß 'result' im oberen Word die Classe enthält und im unteren
+Word die Event-Daten. Daher muß der jeweils auszulesende Wert entsprechend
+maskiert werden.
+Die Gaddget-Gruppen-ID und normale Gadget-ID läst sich wie folgt ermitteln:
+
+  const UWORD groupid  = RL_GROUPID(result);
+  const UWORD gadgetid = RL_GADGETID(result);
+
+entsprechend die Menünummer über:
+
+  const UWORD menunum = RL_MENUNUM(result);
+
+und Tastencodes per
+
+  const UBYTE keycode = RL_KEYCODE(result);
+
+Zu beachten sind außerdem die beiden Returnwerte:
+  WMHI_LASTMSG (0) und WMHI_IGNORE (~0)
+
+Bei ersterem liegt keine Nachricht mehr zur Verarbeitung vor, während bei letzterer
+die Nachricht nicht von der ReActor-Window-Classe verarbeitet werden konnte (was
+eigentlich nicht vorkommen kann).
+
+Wurde in der Fensterbeschreibung WINDOW_Iconify gesetzt, so erhält das Fenster
+automatisch ein zusätzliches Gadget in der Titelzeile. Beim Anklicken wird eine
+Nachricht vom Typ WMHI_ICONIFY ausgelöst. Mittels CA_Iconify() wird das Fenster
+tatsächlich eingeklappt. Entsprechend öffnet CA_Uniconify() das Fenster wieder,
+wenn der Benutzer auf das Icon auf der Workbench Klickt (Nachricht WMHI_UNICONIFY
+wird geliefert).
+Jeweils nach dem Öffnen und Schließen des Fensters muß unbedingt die Variable
+gb_Window aktualisiert werden. Falls festgestellt werden soll, ob das Fenster
+momentan geschlossen ist, kann dies durch einen einfachen Vergleich von
+gb_Window == NULL erfolgen. Das Auslesen und Ändern der Werte in den Gadgets
+ist auch bei geschlossenem Fenster erlaubt, während die normalen Intuition-
+Funktion auf das Fenster natürlich nur dann angewendet werden dürfen, wenn das
+Fenster auch dargestellt wird.
+Während das Fenster iconifiziert ist, treffen auch keine Window/Gadget-Nachrichten
+ein, wodurch der Messageloop nicht speziell angepaßt oder reagieren muß.
+
+In der weiteren Nachrichtenauswertung werden entsprechend dem Nachrichtentyp
+die verschiedenen Aktionen veranlast (Werte berechnen und anzeigen, Menüauswahl
+behandeln, Programm beenden, ect.).
+
+Am Programmende sind in gewohnter Weise alle reservierten Resourcen wieder
+freizugeben. Für die komplette ReActor-Umgebung genügt ein Aufruf von
+RL_CloseResource(). Dieser gibt alle Fenster- und Gadgetobjekte frei.
+Sollen nur einzelne Gadgetgruppen bzw. Fenster freigegeben werden, so kann
+dazu RL_DisposeObject() verwendet werden. Normalerweise wird man jedoch beim
+Programmstart die benötigten Objekte mittels RL_NewObject() anlegen und
+am Programmende alle komplett durch RL_CloseResource() freigeben.
+Selten benötigte Fenster können aber in der Form 'Fensterobjekt anlegen - Fenster
+darstellen - Fensterobjekt freigeben' gehandhabt werden.
+
+Danach ist/sind noch der Catalog und die Libraries zu schließen, sowie bei
+Bedarf ein Returncode für die Shell zu setzen.
+
+Damit ist das Programm "EuroCalc" vollständig beschrieben. Weitere Erklärungen
+sind an den jeweiligen Stellen im Sourcecode angebracht, der keine
+"compilerspezifischen Eigenheiten" ausnutzt und daher mit jedem beliebigem
+Compiler übersetzbar sein sollte.
+
+Mit ReActor generierte Oberflächen erhalten automatisch eine Datei mit den
+Localestrings (EuroCalcFrame.cd), welche zum Programmcode hinzugelinkt werden
+muß. Dazu ist zuerst mittels 'catcomprct' aus dieser Datei ein Assemblercode
+zu erzeugen, welcher assembliert ein Objektfile ergibt.
+
+Das vollständige Compilieren setzt sich somit aus diesen vier Schritten zusammen
+(beispielhaft anhand des Maxon-Compilers dargestellt):
+
+* compilieren des normalen Programmcodes:
+  mcppc3 -c EuroCalc.c
+
+* Assemblercode der Localedatei erzeugen:
+  catcomprct EuroCalcFrame.cd
+
+* die Localedatei assemblieren:
+  masm -c cl EuroCalcFrame_cd.asm
+
+* und dann alles zusammenlinken:
+  mcppc3 EuroCalc.o EuroCalcFrame.o EuroCalcFrame_cd.o -o EuroCalc -l amiga
+
+
+--------------------------
+INFO zum restlichen Source:
+das Programm verwendet ein Array mit den Länderdaten, da hierdurch eine
+einfache for-Schleife für den Zugriff auf alle Gadgets benutzt werden kann.
+Zu beachten ist hierbei, daß das Array 0 unbenutzt bleibt und 1 mit der
+vertikalen Gruppe gesetzt ist und somit auch unbenutzt bleibt.
+
+

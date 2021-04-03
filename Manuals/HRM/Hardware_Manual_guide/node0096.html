@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-8-3" TITLE="3 / Color Selection / Color Selection in High Resolution Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Color Selection / Color Selection in High Resolution Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0095.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0097.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Table 3-18 shows playfield color selection in high resolution mode. If the
+bit combinations from the playfields are as shown, the color is taken from
+<a name="line4">the color register number indicated.</a>
+
+
+               Single               Dual               Color
+              Playfield          Playfields           Register
+         (Bitplanes 4,3,2,1)                           Number
+         -----------------------------------------------------
+
+                                 Playfield 1
+                               (Bitplanes 3,1)
+
+                0000                 00 *                0 **
+                0001                 01                  1
+                0010                 10                  2
+                0011                 11                  3
+
+                0100                  -                  4
+                0101              NOT USED               5
+                0110            IN THIS MODE             6
+                0111                  -                  7
+
+                                 Playfield 2
+                               (Bitplanes 4,2)
+
+                1000                 00 *                8
+                1001                 01                  9
+                1010                 10                 10
+                1011                 11                 11
+
+                1100                  -                 12
+                1101              NOT USED              13
+                1110            IN THIS MODE            14
+                1111                  -                 15
+
+         ________________
+
+         * Selects &#034;transparent&#034; mode.
+
+         ** Color register 0 always defines the background color.
+
+
+                 Table 3-18: High resolution Color Selection
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

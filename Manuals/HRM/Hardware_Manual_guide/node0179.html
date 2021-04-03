@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_G" NODE="G-7" TITLE="G Keyboard Interface / Hard Reset" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>G Keyboard Interface / Hard Reset</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0178.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node017A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+
+   About Hard Reset.
+   -----------------
+   Hard Reset happens after  <a href="../Hardware_Manual_guide/node0178.html">Reset Warning</a> . Valid for all keyboards
+   except the Amiga 500.
+
+The keyboard Hard Resets the Amiga by pulling KCLK low and starting a 500
+millisecond timer.   When one or more of the keys is released and 500
+milliseconds have passed, the keyboard will release KCLK. 500 milliseconds
+is the minimum time KCLK must be held low.  The maximum KCLK time depends
+on how long the user holds the three  <a href="../Hardware_Manual_guide/node0178.html#line6">reset keys</a>  down.  Circuitry on the
+Amiga motherboard detects the 500 millisecond KCLK pulse.
+
+After releasing KCLK, the keyboard jumps to its start-up code (internal
+RESET).  This will initialize the keyboard in the same way as cold
+ <a href="../Hardware_Manual_guide/node0177.html">power-on</a> .
+
+   NOTE:
+   -----
+   The keyboard must resend the &#034; <a href="../Hardware_Manual_guide/node0177.html#line46">powerup key stream</a> &#034;!
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

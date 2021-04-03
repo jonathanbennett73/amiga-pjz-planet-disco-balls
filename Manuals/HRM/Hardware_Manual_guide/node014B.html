@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_F" NODE="F-8" TITLE="F 8520 Complex Interface Adapters / Hardware Connection Details" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>F 8520 Complex Interface Adapters / Hardware Connection Details</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node014A.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node014C.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The system hardware selects the CIAs when the upper three address bits are
+101.  Furthermore, CIAA is selected when A12 is low, A13 high; CIAB is
+selected when A12 is high, A13 low.  CIAA communicates on data bits 7-0,
+CIAB communicates on data bits 15-8.
+
+Address bits A11, A10, A9, and A8 are used to specify which of the 16
+internal registers you want to access.  This is indicated by &#034;r&#034; in the
+address.  All other bits are don't cares.  So, CIAA is selected by the
+following binary address:  101x xxxx xx01 rrrr xxxx xxx0. CIAB address:
+101x xxxx xx10 rrrr xxxx xxx1
+
+With future expansion in mind, we have decided on the following addresses:
+CIAA = BFEr01; CIAB = BFDr00.  Software must use byte accesses to these
+address, and no other.
+
+ <a href="../Hardware_Manual_guide/node014C.html">Interface Signals</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

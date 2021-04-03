@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-2-1-1" TITLE="4 / / Screen Position / Horizontal Position" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 / / Screen Position / Horizontal Position</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00B1.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00B3.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A sprite's horizontal position (X value) can be at any pixel on the screen
+from 0 to 447. To be visible, however, an object must be within the
+boundaries of the  <a href="../Hardware_Manual_guide/node006F.html">playfield display window</a> . In the examples in this
+chapter, a window with horizontal positions from pixel 64 to pixel 383 is
+used (that is, each line is 320 pixels long).  <a href="../Hardware_Manual_guide/node007E.html">Larger or smaller windows</a> 
+can be defined as required, but it is recommended that you read the
+&#034;Playfield Hardware chapter&#034; before attempting to do so. A larger area is
+actually scanned by the video beam but is not usually visible on the
+screen.
+
+If you specify an X value for a sprite that takes it outside the display
+window, then part or all of the sprite may not appear on the screen. This
+is sometimes desirable; such a sprite is said to be &#034; <a href="../Hardware_Manual_guide/node00B4.html">clipped</a> .&#034;
+
+To make a sprite appear in its correct on-screen horizontal position in
+the display window, simply add its left offset to the desired X value. In
+the example given above, this would involve adding 64 to the X value. For
+example, to make the upper leftmost pixel of a sprite appear at a position
+94 pixels from the left edge of the screen, you would perform this
+calculation:
+
+ Desired X position + horizontal-offset of display window ~= 94 + 64 = 158
+
+Thus, 158 becomes the X value, which will be written into the
+ <a href="../Hardware_Manual_guide/node00B9.html">data structure</a> .
+
+   Counting Pixels.
+   ----------------
+   The X position represents the location of the very first (leftmost)
+   pixel in the full 16-bit wide sprite. This is always the case, even
+   if the leftmost pixels are specified as transparent and do not appear
+   on the screen.
+
+If the sprite shown in Figure 4-2 were located at an X value of 158, the
+actual image would begin on-screen four pixels later at 162.  The first
+four pixels in this sprite are transparent and allow the background to
+<a name="line38">show through.</a>
+
+
+                |-- 4 --|
+                |pixels |
+                 _______________________________
+                |_|_|_|_|_|_|_|#|_|_|_|_|_|_|_|_|
+                |_|_|_|_|_|_|o|#|o|_|_|_|_|_|_|_|
+                |_|_|_|_|_|o|o|#|o|o|_|_|_|_|_|_|
+                |_|_|_|_|#|#|#|_|#|#|#|_|_|_|_|_|
+                |_|_|_|_|_|o|o|#|o|o|_|_|_|_|_|_|
+                |_|_|_|_|_|_|o|#|o|_|_|_|_|_|_|_|
+                |_|_|_|_|_|_|_|#|_|_|_|_|_|_|_|_|
+                |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
+
+                |                               |
+                |--------- 16 pixels -----------|
+
+
+                 Figure 4-2: Position of Sprites
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

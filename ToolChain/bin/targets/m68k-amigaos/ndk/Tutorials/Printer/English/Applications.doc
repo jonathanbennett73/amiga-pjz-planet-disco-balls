@@ -1,0 +1,472 @@
+
+printer.device V44 (OS 3.5)
+
+Changes
+
+Overview
+
+� supports up to 10 units with different settings
+
+� supports RTG systems based on the CyberGfx API
+
+� simplified and extended handling of errors
+
+� drivers can flexibly extended using tag lists
+
+� extended support for driver-based color conversion and correction
+
+� 24 bit color space (16 mio. colors) for printer drivers
+
+� flexible printer settings can be controlled by the driver
+
+
+Changes for the printer preferences
+
+The new version of printer.device brings some changes to the printer
+preferences.
+
+1. printer.device supports 10 units - each unit has its own set of preferences
+associated with it, each of which can be set by the user using the "printer"
+preferences. Opening printer.device and reading the settings functions the
+same as in previous version with the single difference that these actions
+can be performed on each of the 10 units. In order to select the unit to
+choose there are two possibilities:
+
+A. Simple unit selection by number, e.g. as an integer gadget.
+
+B. Comfortable selection using a popup menu displaying the names that
+the user can assign to each unit. In order to do this, the preference
+files ENV:Sys:printer.prefs (for unit 0) and ENV:Sys/printer1.prefs
+through ENV:Sys/printer9.prefs must be read. All of these files are
+IFF files and may possibly contain a FORM PDEV. This FORM will then
+contain the following structure (include file prefs/printertxt.h):
+folgende Struktur (Includedatei prefs/printertxt.h):
+
+struct PrinterDeviceUnitPrefs
+{
+	LONG	pd_Reserved[4];
+	LONG	pd_UnitNum;
+	UBYTE	pd_UnitName[UNITNAMESIZE];
+};
+
+The pd_UnitNum field contains the unit number, the pd_UnitName filed contains
+the symbolic name. However, this string may be empty (pd_UnitName[0] == 0) in
+which case a replacement text must be used (e.g. Unit N where N is the actual
+unit number).
+
+The following program will read the names of all 10 units from the preferences
+files and print them to the console. The name will be replaced with "Unit N"
+(where N is the unit number) if the user did not specify a name for the unit.
+
+/* includes */
+#include <dos/dos.h>
+#include <libraries/iffparse.h>
+#include <prefs/prefhdr.h>
+#include <prefs/printertxt.h>
+
+/* prototypes */
+#include <clib/iffparse_protos.h>
+#include <clib/dos_protos.h>
+#include <clib/alib_protos.h>
+#include <clib/alib_stdio_protos.h>
+#include <string.h>
+
+BPTR stdout;
+
+/*****************************************************************************/
+
+#define IFFPrefChunkCnt 2
+static LONG IFFPrefChunks[] =
+{
+	ID_PREF, ID_PRHD,
+	ID_PREF, ID_PDEV,
+};
+
+void ReadUnitName(char *filename, char name[], int unitnum)
+{
+	BPTR fp;
+	BOOL ok;
+	struct IFFHandle *iff;
+	struct ContextNode *cn;
+	struct PrefHeader phead;
+	struct PrinterDeviceUnitPrefs pdev;
+
+	sprintf(name,"Unit %ld",unitnum);
+	if (fp = Open(filename, MODE_OLDFILE))
+	{
+		if (iff = AllocIFF())
+		{
+			iff->iff_Stream = fp;
+			InitIFFasDOS(iff);
+
+			if (!OpenIFF(iff, IFFF_READ))
+			{
+				if (!ParseIFF(iff, IFFPARSE_STEP))
+				{
+					cn = CurrentChunk(iff);
+					if (cn->cn_ID == ID_FORM && cn->cn_Type == ID_PREF)
+					{
+						if (!StopChunks(iff, IFFPrefChunks, IFFPrefChunkCnt))
+						{
+							ok = TRUE;
+							while (ok)
+							{
+								if (ParseIFF(iff, IFFPARSE_SCAN))
+									break;
+								cn = CurrentChunk(iff);
+								if (cn->cn_Type == ID_PREF)
+								{
+									switch (cn->cn_ID)
+									{
+										case ID_PRHD:
+											if (ReadChunkBytes(iff, &phead, sizeof(struct PrefHeader)) != sizeof(struct PrefHeader))
+											{
+												ok = FALSE;
+												break;
+											}
+											if (phead.ph_Version != 0)
+											{
+												ok = FALSE;
+												break;
+											}
+											break;
+										case ID_PDEV:
+											if (ReadChunkBytes(iff, &pdev, sizeof(pdev)) == sizeof(pdev))
+											{
+												if (pdev.pd_UnitName[0])
+													strcpy(name,pdev.pd_UnitName);
+											}
+											break;
+										default:
+											break;
+									}
+								}
+							}
+						}
+					}
+				}
+				CloseIFF(iff);
+			}
+			FreeIFF(iff);
+		}
+		Close(fp);
+	}
+}
+
+void main(void)
+{
+	char filename[30];
+	char name[UNITNAMESIZE];
+	int i;
+
+	stdout = Output();
+	ReadUnitName("ENV:Sys/printer.prefs",name,0);
+	printf("Printer Unit Names:\n 0: %s\n",name);
+	strcpy(filename,"ENV:Sys/printerN.prefs");
+	for (i = 1; i < 10; i++)
+	{
+		filename[15] = '0' + i;
+		ReadUnitName(filename,name,i);
+		printf(" %ld: %s\n",i,name);
+	}
+}
+
+Any application should read this list not only upon start up but also every
+time something is printed, e.g. when opening the printer dialog. This enables
+the list to reflect any name changes the user might have made in the preferences
+since the list was last read.
+
+2. The past has shown that the printer preferences do not provide enough
+options. Therefore many printer drivers interpret the settings in a different
+way. This can easily confuse the user (e.g. when two identical densities
+represent different amounts of ink usage). Drivers are now able to provide
+such information to the application which in turn can display it in the
+printer settings.
+
+In order to achieve this, a distinction between old and new drivers must be
+made. New drivers are recognized by their version (>= 44) and the PPCB_EXTENDED
+flag in the PrinterExtendedData structure (include devices/prtbase.h). If this
+is the case, the driver will include a new field called ped_TagList. This
+taglist stores some information that is important for the printer preferences.
+
+PRTA_DitherNames: The value of this tag is an array of 3 STRPTRs and
+holds the names for the three possible dither settings. Up to now these
+always were "Ordered", "Halftone" and "Floyd-Steinberg". The driver can now
+assign new names that reflect the way the driver interprets these settings.
+
+PRTA_ShadingNames: The value of this tag is an array of 4 STRPTRs and is
+used to hold the new names for the 4 possible shading options. In previous
+versions these were always "Black & White", "Grey Scale 1", "Colored" and
+"Grey Scale 2". This is the actual order, although in the preferences they
+usually were re-ordered to "Black & White", "Grey Scale 1", "Grey Scale 2"
+and "Colored". The array uses the order first referred to. The driver is
+now allowed to assign new names that better reflect its interpretation of
+the settings (e.g. for printers that don't support color but several
+grey scale qualities).
+
+PRTA_ColorCorrect: If the value of this tag is FALSE, the three checkmarks
+for red, green and blue correction should always be disabled. This means that
+the driver does either not support color correction or that it uses different
+settings to control them.
+
+PRTA_DensityInfo: The value of this tag is an array of 8 STRPTRs. The first
+string is currently unused, the following 7 provided additional information
+for the print densities 1 to 7. Many drivers use the density settings not
+only to choose the density but also other settings that affect the print
+qualitiy (e.g. the amount of ink to use for printing). The strings in this
+array are meant to inform the user of such circumstances. The preferences
+should of course still report the selected density in DPI (e.g. 300 x 300 DPI)
+which can be read from PrinterExtendedData.
+
+PRTA_Preferences: If the value of this TAG is TRUE the driver supports a set
+of proprietary printer options. If the tag is true, the printer preferences
+should enable a button gadget called "Options..." which can be used to edit
+the additional options. Further explanation on this topic can be found several
+paragraphs below.
+
+
+Changes regarding printing
+
+Printing of text has remained entirely unchanged.
+
+Graphics printing now allows the use of RTG bitmaps. Support is provided
+for all RTG system which support the CyberGFX API cybergraphics.library.
+If an application previously performed printer ouput using a planar bitmap
+or converted an RTG bitmap to a color depth of 12 or 8 bits, it can now
+be adapted to directly print RTG bitmaps. For high (16 bits) and true (24 or
+32 bits) color bitmaps a color map need not be specified.
+
+The new command PRD_DUMPRPORTTAGS extendeds the old PRD_DUMPRPORT command
+by one tag list. Currently 3 tags are defined and implemented:
+
+DRPA_SourceHook: The value for this tag must be a pointer to a struct hook.
+This hook will be called in order to read the source data. The hook contains
+a NULL object and a message that is a pointer to struct DRPSourceMsg.
+This structure contains the position and size of the array to read as well
+as a pointer to a field of ULONGs into which the data will be written.
+This field has the exact size width*height that is contained in the message.
+Every pixel will be stored as an ULONG of the form 0x00RRGGBB.
+
+Typically the height will be 1 for normal printing while for landscape
+printing the width will be 1. Applications are allowed to use special
+optimizations for this case but they must always support the general
+case as well.
+
+If the DRPA_SourceHook is used, neither a RastPort nor a color map need
+to be specified.
+
+DRPA_AspectX, DRPA_AspectY: Using these tags you can control the aspect ratio
+of the graphic. These values superseded those that are normally obtained from
+the graphics mode (io_Modes) or the GfxBase. If the printing process suppresses
+scaling the aspect ratio will be ignored.
+
+Further information of the printer driver is in turn read from the driver's
+tag list:
+
+PRTA_LeftBorder and PRTA_TopBorder: Most printers have a small margin on the
+paper to which they can not print. For modern printers this margin will usually
+measure a few millimeters. If an application does not only show the printable
+area of the paper but the entire page instead, it can now take this margin into
+account: The tags specify the paper margins as inches/1000. This value must
+be converted into the appropriate amount of pixels, depending on the print
+resolution (LeftBorder*ped_XDPI/1000 or TopBorder*ped_YDPI/1000). Use this
+values as the offset for the rastport the bitmap of which contains the entire
+page while printing. This will cause the margin to be skipped while printing
+and the hardcopy will match the screen display very closely.
+
+PRTA_MixBWColor: If the value of this tag is TRUE, the application can
+mix black/white and color printing at will. When printing segments an
+application that has e.g. a lot of black text and only a few graphics in
+the printer output (typical word processor) can significantly speed up the
+printing process if segments that only contain black text on white paper
+are printed using the black/white mode of the printer, while segments containg
+both text and graphics are printed using the color mode. However, some printers
+use different cartridges or inks, negating the speed gain or resulting in
+poor quality of the hardcopy. Applications should forego this optimization
+if the PRTA_MixBWColor has a value of FALSE.
+
+One further piece of information is part of ped_PrinterClass and can also
+be set for old drivers:
+
+PPCB_NOSTRIPE: This flag denotes a printer driver that is not capable of
+segmented (or striped) printing. The consequence is that all print data
+must be passed to such a driver at once (which is inacceptable, especially
+for color output and resolutions of 300 DPI and up) or the source hook
+DRPA_SourceHook must be used "intelligently", i.e. when requesting data
+through the source hook the data must be created accordingly by the application.
+
+Please bear in mind that the source hook will always be called in the
+context of the driver. This context is a DOS process with a stack of
+currently 4 KByte. Depending on the concept of your application it may
+be necessary to use an Exec message within the source hook to return
+control to the application for creating a print segment.
+
+
+Error handling
+
+Error handling can now be left entirely to printer. device. Up to now the
+printer.device or the printer driver could only return errors if the respective
+error code was specified in exec/error.h or devices/printer.h. Using V44
+of printer.device and new drivers new error messages can be returned as well.
+The formatting of a localized error message can be performed by printer.device
+or the driver while the ouput can also be performed by the printer.device or
+the application.
+
+The new command PRD_SETERRORHOOK expects an IOPrtErrReq structure for the
+IO request:
+
+struct IOPrtErrReq {
+    struct  Message io_Message;
+    struct  Device  *io_Device;     /* device node pointer  */
+    struct  Unit    *io_Unit;       /* unit (driver private)*/
+    UWORD   io_Command;             /* device command */
+    UBYTE   io_Flags;
+    BYTE    io_Error;               /* error or warning num */
+    struct  Hook *io_Hook;
+};
+
+The io_Hook field can either contain the value PDHOOK_NONE in order
+to disable automatic error handling or PDHOOK_STD in order to use an
+easy-requester for displaying the error message or a pointer to a
+structure hook. If an I/O operation of the printer.device ends with
+an error, that hook will be called. The object contains a pointer to
+the I/O request during which the error occured while the message
+packet contains a pointer to an PrtErrMsg structure:
+
+struct PrtErrMsg {
+	ULONG pe_Version; /* Version of this struct */
+	ULONG pe_ErrorLevel; /* RETURN_WARN, RETURN_ERROR, RETURN_FAIL */
+	struct Window *pe_Window; /* window for EasyRequest() */
+	struct EasyStruct *pe_ES;
+	ULONG *pe_IDCMP;
+	APTR pe_ArgList;
+};
+
+The pe_Version field containts the value PDHOOK_VERSION (currently 1).
+pe_ErrorLevel contains RETURN_WARN, RETURN_ERROR or RETURN_FAIL in order to
+reflect the severeness of the error. pe_Window contains a pointer to a
+window or NULL, the window should be used in order to use the correct screen
+for output. pe_ES contains a readily formatted EasyStruct structure
+including the title and text for the error message. pe_IDCMP may contain
+a pointer to a longword variable with IDCMP flags that are supposed to close
+a requester while pe_ArgList contains a parameter field that must be used
+for formatting the error message and the gadgets. All fields can be used
+immediately for the EasyRequest() call.
+
+The hook can be called in different tasks: either in the task that iniated
+the I/O request or the process of the printer.device unit. In the second
+the task is always a DOS process, allowing for file output and other DOS
+calls. Please note, however, that no stdio is defined for that process.
+
+The following source code is a hook that displays the error in an
+easy-requester.
+
+struct Task *ApplicationTask;
+
+int easyRequestHook(struct Hook *, struct IORequest *ior, struct PrtErrMsg *msg)
+{
+	struct Task *me = ApplicationTask;
+	if (me->tc_Node.ln_Type != NT_PROCESS
+		|| ((struct Process *) me)->pr_WindowPtr != (struct Window *) -1)
+	{
+		struct Window *window = msg->pe_Window;
+		if (!window && me->tc_Node.ln_Type == NT_PROCESS)
+			window = ((struct Process *) me)->pr_WindowPtr;
+		return EasyRequestArgs(msg->pe_Window, msg->pe_ES, msg->pe_IDCMP, msg->pe_ArgList);
+	}
+	return 0;
+}
+
+struct Hook StdErrorHook =
+{
+	{ NULL, NULL },
+	(HOOKFUNC) HookEntry,
+	(HOOKFUNC) easyRequestHook,
+	NULL
+};
+
+This hook uses a global variable called ApplicatoinTask in order to determine
+whether the error message should be suppressed (pt_WindowPtr == -1 in the
+case of processes) and which window should be used for EasyRequestArgs in
+order for the requester to open on the screen of that window. A similar
+approach uses the PDHOOK_STD hook, but that one always refers to the task
+that opened the unit.
+
+The error hook must be set back to PDHOOK_NONE prior to closing the unit
+of the printer device.
+
+
+Driver-specfic settings
+
+The printer settings of the "Printer" preferences do not suffice for many
+modern printers and their drivers. Since version 2.1 AmigaOS has had a
+separate preferences editor for the postscript printer driver that allows
+more influence on printer output. In order to be able to change such
+setting from within an application, three new printers commands appropriate
+possibilities for the drivers are provided. In order to support these
+possiblities, you must do the following from within your application.
+
+1. Test whether the driver supports proprietary options. In this case
+the PRTA_Preferences tag will be TRUE.
+
+2. Provide an "Options..." button in your printer settings. Disable this button
+for old drivers and drivers that do not provided proprietary options.
+
+3. When the user click on the button lock the entire interface and use
+the PRD_EDITPREFS command via DoIO to open the settings window. The DoIO
+will return once the user has finished his changes to the settings.
+The error will be PDERR_CANCEL if the user cancelled the dialog, or 0
+otherwise (or another error). The PRD_EDITPREFS command expects a
+IOPrtPrefsReq structure. This structure contains an additional field
+called io_TagList and knows the following tags:
+
+PPRA_Window: Pointer to a window that specifies the screen that is to be
+locked against all input while the dialog is open.
+
+PPRA_Screen: Pointer to a screen in case PPRA_Window is not specified.
+
+PPRA_PubScreen: The name of a public screen in case PPRA_Window is not
+specified.
+
+4. If the settings made by the user should be saved or if the printer.device
+is closed and re-opened between changing the settings, the application must
+read the settings using the PRD_READPREFS command. The PRD_READPREFS command
+expects an IOStdReq structure. In this context io_Data contains a pointer to
+a buffer that is large enough to hold the data, io_Lenght contains the length
+of the buffer, io_Offset must be 0. A length of 8 KB should be sufficient for
+the most cases - in case the IOERR_BADLENGTH error is returned one should double
+the buffer size and try again (until success).
+
+LONG buflen = 8192;
+LONG err;
+for (;;)
+{
+	if (!(ior->io_Data = AllocVec(buflen,MEMF_PUBLIC)))
+	{
+		err = PDERR_BUFFERMEMORY;
+		break;
+	}
+	ior->io_Length = buflen;
+	ior->io_Offset = 0;
+	if ((err = DoIO(ior)) != IOERR_BADLENGTH)
+		break;
+	FreeVec(ior->io_Data);
+	buflen *= 2;
+}
+
+The number of bytes that were filled in the buffer is returned in io_Actual.
+This buffer is absolutely private to the driver. It can only be kept in memory,
+copied bytewise or saved to a file.
+
+5. After opening a printer.device unit the settings that were previously
+read can be written back. In order to do so, the PRD_WRITEPREFS command
+is is used to return the buffer with the preferences to the driver in
+an IOStdReq structure. In this case io_Data will point to the buffer,
+io_Length denotes the number of filled bytes in the buffer (i.e. it
+corresponds to the io_Actual of PRD_READPREFS).
+
+If an application saves the settings to a file and re-uses them when it
+is next used it is of course possible that the user has changed the driver
+for that unit in the meantime. However, the drivers can determine on their
+own whether or not the settings are meant for them. Therefore applications
+need not worry about this case.

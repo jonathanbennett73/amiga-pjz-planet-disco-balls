@@ -1,0 +1,60 @@
+locale 44.1 (5.8.99)
+
+- Fixed an ancient buffer overrun problem in the DateToStr() patch.
+  This was most apparent with country definitions that had four digit
+  year numbers in them, such as italia.country or portugal.country.
+  Since the length of a day/date/time string, as passed to DateToStr()
+  cannot be greater than 16 characters (including the terminating NUL),
+  a date string such as generated for the month December (e.g.
+  " 1-Dicembre-1999", which is exactly 17 characters in size, including
+  the terminating NUL) would cause the buffer to overflow. This caused
+  all kinds of trouble. I limited the size of the string generated. While
+  this is not exactly a good fix for the problem (the last year digit will
+  "drop off"), it avoids the buffer overrun.
+
+- Added default cases for the RawDoFmt() patch (no longer throws Enforcer
+  hits on invalid formatting commands) and the ARexx character conversion
+  code.
+
+
+locale 44.2 (5.8.99)
+
+- Changed the built-in default locale for united_states to use four digit
+  year numbers.
+
+
+locale 44.3 (9.9.99)
+
+- In DateToStr() the '%y' code would calculate the year number minus 1900
+  to obtain the two digit year number. I changed this to use the year number
+  mod 100, which should do it.
+
+
+locale 44.4 (24.9.99)
+
+- The library now maintains proper usage counters for all locales it loads.
+  Previously, locale.library would keep any locale loaded in memory
+  indefinitely, including the associated language driver. Now everything
+  that remains is the sys/dos.catalog file which, since dos.library does not
+  and cannot maintain a usage counter for its strings, has to remain in
+  memory once loaded (some dos.library users may cache strings).
+
+- The library no longer bumps its usage counter every time the default
+  locale is changed. This happens only once now, when the operating system
+  patches are planted.
+
+- The built-in "english" locale now has its usage count set permanently to
+  1, preventing it from ever getting removed.
+
+
+locale 44.5 (24.9.99)
+
+- The ParseDate() code now specifically allows "%y" year numbers to
+  have more than two digits.
+
+
+locale 44.6 (7.11.1999)
+
+- The catalog file loader no longer refuses reading catalog version
+  strings if they are longer than 99 characters. It now reads a
+  maximum of 99 characters and tries to make the best of it.

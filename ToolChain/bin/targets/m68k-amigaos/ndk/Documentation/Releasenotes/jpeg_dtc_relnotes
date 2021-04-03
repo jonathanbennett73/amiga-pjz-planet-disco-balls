@@ -1,0 +1,26 @@
+jpeg.datatype 44.1 (13.4.99)
+
+- Bumped to V44.
+
+
+jpeg.datatype 44.2 (9.8.99)
+
+- For greyscale output, no longer sets the picture's colour palette.
+  This is done implicitely by picture.datatype now.
+
+
+jpeg.datatype 44.3 (4.9.99)
+
+- Replaced the descriptor file. The old one was limiting the files
+  recognized by this datatype to JFIF-format files only. The IJG
+  library can read more than just this format. The new descriptor
+  takes care of this now.
+
+
+jpeg.datatype 44.4 (26.9.2000)
+
+- Rewrote the data type recognition function which is part of the
+  descriptor file. It now resembles the scanner the JPEG code uses,
+  which allows it to identify JPEG format files which the old
+  recognition function could not. This includes formats such as the
+  thumbnail files created by digital cameras.

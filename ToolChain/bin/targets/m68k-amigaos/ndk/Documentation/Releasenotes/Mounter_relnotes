@@ -1,0 +1,106 @@
+Mounter 44.1 (19.4.99)
+
+- Bumped to V44.
+
+
+Mounter 44.2 (9.6.99)
+
+- Updated the catalog descriptor text.
+
+- Finally wrote some sort of documentation.
+
+
+Mounter 44.3 (22.6.99)
+
+- Added the NOREMOUNT option and also updated
+  the documentation.
+
+Mounter 44.4 (23.8.99)
+
+- Implemented Reaction GUI.
+
+Mounter 44.5 (25.8.99)
+
+- Added fuelgauge status while scanning devices. This will
+  be more pleasant to the eyes than a flickering listbrowser.
+
+Mounter 44.6 (27.8.99)
+
+- Window will now open at bottom of titlebar
+
+Mounter 44.7 (29.8.99)
+
+  (Olafs diff bugfix from his 44.4 29.8.99)
+- LSEG blocks in RDBs did not load properly. In the first place,
+  the data didn't get loaded at all. Fixing that wouldn't have helped
+  much since the ReadFunc() call, as passed to the function table
+  used by InternalLoadSeg(), was following the dos.library documentation
+  and would consequently use the wrong registers. I fixed both. Dammit!
+
+Mounter 44.8 (6.9.99)
+
+  (Olafs diff bugfix from his 44.5 5.9.99)
+- Media size calculation didn't work well for some devices. I implanted
+  the calculation code Workbench uses, which should solve the problem.
+
+Mounter 44.9 (10.9.99)
+
+- Added new tag for handling columninfo in the LB properly.
+- Fixed: If a RDB wasn't found for a selected device, the error requester would
+  be shown and the device list would be empty.
+
+Mounter 44.10 (18.9.99)
+
+- Added: conditional code that will prohibit a device entry from showing up if
+         there isn't one there.
+- Fixed: device size is now shown correctly.
+
+Mounter 44.11 (20.9.99)
+
+- Removed: conditional code applied in v44.10 as expected results returned from
+           weren't always as expected.  Besides, best to keep consistancy
+           between the GT and RA versions of this app.
+
+- Fixed: Hit on exit. Window was being disposed before it was being referenced
+         one last time to free draw info.
+
+Mounter 44.12 (21.9.99)
+
+- Fixed: QUERY option from command line, the sizes were compiled out with #ifdef's.
+
+Mounter 44.13 (23.9.99)
+
+  (Olafs diff bugfix from his 44.6 23.9.99)
+- Joanne Dow suggested that in order to query the size of a device, the
+  "Read capacity" command should be used instead of the "Mode sense"
+  command. That's what Mounter does now.
+
+Mounter 44.14 (29.9.99)
+
+- Recompile with full optimization.
+- Frozen.
+
+Mounter 44.15 (29.9.99)
+
+- Fixed crash causing machine locks after mount. Seems more code got caught in
+  the #ifdef war ;)
+- Frozen
+
+Mounter 44.15 (01.10.99)
+
+- Version correction.
+- Frozen
+
+--- OS 3.5 release ---
+
+Mounter 44.16
+
+- Fixed: Hotkey in window title was wrong on second start
+
+- Increased initial window size
+
+- Changed layout a bit
+
+Mounter 44.17 (29.11.99)
+
+- fixed a bug in wbstartup introduced in last 44.16

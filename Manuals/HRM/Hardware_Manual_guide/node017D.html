@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-1" TITLE="8 Interface Hardware / Controller Port Interface" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 Interface Hardware / Controller Port Interface</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node017C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node017E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Each Amiga has two  <a href="../Hardware_Manual_guide/node0109.html">nine-pin connectors</a>  that can be used for input or
+output with a variety of controllers.  Usually, the  <a href="../Hardware_Manual_guide/node0109.html">nine-pin connectors</a> 
+are used with a mouse or joystick but they will also accept input from
+<a name="line5">light pens, paddles, trackballs, and other popular input devices.</a>
+
+Figure 8-1 shows one of the two connectors and the corresponding face-on
+view of a standard controller plug, while table 8-1 gives the pin
+assignments for some typical controllers.
+
+<a name="line11">     <a href="../Hardware_Manual_guide/node02E4.html">Figure 8-1: Controller Plug and Computer Connector</a> </a>
+<a name="line12"></a>
+
+                  Table 8-1: Typical Controller Connections
+
+                       Mouse,
+                     Trackball,  Proportional      X-Y
+                      Driving     Controller   Proportional
+  Pin    Joystick    Controller     (Pair)       Joystick    Light Pen
+  ---    --------    ----------  ------------  ------------  ---------
+  1      Forward     V-pulse       ---           Button 3**  ---
+
+  2      Back        H-pulse       ---           ---         ---
+
+  3      Left        VQ-pulse      Left button   Button 1    ---
+
+  4      Right       HQ-pulse      Right button  Button 2    ---
+
+  5*     ---         Middle        Right POT     POT X       Pen pressed
+                     button**                                to screen
+
+  6*     Button 1    Left button   ---           ---         Beam trigger
+
+  7      ---         +5V           +5V           +5V         +5V
+
+  8      GND         GND           GND           GND         GND
+
+  9*     Button 2**  Right button  Left POT      POT Y       Button 2**
+
+
+                *  These pins may also be configured as outputs
+                ** These buttons are optional
+
+
+ <a href="../Hardware_Manual_guide/node017E.html">Registers Used with the Controller Port</a> 
+ <a href="../Hardware_Manual_guide/node017F.html">Reading Mouse/Trackball Controllers</a> 
+ <a href="../Hardware_Manual_guide/node0183.html">Reading Digital Joystick Controllers</a> 
+ <a href="../Hardware_Manual_guide/node0184.html">Reading Proportional Controllers</a> 
+ <a href="../Hardware_Manual_guide/node0189.html">Reading a Light Pen</a> 
+ <a href="../Hardware_Manual_guide/node018B.html">Digital I/O on the Controller Port</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

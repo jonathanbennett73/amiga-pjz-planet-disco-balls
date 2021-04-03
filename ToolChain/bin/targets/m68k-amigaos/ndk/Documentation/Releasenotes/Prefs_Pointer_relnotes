@@ -1,0 +1,112 @@
+Pointer 44.4 (16.7.99)
+
+· Added images
+
+· Save/Use/Test should work
+
+· New colorwheel.gadget is disabled for pen 0
+
+· Opens new screen if not at least 4 colors can be obtained exclusiv.
+
+Pointer 44.5 (30.7.99)
+
+· Hot spot coordinates were negative.
+
+· Loading hot spot didn't work at all.
+
+· slider no longer flickers while dragging Colorwheel or gradient
+
+Pointer 44.6 (31.7.99)
+
+· added stack extension
+
+· Reset to Defaults, Restore and Cancel didn't set the pointer resolution.
+
+Pointer 44.7 (10.8.99)
+
+· again changed the handling of the pointer resolution. Bug reports are not
+  reproducable.
+
+· added range checking for hot spot
+
+· default busy pointer had hot spot at wrong place
+
+Pointer 44.8 (11.8.99)
+
+· pointer is now limited to the visible size (16x24 for Lo-Res, 32*48 for 
+  Hi-Res) while saving
+
+· "Restore Colors" and pasting images did not update the palette on high/true
+  color screens.
+
+· the 4 sample pointer also restricted to the visible size.
+
+· gradientslider is limited to only 6 exclusive pens and one shared pen now.
+  This is still enough to look quite good.
+
+Pointer 44.9 (12.8.99)
+
+· pasting/loading images trashed palette on non 8-8-8 screens.
+
+· colors were loaded after refreshing sketchboard which is wrong under
+  hi/true color screens
+
+Pointer 44.11 (16.8.99)
+
+· disabled some debuging code (screen was opened behind)
+
+Pointer 44.12 (17.8.99)
+
+· removed blue box behind tool buttons
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+· user can now resize height too.
+
+· RGB/HSV color model items were not marked as mutual exclude
+
+· After setting the hot spot the tool that was selected before is set again
+
+· changed refresh of palette on Hi/True color screen (less flickering). 
+  Palette is now updated while moving colowheel, gradient or color sliders
+
+· Handling of "Reset Colors" was broken
+
+· Renamed "Reset Colors" to "Restore Colors" because this is more what it
+  does
+
+Pointer 44.13 (8.9.99)
+
+· Doubleclicking a prefs project now loads this project and performs the 
+  ACTION. This didn't work for WB Startup before.
+
+· Loading an image did use wrong file requester title and missed the image
+  filter hook
+
+Pointer 44.14 (16.9.99)
+
+· new project icon name def_pointer_prefs
+
+· changed tool images
+
+· fixed a bug that made loading or pasting images nearly useless.
+
+· RGB sliders now use values from 0 to 255 instead of real hardware dependend
+  color range.
+
+Pointer 44.16 (28.9.99)
+
+· fixed a bug in framework: "Open" a prefs file did not show any files in
+  the file requester if a image or sound file was loaded before because the
+  file filter function was not reset.
+
+--- OS 3.5 release ---
+
+Pointer 44.20 (24.11.99)
+
+· fixed a bug in framework which may lead to a deadlock while resizing the
+  window

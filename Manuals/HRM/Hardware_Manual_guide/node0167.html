@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-4-5-2" TITLE="7 / / Setting and Clearing Bits / Master Interrupt Enable" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 / / Setting and Clearing Bits / Master Interrupt Enable</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0166.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0168.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Bit 14 of the  <a href="../Hardware_Manual_guide/node0164.html">interrupt registers</a>  (INTEN) is for interrupt enable. This
+is the master interrupt enable bit. If this bit is a 0, it disables all
+other interrupts. You may wish to clear this bit to temporarily disable
+all interrupts to do some critical processing task.
+
+   Warning:
+   --------
+   This bit is used for enable/disable only. It creates no interrupt
+   request.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

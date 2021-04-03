@@ -1,0 +1,7 @@
+
+bitmap.image 45.1 (03.02.2001)
+
+· complete rewrite, as H&P don't have the sources of
+  the original class. this one supports transparent
+  blits to interleaved screens. The corrupted nav.-
+  buttons of AWeb are gone, now.

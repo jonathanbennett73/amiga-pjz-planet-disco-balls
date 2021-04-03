@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_C" NODE="C-2-2" TITLE="C / ECS Hardware and the Graphics Library / SuperHires Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>C / ECS Hardware and the Graphics Library / SuperHires Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00A2.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00A4.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+SuperHires mode provides a 35ns pixel display rate - twice the horizontal
+resolution of Hires mode, and four times the Lores rates. The nominal
+resolution of a SuperHires viewport is 1280 pixels. The maximum plane
+depth for a SuperHires viewport is 2 bitplanes which saturates DMA
+bandwidth as much as four Hires bitplanes. This mode is controlled by the
+graphics.library by writing to the BPLCON0 register in the LOF copperlist
+(/SHF if interlaced).
+
+   BPLCON0  chg  W  A,D  Bitplane control register (misc control bits)
+
+            Bit      Use
+            ---      ---
+            15       HIRES       Set it to zero if SHRES enabled
+            14       BPU2 \
+            13       BPU1  }     Depth of SuperHires mode (1 or 2)
+            12       BPU0 /
+            11       HAM         Incompatible w/ SuperHires mode
+            10       DPF         Compatible with SuperHires mode
+            09
+            08
+            07
+            06       SHRES       SuperHires 35ns pixel enable bit
+            05       BPLHWRM
+            04       SPRHWRM
+            03       LPEN        Compatible with SuperHires mode
+            02       LACE        Compatible with SuperHires mode
+            01
+            <a href="../Hardware_Manual_guide/node00A9.html">00</a> 
+
+   Warning:
+   --------
+   Programmers must not rely on interpreting ViewPort-&#062;Modes bits
+   directly when determining the mode of a ViewPort.
+
+   Beginning with the V36 graphics.library, the ViewPort-&#062;Modes field is
+   used for backward compatibility only.
+
+   Under V1.3 and earlier the ViewPort-&#062;Modes field mirrored some of the
+   BPLCON0 bits most notably Hires and Lace. However, other logical
+   defines in this field such as the Viewport-&#062;Modes PF2PRI bit conflict
+   with the SHRES bit assignment in the actual hardware.
+
+   For this reason, in release 2.0 of the operating system
+   (graphics.library V36 and later), programmers will need to use the
+   new DataBase/ModeID scheme to determine their ViewPort's mode, and to
+   specify a mode when creating, cloning, or copying ViewPorts.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

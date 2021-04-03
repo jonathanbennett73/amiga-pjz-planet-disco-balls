@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-14" TITLE="A Register Summary / BLTxDAT" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / BLTxDAT</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node001D.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node001F.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+BLTxDAT    074      W       A     Blitter source x data register
+
+                 This register holds source x (x=A,B,C) data for
+                 use by the blitter. It is normally loaded by the
+                 blitter DMA channel; however, it may also be
+                 preloaded by the microprocessor.
+
+                 LINE DRAW   BLTADAT is used as an index register
+                 LINE DRAW   and must be preloaded with 8000.
+                 LINE DRAW   BLTBDAT is used for texture; it must
+                 LINE DRAW   be preloaded with FF if no texture
+                 LINE DRAW   (solid line) is desired.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

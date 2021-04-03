@@ -1,0 +1,58 @@
+Sound 44.2 (16.7.99)
+
+· Added some label images
+
+· Sound is played if volume, pitch or beep length is changed.
+
+· Sizing gadget added
+
+· Refresh after enabling/disabling gadgets better done. Because this is
+based on a change in the prefs framework all problems with refreshing 
+disabled/enabled gadgets should be fixed.
+
+Sound 44.3 (31.7.99)
+
+· Added stack extension
+
+Sound 44.4 (9.8.99)
+
+· Pitch settings is now scaled by factor 10 to allow better handling of
+slider gadget
+
+Sound 44.6 (18.8.99)
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+· removed the boingball images (temporary?)
+
+Sound 44.8 (17.9.99)
+
+· some new images
+
+· new project icon name def_sound_prefs.
+
+--- OS 3.5 release ---
+
+Sound 44.14 (8.12.99)
+
+· loading any prefs file with sound file trashed the user selected pitch
+
+Sound 45.1 (23.11.2000)
+
+· Localized `ms', `s' and the decimal point.
+
+· Fix: Wrong filename for sample led to an error, even if `Make Sound'
+  was disabled.
+
+--- OS 3.9 release ---
+
+Sound 45.2 (21.06.2001)
+
+· Now uses AHI instead of audio.device, if present.
+
+
+ 

@@ -1,0 +1,12 @@
+speedbar.node
+BOOLEAN    0x80010006 (I····) SBNA_Enabled "Enabled" FALSE "Enabled"
+INTEGER    0x80010007 (I····) SBNA_Spacing "Spacing" 0 -32769 32767
+SELECT     0x80010008 (I····) SBNA_Highlight "Highlight" 4 0 0 "None" 1 "Backfill" 2 "Recess" 3 "Image"
+IMAGE      0x80010009 (I····) SBNA_Image "Image"
+IMAGE      0x8001000A (I····) SBNA_SelImage "Select Image"
+STRING     0x8001000B (I····) SBNA_Help "Helptext" ""
+BOOLEAN    0x8001000C (I····) SBNA_Toggle "Toggle Button" FALSE "Toggle"
+BOOLEAN    0x8001000D (I····) SBNA_Selected "Selected" FALSE "Selected"
+INTEGER    0x8001000E (I····) SBNA_MXGroup "Mutual Exclusion Group" 0 0x80000000 0x7fffffff
+BOOLEAN    0x8001000F (I····) SBNA_Disabled "Disabled" FALSE "Disabled"
+END

@@ -1,0 +1,7 @@
+glyph.image
+LABEL "Glyph"
+PARENTPROFILE "Image"
+LIBRARY "images/glyph.image" 0 PRIVATE
+DRAWINFO 0x80020018 (I····) SYSIA_DrawInfo
+SELECT   0x85015001 (I····) GLYPH_Glyph "Glyph" 18 0 0 "None" 1 "Down Arrow" 2 "Up Arrow" 3 "Left Arrow" 4 "Right Arrow" 5 "Drop Down" 6 "Pop Up" 7 "Checkmark" 8 "Pop Font" 9 "Pop File" 10 "Pop Screenmode" 11 "Pop Time" 18 "Radiobutton" 20 "Returnarrow" 21 "Border Down Arrow" 22 "Border Up Arrow" 23 "Border Left Arrow" 24 "Border Right Arrow"
+END

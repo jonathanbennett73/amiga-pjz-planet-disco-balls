@@ -1,0 +1,37 @@
+label.image 45.1 (01.03.01)
+
+· recompiled with new startup code and 68020+
+  optimiziation turned on.
+  
+· the class allocated rastports in chipram, which
+  does not make much sense. fixed.
+  
+· no longer allocates 16k of chipram on startup, this buffer
+  was never used.
+  
+· the image remapping feature didn't work with
+  cybergraphics when allocating the temporary bitmaps
+  via AllocBitMap(). I don't know why it fails (it fails
+  even when not passing a friend) but allocating
+  the bitmap on its own makes it work.
+
+· the OM_GET method returns NULL, when asking for the
+  IA_ActivateKey/LABEL_Key of labels that don't have a
+  shortcut. This way layout groups that have a CHILD_Label
+  with no shortcut will no longer swallow activation attempts,
+  they will be passed to their children instead.
+
+label.image 45.2 (11.03.01)
+
+· all memory allocations are taken from a memory pool, now.
+
+· changed placement of underscore.
+
+label.image 45.3 (18.03.01)
+
+· just a small fix, nothing serious.
+
+label.image 45.4 (29.11.01)
+
+· reworked the image mapping feature (no selfmade bitmaps
+  anymore, no blittertricks).

@@ -1,0 +1,533 @@
+TABLE OF CONTENTS
+
+reaction.lib/--datasheet--
+reaction.lib/BrowserNodesA
+reaction.lib/ChooserLabelsA
+reaction.lib/ClickTabsA
+reaction.lib/FreeBrowserNodes
+reaction.lib/FreeChooserLabels
+reaction.lib/FreeRadioButtons
+reaction.lib/GetAttrs
+reaction.lib/GetCode
+reaction.lib/LBAddNodeA
+reaction.lib/LBEditNodeA
+reaction.lib/LBRemNode
+reaction.lib/LibDoGadgetMethodA
+reaction.lib/OpenLayoutWindowTagList
+reaction.lib/RadioButtonsA
+reaction.lib/FreeClickTabs
+reaction.lib/--datasheet--                         reaction.lib/--datasheet--
+
+   NAME
+       reaction.lib -- ReAction support functions link library
+
+   DESCRIPTION
+       This library contains the autoinitialization code for the shared
+       library versions of the ReAction BOOPSI classes, thus sparing the
+       programmer from having to OpenLibrary() the classes manually. It
+       also contains stub functions for the node taglist allocation
+       functions of certain classes. These can be used by the DICE
+       compiler, which does not support #pragma tagcall.
+
+       Autoinitialization works just like normal SAS/C library autoinit.
+       By declaring the class base extern in all source files (easiest
+       done by #including the "proto" header, such as proto/layout.h),
+       the SAS/C linker will take the class base, together with the code
+       to open the class on program startup (and to close it on exit)
+       from this library. The same autoinitialisation code should also
+       work for DICE.
+
+       The version number to use for OpenLibrary() is contained in the
+       variable long __reactionversion. If you do not set this global
+       variable in your source code, it will be linked from this library,
+       With the release of V41 or greater classes in Release 2.0, it has
+       been considered prudent to requier them, so you should set this
+       value to 41. Note however, that classes NOT part of the ReAction
+       package are not effected by __reactionversion and will open with
+       any version available.
+
+       If the opening of a class fails, the autoinit code will cause the
+       program to exit with an error message of "Can't open version Y of
+       X". If you wish to continue without using a certain class, you
+       will have to open it manually.
+
+   SUPPORTED CLASSES
+       Version 1 of reaction.lib supports the following ReAction classes.
+       The version variable of each class is listed after the shared class
+       name.
+
+       images/bevel.image
+       images/bitmap.image
+       gadgets/button.gadget
+       gadgets/checkbox.gadget
+       gadgets/chooser.gadget
+       gadgets/datebrowser.gadget
+       images/drawlist.image
+       gadgets/fuelgauge.gadget
+       gadgets/getfile.gadget
+       gadgets/getfont.gadget
+       gadgets/getscreenmode.gadget
+       images/glyph.image
+       gadgets/integer.gadget
+       images/label.image
+       gadgets/layout.gadget
+       gadgets/listbrowser.gadget
+       gadgets/radiobutton.gadget
+       gadgets/scroller.gadget
+       gadgets/slider.gadget
+       gadgets/space.gadget
+       gadgets/speedbar.gadget
+       gadgets/string.gadget
+
+       Additionally, to help programmers, reaction.lib contains
+       autoinitialization for the following shared classes NOT part of
+       the ReAction package. Please remember that these gadgets do not
+       necessarily contain a CLASS_GetClass() type function for getting
+       the base class. Some of them have registered class names, some
+       have a function with another name. Some don't have functions at
+       all, in which case special care must be taken to make sure the
+       autoinit code is loaded (reference the class base variable, for
+       example TapeDeckBase, somewhere within the source). Refer to the
+       documentation of these classes to find out more.
+
+       gadgets/calendar.gadget
+       gadgets/colorwheel.gadget
+       gadgets/gradientslider.gadget
+       images/led.image
+       gadgets/statusbar.gadget
+       gadgets/tabs.gadget
+       gadgets/tapedeck.gadget
+       gadgets/textfield.gadget
+
+   EXAMPLE
+       The following program will print out the class base of
+       layout.gadget and the base address of gradientslider.gadget (which
+       doesn't have functions or a proto header) when compiled and linked
+       with reaction.lib:
+
+       #include <proto/layout.h>
+       #include <proto/dos.h>
+
+       extern void *GradientSliderBase;
+       long __reactionversion = 37;
+
+       main()
+       {
+           Printf( "layout.gadget minimum version %ld class base is %lx\n",
+                   __layoutversion, LAYOUT_GetClass() );
+           Printf( "explicit reference to GradientSliderBase will force "
+                   "initialization:\n base address is %lx\n",
+                   GradientSliderBase );
+       }
+reaction.lib/BrowserNodesA                         reaction.lib/BrowserNodesA
+
+   NAME
+       BrowserNodesA -- Make a linked list of listbrowser nodes
+       BrowserNodes -- varags stub for BrowserNodesA
+
+   SYNOPSIS
+       list = BrowserNodesA( array )
+       list = BrowserNodes( label, ... )
+       struct List *BrowserNodesA( STRPTR * )
+       struct List *BrowserNodes( STRPTR, ... )
+
+   FUNCTION
+       Make a linked list of single column listbrowser nodes from the
+       NULL terminated label array. The labels are not copied, so they
+       must stay valid until the list is free'd.
+
+   INPUTS
+       array -- a NULL terminated array of string pointers.
+
+   RESULTS
+       list -- a linked list of chooser nodes
+reaction.lib/ChooserLabelsA                       reaction.lib/ChooserLabelsA
+
+   NAME
+       ChooserLabelsA -- Make a linked list of chooser labels
+       ChooserLabels -- varags stub for ChooserLabelsA
+
+   SYNOPSIS
+       list = ChooserLabelsA( array )
+       list = ChooserLabels( label, ... )
+       struct List *ChooserLabelsA( STRPTR * )
+       struct List *ChooserLabels( STRPTR, ... )
+
+   FUNCTION
+       Make a linked list of chooser nodes from the NULL terminated
+       label array. The labels are not copied, so they must stay
+       valid until the list is free'd.
+
+   INPUTS
+       array -- a NULL terminated array of string pointers.
+
+   RESULTS
+       list -- a linked list of chooser nodes
+reaction.lib/ClickTabsA                               reaction.lib/ClickTabsA
+
+   NAME
+       ClickTabsA -- Make a linked list of clicktab nodes
+       ClickTabs -- varags stub for ClickTabsA
+
+   SYNOPSIS
+       list = ClickTabsA( array )
+       list = ClickTabs( label, ... )
+       struct List *ClickTabsA( STRPTR * )
+       struct List *ClickTabs( STRPTR, ... )
+
+   FUNCTION
+       Make a linked list of clicktab nodes from the NULL terminated
+       label array. The labels are not copied, so they must stay
+       valid until the list is free'd.
+
+   INPUTS
+       array -- a NULL terminated array of string pointers.
+
+   RESULTS
+       list -- a linked list of clicktab nodes
+reaction.lib/FreeBrowserNodes                   reaction.lib/FreeBrowserNodes
+
+   NAME
+       FreeBrowserNodes -- Free a linked list of chooser labels
+
+   SYNOPSIS
+       FreeBrowserNodes( list )
+       void FreeBrowserNodes( struct List * )
+
+   FUNCTION
+       Free a linked list of chooser labels allocated with
+       BrowserNodesA().
+
+   INPUTS
+       list -- the list to free
+
+   RESULTS
+       None
+reaction.lib/FreeChooserLabels                 reaction.lib/FreeChooserLabels
+
+   NAME
+       FreeChooserLabels -- Free a linked list of chooser labels
+
+   SYNOPSIS
+       FreeChooserLabels( list )
+       void FreeChooserLabels( struct List * )
+
+   FUNCTION
+       Free a linked list of chooser labels allocated with
+       ChooserLabelsA().
+
+   INPUTS
+       list -- the list to free
+
+   RESULTS
+       None
+reaction.lib/FreeClickTabs                 reaction.lib/FreeClickTabs
+
+   NAME
+       FreeClickTabs -- Free a linked list of chooser labels
+
+   SYNOPSIS
+       FreeClickTabs( list )
+       void FreeClickTabs( struct List * )
+
+   FUNCTION
+       Free a linked list of chooser labels allocated with
+       ClickTabsA().
+
+   INPUTS
+       list -- the list to free
+
+   RESULTS
+       None
+reaction.lib/FreeRadioButtons                   reaction.lib/FreeRadioButtons
+
+   NAME
+       FreeRadioButtons -- Free a linked list of radiobuttons
+
+   SYNOPSIS
+       FreeRadioButtons( list )
+       void FreeRadioButtons( struct List * )
+
+   FUNCTION
+       Free a linked list of radiobuttons allocated with
+       RadioButtonsA().
+
+   INPUTS
+       list -- the list to free
+
+   RESULTS
+       None
+reaction.lib/GetAttrs                                   reaction.lib/GetAttrs
+
+   NAME
+       GetAttrsA -- Get multiple object attributes
+       GetAttrs -- Varargs stub to GetAttrsA
+
+   SYNOPSIS
+       count = GetAttrsA( object, taglist )
+
+       count = GetAttrs( object, tag, address, ... )
+
+       ULONG GetAttrsA( Object *, struct TagItem * )
+
+       ULONG GetAttrs( Object *, Tag, ... )
+
+   FUNCTION
+       Gets multiple attributes of an object iin a single call.
+       Remember that while the function returns the number of
+       attributes that were getable, it can not inform WHICH
+       attributes, if any, were not. Thus, you shouldn't use this
+       function when you are not sure that an attribute is getable.
+
+   INPUTS
+       object - pointer to the object that should be queried
+       taglist - a list of tag and ULONG address pairs to fill
+
+   RESULTS
+       The number of attributes that succeeded.
+reaction.lib/GetCode                                     reaction.lib/GetCode
+
+   NAME
+       GetCode -- return the true IDCMP message code
+
+   SYNOPSIS
+       code = GetCode( imsg )
+
+       UWORD GetCode( struct IntuiMessage * )
+
+   FUNCTION
+       Returns the true IntuiMessage code field. Layout.gadget replaces
+       the IDCMP_GADGETUP message with an IDCMP_IDCMPUPDATE. This function
+       will return the "gadgetup code" from the IDCMPUPDATE taglist if it
+       is found there, and otherwise the normal imsg->Code.
+
+   INPUTS
+       imsg -- a pointer to an IntuiMessage
+
+   RESULTS
+       The message's code field
+reaction.lib/LBAddNodeA                               reaction.lib/LBAddNodeA
+
+   NAME
+       LBAddNodeA -- V41 listbrowser.gadget LBM_ADDNODE method stub
+       LBAddNode -- Varargs version of LBAddNodeA
+
+   SYNOPSIS
+       node = LBAddNodeA( gadget, window, requester, node, tags )
+
+       struct Node *LBAddNodeA( struct Gadget *, struct Window *,
+           struct Requester *, struct Node *, struct TagItem * );
+
+       node = LBAddNode( gadget, window, requester, node, tag, ... )
+
+       struct Node *LBAddNode( struct Gadget *, sruct Window *,
+           struct Requester *, struct Node *, ULONG, ... );
+
+   FUNCTION
+       A function stub for calling LibDoGadgetMethodA() to allocate
+       and add a new node to a listbrowser list. The main advantage
+       of this function is to let you inline the vararg LBNA taglist.
+
+   INPUTS
+       gadget = listbrowser object
+       window = the window in which the gadget is, or NULL
+       requester = the requester of the window, or NULL
+       node = the node before which to add the new node. NULL for
+           beginning of the list
+       tags = the LBNA node allocation taglist
+
+   RESULT
+       A pointer to the newly allocated node, or NULL on failure.
+
+   NOTES
+       This function uses the LibDoGadgetMethodA() function also
+       defined in this link library.
+
+   SEE ALSO
+       LibDoGadgetMethodA()
+reaction.lib/LBEditNodeA                             reaction.lib/LBEditNodeA
+
+   NAME
+       LBEditNodeA -- V41 listbrowser.gadget LBM_EDITNODE method stub
+       LBEditNode -- Varargs version of LBEditNodeA
+
+   SYNOPSIS
+       success = LBEditNodeA( gadget, window, requester, node, tags )
+
+       ULONG LBEditNodeA( struct Gadget *, struct Window *,
+           struct Requester *, struct Node *, struct TagItem * );
+
+       success = LBEditNode( gadget, window, requester, node, tag, ... )
+
+       ULONG LBEditNode( struct Gadget *, sruct Window *,
+           struct Requester *, struct Node *, ULONG, ... );
+
+   FUNCTION
+       A function stub for calling LibDoGadgetMethodA() to modify an
+       existing node on a listbrowser list. The main advantage
+       of this function is to let you inline the vararg LBNA taglist.
+
+   INPUTS
+       gadget = listbrowser object
+       window = the window in which the gadget is, or NULL
+       requester = the requester of the window, or NULL
+       node = the node to modify
+       tags = the LBNA node modification taglist
+
+   RESULT
+       Nonzero on success.
+
+   NOTES
+       This function uses the LibDoGadgetMethodA() function also
+       defined in this link library.
+
+   SEE ALSO
+       LibDoGadgetMethodA()
+reaction.lib/LBRemNode                                 reaction.lib/LBRemNode
+
+   NAME
+       LBRemNode -- V41 listbrowser.gadget LBM_REMNODE method stub
+
+   SYNOPSIS
+       node = LBRemNode( gadget, window, requester, node )
+
+       ULONG LBRemNode( struct Gadget *, struct Window *,
+           struct Requester *, struct Node * );
+
+   FUNCTION
+       A function stub for calling LibDoGadgetMethodA() to remove and
+       free a node from a listbrowser list. This function mostly
+       exists for completeness's sake.
+
+   INPUTS
+       gadget = listbrowser object
+       window = the window in which the gadget is, or NULL
+       requester = the requester of the window, or NULL
+       node = the node to free
+
+   RESULT
+       Nonzero on success.
+
+   NOTES
+       This function uses the LibDoGadgetMethodA() function also
+       defined in this link library.
+
+   SEE ALSO
+       LibDoGadgetMethodA()
+reaction.lib/LibDoGadgetMethodA               reaction.lib/LibDoGadgetMethodA
+
+   NAME
+       LibDoGadgetMethodA -- DoGadgetMethodA for V37 machines
+       LibDoGadgetMethod -- Varargs stub for LibDoGadgetMethodA
+
+   SYNOPSIS
+       result = LibDoGadgetMethodA( Gadget, Window, Requester, Message )
+       D0                  A0      A1      A2         A3
+
+       ULONG LibDoGadgetMethodA( struct Gadget *, struct Window *,
+           struct Requester *, Msg );
+
+       result = LibDoGadgetMethod( Gadget, Window, Requester, MethodID, ...)
+
+       ULONG LibDoGadgetMethod( struct Gadget *, struct Window *,
+           struct Requester *, ULONG, ... );
+
+
+   FUNCTION
+       Same as the DoGadgetMethod() function of intuition.library V39,
+       this function invokes a BOOPSI method and provides context
+       information for classes which implement custom Intuition gadgets.
+
+       You should use this function for boopsi gadget objects,
+       or for "models" which propagate information to gadgets.
+
+       Unlike DoMethod(), this function provides a GadgetInfo pointer
+       (if possible) when invoking the method.  Some classes may
+       require or benefit from this.
+
+       On a V39 machine, this function calls the Intuition function.
+
+   INPUTS
+       Gadget = abstract pointer to a boopsi gadget
+       Window = window gadget has been added to using AddGList() or AddGadget()
+       Requester = for REQGADGETs, requester containing the gadget
+       Msg = the boopsi message to send
+
+   RESULT
+       The object does whatever it wants with the message you sent,
+       which might include updating its gadget visuals.
+
+       The return value is defined per-method.
+
+   NOTES
+       This function invokes the specified method with a GadgetInfo
+       derived from the 'Window' and 'Requester' pointers.  The GadgetInfo
+       is passed as the second parameter of the message, except for
+       OM_NEW, OM_SET, OM_NOTIFY, and OM_UPDATE, where the GadgetInfo
+       is passed as the third parameter.
+
+       Implementers of new gadget methods should ensure that the
+       GadgetInfo is the second long-word of their message!
+
+   SEE ALSO
+       NewObject(), DisposeObject(), GetAttr(), MakeClass(),
+       Document "Basic Object-Oriented Programming System for Intuition"
+       and the "boopsi Class Reference" document.
+reaction.lib/OpenLayoutWindowTagList     reaction.lib/OpenLayoutWindowTagList
+
+   NAME
+       OpenLayoutWindowTagList -- Open a window at a suitable size for layout
+       OpenLayoutWindowTags -- Varags stub for OpenLayoutWindowTagList
+
+   SYNOPSIS
+       window = OpenLayoutWindowTagList( layout, screen, taglist )
+
+       struct Window *OpenLayoutWindowTagList( struct Gadget *,
+               struct Screen *, struct TagList * )
+
+       window = OpenLayoutWindowTags( layout, screen, tag, ... )
+
+       struct Window *OpenLayoutWindowTags( struct Gadget *,
+               struct Screen *, Tag, ... )
+
+   FUNCTION
+       Determines the minimum size that will fit a layout and opens the window
+       at that size. The sizing limits of the window will be set according to
+       the layout's limits, and the layout will be added to the window,
+       making it relative to window size. The layout will fit the whole inner
+       size of the window. It will not be rendered, so you must call
+       RefreshGadgets(), possibly after adding your border gadgets.
+
+       This function will set InnerWidth, InnerHeight, and the screen for the
+       window. Other tags you have to pass yourself.
+
+   INPUTS
+       layout -- the layout hierarcy for the window
+       screen -- pointer to the screen the window will be opened on
+       taglist -- the additional tags for the window.
+
+   RESULTS
+       A pointer to the opened window or NULL if the open failed.
+reaction.lib/RadioButtonsA                         reaction.lib/RadioButtonsA
+
+   NAME
+       RadioButtonsA -- Make a linked list of radiobuttons
+       RadioButtons -- varags stub for RadioButtonsA
+
+   SYNOPSIS
+       list = RadioButtonsA( array )
+       list = RadioButtons( label, ... )
+       struct List *RadioButtonsA( STRPTR * )
+       struct List *RadioButtons( STRPTR, ... )
+
+   FUNCTION
+       Make a linked list of radiobutton nodes from the NULL terminated
+       label array. The labels are not copied, so they must stay
+       valid until the list is free'd.
+
+   INPUTS
+       array -- a NULL terminated array of string pointers.
+
+   RESULTS
+       list -- a linked list of radiobutton nodes
+

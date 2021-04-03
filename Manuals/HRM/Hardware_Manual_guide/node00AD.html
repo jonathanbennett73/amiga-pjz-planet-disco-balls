@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_C" NODE="C-3" TITLE="C Enhanced Chip Set / ECS Registers" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>C Enhanced Chip Set / ECS Registers</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00AC.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00AE.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The register map listed below shows the changes and new registers in the
+Amiga's Enhanced Chip Set.
+
+---------------------------------------------------------------------------
+ADD  REGISTER V2.0 R/W CHIP            FUNCTION
+---------------------------------------------------------------------------
+004  VPOSR    chg   R  A   Read vertical most sig. bits (and frame flop)
+012  POT0DAT  chg   R  P   Pot counter data left pair (vertical, horiz)
+014  POT1DAT  chg   R  P   Pot counter data right pair (vertical, horiz)
+020  DSKPTH   chg   W  A   Disk pointer (high 5 bits, was 3 bits)
+02E  COPCON   chg   W  A   Coprocessor control
+03E  STRLONG  chg   S  D   Strobe for identification of long horiz line
+042  BLTCON1  chg   W  A   Blitter control register 1
+050  BLTxPTH  chg   W  A   Blitter pointer to x (high 5 bits, was 3 bits)
+05A  BLTCON0L new   W  A   Blitter control 0, lower 8 bits (minterms)
+05C  BLTSIZV  new   W  A   Blitter V size (for 15 bit vertical size)
+05E  BLTSIZH  new   W  A   Blitter H size and start (for 11 bit H size)
+07C  DENISEID new   R  D   Chip revision level for Denise (video out chip)
+080  COP1LCH  chg   W  A   Coprocessor 1st location(high 5 bits,was 3 bits)
+084  COP2LCH  chg   W  A   Coprocessor 2nd location(high 5 bits,was 3 bits)
+0A0  AUDxLCH  chg   W  A   Audio channel x location(high 5 bits was 3 bits)
+0A6  AUDxPER  chg   W  P   Audio channel x period
+100  BPLCON0  chg   W  A,D Bitplane control (miscellaneous control bits)
+104  BPLCON2  chg   W  D   Bitplane control (video priority control)
+106  BPLCON3  new   W  D   Bitplane control (enhanced features)
+142  SPRxCTL  chg   W  A   Sprite x position and control data
+1C0  HTOTAL   new   W  A   Highest number count, horiz line (VARBEAMEN=1)
+1C2  HSSTOP   new   W  A   Horizontal line position for HSYNC stop
+1C4  HBSTRT   new   W  A   Horizontal line position for HBLANK start
+1C6  HBSTOP   new   W  A   Horizontal line position for HBLANK stop
+1C8  VTOTAL   new   W  A   Highest numbered vertical line  (VARBEAMEN=1)
+1CA  VSSTOP   new   W  A   Vertical line position for VSYNC stop
+1CC  VBSTRT   new   W  A   Vertical line for VBLANK start
+1CE  VBSTOP   new   W  A   Vertical line for VBLANK stop
+1DC  BEAMCON0 new   W  A   Beam counter control register (SHRES,UHRES,PAL)
+1DE  HSSTRT   new   W  A   Horizontal sync start (VARHSY)
+1E0  VSSTRT   new   W  A   Vertical sync start   (VARVSY)
+1E2  HCENTER  new   W  A   Horizontal position for Vsync on interlace
+1E4  DIWHIGH  new   W  A,D Display window -  upper bits for start, stop
+---------------------------------------------------------------------------
+A=Agnus chip, D=Denise chip, P=Paula chip, W=Write, R=Read, S=Strobe
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

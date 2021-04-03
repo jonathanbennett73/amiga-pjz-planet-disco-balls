@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-5-2" TITLE="3 / / Correct Coloring / A Playfield of Three or More Colors" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / Correct Coloring / A Playfield of Three or More Colors</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node006D.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node006F.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+For three or more colors, you need more than one bitplane. The task here
+is to define each bitplane in such a way that when they are combined for
+display, each pixel contains the correct combination of bits. This is a
+little more complicated than a playfield of one bitplane. The following
+examples show a four-color playfield, but the basic idea and procedures
+are the same for playfields containing up to 32 colors.
+
+<a name="line9">Figure 3-8 shows two bitplanes forming a four-color playfield:</a>
+
+
+        Image in                          Results in a display
+       bitplane 2            _____          similar to this:
+                            |     |
+            +---------------- 0 1 | Color 1 -------+
+            |               |___ _|                |
+            |                   |                  |
+            |                   |                  |
+          +---+               +---+                |
+     0 0 0|0 0|0 0 0     0 0 0|1 1|0 0 0          ***
+          |   |               |   |               ***
+     0 0 0|0 0|0 0 0     0 0 0|1 1|0 0 0          ***
+          |   |               |   |               ***
+     0 0 0|0 0|0 0 0     0 0 0|1 1|0 0 0          ***
+          +---+               +---+               ***
+     1 1 1 0 0 1 1 1     1 1 1 0 0 1 1 1    &#183;&#183;&#183;&#183;&#183;&#183;   &#183;&#183;&#183;&#183;&#183;&#183;
+                                            &#183;&#183;&#183;&#183;&#183;&#183;   &#183;&#183;&#183;&#183;&#183;&#183;
+     1 1 1 0 0 1 1 1     1 1 1 0 0 1 1 1    &#183;&#183;&#183;&#183;&#183;&#183;  \&#183;&#183;&#183;&#183;&#183;&#183;
+          +---+               +---+               &#183;&#183;&#183;\
+     0 0 0|1 1|0 0 0     0 0 0|1 1|0 0 0          &#183;&#183;&#183; \
+          |   |               |   |               &#183;&#183;&#183;  \
+     0 0 0|1 1|0 0 0     0 0 0|1 1|0 0 0          &#183;&#183;&#183;   \__   Color 00
+          |   |               |   |               &#183;&#183;&#183;       (background)
+     0 0 0|1 1|0 0 0     0 0 0|1 1|0 0 0          &#183;&#183;&#183;
+          +---+               +---+                |
+            |                   |                  |
+            |                ___|_                 |
+            |               |     |                |
+            +---------------- 1 1 | Color 3 -------+
+                            |_____|
+
+
+                 Figure 3-8: Combining Bitplanes
+
+
+You place the correct &#034;1&#034;s and &#034;0&#034;s in both bitplanes to give each pixel
+in the picture above the correct color.
+
+In a single playfield you can combine up to five bitplanes in this way.
+Using five bitplanes allows a choice of 32 different colors for any single
+pixel. The playfield  <a href="../Hardware_Manual_guide/node0093.html">color selection charts</a>  at the end of this chapter
+summarize the bit combinations for playfields made from four and five
+bitplanes.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

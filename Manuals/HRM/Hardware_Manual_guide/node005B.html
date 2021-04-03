@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-8-3" TITLE="2 / Advanced Topics / A Copper Loop Example" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / Advanced Topics / A Copper Loop Example</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node005A.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node005C.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This example will instruct the Copper to issue an interrupt every 16 scan
+lines.  It might seem that the way to do this would be to use a mask of
+$0F and then compare the result with $0F. This should compare &#034;true&#034; for
+$1F, $2F, $3F, etc. Since the test is for greater than or equal to, this
+would seem to allow checking for every 16th scan line. However, the
+highest order bit cannot be masked, so it will always appear in the
+comparisons. When the Copper is waiting for $0F and the vertical position
+is past 128 (hex $80), this test will always be true. In this case, the
+minimum value in the comparison will be $80, which is always greater than
+$0F, and the interrupt will happen on every scan line. Remember, the
+<a name="line12">Copper only checks for greater than or equal to.</a>
+
+In the following example, the Copper lists have been made to loop. The
+ <a href="../Hardware_Manual_guide/node0050.html">COP1LC and COP2LC</a>  values are either set via the CPU or in the Copper
+list before this section of Copper code. Also, it is assumed that you have
+correctly installed an interrupt server for the Copper interrupt that will
+be generated every 16 lines. Note that these are non-interlaced scan lines.
+
+Here's how it works.  Both loops are, for the most part, exactly the same.
+In each, the Copper waits until the vertical position register has $xF
+(where x is any hex digit) in it, at which point we issue a Copper
+interrupt to the Amiga hardware. To make sure that the Copper does not
+loop back before the vertical position has changed and cause another
+interrupt on the same scan line, wait for the horizontal position to be
+$E2 after each interrupt. Position $E2 is horizontal position 113 for the
+Copper and the last real horizontal position available. This will force
+the Copper to the next line before the next  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a> . The loop is executed
+by writing to the  <a href="../Hardware_Manual_guide/node0051.html">COPJMP1</a>  register. This causes the Copper to jump to
+the address that was initialized in  <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a> .
+
+The masking problem described above makes this code fail after vertical
+position 127.  A separate loop must be executed when vertical position is
+greater than or equal 127. When the vertical position becomes greater than
+or equal to 127, the the first loop instruction is skipped, dropping the
+Copper into the second loop. The second loop is much the same as the
+first, except that it waits for $xF with the high bit set (binary
+1xxx1111). This is true for both the vertical and the horizontal  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a> 
+instructions. To cause the second loop, write to the  <a href="../Hardware_Manual_guide/node0051.html">COPJMP2</a>  register.
+The list is put into an infinite wait when VP &#062;= 255 so that it will end
+before the vertical blank. At the end of the  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  period
+<a name="line42"> <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a>  is written to by the operating system, causing the first loop to</a>
+start up again.
+
+    <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a>  is written at the end of  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a> .
+   ------------------------------------------------------
+   The  <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a>  register is written at the end of the  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a> 
+   period by a graphics interrupt handler which is in the vertical blank
+   interrupt server chain.  As long as this server is intact,  <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a> 
+   will be correctly strobed at the end of each vertical blank.
+
+;
+;  This is the data for the Copper list.
+;
+;  It is assumed that COPPERL1 is loaded into  <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a>  and
+;  that COPPERL2 is loaded into  <a href="../Hardware_Manual_guide/node0050.html">COP2LC</a>  by some other code.
+;
+COPPERL1:
+        DC.W    $0F01,$8F00   ; Wait for VP=0xxx1111
+        DC.W    <a href="../Hardware_Manual_guide/node0164.html#line11">INTREQ</a>,$8010  ; Set the copper interrupt bit...
+
+        DC.W    $00E3,$80FE   ; Wait for Horizontal $E2
+                              ; This is so the line gets finished before
+                              ; we check if we are there  (The wait above)
+
+        DC.W    $7F01,$7F01   ; Skip if VP&#062;=127
+        DC.W    <a href="../Hardware_Manual_guide/node0051.html">COPJMP1</a>,$0    ; Force a jump to  <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a> 
+
+COPPERL2:
+        DC.W    $8F01,$8F00   ; Wait for VP=1xxx1111
+        DC.W    <a href="../Hardware_Manual_guide/node0164.html#line11">INTREQ</a>,$8010  ; Set the copper interrupt bit...
+
+        DC.W    $80E3,$80FE   ; Wait for Horizontal $E2
+                              ; This is so the line gets finished before
+                              ; we check if we are there  (The wait above)
+
+        DC.W    $FF01,$FE01   ; Skip if VP&#062;=255
+        DC.W    <a href="../Hardware_Manual_guide/node0051.html">COPJMP2</a>,$0    ; Force a jump to  <a href="../Hardware_Manual_guide/node0050.html">COP2LC</a> 
+
+; Whatever cleanup copper code that might be needed here...
+; Since there are 262 lines in NTSC, and we stopped at 255, there is a
+; bit of time available
+
+        DC.W    $FFFF,$FFFE     ; End of Copper list
+;
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

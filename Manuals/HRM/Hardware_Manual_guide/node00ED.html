@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-4-5" TITLE="5 / Producing High-quality Sound / Aliasing Distortion" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / Producing High-quality Sound / Aliasing Distortion</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00EC.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00EE.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+When you use sampling to produce a waveform, a side effect is caused when
+the sampling rate &#034;beats&#034; or combines with the frequency you wish to
+produce. This produces two additional frequencies, one at the sampling
+rate plus the desired frequency and the other at the sampling rate minus
+<a name="line6">the desired frequency. This phenomenon is called aliasing distortion.</a>
+
+Aliasing distortion is eliminated when the sampling rate exceeds the
+output frequency by at least 7 KHz. This puts the beat frequency outside
+the range of the  <a href="../Hardware_Manual_guide/node00EE.html">low-pass filter</a> , cutting off the undesirable
+frequencies. Figure 5-5 shows a frequency domain plot of the anti-aliasing
+<a name="line12"> <a href="../Hardware_Manual_guide/node00EE.html">low-pass filter</a>  used in the system.</a>
+
+
+      /|\
+       |
+   0db |________ filter
+       |        \ response
+       |         \
+       |          \
+       |           \      filter passes all frequences below about 5kHz.
+       |            \
+ -30db |_____________\_____ ___________________________________________\
+                 |         |         |         |         |         |   /
+                5kHz     10kHz     15kHz     20kHz     25kHz     30kHz
+
+
+           Figure 5-5: Frequency Domain Plot of Low-Pass Filter
+
+
+Figure 5-6 shows that it is permissible to use a 12 KHz sampling rate to
+produce a 4 KHz waveform. Both of the beat frequencies are outside the
+range of the filter, as shown in these calculations:
+
+                         12 + 4 = 16 KHz
+<a name="line36">                         12 - 4 = 8 KHz</a>
+
+
+      /|\  filter            12kHz sampling frequencey
+       |  response             |
+   0db |________               |
+       |        \     Diff.    |      Sum
+       |       | \     |       |       |
+       |       |  \    |       |       |
+       |       |   \   |       |       |
+       |   4kHz|    \  |       |       |
+ -30db |_______|_____\_|___ ___|_______|_______________________________\
+               | |         |         |         |         |         |   /
+                5kHz     10kHz     15kHz     20kHz     25kHz     30kHz
+               |
+               |
+       desired output frequency
+
+
+          Figure 5-6: Noise-free Output (No Aliasing Distortion)
+
+
+You can see in Figure 5-7 that is unacceptable to use a 10 KHz sampling
+rate to produce a 4 KHz waveform. One of the beat frequencies (10 - 4) is
+within the range of the filter, allowing some of that undesirable
+<a name="line61">frequency to show up in the audio output.</a>
+
+
+      /|\  filter        10kHz sampling frequencey
+       |  response         |
+   0db |________           |
+       |        \ Diff.    |      Sum
+       |       | \ |       |       |
+       |       |  \|       |       |
+       |       |   \       |       |
+       |   4kHz|   |\      |       |
+ -30db |_______|___|_\_____|_______|___________________________________\
+               | |         |         |         |         |         |   /
+                5kHz     10kHz     15kHz     20kHz     25kHz     30kHz
+               |
+               |
+       desired output frequency
+
+
+                   Figure 5-7: Some Aliasing Distortion
+
+
+All of this gives rise to the following equation, showing that the
+sampling frequency must exceed the output frequency by at least 7 KHz, so
+that the beat frequency will be above the cutoff range of the
+ <a href="../Hardware_Manual_guide/node00EE.html">anti-aliasing filter</a> :
+
+   Minimum sampling rate = highest frequency component + 7 KHz
+
+The frequency component of the equation is stated as &#034;highest frequency
+component&#034; because you may be producing a complex waveform with multiple
+frequency elements, rather than a pure sine wave.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

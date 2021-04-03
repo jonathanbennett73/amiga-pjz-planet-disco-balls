@@ -1,0 +1,5 @@
+
+CAPrefs 44.1 (17.8.99)
+
+· no-op replacement for CAPrefs. Should be installed to avoid conflicts
+  between ClassAct and ReAction

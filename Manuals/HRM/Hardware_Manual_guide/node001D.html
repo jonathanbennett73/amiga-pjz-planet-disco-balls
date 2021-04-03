@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-12" TITLE="A Register Summary / BLTSIZE, BLTSIZV, BLTSIZH" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / BLTSIZE, BLTSIZV, BLTSIZH</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node001C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node001E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+BLTSIZE    058      W       A      Blitter start and size (window width,
+                                       height)
+
+                 This register contains the width and height of
+                 the blitter operation (in line mode, width must
+                 = 2, height = line length).  Writing to this
+                 register will start the blitter, and should be
+                 done last, after all pointers and control
+                 registers have been initialized.
+
+                 BIT#  15,14,13,12,11,10,09,08,07,06,05,04,03,02,01,00
+                       -----------------------------------------------
+                       h9 h8 h7 h6 h5 h4 h3 h2 h1 h0,w5 w4 w3 w2 w1 w0
+
+                 h=height=vertical lines (10 bits=1024 lines max)
+                 w=width =horizontal pixels (6 bits=64
+                                      words=1024 pixels max)
+
+                 LINE DRAW   BLTSIZE controls the line length and starts
+                 LINE DRAW   the line draw when written to.  The h field
+                 LINE DRAW   controls the line length (10 bits gives
+                 LINE DRAW   lines up to 1024 dots long).  The w field
+<a name="line28">                 LINE DRAW   must be set to 02 for all line drawing.</a>
+
+BLTSIZV    05C      W      A( <a href="../Hardware_Manual_guide/node00AA.html#line13">E</a> ) Blitter V size (for 15 bit vertical size)
+BLTSIZH    05E      W      A( <a href="../Hardware_Manual_guide/node00AA.html#line13">E</a> ) Blitter H size and start (for 11 bit
+                                      H size)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,536 @@
+printer.device V44 (OS 3.5)
+
+Drivers for the new printer.device.
+
+The new printer.device offers many new possibilities for printer
+drivers and does away with some problems of the old printer.device.
+
+Changes:
+
+1. The driver now always runs in a DOS process with a minimum stack
+size of 8 KB.
+
+2. The PWrite and PBothReady functions can now sensibly used in
+every situation, even during DoSpecial.
+
+3. Due to an extension of the command table, accidental exchanges of
+PWrite output from DoSepcial and printer.device output can be avoided.
+
+4. Drivers can return error messages from all necessary situations
+(including DoSpecial) and can use error codes of their own.
+
+5. Drivers are resposible for formatting and localizing their error codes.
+
+5. Drivers can perform color conversion, color correction, dithering etc.
+by themselves without having to fear side-effects with the printer.device
+or having to use the incovenient PDERR_TOOKCONTROL.
+
+6. Scaling can be done entirely by printer.device but it is also possible
+to request that no scaling be performed at all.
+
+7. Drivers can use their own structure for color. This enables the use of
+standard implementations for color space conversion etc.
+
+8. Drivers can use the new PRead function to read from the I/O interface.
+
+9. Drivers can influence the display of the printer preferences in order
+to adapt them to their interpretation of the settings.
+
+10. Drivers can manage their settings themselves and are allowed to have
+a printer dialog of their own.
+
+11. Drivers can return new information to applications in order to improve
+the printing result.
+
+
+Converting an old driver into a new driver
+
+1. Set driver identification
+
+A new driver must have a version number of 44 or better and must have the
+PPCF_EXTENDED bit set in ped_PrinterClass. After that the PrinterExtendedData
+structure must be extended with the following fields:
+
+ped_TagList is a pointer to a tag list that contains for the most part
+the extended driver definition.
+
+ped_DoPreferences is a function pointer. The funtion is called in order to
+manage the different commands for the driver-specific settings.
+
+ped_CallErrHook is a function pointer. The function is called in order to
+format driver-specific error codes and output it through a hook.
+
+The tags of ped_TagList in full:
+
+PRTA_8BitGuns: If the value of this tag is TRUE, every color will be computed
+using 256 intensities. This makes up to 16 million colors possible (although
+hardly any printer can print all of them). If this tag is not present or
+FALSE, 16 intensities per color are used, just like in previous versions
+of AmigaOS. New drivers should set this tag under any circumstances.
+
+PRTA_ConvertSource: If the value of this tag is TRUE, printer.device
+will leave the conversion from the sRGB color space into the printer-specific
+color space (often YMCK) to the driver. The conversion will then be
+performed by calling the ped_Render function with a status of 8.
+The first parameter is a pointer to 24 bit BGR values (please note the
+unuals BGR order which is used for compatibility reasons) the
+second parameter contains the number of pixels in the array and the
+third parameter is 0 if the array is a colormap or 1 if the the array
+is a pixel lin. The size of each entry is given either by PRTA_ColorSize
+or by sizeof(union colorEntry).
+
+PRTA_FloydDithering: If the value of this tag is TRUE, the printer.device
+will leave the floyd-steinberg dithering (or whatever dithering is used)
+to the driver. If the PRTA_8BitGuns tag is TRUE, this tag is set to TRUE
+implicitly, i.e. normally the driver itself is responsible for the third
+dither method as well.
+
+PRTA_AntiAlias: If the value of this tag is TRUE, the printer.device will
+leave the smoothing to the driver. In this case the driver must perform
+the smoothing in the render 1 call.
+
+PRTA_ColorCorrection: If the value of this tag is TRUE, the printer.device
+will leave any color correction to the driver. Due to the rudimentary nature
+of the built-in color correction of the printer.device it is highly reccommended
+to perform the color correction inside the driver - the color correction
+of printer.device will almost never fulfill the needs of modern printers.
+The color correction is performed by calling the ped_Render function
+with a status of 9. The first parameter is a pointer to a color array,
+the second parameter specifies the number of elements in the array and
+the third parameter is 0 for a color map or 1 for a pixel line.
+
+PRTA_NoIO: If the value of this tag is TRUE, no I/O device will be opened.
+In this case the driver must not call PWrite, PBothRead or PRead. Any ouput
+must be performed directly by the driver. In this way fax drivers or drivers
+that place their ouput in a file will no longer unecessarily allocate I/O resources.
+
+PRTA_NewColor: If the value of this tag is TRUE, printer.device will not care
+for the colors after conversion anymore. This tag implies that the tags
+PRTA_ConvertSource, PRTA_FloydDithering, PRTA_AntiAlias and
+PRTA_ColorCorrection all have a value of true.
+
+PRTA_ColorSize: The value of this tag defines the size of a color or a pixel.
+The standard value is sizeof(union ColorEntry). With the help of this tag
+the driver can save more information inside a color and support more
+complex color spaces. If the driver doesn't have the PRTA_NewColor tag set
+and uses one of the printer.device algorithms for conversion, correction or
+anti-alias, every pixel will be interpreted as a ColorEntry union, even
+if a larger value is used as the total size of a pixel. Therefore in most
+cases it will be necessary to combine a color structure that is not identical
+to union ColorEntry with the PRTA_NewColor tag.
+
+PRTA_NoScaling: If a driver wants to inhibit any scaling of the raw data
+by printer.device, it can do so by use of this tag. However, the scaling
+will still be computed, i.e. the number printer columns and lines in
+render case 1 will still be equal to the scaled values. The size of the
+raw data can be obtained from the PrtInfo.pi_width and pi_height fields.
+This tag automatically implies TRUE values for PRTA_FloydDithering and
+PRTA_AntiAlias since these algorithms can only operate on scaled data.
+
+PRTA_DitherNames: The value of this tag is an array of 3 strings - names
+for the dithering methods PD_ORDERED, PD_HALFTONE and PD_FLOYD. If a
+driver uses dithering methods different from those it should use the tag
+in order to appropriately name the dither methods.
+
+PRTA_ShadingNames: The value of this tag is an array of 4 strings - names
+for the shading types PS_BW, PS_GREYSCALE, PS_COLOR and PS_GREY_SCALE2.
+The last two strings are exchanged in their order compared to the order
+used in the printer preferences! If a driver uses shading methods different
+from the default (e.g. a special variant of grey values in the case of PS_COLOR
+for black/white printers), it should use the tag to appropriately name
+the shading methods. Please note that the PS_GREY_SCALE2 method is used
+internally by printer.device as a special case for the A2024 grey scale
+monitor, so that replacing this method does not make much sense.
+
+PRTA_ColorCorrect: If a driver can not understand the separate setting of
+color correction for the red, green and blue color channels, it should set
+this tag to FALSE so that the checkmarks become disabled in the preferences.
+
+PRTA_DensityInfo: Drivers that use the density settings to make further
+changes to the output (e.g. amount of ink) can use this tag to provide
+user information for every density. The value of this tag is an array of
+8 string. The first string is currently ignored and must be NULL while
+the other 7 strings correspond to the densities 1 to 7 and are displayed
+accordingly by the printer preferences.
+
+PRTA_LeftBorder, PRTA_TopBorder: Most printers have small paper margins.
+The left and top border on the paper onto which the printer can not print
+is specified in inches/1000 using these tags. The right and bottom margins
+are set according to the printable area. Applications can use the information
+on the margins and printable area to accurately place the printer output
+on the paper.
+
+PRTA_MixBWColor: If an application uses segemented (striped) printing it
+can often significantly improve the printing speed if it prints segments
+that contain only black graphics/text using the black/white mode of the
+printer; segments with color graphics will be printed using the greyscale
+or color mode accordingly. However, some printers use a different ink
+cartrige for black/white printing than they use for color printing or
+they use black ink in black/white mode and mix black from yellow,
+cyan and magenta while in color mode. In both cases an optimization by
+the application is undesirable. If the value of this tag is FALSE,
+applications should refrain from performing such optimizations.
+
+PRTA_Preferences: If the driver uses a driver-specific set of options and
+if these options options can be changed via the driver, this tag displays
+these circumstances with a value of TRUE. Applications will then allow
+access to a button labelled "Options..." which allows the user to open
+a window for editing the driver options. This is achieved by using the
+new command PRD_EDITPREFS.
+
+
+2. Adapt algorithms
+
+The transfer function
+
+The Transfer() function of the driver that is responsible to transfer the
+pixels into the printer buffer does not need to perform scaling anymore.
+Up to know the special case of X-stretching was left to the drivers. This
+is now handled by the printer.device in all cases, the pi_ScaleX field only
+contains ones so the the loop for using a specific X-value an corresponding
+amount of times can be removed from the function.
+
+New drivers should set the PRTA_8BitGuns tag and support printing with 256
+intesities per color channel. Normally this shouldn't involve much work as
+the typical transfer function will work just the same with 8 bits as it
+does with 4.
+
+Two points have to be taken into account, though: The threshold value
+pi_Threshold has already been stretched to 256 intensities. Many drivers
+invert this value before using it, so care must be taken to perform the
+inversion in the correct range of values.
+
+The dither matrices pi_dmatrix still correspond to the dither methods ordered
+and halftone with a grid size of 4x4. Using these matrices results in a
+maximum of 16 intensities per color channel in the final printout and thus
+results in very marginal improvements when compared to the old drivers.
+Instead you should use differently sized matrices depending on the print
+resolution, e.g. 8x8. In the case of the Floyd-Steinberg dithering algorithm
+the pi_dmatrix matrix will contain only averag intensities and is not
+suitable for dithering.
+
+Density calculation
+
+The SetDensity function must adjust the values of the PRTA_Leftborder,
+PRTA_TopBorder and PRTA_MixBWColor if these depend on the printing resolution.
+However, this will not apply to most printers. Applications, on the other hand,
+are encouraged to re-read theses values for every print density.
+
+The render function
+
+Two cases for the render function have been added:
+
+Case 8: The function is called with status 8 if colors have to converted from
+RGB to the format of the driver. The first parameter ct contains a pointer to
+an array of color. Every entry has a size corresponding to the PRTA_ColorSize
+tag or sizeof(union ColorEntry).
+If you interpret the entries as a union ColorEntry the bytes with the indices
+PCMRED, PCMGREEN, PCMBLUE will receive the RGB values. The x parameter holds
+the number of entries in the array. The y parameter contains a 0 for a colormap
+and a 1 for a line of pixels.
+
+The standard conversion from RGB data to YMCK (as it is used in printer.device)
+can look like this:
+
+case 8:                  /* Convert RGB source to union ColorEntry */
+{
+	/*
+	   ct       - union colorEntry *, pointer to RGB data
+	   x        - width, number of colors in ct array
+	   y        - 0: converting colormap, 1: converting pixel row
+	*/
+	union colorEntry *ColorInt = (union colorEntry *) ct;
+	LONG width = x;
+	ULONG additive = 0xffffffff;
+	additive ^= (PD->pd_Preferences.PrintImage == IMAGE_NEGATIVE) ? 0xffffffff : 0;
+	if (PD->pd_Preferences.PrintShade == SHADE_COLOR)
+	{
+		/* we don't need PCMBLACK, so don't calculate it */
+		do
+		{
+			ColorInt->colorLong ^= additive;
+			ColorInt++;
+		}
+		while (--width);
+	}
+	else
+	{
+		/* calculate PCMBLACK */
+		do
+		{
+			ColorInt->colorLong ^= additive;
+			ColorInt->colorByte[PCMBLACK] =
+				(ColorInt->colorByte[PCMYELLOW]
+				+ ColorInt->colorByte[PCMMAGENTA]
+				+ ColorInt->colorByte[PCMCYAN]) / 3;
+			ColorInt++;
+		}
+		while (--width);
+	}
+	break;
+}
+
+Especially the calculation of the grey scale value can differ from the simple
+arithmetic average of the three color intensities.
+
+
+Case 9: The function is called with status 9 if colors are to be corrected.
+The first parameter ct contains a pointer to an array of colors in the format
+of the driver (after render call 8). Every entry has the size specified by
+the PRTA_ColorSize tag or sizeof(union ColorEntry).
+The x parameter contains the number of entries in the array. The y parameter
+is 0 for a color map and 1 for a line of pixels.
+
+The DoSpecial function
+
+If an entry in the command table "CommmandTable" contains "\377", the
+DoSpecial() function will be called. What's new: if a command contains
+the string "\377\377" the I/O buffers will be flushed prior to calling the
+function. This enables the driver to perform I/O on its own by calling PWrite,
+PBothReady and PRead, without any danger of the I/O becoming mixed up.
+
+The result of the function is interpreted differently in order to enable
+DoSpecial to return general printer errors:
+
+Value        Interpretation
+ >0           Number of characters in the buffer
+  0           Command not handled by DoSpecial
+ -1           Unsupported command
+ -2           (new) Command was executed but no characters were written
+                    to the buffer
+<-2           (new) An I/O or printer error minus 65536.
+
+In order to return an error from DoSpecial you simply have to subtract
+65536 from the actual error code.
+
+
+3. Error handling
+
+The new ped_CallErrHook field of the PrinterExtendedData structure contains
+a function which is called if an error code of the driver needs to formatted
+for output via a hook.
+
+The driver can define error codes between PDERR_FIRSTCUSTOM and PDERR_LASTCUSTOM
+and return them from its functions. If the application has set a hook to output
+an error directly through the printer.device, the ped_CallErrHook function will
+be called for all error codes of the driver.
+
+The first parameter of the function is a pointer to the I/O request that receives
+the error in io_Error. The second parameter is the hook that was set by the
+applicatioin. The driver must fill in a variable of PrtErrMsg type and then
+call the pd_CallErrHook function of the PrinterData structure. This will in
+turn contain the hook as the first parameter, the I/O request as the second
+parameter and a pointer to a variable of PrtErrMsg type as the third parameter.
+des Typs PrtErrMsg.
+
+void ErrHook(struct IORequest *ior, struct Hook *hook)
+{
+	struct EasyStruct es;
+	struct PrtErrMsg pem;
+	LONG args[2];
+	es.es_StructSize = sizeof(es);
+	es.es_Flags = 0;
+	es.es_Title = NULL;
+	es.es_GadgetFormat = "OK";
+	pem.pe_Version = PDHOOK_VERSION;
+	pem.pe_ErrorLevel = RETURN_FAIL;
+	pem.pe_Window = NULL;
+	pem.pe_ES = &es;
+	pem.pe_IDCMP = NULL;
+	pem.pe_ArgList = NULL;
+	switch (ior->io_Error)
+	{
+		case FILEERR_FILEOPENFAILED:
+			es.es_TextFormat = "Unable to open file %s.";
+			args[0] = (LONG) outfile;
+			pem.pe_ArgList = args;
+			break;
+	}
+	PD->pd_CallErrHook(hook,ior,&pem);
+}
+
+The es.es_Title and es.es_GadgetFormat fields may be NULL, the pd_CallErrHook
+will fill them appropriately before calling the hook.
+
+
+4. Driver settings
+
+If the driver support proprietary (driver-specific) settings it must set
+the PRTA_Preferences to TRUE and enter a function into ped_DoPreferences
+that handles the settings.
+
+Drivers can support different concepts for settings. If the driver is likely
+to be used by several units it should save a separate pareferences file
+for each unit. If it is likely to be used by only one unit it is sufficient
+to use one preferences file. If the driver derives the name of the settings
+file from the driver name, the user will still be able to manage several
+sets of preferences by duplicating the driver and giving it a new name.
+
+Another decision has to be made with regard to the size of the preferences
+dialog. If the driver supports a very large amount of settings it often
+makes sense for the driver to provide a separate preferences editor (e.g.
+PrinterPS) that can be used to control all settings. In this case the dialog
+that is opened by the PRD_EDITPREFS command should only contain that part
+of the settings that directly affects the printer output.
+
+The ped_DoPreferences function is called using 2 parameters: one I/O request
+and one command. The command can state 7 different cases:
+
+Case 0: set the preferences to their default values (PRD_RESETPRFS)
+
+Case 1: load the preferences from a file (PRD_LOADPREFS)
+
+Case 2: store the preferences in a file in ENV: (PRD_USEPREFS)
+
+Case 3: store the preferences in a file both in ENV: and in ENVARC:
+        (PRD_SAVEPREFS)
+
+Case 4: store the preferences into an I/O buffer (PRD_READPREFS)
+
+Case 5: copy the preferences from an I/O buffer (PRD_WRITEPREFS)
+
+Case 6: open a window in which the preferences can be changed
+        (PRD_EDITPREFS)
+
+
+Details of the preferences structure
+
+A structure that is used for saving the preferences must be derived from
+the PrtDriverPreferences structure (Include devices/prtbase.h):
+
+struct PrtDriverPreferences 
+{
+	UWORD    pdp_Version;       /* PRIVATE! driver specific version */
+	UBYTE    pdp_PrinterID[32]; /* PRIVATE! driver specific id */
+	char     pdp_PrefName[FILENAME_SIZE-16];
+	ULONG    pdp_Length; /* length of this structure */
+	/* more driver private fields follow*/
+};
+
+By reading the version and printerID the driver can tell its settings from
+that of other drivers and can recognize older settings.
+
+The PrefName array should contain a readable name for the preferences, this
+could e.g. be the name of the printer.
+
+Default values
+
+In the beginning many programs will not offer the possibility to open the
+preferences dialog (case 6). Therefore it is vital that the default values
+actually make sense and are usable.
+
+Loading and saving of preferences
+
+The settings of a driver will automatically be loaded when opening a unit.
+The file format should be an IFF FORM PREF and be structured the same way
+the system files are (i.e. it should contain a FORM PRHD and a separate FORM
+for the actual settings).
+
+Reading and writing of preferences
+
+An application may read the settings of the driver and store it for later
+reference (e.g. to save it while the unit is closed). Likewise it may
+write back the settings to the driver.
+
+case 4:
+	/* copy preferences to ior */
+	sior = (struct IOStdReq *) ior;
+	if (sior->io_Data && sior->io_Offset == 0 && sior->io_Length >= sizeof(DriverPrefs))
+	{
+		CopyMem(&DriverPrefs,sior->io_Data,sizeof(DriverPrefs));
+		sior->io_Actual = sizeof(DriverPrefs);
+	}
+	else
+		error = IOERR_BADLENGTH;
+	break;
+case 5:
+	/* check prefs in ior and copy it to preferences */
+	sior = (struct IOStdReq *) ior;
+	if (sior->io_Data && sior->io_Offset == 0 && sior->io_Length >= sizeof(struct PrtDriverPreferences))
+	{
+		tp = (struct FileDriverPrefs *) sior->io_Data;
+		/* check prefs data. If this check fails 0 is returned but
+		   io_Actual is set to 0.
+		*/
+		if (checkDriverPrefs(&tp->fdp_Base))
+		{
+			CopyMem(tp,&DriverPrefs,sizeof(DriverPrefs));
+			sior->io_Actual = sizeof(DriverPrefs);
+		}
+		else
+			sior->io_Actual = 0;
+	}
+	else
+		error = IOERR_BADLENGTH;
+	break;
+
+Damit der Treiber seine Einstellungen wiedererkennt, muß er den Kopf der
+Datenstruktur überprüfen:
+
+static int
+checkDriverPrefs(struct PrtDriverPreferences *p)
+{
+	if (p->pdp_Version == 1
+		&& strcmp(p->pdp_PrinterID,DriverPrefsDefault.fdp_Base.pdp_PrinterID) == 0
+		&& p->pdp_Length == sizeof(struct FileDriverPrefs))
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+Please note that in the case of an unrecognized structure no error will
+be returned but only io_Actual is set to 0. This means that the application
+can write back settings that were stored earlier (even in a file) - this
+makes a change or update of the driver "in between" possible.
+
+Edit preferences
+
+The I/O request for editing preferences (struct IOPrtPrefsReq) contains
+a tag list:
+
+PPRA_Window: The value of this tag denotes a window. This window determines
+the screen to use for the preferences dialog. The window should be locked
+against input as long as the dialog remains opened.
+
+PPRA_Screen: If now window was specified this tag can be used to specify
+a screen on which to open the preferences dialog.
+
+PPRA_PubScreen: The name of a public screen on which to open the
+preferences dialog.
+
+The only ways to leave the preferences dialog should be by way of an "OK"
+and a "Cancel" button, i.e. the settings will not be saved from within
+the dialog. The saving of the settings must be handled either by the
+application through PRD_READPREFS/PRD_WRITEPREFS, by a separate preferences
+editor or by a system application using PRD_SAVEPREFS.
+
+
+5. Driver-specific color structure
+
+A driver can define a color structure best suited to its needs, i.e. it
+need not use the standard union colorEntry structure. All printer.device
+needs to know is the size of the structure which is achieved by use of
+the PRTA_ColorSize tag. This of course means that the printer.device can
+only provide a very limited amount of services to the driver:
+Reading the bitmap and converting the data to 24 bit RGB and scaling the
+RGB data. All other tasks (converting from sRGB color space to the printer
+color space, color correction, dithering, anti-alias) must be performed
+by the driver.
+
+If the driver uses a color structure that is different from union colorEntry
+it must set the PRTA_NewColor tag. The printer.device will then implicitly
+set all tags that affect the printing algorithms.
+
+If the driver only requires some addtionals bytes in the color structure,
+e.g. for temporary data while dithering, it can use PRTA_ColorSize to
+set the size of the new color structure but leave PRTA_NewColor set to
+FALSE. Please note that in this case the color structure must begin with
+union colorEntry because this is the way the printer.device interprets
+the structure:
+
+struct LargeColorEntry
+{
+	union colorEntry lce_ColorEntry;
+	LONG lce_Random;
+};

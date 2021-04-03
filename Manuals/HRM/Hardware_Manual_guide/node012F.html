@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_F" NODE="F-1" TITLE="F 8520 Complex Interface Adapters / Chip Register Map" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>F 8520 Complex Interface Adapters / Chip Register Map</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node012E.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0130.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Each 8520 has 16 registers that you may read or write.  Here is the list
+of registers and the access address of each within the memory space
+<a name="line4">dedicated to the 8520:</a>
+
+                       Register
+   RS3  RS2  RS1  RS0  #(hex)  NAME      MEANING
+   -----------------------------------------------------------------
+    0    0    0    0     0     pra       <a href="../Hardware_Manual_guide/node0131.html">Peripheral data register A</a> 
+    0    0    0    1     1     prb       <a href="../Hardware_Manual_guide/node0131.html">Peripheral data register B</a> 
+    0    0    1    0     2     ddra      Data  <a href="../Hardware_Manual_guide/node0131.html">direction register A</a> 
+    0    0    1    1     3     ddrb      <a href="../Hardware_Manual_guide/node0131.html">Direction register B</a> 
+    0    1    0    0     4     talo      <a href="../Hardware_Manual_guide/node0133.html">Timer A</a>  low register
+    0    1    0    1     5     tahi      <a href="../Hardware_Manual_guide/node0133.html">Timer A</a>  high register
+    0    1    1    0     6     tblo      <a href="../Hardware_Manual_guide/node0133.html">Timer B</a>  low register
+    0    1    1    1     7     tbhi      <a href="../Hardware_Manual_guide/node0133.html">Timer B</a>  high register
+    1    0    0    0     8     todlow    <a href="../Hardware_Manual_guide/node013C.html#line10">Event LSB</a> 
+    1    0    0    1     9     todmid    <a href="../Hardware_Manual_guide/node013D.html">Event 8-15</a> 
+    1    0    1    0     A     todhi     <a href="../Hardware_Manual_guide/node013C.html#line16">Event MSB</a> 
+    1    0    1    1     B               No connect
+    1    1    0    0     C     sdr       <a href="../Hardware_Manual_guide/node0130.html#line6">Serial data register</a> 
+    1    1    0    1     D     icr       <a href="../Hardware_Manual_guide/node0142.html">Interrupt control register</a> 
+    1    1    1    0     E     cra       <a href="../Hardware_Manual_guide/node0145.html">Control register A</a> 
+    1    1    1    1     F     crb       <a href="../Hardware_Manual_guide/node0145.html">Control register B</a> 
+   -----------------------------------------------------------------
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

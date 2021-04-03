@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_G" NODE="G-6" TITLE="G Keyboard Interface / Reset Warning" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>G Keyboard Interface / Reset Warning</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0177.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0179.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+
+   About Reset Warning.
+   -------------------
+   This feature is available on some A1000 and A2000 keyboards. You
+<a name="line6">   cannot rely on this feature for all Amigas.</a>
+
+The keyboard has the additional task of resetting the computer on the
+command of the user.  The user initiates Reset Warning by simultaneously
+pressing the Ctrl key and the two Amiga keys.
+
+The keyboard responds to this input by syncing up any pending transmit
+operations.  The keyboard then sends a &#034;reset warning&#034; to the Amiga.  This
+action alerts the Amiga software to finish up any pending operations (such
+as disk DMA) and prepare for reset.
+
+A specific sequence of operations ensure that the Amiga is in a state
+where it can respond to the reset warning.  The keyboard sends two actual
+&#034;reset warning&#034; keycodes.  The Amiga must handshake to the first code like
+any normal keystroke, else the keyboard goes directly to  <a href="../Hardware_Manual_guide/node0179.html">Hard Reset</a> .  On
+the second &#034;reset warning&#034; code the Amiga must drive KDAT low within 250
+milliseconds, else the keyboard goes directly to  <a href="../Hardware_Manual_guide/node0179.html">Hard Reset</a> .  If all
+the  <a href="../Hardware_Manual_guide/node0177.html#line5">tests</a>  are passed, the Amiga has 10 full seconds to do emergency
+processing.  When the Amiga pulls KDAT high again, the keyboard finally
+asserts  <a href="../Hardware_Manual_guide/node0179.html">hard reset</a> .
+
+If the Amiga fails to pull KDAT high within 10 seconds,  <a href="../Hardware_Manual_guide/node0179.html">Hard Reset</a>  is
+asserted anyway.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,21 @@
+rexxmathlib.library 38.03
+
+- The POW() function has been optimized and will use a smart
+  recursive multiplication for integer exponents.
+- Unfortunately, I still require a patch for the broken
+  MathIEEEDCmp() routine of the mathieeedoubbas.library.
+
+rexxmathlib.library 45.1
+	
+- bumped to 45.1
+- removed my copyright.
+
+rexxmathlib.library 45.2
+
+- Rewrote Pow() again to use now the function of the mathieee
+  doubtrans.library since this function has now been fixed.
+- Added some additional sanity checks for transzendental functions.
+- Rewrote EPSP() and EPSM(). Even though their implementation is
+  now correct on the basis of IEEE numbers, they are still useless
+  due to the limited precision of the IEEE->Ascii conversion, and
+  the limited precision of ARexx itself.

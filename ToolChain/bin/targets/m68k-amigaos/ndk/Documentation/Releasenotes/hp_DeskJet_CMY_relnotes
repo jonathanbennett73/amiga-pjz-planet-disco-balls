@@ -1,0 +1,99 @@
+HP_DeskJet_CMY 44.1 (28.8.99)
+
+- Converted from the CMYK driver sources.
+
+- Put in the special cyan correction for greyscale values. I'm
+  not sure how good it is and how well it works. The modern HP
+  inkjekt printers apparently do not suffer from the "C+M+Y yields
+  a sort of greyisch olive" disease that plagued the early
+  consumer devices, such as the HP500C. At least on my test device
+  (HP 880C) the greys and the black will shift noticeably into the
+  dark magenta if the cyan correction is enabled. I need more
+  testing and feedback.
+
+
+HP_DeskJet_CMY 44.2 (29.8.99)
+
+- If printing in black/white or greyscale mode with "Letter" quality
+  printing selected, the printing resolution is now quadrupled
+  (from 300x300 to 600x600 DPI).
+
+
+HP_DeskJet_CMY 44.3 (2.9.99)
+
+- Recalculated the gamma correction tables. The new tables will
+  print brighter, with more contrast.
+
+- Fixed an overrun bug in the compression code.
+
+
+HP_DeskJet_CMY 44.4 (2.9.99)
+
+- Revised the paper and page sizes again; they now reflect
+  the sizes given in the official PCL 5 documentation.
+
+- The text top margin is now set to 0 rows (used to be
+  2 rows).
+
+- Enabled perforation skip mode for text printing.
+
+- Graphics printing now also sets the page size.
+
+- Printing setup now also allows for paper size A3
+  to be used (provided your printer can handle paper
+  that large).
+
+
+HP_DeskJet_CMY 44.5 (6.9.99)
+
+- Floyd-Steinberg dithering now alternates the direction
+  in which the image data is processed with every line.
+  This will result in smoother error distribution and
+  improve output quality.
+
+
+HP_DeskJet_CMY 44.6 (6.9.99)
+
+- Now includes information about the functionality
+  associated with the density settings and hints
+  that tell a querying application that this driver
+  cannot mix colour and black/white printing.
+
+
+HP_DeskJet_CMY 44.7 (13.9.99)
+
+- 600 DPI output is no longer tied to the Draft/Letter
+  quality settings.
+
+
+HP_DeskJet_CMY 44.8 (13.9.99)
+
+- Now generates all CMY HP DeskJet variants from one common
+  source.
+
+
+HP_DeskJet_CMY 44.9 (16.9.99)
+
+- Added locale support.
+
+- Now indicates where the printable page area starts.
+
+
+HP_DeskJet_CMY 44.10 (22.9.99)
+
+- Setting the page size in the raster printing code also
+  caused the page to be ejected, causing strip printing
+  to break. Fixed.
+
+
+HP_DeskJet_CMY 44.11 (29.9.99)
+
+- Switched over to use "sys/devs.catalog" for its localized
+  strings.
+
+
+HP_DeskJet_CMY 44.12 (24.11.1999)
+
+- Integrated Jochen's page size changes. This should correct
+  the problems with the top page margin of the first page
+  printed.

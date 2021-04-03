@@ -1,0 +1,59 @@
+slider.gadget 45.1 (8.11.2000)
+
+· the knob dimensions did also take the body image into account which made
+  using a custom body image nearly impossible.
+
+slider.gadget 45.2 (9.11.2000)
+
+· removed some serial debugging output
+
+slider.gadget 45.3 (18.11.2000)
+
+· setting SLIDER_Level, SLIDER_Min or SLIDER_Max does not longer return 1 but
+  renders immediatly with GREDRAW_UPDATE (reduces flicker a lot)
+
+slider.gadget 45.4 (6.2.2001)
+
+· fixed a very old (older than OS 3.5) bug: the dispose method did not call
+  DoSuperMethodA() so the gadget never was freed. Leads to a memory leak of
+  about 240 bytes.
+
+slider.gadget 45.5 (28.2.2001)
+
+· implemented GM_CLIPRECT for use in virtual groups.
+
+· no longer opens the math#?.library.
+
+· passes REACTION_SpecialPens and REACTION_ChangePrefs to its knob- and
+  bodyimage (if any), now.
+
+slider.gadget 45.6 (11.3.2001)
+
+· when changing the disabled state, the OM_SET method didn't return != 0L
+  to indicate that a refresh is needed.
+
+slider.gadget 45.7 (29.3.2001)
+
+· fixed rendering of tickmarks in a vertical slider <Thorsten Hansen>.
+
+· replaced some GREDRAW_REDRAW through GREDRAW_UPDATE in GM_GOACTIVE
+  and GM_GOINACTIVE. This avoids that the gadget "flickers" when it 
+  becomes the active one or when it goes inactive. I hope that does
+  not break anything.
+
+slider.gadget 45.8 (31.3.2001)
+
+· Ooops! GM_GOINACTIVE didn't update the gadget imagery when the
+  level hasn't changed. This time, this was my fault :)
+
+slider.gadget 45.9 (23.7.2001)
+
+· added (by request) AttemptLockLayer() before ObtainGIRPort() to 
+  avoid potential deadlocks <Thorsten Hansen>.
+
+slider.gadget 45.10 (01.12.2001)
+
+· the offscreen bitmaps are reallocated when the screen
+  (depth) changes (blits from 24bit to 8bit screens don't work).
+
+· added GA_GadgetHelpText support.

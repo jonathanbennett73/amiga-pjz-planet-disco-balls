@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-49" TITLE="A Register Summary / SPRxDATA, SPRxDATB" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / SPRxDATA, SPRxDATB</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node003F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0041.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+SPRxDATA   144      W       D     Sprite x image data register A
+SPRxDATB   146      W       D     Sprite x image data register B
+
+                 These registers buffer the sprite image data. They are
+                 usually loaded by the sprite DMA channel but may be
+                 loaded by either processor at any time.  When a
+                 horizontal comparison occurs, the buffers are dumped
+                 into shift registers and serially outputted to the
+                 display, MSB first on the left.
+
+                 NOTE: Writing to the A buffer enables (arms) the sprite.
+                 Writing to the SPRxCTL register disables the sprite.
+                 If enabled, data in the A and B buffers will be outputted
+                 whenever the beam counter equals the sprite horizontal
+                 position value in the  <a href="../Hardware_Manual_guide/node003F.html">SPRxPOS</a>  register.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

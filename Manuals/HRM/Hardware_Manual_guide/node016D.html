@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-4-5-8" TITLE="7 / / Setting and Clearing Bits / Disk Interrupt" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 / / Setting and Clearing Bits / Disk Interrupt</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node016C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node016E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+<a name="line2">Bits 12 and 1 of the  <a href="../Hardware_Manual_guide/node0164.html">interrupt registers</a>  are assigned to disk interrupts.</a>
+
+Bit 12, DSKSYN, indicates that the  <a href="../Hardware_Manual_guide/node0195.html">sync register</a>  matches disk data. This
+<a name="line5">bit generates a  <a href="../Hardware_Manual_guide/node016F.html">level 5 interrupt</a> .</a>
+
+Bit 1, DSKBLK, indicates &#034;disk block finished.&#034; It is used to indicate
+that the specified disk DMA task that you have requested has been
+completed. This bit generates a  <a href="../Hardware_Manual_guide/node016F.html">level 1 interrupt</a> .
+
+More information about disk data transfer and  <a href="../Hardware_Manual_guide/node0196.html">interrupts</a>  may be found
+in Chapter 8, &#034;Interface Hardware.&#034;
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

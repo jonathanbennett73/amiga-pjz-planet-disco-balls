@@ -1,0 +1,193 @@
+TABLE OF CONTENTS
+
+penmap_ic/--datasheet--
+penmap_ic/PENMAP_GetClass
+penmap_ic/--datasheet--                           penmap_ic/--datasheet--
+
+    NAME
+        penmap_ic -- create penmap BOOPSI objects
+
+    SUPERCLASS
+        imageclass
+
+    REQUIRES
+        None.
+
+    DESCRIPTION
+        This class will yield color remapped images on any public screen.
+        It also supports bitmap scaling. If used with V39 or or greater
+        of AmigaOS it can take advantage of pen sharing.
+
+    METHODS
+        OM_NEW -- Create the penmap image.  Passed to superclass,
+            then OM_SET.
+
+        OM_GET -- Get object attributes.  Passed to superclass first.
+
+        OM_SET -- Set object attributes.  Passed to superclass first.
+
+        OM_UPDATE -- Set object notification attributes.  Passed to
+            superclass first.
+
+        IM_DRAW -- Renders the image. Supports IDS_NORMAL and
+            IDS_SELECTED drawing states, and does not require
+            a DrawInfo structure. The graphics.library function
+            BitMapScale () to scale the image if required.
+
+        IM_DRAWFRAME -- Renders the image scaled to the frame size
+            specified. Supports IDS_NORMAL and IDS_SELECTED drawing
+            states, and does not require a DrawInfo structure.
+            The graphics.library function BitMapScale () to scale
+            the image.
+
+        IM_HITFRAME -- Asks the object if a point would be inside it
+            if the object was confined (scaled) to the given
+            rectangular bounds. Returns TRUE if the given point would
+            be inside the object, otherwise FALSE.
+
+        IM_ERASEFRAME -- Erase the object using the rectangular
+            frame size.
+
+        All other methods are passed to the superclass, including OM_DISPOSE.
+
+    ATTRIBUTES
+
+        IA_Left (WORD)
+        IA_Top (WORD)
+            Set starting position/offset of image.
+            Defaults to 0.
+
+           (Applicability is OM_NEW, OM_SET, OM_GET)
+
+        IA_Width (WORD)
+        IA_Height (WORD)
+            Set size of the image, scaling via BitMapScale() if different
+            from the chunky image data size.
+
+            Defaults to width and height of IA_Data.
+
+           (Applicability is OM_NEW, OM_SET, OM_GET)
+
+        IA_BGPen 
+            Specify background pen of a normal image.
+
+            Defaults to BACKGROUNDPEN of the screen passed in PENMAP_Screen.
+
+           (Applicability is OM_NEW, OM_SET, OM_GET)
+
+        IA_Pens
+            Sets the pens which the values in the data array represents.
+
+           (Applicability is OM_NEW, OM_GET)
+
+        IA_Data
+           Chunky format image data for normal render.
+           
+           The data format is a UBYTE array of chunky pen numbers.
+           Note this data must be WORD aligned, as the first 4 bytes
+           are accessed as two WORDs which specify the width and
+           height of the following chunky image data.
+
+           Defaults to NULL.
+
+           (Applicability is OM_NEW, OM_SET)
+
+        PENMAP_SelectedData
+           Chunky format image data for selected image render.
+
+           (Applicability is OM_NEW, OM_SET)
+
+        PENMAP_Palette
+           An array of ULONG describing the palette for the picture.
+           If you are obtaining pens yourself, you should only pass the
+           IA_Pens attribute at object creation time.
+
+           The format of the array is:
+
+           ULONG palette[] =
+           {
+               number_triplets,
+               red1, green1, blue1,
+               red2, green2, blue2,
+               ...
+           };
+
+           (Applicability is OM_NEW, OM_GET)
+
+        PENMAP_Screen (struct Screen *)
+            Pointer to the screen to use image on. This attribute MUST
+            be provided when creating an object of this class.
+
+           Defaults to NULL.
+
+           (Applicability is OM_NEW, OM_GET)
+
+        PENMAP_Transparent (BOOL)
+           Remaps chunky pen 0 to the BACKGROUNDPEN.
+
+           Defaults to FALSE.
+
+           (Applicability is OM_NEW, OM_SET)
+
+        PENMAP_Precision
+            Set the precision for ObtainBestPen() when penmap is used
+            under AmigaOS 3.0 or later. See the ObtainBestPen autodoc
+            for more details.
+            
+            Defaults to PRECISION_IMAGE.
+
+            Applicability is (OM_NEW, OM_SET)
+
+        PENMAP_ColorMap (struct ColorMap *)
+            Pointer to a colormap to use in obtaining best matching pens.
+            This tag or, PENMAP_Screen must be provided when creating an
+            object of this class. If PENMAP_Screen is passed, penmap will
+            use Screen->ViewPort.ColorMap.
+
+           Defaults to NULL.
+
+           (Applicability is OM_NEW, OM_GET)
+
+        PENMAP_MaskBlit (BOOL)
+           Causes penmap to render on screen using a mask plane. This
+           mask plane is created dynamically by the class.
+
+           The mask is created by OR'ing the source bitplanes in to a single
+           mask plane using some nifty blitting techniques. This tag should
+           be used if penmap objects are used in a layout group that may
+           contain a user or program specified backfill. This will allow the
+           backfill pattern to flow around the image, making it transparent.
+
+           Defaults to FALSE.
+
+           (Applicability is OM_NEW, OM_SET)
+penmap_ic/PENMAP_GetClass                   penmap_ic/PENMAP_GetClass
+
+    NAME
+        PENMAP_GetClass -- Gets the pointer to the penmap class.
+
+    SYNOPSIS
+        penmap_class = PENMAP_GetClass();
+        D0
+
+        Class * PENMAP_GetClass(VOID);
+
+    FUNCTION
+        Obtains the pointer to the PenMap image class for use with
+        NewObject().  This function always returns a valid pointer so
+        you do not need to check it.  The reason is that if the library
+        opens fine, then the pointer returned is already setup.  (Of course
+        this implies that if opening the library fails, you shouldn't be
+        calling this.)
+
+        Note that this function does not create the class, that is done
+        when the class library is opened.
+
+    INPUTS
+        Nothing.
+
+    RESULT
+        penmap_class - Pointer to the PenMap image class.
+
+    SEE ALSO
+

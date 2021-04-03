@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-6" TITLE="A Register Summary / AUDxVOL" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / AUDxVOL</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0016.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0018.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+AUDxVOL    0A8      W       P      Audio channel x volume
+
+                 This register contains the volume setting for
+                 audio channel x.  Bits 6,5,4,3,2,1,0 specify 65
+                 linear volume levels as shown below.
+
+                 Bit#    Use
+                 ----    --------------------------
+                  15-07  Not used
+                  06     Forces volume to max (64 ones, no zeros)
+                  05-00  Sets one of 64 levels (000000=no output
+                         (111111=63 1s, one 0)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

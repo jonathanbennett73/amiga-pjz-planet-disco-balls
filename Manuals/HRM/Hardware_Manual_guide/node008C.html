@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-5-3" TITLE="3 / Moving (Scrolling) Playfields / Scrolling Playfield Summary" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Moving (Scrolling) Playfields / Scrolling Playfield Summary</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node008B.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node008D.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The steps for defining a scrolled playfield are the same as those for
+defining the basic playfield, except for the following steps:
+
+   *   <a href="../Hardware_Manual_guide/node0089.html">Defining the data fetch</a> .
+      -------------------------
+      Fetch one extra word per horizontal line and start it 16 pixels
+      before the normal (unscrolled) data-fetch start.
+
+   *   <a href="../Hardware_Manual_guide/node008A.html">Defining the modulo</a> .
+      ---------------------
+      The modulo is two counts less than when there is no scrolling.
+
+These steps are added:
+
+   *  For  <a href="../Hardware_Manual_guide/node0087.html">vertical scrolling</a> , reset the bitplane pointers
+      -----------------------------------------------------
+      for the amount of the scrolling increment.
+      -----------------------------------------
+      Reset  <a href="../Hardware_Manual_guide/node006B.html#line32">BPLxPTH and BPLxPTL</a>  during the  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  interval.
+
+   *  For  <a href="../Hardware_Manual_guide/node0088.html">horizontal scrolling</a> , specify the delay.
+      ---------------------------------------------
+      Set bits 7-0 in  <a href="../Hardware_Manual_guide/node008B.html">BPLCON1</a>  for 0 to 15 bits of delay.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

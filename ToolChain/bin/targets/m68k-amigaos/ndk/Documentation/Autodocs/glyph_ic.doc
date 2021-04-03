@@ -1,0 +1,95 @@
+TABLE OF CONTENTS
+
+glyph_ic/--datasheet--
+glyph_ic/GLYPH_GetClass
+glyph_ic/--datasheet--                              glyph_ic/--datasheet--
+
+    NAME
+        glyph_ic -- create glyph BOOPSI objects
+
+    SUPERCLASS
+        imageclass
+
+    REQUIRES
+        drawlist.image
+
+    DESCRIPTION
+        This image class can create scaled glyphs suitable for use
+        as gadget imagery or informational requestor imagery.
+        Either a penmap or drawlist scaled image is created internally,
+        and external user prefered glyph style sets may become possible
+        at a later date.
+
+    METHODS
+        OM_NEW -- Create the glyph image. Passed to superclass, then OM_SET.
+
+        OM_GET -- Get object attributes. Passed to superclass first.
+
+        OM_SET -- Set object attributes.
+            Passed to superclass first.
+
+        OM_UPDATE -- Set object notification attributes. Passed to
+            superclass first.
+
+        IM_DRAW -- Renders the image. Overrides the superclass.
+
+        IM_DRAWFRAME -- Renders the image scaled to fit in the frame.
+            Following IM_DRAW will be this size. Overrides the superclass.
+
+        All other methods are passed to the superclass.
+
+    ATTRIBUTES
+        GLYPH_Glyph (LONG)
+            Selects any one of the built-in scaled image glyphs.
+
+            Current supported and defined in <gadgets/glyph.h>:
+
+            GLYPH_NONE - No image.
+            GLYPH_DOWNARROW - Indicates downward movement control.
+            GLYPH_UPARROW - Indicates upward movement control.
+            GLYPH_LEFTARROW - Indicates left movement control.
+            GLYPH_RIGHTARROW - Indicates right movement control.
+            GLYPH_DROPDOWN - Denotes a drop-down menu.
+            GLYPH_POPUP - Denotes a pop-up menu.
+            GLYPH_CHECKMARK - Indicates a toggle.
+            GLYPH_POPFONT - Font selection.
+            GLYPH_POPFILE - File selection.
+            GLYPH_POPDRAWER - Drawer (directory) selection.
+            GLYPH_POPSCREENMODE - Screenmode selection.
+            GLYPH_POPTIME - Time selection.
+            GLYPH_RADIOBUTTON - Mutual exclusion item.
+            GLYPH_RETURNARROW - RETURN key controlled.
+
+            Defaults to GLYPH_POPFILE.
+
+            Applicability is (OM_NEW, OM_SET, OM_UPDATE)
+glyph_ic/GLYPH_GetClass                            glyph_ic/GLYPH_GetClass
+
+    NAME
+        GLYPH_GetClass -- Gets the pointer to the glyph class.
+
+    SYNOPSIS
+        glyph_class = GLYPH_GetClass();
+        D0
+
+        Class * GLYPH_GetClass(VOID);
+
+    FUNCTION
+        Obtains the pointer to the Glyph image class for use with
+        NewObject().  This function always returns a valid pointer so
+        you do not need to check it.  The reason is that if the library
+        opens fine, then the pointer returned is already setup.  (Of course
+        this implies that if opening the library fails, you shouldn't be
+        calling this.)
+
+        Note that this function does not create the class, that is done
+        when the class library is opened.
+
+    INPUTS
+        Nothing.
+
+    RESULT
+        glyph_class - Pointer to the Glyph image class.
+
+    SEE ALSO
+

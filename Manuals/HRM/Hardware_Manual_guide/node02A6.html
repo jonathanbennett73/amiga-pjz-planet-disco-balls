@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-3-1-2" TITLE="K / / Basic Zorro III Bus Cycles / Simple Bus Cycle Operation" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Basic Zorro III Bus Cycles / Simple Bus Cycle Operation</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02A5.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02A7.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The normal Zorro III bus cycle is quite different than the Zorro II bus in
+many respects. Figure K-5 shows the basic cycle.  There is no bus clock
+visible on the expansion bus; the standard Zorro II clocks are still
+active during Zorro III cycles, but they have no relationship to the Zorro
+II bus cycle.  Every bus event is based on a relationship to a particular
+<a name="line7">bus strobe, and strobes are alternately supplied by master and slave.</a>
+
+
+           ______      READ CYCLE       ______      WRITE CYCLE       ____
+      /FCS       \                     /      \                      /
+                  \___________________/        \____________________/
+
+               address     data from slave  address   data from master
+                 _|_      ___________|___     _|_      _____|_______
+ AD31..AD8 _____/ | \____/        /  |   \___/ | \____/     |       \_____
+                \___/    \________\______/   \___/    \_____________/
+                 _______________________      _______________________
+  SA7..SA2 _____/                       \____/                       \____
+  FC2..FC0      \_______________________/    \_______________________/
+           __________________________________                         ____
+      READ     /                             \                       /
+           ___/                               \_____________________/
+           ___________                   __________                   ____
+    /SLAVE            \                 /          \                 /
+                       \_______________/            \_______________/
+                         ______________               ______________
+       DOE              /              \             /              \
+           ____________/                \___________/                \____
+           _______________               ______________               ____
+/DS3../DS0                \             /              \             /
+                           \___________/                \___________/
+           _____________________         ____________________         ____
+                                \       /                    \       /
+    /DTACK                       \_____/                      \_____/
+
+
+                    Figure K-5: Basic Zorro III Cycles
+
+
+A Zorro III cycle begins when the bus master simultaneously drives
+addressing information on the address bus and memory space codes on the
+ <a href="../Hardware_Manual_guide/node02B4.html#line28">FCn</a>  lines, quickly following that with the assertion of the Full Cycle
+Strobe,  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a> ; this is called the address phase of the bus.  Any active
+slaves will latch the bus address on the falling edge of  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a> , and the
+bus master will tri-state the addressing information very shortly after
+ <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  is asserted. It's necessary only to latch  <a href="../Hardware_Manual_guide/node02B4.html#line13">A31-A8</a> ; the low order
+ <a href="../Hardware_Manual_guide/node02B4.html#line21">A7-A2</a>  addresses and @&#034; FCn &#034; link K-4-6 28} codes are non-multiplexed.
+
+As quickly as possible after  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  is asserted, a slave device will
+respond to the bus address by asserting its  <a href="../Hardware_Manual_guide/node02B2.html#line3">/SLAVEn</a>  line, and possibly
+other special-purpose signals.  The  <a href="../Hardware_Manual_guide/node02C7.html">autoconfiguration</a>  process assigns a
+unique address range to each PIC base on its needs, just as on the Zorro
+II bus. Only one slave may respond to any given bus address; the bus
+controller will generate a  <a href="../Hardware_Manual_guide/node02B1.html#line4">/BERR</a>  signal if more than one slave responds
+to an address, or if a single slave responds to an address reserved for
+the local bus (this is called a bus collision, and should never happen in
+normal operation). Slaves don't usually respond to CPU memory space or
+other reserved memory space types, as indicated by the  <a href="../Hardware_Manual_guide/node02B4.html#line35">memory space</a>  code
+on the  <a href="../Hardware_Manual_guide/node02B4.html#line28">FCn</a>  lines (see the  <a href="../Hardware_Manual_guide/node02AE.html">Signal Description</a>  section following this
+section for details).
+
+The data phase is the next part of the cycle, and it's started when the
+bus master asserts  <a href="../Hardware_Manual_guide/node02B5.html#line5">DOE</a>  onto the bus, indicating that data operations can
+be started.  The strobes are the same for both read and write cycles, but
+the data transfer direction is different.
+
+For a read cycle, the bus master drives at least one of the data strobes
+ <a href="../Hardware_Manual_guide/node02B5.html#line17">/DSn</a> , indicating the physical transfer size requested (however, cachable
+slaves must always supply all 32 bits of data).  The slave responds by
+driving data onto the bus, and then asserting  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a> . The bus master
+then terminates the cycle by negating  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a> , at which point the slave
+will negate its  <a href="../Hardware_Manual_guide/node02B2.html#line3">/SLAVEn</a>  line and tri-state its data. The cycle is done
+at this point. There are a few actions that modify a cycle  <a href="../Hardware_Manual_guide/node0298.html">termination</a> ,
+those will be covered in later sections.
+
+The write cycle starts out the same way, up until  <a href="../Hardware_Manual_guide/node02B5.html#line5">DOE</a>  is asserted.  At
+this point, it's the master that must drive data onto the bus, and then
+assert at least one  <a href="../Hardware_Manual_guide/node02B5.html#line17">/DSn</a>  line to indicate to the slave that data is
+valid and which data bytes are being written.  The slave has the data for
+its use until it terminates the cycle by asserting  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a> , at which
+point the master can negate  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  and tri-state its data at any point.
+For maximum bus bandwidth, the slave can latch data on the falling edge of
+the logically ORed data strobes; the bus master doesn't sample  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a> 
+until after the data strobes are asserted, so a slave can actually assert
+ <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>  any time after  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

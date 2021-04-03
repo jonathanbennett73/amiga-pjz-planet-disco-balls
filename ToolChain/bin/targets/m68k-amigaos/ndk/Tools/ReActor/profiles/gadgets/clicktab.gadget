@@ -1,0 +1,9 @@
+clicktab.gadget
+LABEL "Clicktab"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/clicktab.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+LIST     0x85027001 (I····) CLICKTAB_Labels "Clicktab Labels" CLICKTAB
+INTEGER  0x85027002 (I··NU) CLICKTAB_Current "Current Label" 0 0 32767
+GADGROUP 0x85027005 (I····) CLICKTAB_PageGroup "Page Gadget Group"
+END

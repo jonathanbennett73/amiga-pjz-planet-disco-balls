@@ -1,0 +1,10 @@
+IsCustomMonitor
+---------------
+
+Template: PUBSCREEN/K
+
+Checks if the monitor driver of the public screen is one of the Amiga
+standard monitors. Returns 5 (WARN) if not.
+
+If PUBSCREEN is omitted the default public screen (typically Workbench)
+is checked.

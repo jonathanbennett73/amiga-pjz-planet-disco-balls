@@ -1,0 +1,126 @@
+
+RCS file: RCS/Updater.cpp
+Working file: Updater.cpp
+head: 45.15
+branch:
+locks:
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 15;	selected revisions: 15
+description:
+Updater: For creating and using crypted update files
+----------------------------
+revision 45.15
+date: 2001/04/17 13:43:09;  author: Helios;  state: Exp;  lines: +4 -4
+- disabled DEBUG output
+----------------------------
+revision 45.14
+date: 2001/04/16 11:24:45;  author: Helios;  state: Exp;  lines: +20 -6
+- ouch!!! seeked angels.avi to a position beyond file end. I did not check
+  the seeks separately, and thus they failed silently and it read the
+  file from the beginning instead.
+  So it worked fine on real Amigas even tough it always read an other
+  portion of the file and I thought it did. But on UAE this maybe leads
+  to a failure, when Seek() on UAE actually also changes the file
+  position even when it fails. I send this version to UAE user James
+  R. Jacobs <james_jacobs@altavista.net> for testing.
+----------------------------
+revision 45.13
+date: 2001/04/03 13:07:21;  author: Helios;  state: Exp;  lines: +93 -33
+- xadFileUnArc possibly deletes the file to unarchive when unarchiving fails.
+  It possibly also deletes it, when it didn't even start to unarchive it for
+  some reason - this results in old system files being deleted.
+  Updater works around this by using temporary files called file.BB1 BB2 - BB99
+  to unarchive to and then it makes the original file deleteable if present,
+  deletes it and renames the temporary file to the original file. This should
+  give enough security against accidental system file deletion - cause the
+  rename command really should not fail.
+----------------------------
+revision 45.12
+date: 2001/03/26 18:06:14;  author: Helios;  state: Exp;  lines: +26 -7
+- when depacking a file failed now does report so explicitely for each file
+- report requester sports ignore, ignore all and abort options, abort returns
+  10 as returncode, "ignore all" and clicking "ignore" on all files 0 as
+  return code. --> Only when the user presses "Abort" it is considered a
+  installation files. This allows continuing the installation when only depacking
+  one or some file(s) failed.
+----------------------------
+revision 45.11
+date: 2001/03/21 14:51:31;  author: Helios;  state: Exp;  lines: +28 -11
+- made GetCryptValue() abortable
+- no longer displays requesters on user abort
+- no longer reports RETURN_OK as return code on user abort
+  user abort indicates a failure of the update
+----------------------------
+revision 45.10
+date: 2001/03/21 13:43:52;  author: Helios;  state: Exp;  lines: +89 -62
+- uses different files now, no longer resource.library,
+  but some MPEG and AmiDock (resource lib is in OS 3.5 already)
+  this correspondends to CreateUpdate 45.4
+- enhanced error checking in GetCryptValue
+- immediately aborts unpacking archive on password or memory
+  failure
+- supports two arguments now: UPDATEFILE/A, TARGETDIR/A
+----------------------------
+revision 45.9
+date: 2001/03/20 14:54:02;  author: Helios;  state: Exp;  lines: +5 -5
+- replaced return(rc) by exit(rc) since return does not really
+  return returncode with StormC 4 but exit() does
+- contains quite some debug output... has to be removed before
+  release
+----------------------------
+revision 45.8
+date: 2001/03/20 14:02:27;  author: Helios;  state: Exp;  lines: +7 -7
+- added some debug information just in case someone has a problem
+- please test Updater on UAE
+----------------------------
+revision 45.7
+date: 2001/03/20 14:01:20;  author: Helios;  state: Exp;  lines: +105 -105
+- added missing error requesters and localized them
+----------------------------
+revision 45.6
+date: 2001/03/16 17:05:22;  author: Helios;  state: Exp;  lines: +155 -67
+- capsulated GUI abort checking into separate routine
+- made GetCryptValue abortable
+- implemented first EasyRequest() asl requester (more or less
+  a cut&paste action from UnArc sources;-)
+- TODO rest of ASL requester
+       localization of them
+----------------------------
+revision 45.5
+date: 2001/03/15 15:46:02;  author: Helios;  state: Exp;  lines: +240 -42
+- now has a nice ReAction progress gauge and lets itself Abort
+  (from a look in the source UnArc has not yet Abort functionality)
+- error handling still text based
+----------------------------
+revision 45.4
+date: 2001/03/15 11:48:58;  author: Helios;  state: Exp;  lines: +28 -7
+- added setting protection bits, date and comment
+----------------------------
+revision 45.3
+date: 2001/03/15 11:34:50;  author: Helios;  state: Exp;  lines: +95 -122
+- this one theoretically should be able to decrypt encrypted
+  ZIP files, but practically it isn't right now,
+  I suggest a xad-Problem, see report:
+  Message-Id: 3AB0B555.MD-1.4.4.m.steigerwald@haage-partner.com
+- TODO:
+  - setting protection bits and dates
+  - ReAction GUI
+----------------------------
+revision 45.2
+date: 2001/03/14 16:03:31;  author: Helios;  state: Exp;  lines: +162 -58
+- now can depack the update via xad directly from the decrypted
+  memory block
+- needs to load file into a big memory block completely as long
+  as I don't use an xad input hook
+- GetCryptValue would always load complete buffer size even when
+  remaining count of bytes is less... this lead to BUFSIZE
+  dependend crypt values
+----------------------------
+revision 45.1
+date: 2001/03/13 16:57:48;  author: Helios;  state: Exp;
+- first version which can just crypt and uncrypt the BB3.9
+  using some values it gets from some files on the AmigaOS 3.9
+  CD-ROM
+=============================================================================

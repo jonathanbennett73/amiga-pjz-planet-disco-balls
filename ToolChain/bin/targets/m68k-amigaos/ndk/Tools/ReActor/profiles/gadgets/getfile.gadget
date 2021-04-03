@@ -1,0 +1,26 @@
+getfile.gadget
+LABEL "Getfile"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/getfile.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+STRING    0x85060001 (I····) GETFILE_TitleText "Title" ""
+INTEGER   0x85060002 (I····) GETFILE_LeftEdge "Left Edge" 30 0 32767
+INTEGER   0x85060003 (I····) GETFILE_TopEdge "Top Edge" 20 0 32767
+INTEGER   0x85060004 (I····) GETFILE_Width "Width" 300 0 32767
+INTEGER   0x85060005 (I····) GETFILE_Height "Height" 200 0 32767
+STRING    0x85060006 (I··N·) GETFILE_File "File" ""
+DIR       0x85060007 (I··N·) GETFILE_Drawer "Drawer"
+FILE      0x85060008 (I··N·) GETFILE_FullFile "File"
+BOOLEAN   0x85060009 (I····) GETFILE_FullFileExpand "Expand Filename" FALSE "Expand"
+STRING    0x8506000A (I····) GETFILE_Pattern "Pattern" ""
+BOOLEAN   0x8506000B (I····) GETFILE_DoSaveMode "Save Mode" FALSE "Save"
+BOOLEAN   0x8506000C (I····) GETFILE_DoMultiSelect "Multi Select Mode" FALSE "Multi Select"
+BOOLEAN   0x8506000D (I····) GETFILE_DoPatterns "Pattern Mode" FALSE "Do Patterns"
+BOOLEAN   0x8506000E (I····) GETFILE_DrawersOnly "Drawer Mode" FALSE "Drawers Only"
+LINK      0x8506000F (I····) GETFILE_FilterFunc "Filter Hook" 
+BOOLEAN   0x85060010 (I····) GETFILE_RejectIcons "Icon Mode" FALSE "Reject Icons"
+PATTERN   0x85060011 (I····) GETFILE_RejectPattern "Reject Pattern" ""
+PATTERN   0x85060012 (I····) GETFILE_AcceptPattern "Accept Pattern" ""
+BOOLEAN   0x85060013 (I····) GETFILE_FilterDrawers "Filter Drawers" FALSE "Filter Drawers"
+BOOLEAN   0x85060016 (I····) GETFILE_ReadOnly "Read Only Path" FALSE "Read Only"
+END

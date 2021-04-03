@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-17" TITLE="A Register Summary / BPL1MOD, BPL2MOD" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / BPL1MOD, BPL2MOD</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0020.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0022.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+BPL1MOD    108      W       A     Bitplane modulo (odd planes)
+BPL2MOD    10A      W       A     Bitplane modulo (even planes)
+
+                 These registers contain the modulos for the odd
+                 and even bitplanes.  A modulo is a number that is
+                 automatically added to the address at the end of
+                 each line, so that the address then points to the
+                 start of the next line.
+                 Since they have separate modulos, the odd and even
+                 bitplanes may have sizes that are different from
+                 each other, as well as different from the display
+                 window size.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

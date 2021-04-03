@@ -1,0 +1,282 @@
+TABLE OF CONTENTS
+
+resource.library/--background--
+resource.library/RL_CloseResource
+resource.library/RL_DisposeGroup
+resource.library/RL_DisposeObject
+resource.library/RL_GetObjectArray
+resource.library/RL_NewGroupA
+resource.library/RL_NewObjectA
+resource.library/RL_OpenResource
+resource.library/RL_SetResourceScreen
+resource.library/--background--               resource.library/--background--
+
+   NAME
+	resource.library -- resource handling for BOOPSI classes
+
+   DESCRIPTION
+	The resource.library offers an API to handle resource objects
+	(an object file created from ReActor or similar BOOPSI creator
+	tools). One can create BOOPSI objects and groups of BOOPSI
+	objects and resource tracking is completly done by 
+	resource.library.
+	
+	A resource object ist an AmigaDOS hunk object file that contains
+	data structures with all necessary informations for creating BOOPSI
+	objects. Special class informations allows to handle intuition
+	BOOPSI objects.
+	
+	Strings are automatically localized if needed. The resource
+	objects contains references to labels (for the locale string IDs)
+	and strings (for the default strings) which has to be linked with
+	symbol definitions from the application (a new catcomp version is
+	available to create assembler source files for those definitions).
+	
+	The default label for the resource object is _RCTResource (defined 
+	by ReActor). Use a statement like
+	
+		extern char RCTResource[];
+
+	to access the resource object. The variable RCTResource has to be
+	used as the first argument to RL_OpenResource.
+resource.library/RL_CloseResource           resource.library/RL_CloseResource
+
+   NAME
+	RL_CloseResource - close and free a resource object (V44)
+
+   SYNOPSIS
+	RL_CloseResource(resource)
+	                   A0
+
+	VOID RL_CloseResource(RESOURCEFILE);
+
+   FUNCTION
+	This routine closes a resource object that was previously opened with
+	RL_OpenResource. It frees all objects and object groups.
+
+   INPUTS
+	resource -- a pointer to a resource. A value of NULL is acceptable
+	            which means a no-op.
+
+   RESULTS
+	
+
+   SEE ALSO
+	resource.library/RL_OpenResource
+resource.library/RL_DisposeGroup             resource.library/RL_DisposeGroup
+
+   NAME
+	RL_DisposeGroup - dispose a group of objects (V44)
+
+   SYNOPSIS
+	RL_DisposeGroup(resource, group)
+	                 A0        A1
+
+	VOID RL_DisposeGroup(RESOURCEFILE, Object **);
+
+   FUNCTION
+	Disposes a group of objects that was allocated with RL_NewGroupA.
+	Never dispose a object from the group with RL_DisposeObject,
+	DisposeObject or DisposeDTObject.
+
+   INPUTS
+	resource -- a pointer to a resource
+	group -- a pointer to an array of pointers to Object. A value of
+	         NULL is acceptable which means a no-op.
+
+   RESULTS
+	
+
+   SEE ALSO
+	resource.library/RL_NewGroupA
+resource.library/RL_DisposeObject            resource.library/RL_DisposeObject
+
+   NAME
+	RL_DisposeObject - dispose an object (V44)
+
+   SYNOPSIS
+	RL_DisposeObject(resource, object)
+	                  A0        A1
+
+	VOID RL_DisposeObject(RESOURCEFILE, Object *);
+
+   FUNCTION
+	Dispose an object that was allocated with RL_NewObjectA.
+
+   INPUTS
+	resource -- a pointer to a resource
+	object -- a pointer to an Object. A value of NULL is acceptable which
+	          means a no-op.
+
+   RESULTS
+	
+
+   SEE ALSO
+	resource.library/RL_NewObjectA
+resource.library/RL_GetObjectArray         resource.library/RL_GetObjectArray
+
+   NAME
+	RL_GetObjectArray - get a pointer to a group of objects (V44)
+
+   SYNOPSIS
+	group = RL_GetObjectArray(resource,object,id)
+	 D0                        A0       A1    D0
+
+	Object **RL_GetObjectArray(RESOURCEFILE, Object *, RESOURCEID);
+
+   FUNCTION
+	If you allocated an Object using RL_NewObjectA a lot of additional
+	Objects and group of Objects may be allocated automatically. This
+	functions returns a pointer to a group of objects with a given group
+	ID.
+	
+	Never release the group with RL_DisposeGroupA. The group is released
+	automatically if the object is released
+
+   INPUTS
+	resource -- a pointer to a resource
+	object -- a pointer to an Object
+	id -- a numeric id of a object group
+
+   RESULTS
+	group -- a pointer to an array of pointers to Object
+
+   SEE ALSO
+	resource.library/RL_NewObjectA
+	resource.library/RL_NewGroupA
+resource.library/RL_NewGroupA                   resource.library/RL_NewGroupA
+
+   NAME
+	RL_NewGroupA - allocate a group of objects (V44)
+
+   SYNOPSIS
+	group = RL_NewGroupA(resource,id,taglist)
+	 D0                   A0      D0  A1
+
+	Object **RL_NewGroupA(RESOURCEFILE, RESOURCEID, struct TagItem *);
+
+   FUNCTION
+	The routine allocates a group of objects with a given numeric id.
+
+   INPUTS
+	resource -- a pointer to a resource
+	id -- a numeric id
+	taglist -- a pointer to an array of TagItem. Currently no tags are
+	           defined.
+
+   RESULTS
+	group -- a pointer to an array of pointers to Object or NULL.
+
+   SEE ALSO
+	resource.library/RL_DisposeGroup
+	resource.library/RL_GetObjectArray
+resource.library/RL_NewObjectA                 resource.library/RL_NewObjectA
+
+   NAME
+	RL_NewObjectA - create a new object (V44)
+
+   SYNOPSIS
+	object = RL_NewObjectA(resource,id,taglist)
+	 D0                     A0      D0  A1
+
+	Object *RL_NewObjectA(RESOURCEFILE, RESOURCEID, struct TagItem *);;
+
+   FUNCTION
+	The routine creates a new object with a given numeric id.
+
+   INPUTS
+	resource -- a pointer to a resource
+	id -- a numeric id
+	taglist -- a pointer to an array of TagItem. The tags are moved
+	           forward to the call of NewObjectA, NewDTObjectA or
+	           whatever is called to create the object
+
+   RESULTS
+	object -- a pointer to an Object or NULL.
+
+   SEE ALSO
+	intuition.library/NewObjectA
+	datatypes.library/NewDTObjectA
+	resource.library/RL_DisposeObject
+resource.library/RL_OpenResource             resource.library/RL_OpenResource
+
+   NAME
+	RL_OpenResource - open a resource (V44)
+
+   SYNOPSIS
+	resource = RL_OpenResource(resobject, screen, catalog)
+	 D0                         A0         A1      A2
+
+	RESOURCEFILE RL_OpenResource(APTR, struct Screen *, struct Catalog *);
+
+   FUNCTION
+	This routine opens a resource object.
+	
+	If you give a NULL for the parameter screen do not call RL_NewObjectA
+	or RL_NewGroupA. You must first set a screen with 
+	RL_SetResourceScreen.
+
+   INPUTS
+	resobject -- a pointer to a resource object
+	screen -- a pointer to a Screen. This may be NULL
+	catalog -- a pointer to a Catalog. This may be NULL
+
+   RESULTS
+	resource -- a pointer to a resource or NULL
+
+   EXAMPLE
+   
+	extern char RCTResource[];
+	struct Screen *screen;
+	
+	screen = LockPubScreen(NULL);
+	RESOURCEFILE resource = RL_OpenResource(RCTResource, screen, NULL);
+	if (resource)
+	{
+		/* create your objects here */
+	}
+	RL_CloseResource(resource);
+	UnlockPubScreen(NULL,screen);
+
+   SEE ALSO
+	intuition.library/LockPubScreen
+	intuition.library/OpenScreenTagList
+	locale.library/OpenCatalogA
+	resource.library/RL_CloseResource
+	resource.library/RL_SetResourceScreen
+resource.library/RL_SetResourceScreen   resource.library/RL_SetResourceScreen
+
+   NAME
+	RL_SetResourceScreen - sets or clears the screen (V44)
+
+   SYNOPSIS
+	success = RL_SetResourceScreen(resource, screen)
+	 D0                             A0        A1
+
+	BOOL RL_SetResourceScreen(RESOURCEFILE, struct Screen *);
+
+   FUNCTION
+	This routine sets or clears the screen of the resource. You must clear
+	the screen before you close or unlock it. You must set a valid screen
+	before you call NewObjectA or NewGroupA.
+	
+	Setting a new screen does not mean that the allocated objects are
+	automatically adapt to the new screen. This function only controls
+	the internal housekeeping of the screen (and related structures). If
+	you cannot adapt the allocated objects to a new screen (like setting
+	an attribute with the new screen value) you must dispose and
+	recreate them.
+	
+	If you set the same screen pointer as was before this function does
+	nothing but returns TRUE.
+
+   INPUTS
+	resource -- a pointer to a resource
+	screen --  a pointer to a Screen or NULL
+
+   RESULTS
+	success -- TRUE if the screen is successfully set or cleared.
+
+   SEE ALSO
+	resource.library/RL_OpenResource
+

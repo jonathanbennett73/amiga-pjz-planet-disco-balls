@@ -1,0 +1,10 @@
+
+fuelgauge.gagdet 45.1 (8.11.2000)
+
+· percentage output had a problem with arithmetic overflows
+
+fuelgauge.gagdet 45.2 (04.03.2001)
+
+· no longer opens math#?.library.
+
+· recompiled with better optimiziation.

@@ -1,0 +1,8 @@
+texteditor.gadget
+LABEL "Texteditor"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/texteditor.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+TEXT      0x85026002 (I····) GA_TEXTEDITOR_Contents "Contents"
+BOOLEAN   0X85026019 (I····) GA_TEXTEDITOR_ReadOnly "Read Only" FALSE "Read Only"
+END

@@ -1,0 +1,59 @@
+scroller.gadget 45.1 (15.11.2000)
+
+· domain did not take the bporder size into account if new preferences
+  were set before layouting the gadget.
+
+· after clicking into the body of the scroller timer events replaced
+  the knob randomly.
+
+scroller.gadget 45.2 (18.11.2000)
+
+· seems to run stable, so removed debugging output
+
+scroller.gadget 45.3 (28.02.2001)
+
+· implemented GM_CLIPRECT method for use in virtual groups.
+
+· fixed placement in window borders.
+
+· the SCROLLER_Top value couldn't be changed without a GInfo.
+
+scroller.gadget 45.4 (13.03.2001)
+
+· optimized rendering code.
+
+· OM_UPDATE returns != 0L when the class has been "subclassed"
+  and a refresh is needed.
+
+· the size of the gadget is based on the screen aspect ratio,
+  now. Thanks to Massimo Tantignone for the code.
+
+· enabled activation via keyboard shortcut (not only via tabcycling).
+
+scroller.gadget 45.5 (16.03.2001)
+
+· again changed the size calculation.
+
+· depending on the input parameters the scroller could never reach
+  the maximum top when playing with the knob. Let's hope that
+  nothing got broken, now.
+
+· OM_UPDATE should really return != 0 when receiving a message from
+  the arrow buttons.
+
+scroller.gadget 45.6 (23.03.2001)
+
+· did some "finetuning" to the code that calculates the gadget size.
+
+scroller.gadget 45.7 (27.03.2001)
+
+· Sigh, adjusted scroller sizes once again.
+
+scroller.gadget 45.8 (13.10.2001)
+
+· The default look of the scroller (= non 3D) defaults to the
+  so called NEWLOOK, now. When the screen where rendering takes
+  place is not a NEWLOOK one the traditional non 3D look will
+  be used instead.
+
+· added GA_GadgetHelpText support.

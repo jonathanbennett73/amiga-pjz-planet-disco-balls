@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-7" TITLE="3 Playfield Hardware / Summary of Playfield Registers" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 Playfield Hardware / Summary of Playfield Registers</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0091.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0093.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This section summarizes the registers used in this chapter and the meaning
+of their bit settings. The  <a href="../Hardware_Manual_guide/node0093.html">color registers</a>  are summarized in the next
+section. See  <a href="../Hardware_Manual_guide/node0011.html">Appendix A</a>  for a summary of all registers.
+
+BPLCON0 - Bitplane Control
+
+   (Warning: Bits in this register cannot be independently set.)
+
+   Bit 0 - unused
+<a name="line11"></a>
+   Bit 1 - ERSY (external synchronization enable)
+      1 = External synchronization enabled (allows genlock
+          synchronization to occur)
+      0 = External synchronization disabled
+
+   Bit 2 -  <a href="../Hardware_Manual_guide/node0069.html#line94">LACE</a>  (interlace enable)
+      1 = interlaced mode enabled
+<a name="line19">      0 = non-interlaced mode enabled</a>
+
+   Bit 3 -  <a href="../Hardware_Manual_guide/node018A.html#line26">LPEN</a>  (light pen enable)
+
+<a name="line23">   Bits 4-7 not used (make 0)</a>
+<a name="line24"></a>
+   Bit 8 - GAUD (genlock audio enable)
+      1 = Genlock audio enabled
+      0 = Genlock audio disabled
+<a name="line28">      (This bit also appears on Denise pin ZD during blanking period)</a>
+
+   Bit 9 -  <a href="../Hardware_Manual_guide/node0076.html">COLOR_ON</a>  (color enable)
+      1 = composite video color-burst enabled
+<a name="line32">      0 = composite video color-burst disabled</a>
+
+   Bit 10 -  <a href="../Hardware_Manual_guide/node007C.html">DBLPF</a>  (double-playfield enable)
+      1 = dual playfields enabled
+<a name="line36">      0 = single playfield enabled</a>
+
+   Bit 11 -  <a href="../Hardware_Manual_guide/node008F.html#line51">HOMOD</a>  (hold-and-modify enable)
+      1 = hold-and-modify enabled
+      0 = hold-and-modify disabled; extra-half brite ( <a href="../Hardware_Manual_guide/node0098.html">EHB</a> ) enabled
+<a name="line41">          if  <a href="../Hardware_Manual_guide/node007C.html">DBLPF</a> =0 and  <a href="../Hardware_Manual_guide/node0068.html#line4">BPUx</a> =6</a>
+
+   Bits 14, 13, 12 -  <a href="../Hardware_Manual_guide/node0068.html#line4">BPU2, BPU1, BPU0</a> 
+      Number of bitplanes used.
+
+      000 = only a background color
+      001 = 1 bitplane, PLANE 1
+      010 = 2 bitplanes, PLANES 1 and 2
+      011 = 3 bitplanes, PLANES 1 - 3
+      100 = 4 bitplanes, PLANES 1 - 4
+      101 = 5 bitplanes, PLANES 1 - 5
+      110 = 6 bitplanes, PLANES 1 - 6
+      111 not used
+
+   Bit 15 -  <a href="../Hardware_Manual_guide/node0069.html#line7">HIRES</a>  (high resolution enable)
+      1 = high resolution mode
+      0 = low resolution mode
+<a name="line58"></a>
+
+ <a href="../Hardware_Manual_guide/node008B.html">BPLCON1</a>  - Bitplane Control
+
+   Bits 3-0 - PF1H(3-0)  Playfield 1 delay
+
+   Bits 7-4 - PF2H(3-0)  Playfield 2 delay
+
+   Bits 15-8 not used
+
+
+ <a href="../Hardware_Manual_guide/node0159.html">BPLCON2</a>  - Bitplane Control
+
+   Bit 6 - PF2PRI
+      1 = Playfield 2 has priority
+      0 = Playfield 1 has priority
+
+   Bits 0-5  Playfield sprite priority
+
+   Bits 7-15  not used
+<a name="line78"></a>
+
+ <a href="../Hardware_Manual_guide/node0072.html#line9">DDFSTRT</a>  - Data-fetch Start
+   (Beginning position for data fetch)
+
+   Bits 15-8 - not used
+
+   Bits 7-2 - pixel position H8-H3 (bit H3 only respected in Hires Mode.)
+
+   Bits 1-0 - not used
+<a name="line88"></a>
+
+ <a href="../Hardware_Manual_guide/node0072.html#line31">DDFSTOP</a>  - Data-fetch Stop
+   (Ending position for data fetch)
+
+   Bits 15-8 - not used
+
+   Bits 7-2 - pixel position H8-H3 (bit H3 only respected in Hires Mode.)
+
+   Bits 1-0 - not used
+<a name="line98"></a>
+
+ <a href="../Hardware_Manual_guide/node006B.html#line32">BPLxPTH</a>  - Bitplane Pointer
+   (Bitplane pointer high word, where x is the bitplane number)
+
+
+ <a href="../Hardware_Manual_guide/node006B.html#line32">BPLxPTL</a>  - Bitplane Pointer
+   (Bitplane pointer low word, where x is the bitplane number)
+<a name="line106"></a>
+
+ <a href="../Hardware_Manual_guide/node0070.html">DIWSTRT</a>  - Display Window Start
+   (Starting vertical and horizontal coordinates)
+
+   Bits 15-8 - VSTART (V7-V0)
+
+   Bits 7-0 - HSTART (H7-H0)
+<a name="line114"></a>
+
+ <a href="../Hardware_Manual_guide/node0071.html">DIWSTOP</a>  - Display Window Stop
+<a name="line117">   (Ending vertical and horizontal coordinates)</a>
+
+   Bits 15-8 - VSTOP (V7-V0)
+
+<a name="line121">   Bits 7-0 - HSTOP (H7-H0)</a>
+
+ <a href="../Hardware_Manual_guide/node0072.html#line108">BPL1MOD</a>  - Bitplane Modulo
+   (Odd-numbered bitplanes, playfield 1)
+
+
+ <a href="../Hardware_Manual_guide/node0072.html#line108">BPL2MOD</a>  - Bitplane Modulo
+   (Even-numbered bitplanes, playfield 2)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

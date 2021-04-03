@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-2" TITLE="A Register Summary / AUDxDAT" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / AUDxDAT</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0012.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0014.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+AUDxDAT    0AA      W       P      Audio channel x data
+
+                 This register is the audio channel x (x=0,1,2,3)
+                 DMA data buffer.  It contains 2 bytes of data that
+                 are each 2's complement and are outputted
+                 sequentially (with digital-to-analog conversion)
+                 to the audio output pins.  (LSB = 3 MV)  The DMA
+                 controller automatically transfers data to this
+                 register from RAM.  The processor can also write
+                 directly to this register.  When the DMA data is
+                 finished (words outputted=length) and the data in
+                 this register has been used, an audio channel
+                 interrupt request is set.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

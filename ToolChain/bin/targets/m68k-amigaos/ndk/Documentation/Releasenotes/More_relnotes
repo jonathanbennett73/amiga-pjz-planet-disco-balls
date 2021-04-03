@@ -1,0 +1,143 @@
+more 44.1 (15.7.99)
+
+- Bumped to V44.
+
+- Removed the copyright text.
+
+
+more 44.2 (17.7.99)
+
+- Resizing the output window now also refreshes the display.
+
+- Clicking on the window close gadget now terminates the program.
+  This used to work only with the built-in CON: handler and relied
+  upon an implementation defined side-effect. It now correctly
+  requests that the console driver returns window resize and
+  window close events.
+
+
+more 44.3 (6.8.99)
+
+- Removed the close gadget/resize control codes altogether.
+  This fixes the standard CON:, but doesn't fix WShell's
+  display handler. Bummer.
+
+-------- end olsen's log --------------
+
+-------- start thor's log--------------
+
+more 44.5 (22.10.2000)
+
+- Recompiled with registerized parameters as much as possible.
+- more requires now Os 2.04 or better. No chance to run this
+  under 1.2 anymore. This is really really really obsolete.
+- more uses now the utility library for "uppercase" conversion,
+  removed the "roll your own" routine. This requires a new
+  catalog for more.
+- more did not close the libraries correctly on emergency exit,
+  fixed.
+- more did not release the console window information, broke
+  ViNCEd iconification. Fixed.
+- Removed obsolete sendpkt() code and replaced by SetMode().
+- Fixed various incorrect parameters to SetMode(). RAW mode
+  is engaged by 1L, not DOSTRUE. The argument to SetMode()
+  is the "startup" parameter of the console, not a TRUE/FALSE
+  indicator. Who hasn't read the docs here, Carolyn? (-;
+- Removed Amiga.lib fgetc() since it is broken. It sign-
+  extends 8 bit ANSI characters, which is nonsense, especially
+  if you want to check for EOF.
+- found olsen's close/resize notification fixes are correct, so
+  is the WShell. What is broken here is CON: Won't fix it
+  since ViNCEd contains a workaround anyhow. *sigh*
+- removed half a duzend of console hacks from "More". It used
+  to peek and poke in the ConUnit structure. *Shudder*
+  More uses now proper CSI sequences to obtain the window size
+  and the cursor position, including fall-back code if the one
+  or the other is not available. The fall-back code is smart
+  enough to run on VT-xxx terminals. See the ViNCEd includes
+  about the sources. Yes, this is CON: compatible, for sure.
+  No, the code won't deadlock in case no answer is received.
+- Removed the ugly "dummy ConUnit" more required to work on
+  AUX: terminals. This improves the quality of "more" by about
+  ten points.
+- Added a fix to avoid the horizontal flickering of "more" on
+  long lines when using ViNCEd. This is compatible to CON:,
+  so don't worry.
+- Removed a strange and wonderful bug that could have created
+  bogus characters on the screen if overlong lines are broken.
+  This bug must have been ages old.
+- Run tests to confirm that more continues working over an AUX:
+  terminal. Yup, it does. It accepts Amiga CON:, extended CON:
+  (ViNCEd) and VT-100 or better terminals. In case more cannot
+  detect the window size, it will format the screen according
+  to a 80x24 window size. 
+- Removed a couple of now pretty useless hard-coded checks for
+  the AUX: handler.
+- Fixed "scroll half screen down" command alt+space. This must
+  have been broken for ages.
+- Fixed "scroll down one line" option. Refused to work if the
+  console size changed without inquiring "More". This should
+  be better now.
+- Added "g" as command to jump to the be*g*inning of the buffer.
+  This is just my pecularity because I'm used to "less".
+
+BUGS:
+
+- Should have bumped the revision to 45.1. Too much changed.
+  In fact, this more is much more than more used to be, and
+  more changed this time more than more changed in the last 
+  decade. More chances to add more mores in this paragraph?
+
+TODO:
+
+- Highliting of "search" results would be nice.
+- Replace the ancient startup code, remove ugly Amiga.lib
+  stub routines, recompile with "NEAR DATA". Oh well...
+
+more 45.1 (26.10.2000)
+
+- Fixed the bug above and bumped the revision to 45.1
+- Note that the catalog has changed slightly. Please re-
+  translate or update Utilities.cd
+
+more 45.2 (4.11.2000)
+
+- Found that more interprets ?foobar also as help request.
+  Fixed to accept only a single question mark for this 
+  purpose.
+- More could have looped infinitely in case a backsearch
+  within a pipe was tried. It now bails out if it detects
+  that seeking does not move the file pointer anymore.
+- Was completely unlucky to reproduce a potential problem
+  with pipes which could possibly yield to situations where
+  "more" doesn't close its IO handles. This, at least,
+  looks fine. Somehow.
+
+more 45.3 (24.11.2000)
+
+- More opened the wrong catalog.
+
+more 45.4 (26.11.2000)
+
+- When more prompted for a file name, it did not run the
+  result code thru the dos ReadArgs() parser, but used
+  to use it directly. Hence, trailing spaces would have been
+  part of the file name. More 45.4 ignores now trailing
+  spaces, but it still does not parse quotes or asterisks
+  (escape characters) correctly. This requires serious
+  reconsideration, more than I could fix now.
+
+more 45.5 (26.11.2000)
+
+- Ok, I reconsidered this. More uses now the proper DOS
+  argument parser for file names. Wasn't as hard as I thought,
+  so this should work. Shell argument parsing is, however,
+  still old and requires some thought. Nothing I want to
+  do right now.
+
+more 45.6 (13.12.2000)
+
+- More 45.5 broke reading the argument from the shell completely.
+  This was due to a missing '\n' for ReadArgs. Fixed.
+
+- Forgot to bump the release to 45.6. Fixed.

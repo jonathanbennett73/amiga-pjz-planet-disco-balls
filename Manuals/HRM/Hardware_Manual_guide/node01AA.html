@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_H" NODE="H-2" TITLE="H External Disk Connector Interface / Signals When Driving a Disk" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>H External Disk Connector Interface / Signals When Driving a Disk</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node01A9.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node01AB.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The following describes the interface under driver control.
+<a name="line3"></a>
+
+SEL1B-, SEL2B-, SEL3B-
+
+   Select lines for the three external disk drives active low.
+<a name="line8"></a>
+
+TK0-
+
+   A selected drive pulls this signal low whenever its read-write head
+   is on track 00.
+<a name="line14"></a>
+
+RDY-
+
+   When a disk drive's motor is on, this line indicates the selected
+   disk is installed and rotating at speed. The driver ignores this
+   signal. When the motor is off this is used as a  <a href="../Hardware_Manual_guide/node01AB.html">ID</a>  data line. See
+   below.
+<a name="line22"></a>
+
+WPRO- (Pin #14)
+
+   A selected drive pulls this signal low whenever it has a
+   write-protected diskette installed.
+<a name="line28"></a>
+
+INDEX- (Pin #22)
+
+   A selected drive pulses this signal low once for each revolution of
+   its motor.
+<a name="line34"></a>
+
+SIDEB- (Pin #13)
+
+   The system drives this signal to all disk drives -- low for side 1,
+   high for side 0.
+<a name="line40"></a>
+
+STEPB- (Pin #18)
+
+   Pulsed to step the selected drive's head.
+<a name="line45"></a>
+
+DIRB (Pin #19)
+
+   The system drives this signal high or low to tell the selected drive
+   which way to step when the STEPB- pulse arrives. Low means step in
+   (to higher-numbered track); high means step out.
+<a name="line52"></a>
+
+DKRD- (Pin #2)
+
+   A selected drive will put out read data on this line.
+<a name="line57"></a>
+
+DKWDB- (Pin #17)
+
+   The system drives write data to all disks via this signal. The data
+   is only written when DKWEB- is active (low). Data is written only to
+   selected drives.
+<a name="line64"></a>
+
+DKWEB- (Pin #16)
+
+   This signal causes a selected drive to start writing data (provided
+   by DKWDB-) onto the disk.
+<a name="line70"></a>
+
+CHNG- (Pin #11)
+
+   A selected drive will drive this signal low whenever its internal
+   &#034;disk change&#034; latch is set. This latch is set when the drive is first
+   powered on, or whenever there is no diskette in the drive. To reset
+   the latch, the system must select the drive, and step the head. Of
+   course, the latch will not reset if there is no diskette installed.
+<a name="line79"></a>
+
+MTRXD- (Pin #8)
+
+   This is the motor control line for all four disk drives. When the
+   system wants to turn on a disk drive motor, it first deselects the
+   drive (if selected), pulls MTRXD- low, and selects the drive. To turn
+   the motor off, the system deselects the drive, pulls MTRXD- high, and
+   selects the drive. The system will always set MTRXD- at least 1.4
+   microseconds before it selects the drive, and will not change MTRXD-
+   for at least 1.4 microseconds after selecting the drive. All external
+   drives must have logic equivalent to a D flip-flop, whose D input is
+   the MTRXD- signal, and whose clock input is activated by the
+   off-to-on (high-to-low) transition of its SELxB- signal. As noted
+   above, both the setup and hold times of MTRXD- with respect to SELxB-
+   will always be at least 1.4 microseconds. The output of this
+   flip-flop controls the disk drive motor. Thus, the system can control
+   all four motors using only one signal on the cable (MTRXD-).
+<a name="line97"></a>
+
+DRESB- (Pin #10)
+
+   This signal is a buffered version of the system reset signal. Three
+   things can make it go active (low):
+
+   *  System power-up (DRESB- will go low for approximately one
+      second);
+
+   *  System CPU executes a  <a href="../Hardware_Manual_guide/node0171.html#line13">RESET</a>  instruction (DRESB- will go low for
+      approximately 17 microseconds);
+
+   *   <a href="../Hardware_Manual_guide/node0179.html">Hard reset</a>  from keyboard (lasts as long as keyboard reset is
+      held down).
+
+   External disk drives should respond to DRESB- by shutting off their
+   motor flip-flops and write protecting themselves.
+
+
+A level of 3.75v or below on the 5v+ requires external disks to
+write-protect and reset the motor on line.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

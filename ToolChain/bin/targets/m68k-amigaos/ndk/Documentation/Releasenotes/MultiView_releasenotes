@@ -1,0 +1,150 @@
+MultiView 44.1 (22.4.99)
+
+- Bumped to V44.
+
+
+MultiView 44.2 (22.4.99)
+
+- Now checks if a bitmap is displayable before using it as
+  a screen custom bitmap.
+
+- When using the V44 picture.datatype, no longer forces display
+  of an object on a custom screen but relies upon picture.datatype
+  to layout the object properly to the given screen.
+
+
+MultiView 44.3 (24.4.99)
+
+- Now performs bounds checking when copying, concatenating and
+  formatting text strings.
+
+- When storing a window size snapshot for a window, '/' and ':'
+  characters in the screen name are silently replaced with
+  '.' charactes.
+
+- Now shows an error message if something goes wrong with reading
+  or initialization before the output window is open.
+
+
+MultiView 44.4 (25.4.99)
+
+- Now uses a smart window backfill hook to display full screen
+  picture data if the object's bitmap is not suitable for use
+  as a custom bitmap.
+
+
+MultiView 44.5 (25.4.99)
+
+- New REPEAT and IMMEDIATE options.
+
+
+MultiView 44.6 (2.5.99)
+
+- Lost some more of the stub code. This also avoids triggering
+  an Enforcer hit when opening a new object.
+
+
+MultiView 44.7 (9.6.99)
+
+- When opening a custom screen, MultiView now makes sure that
+  all its pens are locked before the colour palette is loaded.
+  This is both a) The Right Thing (tm) and b) fixes
+  programs like MagicMenu which expect other programs to do
+  The Right Thing. I also threw in some more code to
+  make the palette loading more efficient. The old code would
+  load the palette pen by pen, which would be painfully slow on
+  AA machines. The new code attempts to build a table suitable
+  for use with LoadRGB32() and falls back to the SetRGB32()
+  method if there is not enough memory available.
+
+
+MultiView 44.8 (12.6.99)
+
+- No longer peeks Screen->BitMap, but uses GetBitMapAttr() to
+  get the information it needs.
+
+
+MultiView 44.9 (6.8.99)
+
+- To close the MultiView window, hit ^\ or hit the [Esc]
+  key twice.
+
+
+MultiView 44.10 (13.8.99)
+
+- Added new option "PRTUNIT", which configures the printer.device
+  unit used for printer dumps.
+
+
+MultiView 44.11 (17.8.99)
+
+- Layer offset adjustments in window backfill hook code were
+  unnecessary and could introduce errors with off-screen
+  clipping rectangles. Fixed.
+
+
+MultiView 44.12 (21.8.99)
+
+- No longer needs two [Esc] characters to close the window.
+  Silly idea :(
+
+
+MultiView 44.13 (25.8.99)
+
+- MultiView now gets itself a proper CLI search path list
+  when launched from Workbench. This should help AmigaGuide
+  when using embedded commands.
+
+
+MultiView 44.14 (25.12.1999)
+
+- When launched from Workbench, MultiView now complains showing
+  an error requester if the file it is supposed to display cannot
+  be loaded (such as because there is no datatype to handle it).
+
+
+MultiView 44.15 (6.6.2000)
+
+- Now closes iffparse.library upon exit (never did that before).
+
+
+MultiView 45.1 (7.3.2001)
+
+- bumbed to verion 45
+
+- Added Navigation Menu entry with some search entries which is enabled
+  for datatypes which support this (e.g. text.datatype 45.11).
+  Done by Sebastian Bauer.
+
+
+MultiView 45.2 (7.3.2001)
+
+- No longer jumps back to the orginal view position after scrolling with
+  the keyboard and then with the mouse again.
+
+
+MultiView 45.3 (16.4.2001)
+
+- Fixed problems with WBRun
+
+MultiView 45.4 (17.9.2001)
+
+- Mousewheel can be used to scroll vertical
+
+MultiView 45.5 (9.11.2001)
+
+- Added WINDOWLEFT,WINDOWTOP,WINDOWWIDTH,WINDOWHEIGHT shell args
+  and tooltypes
+
+MultiView 45.6 (17.11.2001)
+
+- Corrected the shell template
+
+MultiView 45.7 (18.11.2001)
+
+- Set PDTA_DestMode to PMODE_V43
+
+MultiView 45.8 (02.12.2001)
+
+- WINDOWWIDTH and WINDOWHEIGHT now describes the complete dimensions
+  of the window instead of the inner dimensions (without border)

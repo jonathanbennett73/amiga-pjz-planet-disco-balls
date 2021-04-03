@@ -1,0 +1,147 @@
+@Dan, yeah sorry A and B for Bob/Mask, C for screen :)
+@mcgeezer, would be a great thing to cover properly for sure. But until then have some ascii art!
+
+I used to do all this stuff with tables like described in in HKRM http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node011C.html
+Some examples always help though.
+
+Just copy this table into your source code. Bascially we use it do come up with what you want D, your destination, to be. It describes a byte (the minterm) with the MSB, bit 7, at the bottom.
+
+[CODE]
+; A B C  D   Bit Number
+; 0 0 0      0
+; 0 0 1      1
+; 0 1 0      2
+; 0 1 1      3
+
+; 1 0 0      4
+; 1 0 1      5
+; 1 1 0      6
+; 1 1 1      7
+[/CODE]
+
+Easiest example is $f0 (straight copy from A to D). This would be used if you want to copy something to the screen and obliterate what is there already. Mostly used for printing fixed width fonts or scrolly messages.
+
+If you aren't using a channel then just delete/or cross it out and ignore it for your calculcations. So for copy we only care about A and D:
+
+[CODE]
+; A B C  D   Bit Number
+; 0 x x      0
+; 0 x x      1
+; 0 x x      2
+; 0 x x      3
+
+; 1 x x      4
+; 1 x x      5
+; 1 x x      6
+; 1 x x      7
+[/CODE]
+
+Then fill in the D column. For a copy we want D to equal A. If A is 1 then we want to output to be 1. If A is 0 then the output should be 0. Fill that in:
+
+[CODE]
+; A B C  D   Bit Number
+; 0 x x  0   0
+; 0 x x  0   1
+; 0 x x  0   2
+; 0 x x  0   3
+
+; 1 x x  1   4
+; 1 x x  1   5
+; 1 x x  1   6
+; 1 x x  1   7
+[/CODE]
+
+Reading the D column from the bottom gives us our minterm %1111000 or $f0.
+
+Next example, you'll have seen this minterm often as well. Let's say you want to take your bob and OR/merge it with the screen. 
+
+Let's use A for BOB, B for screen, D for final screen value, and fill in the table. We want D to be 1 if either the BOB or the screen is 1 (A OR B)
+
+[CODE]
+; A B C  D   Bit Number
+; 0 0 x  0   0
+; 0 0 x  0   1
+; 0 1 x  1   2
+; 0 1 x  1   3
+
+; 1 0 x  1   4
+; 1 0 x  1   5
+; 1 1 x  1   6
+; 1 1 x  1   7
+[/CODE]
+
+That gives us %11111100, $fc. I bet you've seen $fc a lot :)
+
+
+You might be tempted to just do this with your multi-bitplane BOBs, but then you notice the colors go all crazy. Imagine a small diamond shape in 2 bitplanes. Let's have the left half in colour01 (1s set on bpl1) and the right half in color02 (1s set on bpl2)
+
+[CODE]
+00012000
+00112200
+01112220
+11112222
+01112220
+00112200
+00012000
+[/CODE]
+
+If you just use the A OR B minterm with this kind of image then if there is already data on the screen then when you blit your color01 on bitplane 1 then if bitplane 2 already has some data there then you are going to end up with color03 there. Not what we want at all. 
+
+This assumes non-interleaved screen as it's easiest to explain first. We are blitting on 2 bitplanes, but the cookie/mask shape would be the same for both - we want an outline of the diamond shape for our mask. This is where the cookie term comes from, we are cutting out a shape.
+
+[CODE]
+00011000
+00111100
+01111110
+11111111
+01111110
+00111100
+00011000
+[/CODE]
+
+A is the mask, B is the BOB, C is the screen, D is the final screen. Basically we only "let" the BOB data influence the final screen data when the mask is 1. When the mask is 0 then we leave the screen alone. When mask is 1 and BOB is 1 then we write 1 to the screen. When mask is 1 and BOB is 0 we CLEAR the screen
+
+[CODE]
+; A B C  D   Bit Number
+; 0 0 0  0   0
+; 0 0 1  1   1
+; 0 1 0  0   2
+; 0 1 1  1   3
+
+; 1 0 0  0   4
+; 1 0 1  0   5
+; 1 1 0  1   6
+; 1 1 1  1   7
+[/CODE]
+
+Minterm is %11001010 or $ca
+
+You do two blits, one for bpl1 and the mask, then one for bpl2 with the same mask.
+
+Does that make any sense at all, or is it worse now ? :)
+
+These days I use the assembler to generate the minterm like this (seems I was the last person to figure this out lol). This is my vertical fill minterm which is A XOR B. The BLTEN values are from my standard macros. There seems to be similar values in the CBM includes in hardware/blit.i
+
+[CODE]
+;Blitter logic macros
+;& (bitwise and) 
+;^ (bitwise exclusive-or) 
+;| (bitwise inclusive-or) 
+;! (bitwise not)
+BLTEN_A		= $0800
+BLTEN_B		= $0400
+BLTEN_C		= $0200
+BLTEN_D		= $0100
+BLTEN_AD	= (BLTEN_A|BLTEN_D)
+BLTEN_ABD	= (BLTEN_A|BLTEN_B|BLTEN_D)
+BLTEN_ACD	= (BLTEN_A|BLTEN_C|BLTEN_D)
+BLTEN_ABCD	= (BLTEN_A|BLTEN_B|BLTEN_C|BLTEN_D)
+
+BLT_A	= %11110000
+BLT_B	= %11001100
+BLT_C	= %10101010
+
+;Example use for A XOR B
+;move.w	#$0d3c,bltcon0(a6)
+move.w	#((BLTEN_ABD+(BLT_A^BLT_B)),bltcon0(a6)
+[/CODE]

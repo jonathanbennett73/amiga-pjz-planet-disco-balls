@@ -1,0 +1,16 @@
+
+AHI 45.1 (07.11.2000)
+
+· More or less a clone of the original AHI preferences tool.
+
+AHI 45.2 (16.11.2000)
+
+· Added support for the "Default anti-click time".
+
+AHI 45.3 (20.11.2000)
+
+· Fix: strange names of not correctly installed drivers caused this
+  program to crash.
+
+· Localized `ms', `Hz' and `dB'.
+

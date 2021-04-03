@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-3-5" TITLE="K / Zorro III Bus Architecture / Quick Interrupts" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Zorro III Bus Architecture / Quick Interrupts</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02AB.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02AD.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+While the Zorro II bus has always supported shared interrupts, the Zorro
+III bus supports a mechanism wherein the interrupting PIC can supply its
+own vector.  This has the potential to make such vectored interrupts much
+faster than conventional Zorro II chained interrupts, arbitrating the
+interrupting device in hardware instead of software.
+
+A PIC supporting quick interrupts has on-board  <a href="../Hardware_Manual_guide/node02C8.html">registers</a>  to store one or
+more vector numbers; the numbers are obtained from the OS by the device
+driver for the PIC, and the PIC/driver combination must be able to handle
+the situation in which no additional vectors are available.  During system
+operation, this PIC will interrupt the system in the normal manner, by
+asserting one of the bus interrupt lines.  This interrupt will cause an
+interrupt vector cycle to take place on the bus.  This cycle arbitrates in
+hardware between all PICs asserting that interrupt, and it's a completely
+<a name="line16">different type of Zorro III cycle, as illustrated in Figure K-8.</a>
+
+
+              _____     POLL PHASE                 VECTOR PHASE      _____
+         /FCS      \                                                /
+                    \______________________________________________/
+              _______                 _____                          _____
+        /MTCR        \               /     \                        /
+                      \_____________/       \______________________/
+              ____________            _____                          _____
+       /SLAVE             \          /     \                        /
+                           \________/       \______________________/
+                   ____________________
+   AD19..AD16 ____/                    \__________________________________
+SA3,SA2,/LOCK     \____________________/
+                                             ______________________
+          DOE                               /                      \
+              _____________________________/                        \_____
+              _____________________________                          _____
+         /DS0                              \                        /
+                                            \______________________/
+
+                                                         data from slave
+                                              _________________|_____
+     SD7..SD0 _______________________________/            /    |     \____
+                                             \____________\__________/
+              ____________________________________________            ____
+       /DTACK                                             \          /
+                                                           \________/
+
+
+                    Figure K-8: Interrupt Vector Cycle
+
+
+The bus controller will start an interrupt vector cycle in response to an
+interrupt asserted by any PIC.  This cycle starts with  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  and  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a> 
+asserted, a FC code of 7 (CPU space), a CPU space cycle type, given by
+address lines  <a href="../Hardware_Manual_guide/node02B4.html#line13">A16-A19</a> , of 15, and the interrupt number, which is on
+ <a href="../Hardware_Manual_guide/node02B4.html#line21">A1-A3</a>  (A1 is on the  <a href="../Hardware_Manual_guide/node02A8.html">/LOCK</a>  line, as in Zorro II cycles). The interrupt
+numbers 2 and 6 are currently defined, corresponding to  <a href="../Hardware_Manual_guide/node02B1.html#line61">/INT2 and /INT6</a> 
+respectively; all others are reserved for future use.  At this point,
+called the polling phase, any PIC that has asserted an interrupt and wants
+to supply a vector will decode the FC lines, the cycle type, match its
+interrupt number against the one on the bus, and assert  <a href="../Hardware_Manual_guide/node02B2.html#line3">/SLAVEn</a>  if a
+match occurs. Shortly thereafter, the  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  line is negated, and the
+slaves all negate  <a href="../Hardware_Manual_guide/node02B2.html#line3">/SLAVEn</a> . But the cycle doesn't end.
+
+The next step is called the vector phase.  The bus controller asserts one
+ <a href="../Hardware_Manual_guide/node02B2.html#line3">/SLAVEn</a>  back to one of the interrupting PICs, along with  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  and
+ <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS0</a> , but no addresses are supplied. That PIC will then assert its 8 bit
+vector onto the logical  <a href="../Hardware_Manual_guide/node02B5.html#line10">D0-D7</a>  (physically AD15-AD8) of the 32-bit data
+bus and  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a> , as quickly as possible, thus terminating the cycle. The
+speed here is very critical; an automatic autovector timeout will occur
+very quickly, as any actual waiting that's required for the quick
+interrupt vector is potentially delaying the autovector response for Zorro
+II style interrupts.  A PIC stops driving its interrupt when it gets the
+response cycle; it must also be possible for this interrupt to be cleared
+in software (e.g., the PIC must make choice of vectoring vs. autovectoring
+a software issue).
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

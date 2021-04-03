@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-3-6" TITLE="K / Zorro III Bus Architecture / Compatibility With Zorro II Devices" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Zorro III Bus Architecture / Compatibility With Zorro II Devices</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02AC.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02AE.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+As detailed in the  <a href="../Hardware_Manual_guide/node0290.html">Zorro II Compatibility</a>  section, the Zorro III bus
+supports a bus cycle mode very similar to the  <a href="../Hardware_Manual_guide/node029B.html">68000-based Zorro II bus</a> ,
+and is expected to be compatible with all properly designed Zorro II PICs.
+As shown in  <a href="../Hardware_Manual_guide/node028F.html#line35">Figure K-1</a> , Zorro II and Zorro III expansion spaces are
+geographically mapped on the Zorro III bus. The mapping logic resides on
+the bus, and operates on the bus address presented for any cycle.  Every
+cycle starts out assuming a Zorro III cycle, but the mapping logic will
+inscribe a Zorro II cycle within the Zorro III cycle if the address range
+<a name="line10">is right. Figure K-9 details the bus action for this mode.</a>
+
+
+           _____        READ CYCLE       ___       WRITE CYCLE        __
+      /FCS      \                       /   \                        /
+                 \_____________________/     \______________________/
+
+                    /FCS sample edge
+           __    __ /  __    __    __    __    __    __    __    __    _
+      CDAC   |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+             |__|  |__|  |__|  |__|  |__|  |__|  |__|  |__|  |__|  |__|
+
+            /DTACK sample edge        data latch edge
+           _    __    __    __\   __ /  __    __    __    __    __    __
+        7M  |  |30|  |32|  |34|  |36|  |  |  |30|  |32|  |34|  |36|  |
+            |__|  |__|  |__|  |__|  |__|  |__|  |__|  |__|  |__|  |__|
+                   31    33    35    37          31    33    35    37
+           __________                 ____________                 _____
+      /CCS           \               /            \               /
+                      \_____________/              \_____________/
+
+              address   data from slave   address    data from master
+                _|_     ____________|__     _|_      _______|________
+AD31..AD24 ____/ | \___/         /  |  \___/ | \____/       |        \__
+               \___/   \_________\_____/   \___/    \________________/
+                ______________________      _________________________
+ AD23..AD8 ____/                      \____/                         \__
+  SA7..SA2     \______________________/    \_________________________/
+           ________________________________                           __
+      READ    /                            \                         /
+           __/                              \_______________________/
+           _____________             _________________              ____
+    /SLAVE              \           /                 \            /
+                         \_________/                   \__________/
+                              _______                        _______
+       DOE                   /       \                      /       \
+           _________________/         \____________________/         \__
+           __________               _______________________        _____
+ /DS3,/DS2           \             /                       \      /
+                      \___________/                         \____/
+           ___________________        _______________________        ___
+    /DTACK                    \      /                       \      /
+                               \____/                         \____/
+
+
+                   Figure K-9 Zorro II Within Zorro III
+
+
+The cycle starts out with the usual address phase activity; the bus master
+asserts  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  after asserting the full 32-bit address onto the address
+bus. The bus decoder maps the bus address  <a href="../Hardware_Manual_guide/node02A5.html">asynchronously</a>  and quickly, so
+that by the time  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  is asserted, the memory space is determined.  A
+Zorro II space access will cause  <a href="../Hardware_Manual_guide/node02A2.html#line13">A8-A23</a>  to remain asserted, rather than
+being tri-stated along with  <a href="../Hardware_Manual_guide/node02A2.html#line13">A24-A31</a> , as the Zorro III cycle normally
+does. The bus controller synchs the  <a href="../Hardware_Manual_guide/node02A5.html">asynchronous</a>   <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a>  on the falling
+edge of CDAC, then drives  <a href="../Hardware_Manual_guide/node02B4.html#line53">/CCS</a>  (the  <a href="../Hardware_Manual_guide/node02A2.html#line18">/AS</a>  equivalent) out on the rising
+edge of  <a href="../Hardware_Manual_guide/node02B0.html#line23">7M</a> , based on that synched  <a href="../Hardware_Manual_guide/node02B4.html#line73">/FCS</a> . For a read cycle,  <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS3</a> 
+and/or  <a href="../Hardware_Manual_guide/node02B5.html#line17">/DS2</a>  (the  <a href="../Hardware_Manual_guide/node02A2.html#line37">/UDS</a>  and  <a href="../Hardware_Manual_guide/node02A2.html#line37">/LDS</a>  replacements, respectively) would be
+asserted along with  <a href="../Hardware_Manual_guide/node02B4.html#line53">/CCS</a> ; write cycles see those lines asserted on the
+next rising edge of  <a href="../Hardware_Manual_guide/node02B0.html#line23">7M</a> , at S4 time. The  <a href="../Hardware_Manual_guide/node02B5.html#line5">DOE</a>  line is also asserted at
+the start of S4.
+
+The bus controller starts to sample  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>  on the falling edge of  <a href="../Hardware_Manual_guide/node02B0.html#line23">7M</a> 
+between S4 and S5, adding wait states until  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>  is encountered. As
+per Zorro II specs, the PIC need not create a  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>  unless it needs
+that level of control; there are Zorro II signals to delay the
+controller-generated  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a> , or take it over when necessary.  The
+controller will drive its automatic  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>  at the start of S4, leaving
+plenty of time for the sampling to come at S5.  Once a  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a>  is
+encountered, cycle  <a href="../Hardware_Manual_guide/node02C2.html">termination</a>  begins.  The controller latches data on
+the falling  <a href="../Hardware_Manual_guide/node02B0.html#line23">7M</a>  edge between S6 and S7, and also negates  <a href="../Hardware_Manual_guide/node02B4.html#line53">/CCS</a>  and the
+ <a href="../Hardware_Manual_guide/node02B5.html#line17">/DSn</a>  at this time. Shortly thereafter, the controller negates  <a href="../Hardware_Manual_guide/node02B5.html#line27">/DTACK</a> 
+(when controlling it),  <a href="../Hardware_Manual_guide/node02B5.html#line5">DOE</a> , and tri-states the data bus, getting ready
+for the next cycle.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

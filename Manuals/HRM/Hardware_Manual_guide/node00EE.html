@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-4-6" TITLE="5 / Producing High-quality Sound / Low-Pass Filter" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / Producing High-quality Sound / Low-Pass Filter</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00ED.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00EF.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The system includes a low-pass filter that eliminates
+ <a href="../Hardware_Manual_guide/node00ED.html">aliasing distortion</a>  as described above. This filter becomes active
+around 4 KHz and gradually begins to attenuate (cut off) the signal.
+Generally, you cannot clearly hear frequencies higher than 7 KHz.
+Therefore, you get the most complete frequency response in the frequency
+range of 0 - 7 KHz. If you are making frequencies from 0 to 7 KHz, you
+should select a sampling rate no less than 14 KHz, which corresponds to a
+ <a href="../Hardware_Manual_guide/node00DD.html">sampling period</a>  in the range 124 to 256.
+
+At a  <a href="../Hardware_Manual_guide/node00DD.html">sampling period</a>  around 320, you begin to lose the higher frequency
+<a name="line12">values between 0 KHz and 7 KHz, as shown in Table 5-6.</a>
+
+
+          Table 5-6: Sampling Rate and Frequency Relationship
+
+
+                            Sampling    Sampling    Maximum Output
+                             Period    Rate (KHz)   Frequency (KHz)
+                            --------   ----------   ---------------
+     Maximum sampling rate    124         29              7
+     Minimum sampling rate    256         14              7
+       for 7 KHz output
+     Sampling rate too low    320         11              4
+       for 7 KHz output
+<a name="line26"></a>
+
+In A2000's with 2 layer motherboards and later A500 models there is a
+control bit that allows the audio output to bypass the low pass filter.
+This control bit is the same output bit of the  <a href="../Hardware_Manual_guide/node012E.html">8520 CIA</a>  that controls
+the brightness of the red &#034;power&#034; LED (CIA A $BFE001 - Bit 1: /LED).
+Bypassing the filter allows for improved sound in some applications, but
+an external filter with an appropriate cutoff frequency may be required.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-3-3" TITLE="5 / Producing Complex Sounds / Modulating Sound" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / Producing Complex Sounds / Modulating Sound</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00E6.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00E8.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+To provide more complex audio effects, you can use one audio channel to
+modulate another. This increases the range and type of effects that can be
+produced. You can modulate a channel's frequency or  <a href="../Hardware_Manual_guide/node00D6.html#line33">amplitude</a> , or do
+both types of modulation on a channel at the same time.
+
+ <a href="../Hardware_Manual_guide/node00D6.html#line33">Amplitude</a>  modulation affects the  <a href="../Hardware_Manual_guide/node00DC.html">volume</a>  of the waveform. It is often
+used to produce vibrato or tremolo effects. Frequency modulation affects
+the  <a href="../Hardware_Manual_guide/node00DD.html">period</a>  of the waveform. Although the basic waveform itself remains
+<a name="line10">the same, the pitch is increased or decreased by frequency modulation.</a>
+
+The system uses one channel to modulate another when you attach two
+channels. The attach bits in the ADKCON register control how the data from
+an audio channel is interpreted (see the table below). Normally, each
+channel produces sound when it is enabled. If the &#034;attach&#034;  bit for an
+audio channel is set, that channel ceases to produce sound and its data is
+used to modulate the sound of the next higher-numbered channel. When a
+channel is used as a modulator, the words in its data set are no longer
+treated as two individual bytes. Instead, they are used as &#034;modulator&#034;
+words. The data words from the modulator channel are written into the
+corresponding registers of the modulated channel each time the
+<a name="line22"> <a href="../Hardware_Manual_guide/node00DF.html#line34">period register</a>  of the modulator channel times out.</a>
+
+To modulate only the  <a href="../Hardware_Manual_guide/node00D6.html#line33">amplitude</a>  of the audio output, you must attach a
+channel as a volume modulator. Define the modulator channel's data set as
+a series of words, each containing  <a href="../Hardware_Manual_guide/node00DC.html">volume</a>  information in the following
+format:
+
+                    Bits      Function
+                    ----      --------
+                    15 - 7    Not used
+<a name="line32">                    6 - 0     Volume information, V6 - V0</a>
+
+To modulate only the frequency, you must attach a channel as a period
+modulator. Define the modulator channel's data set as a series of words,
+each containing  <a href="../Hardware_Manual_guide/node00DD.html">period</a>  information in the following format:
+
+                    Bits      Function
+                    ----      --------
+                    15 - 0    Period information, P15 - P0
+
+If you want to modulate both  <a href="../Hardware_Manual_guide/node00DD.html">period</a>  and  <a href="../Hardware_Manual_guide/node00DC.html">volume</a>  on the same channel,
+you need to attach the channel as both a period and volume modulator. For
+instance, if channel 0 is used to modulate both the  <a href="../Hardware_Manual_guide/node00DD.html">period</a>  and frequency
+of channel 1, you set two attach bits -- bit 0 to modulate the  <a href="../Hardware_Manual_guide/node00DC.html">volume</a> 
+and bit 4 to modulate the  <a href="../Hardware_Manual_guide/node00DD.html">period</a> . When  <a href="../Hardware_Manual_guide/node00DD.html">period</a>  and  <a href="../Hardware_Manual_guide/node00DC.html">volume</a>  are both
+modulated, words in the modulator channel's data set are defined
+<a name="line48">alternately as  <a href="../Hardware_Manual_guide/node00DC.html">volume</a>  and  <a href="../Hardware_Manual_guide/node00DD.html">period</a>  information.</a>
+
+The sample set of data in Table 5-4 shows the differences in
+interpretation of data when a channel is used directly for audio, when it
+is attached as volume modulator, when it is attached as a period
+modulator, and when it is attached as a modulator of both  <a href="../Hardware_Manual_guide/node00DC.html">volume</a>  and
+<a name="line54"> <a href="../Hardware_Manual_guide/node00DD.html">period</a> .</a>
+
+
+             Table 5-4: Data Interpretation in Attach Mode
+
+
+           Independent        Modulating
+   Data       (not               Both              Modulating  Modulating
+   Words   Modulating)      Period and Volume      Period Only Volume Only
+   -----   -----------      -----------------      ----------- -----------
+   Word 1  |data|data|  |volume for other channel|  |period|    |volume|
+   Word 2  |data|data|  |period for other channel|  |period|    |volume|
+   Word 3  |data|data|  |volume for other channel|  |period|    |volume|
+   Word 4  |data|data|  |period for other channel|  |period|    |volume|
+
+
+The lengths of the data sets of the modulator and the modulated channels
+are completely independent.
+
+Channels are attached by the system in a predetermined order, as shown in
+Table 5-5. To attach a channel as a modulator, you set its attach bit to
+1. If you set either the  <a href="../Hardware_Manual_guide/node00DC.html">volume</a>  or  <a href="../Hardware_Manual_guide/node00DD.html">period</a>  attach bits for a channel,
+that channel's audio output will be disabled; the channel will be attached
+to the next higher channel, as shown in Table 5-5. Because an attached
+channel always modulates the next higher numbered channel, you cannot
+attach channel 3. Writing a 1 into channel 3's modulate bits only disables
+<a name="line80">its audio output.</a>
+
+
+             Table 5-5: Channel Attachment for Modulation
+<a name="line84"></a>
+
+                        ADKCON Register
+                        ---------------
+        Bit    Name     Function
+        ---    ----     --------
+         7    ATPER3    Use audio channel 3 to modulate nothing
+                          (disables audio output of channel 3)
+         6    ATPER2    Use audio channel 2 to modulate period
+                          of channel 3
+         5    ATPER1    Use audio channel 1 to modulate period
+                          of channel 2
+         4    ATPER0    Use audio channel 0 to modulate period
+                          of channel 1
+         3    ATVOL3    Use audio channel 3 to modulate nothing
+                          (disables audio output of channel 3)
+         2    ATVOL2    Use audio channel 2 to modulate volume
+                          of channel 3
+         1    ATVOL1    Use audio channel 1 to modulate volume
+                          of channel 2
+         0    ATVOL0    Use audio channel 0 to modulate volume
+                          of channel 1
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

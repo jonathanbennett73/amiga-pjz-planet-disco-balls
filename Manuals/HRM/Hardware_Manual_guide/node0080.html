@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-4-1-1" TITLE="3 / / When Picture is Larger than Window / Specifying the Modulo" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / When Picture is Larger than Window / Specifying the Modulo</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node007F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0081.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+For a memory picture wider than the display window, you need to respecify
+the modulo so that the correct data words are fetched for each line of the
+display. As an example, assume the display window is the standard 320
+pixels wide, so 40 bytes are to be displayed on each line. The big picture
+in memory, however, is exactly twice as wide as the display window, or 80
+bytes wide. Also, assume that you wish to display the left half of the big
+picture. Figure 3-14 shows the relationship between the big picture and
+<a name="line9">the picture to be displayed.</a>
+
+
+       START                                                 START+78
+          __________________________|___________________________
+         |                          |                           |
+         |&#060;-------------------------+--------------------------&#062;|
+         |       Width of the bit-plane defined in RAM          |
+         |                          |                           |
+         |&#060;------------------------&#062;|                           |
+         | Width of defined screen  |                           |
+         | on which bit-plane data  |                           |
+         |      is to appear        |                           |
+         |                          |                           |
+         |                          |                           |
+
+           Figure 3-14: Memory Picture Larger than the Display
+
+
+Because 40 bytes are to be fetched for each line, the data fetch for line
+<a name="line29">1 is as shown in Figure 3-15.</a>
+
+  _______________________________________________________________________
+ |                                                                       |
+ |   Data for line 1:                                                    |
+ |                                                                       |
+ | Location:     START      START+2       START+4    ...      START+38   |
+ |               -----      -------       -------             --------   |
+ |              leftmost   next word     next word          last display |
+ |            display word                                      word     |
+ |                                                                       |
+ |                                                               /|\     |
+ |                       Screen data fetch stops ( <a href="../Hardware_Manual_guide/node0072.html#line31">DDFSTOP</a> ) for  |      |
+ |                       each horizontal line after the last      |      |
+ |                       word on the line has been fetched________|      |
+ |_______________________________________________________________________|
+
+        Figure 3-15: Data Fetch for the First Line When Modulo = 40
+<a name="line47"></a>
+
+At this point,  <a href="../Hardware_Manual_guide/node0072.html#line59">BPLxPTH and BPLxPTL</a>  contain the value START+40. The
+modulo, which is 40, is added to the current value of the pointer so that
+when it begins the data fetch for the next line, it fetches the data that
+you intend for that line. The data fetch for line 2 is shown in Figure
+<a name="line53">3-16.</a>
+
+  _______________________________________________________________________
+ |                                                                       |
+ |   Data for line 2:                                                    |
+ |                                                                       |
+ | Location:    START+80     START+82     START+84    ...     START+118  |
+ |              --------     --------     --------            ---------  |
+ |              leftmost     next word    next word         last display |
+ |            display word                                      word     |
+ |_______________________________________________________________________|
+
+        Figure 3-16: Data Fetch for the Second Line When Modulo = 40
+
+
+To display the right half of the big picture, you set up
+ <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  routine to start the bitplane pointers at location
+START+40 rather than START with the modulo remaining at 40. The data
+<a name="line71">layout is shown in Figures 3-17 and 3-18.</a>
+
+  _______________________________________________________________________
+ |                                                                       |
+ |   Data for line 1:                                                    |
+ |                                                                       |
+ | Location:    START+40     START+42     START+44    ...     START+78   |
+ |              --------     --------     --------            --------   |
+ |              leftmost     next word    next word         last display |
+ |            display word                                      word     |
+ |_______________________________________________________________________|
+
+    Figure 3-17: Data Layout for First Line -- Right Half of Big Picture
+
+
+Now, the bitplane pointers contain the value START+80. The modulo (40) is
+added to the pointers so that when they begin the data fetch for the
+<a name="line88">second line, the correct data is fetched.</a>
+
+  _______________________________________________________________________
+ |                                                                       |
+ |   Data for line 2:                                                    |
+ |                                                                       |
+ | Location:    START+120    START+122    START+124    ...    START+158  |
+ |              ---------    ---------    ---------           ---------  |
+ |              leftmost     next word    next word         last display |
+ |            display word                                      word     |
+ |_______________________________________________________________________|
+
+    Figure 3-18: Data Layout for Second Line -- Right Half of Big Picture
+
+
+Remember, in high resolution mode, you need to fetch twice as many bytes
+as in low resolution mode. For a normal-sized display, you fetch 80 bytes
+for each horizontal line instead of 40.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

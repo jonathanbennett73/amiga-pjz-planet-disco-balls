@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-2" TITLE="2 Coprocessor Hardware / What is a Copper Instruction?" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 Coprocessor Hardware / What is a Copper Instruction?</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0048.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node004A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+As a coprocessor, the Copper adds its own instruction set to the
+instructions already provided by the 680x0 CPU. The Copper has only three
+instructions, but you can do a lot with them:
+
+*   <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for aspecific screen position specified as x and y coordinates.
+
+*   <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  animmediate data value into one of the special-purpose
+   registers.
+
+*   <a href="../Hardware_Manual_guide/node0059.html">SKIP</a> . the next instruction if the video beam has already reached
+   a specified screen position.
+
+All Copper instructions consist of two 16-bit words in sequential memory
+locations. Each time the Copper fetches an instruction, it fetches both
+<a name="line16">words.</a>
+
+The  <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  and  <a href="../Hardware_Manual_guide/node0059.html">SKIP</a> . instructions require two memory cycles and two
+instruction words each. Because only the odd memory cycles are requested by
+the Copper, four memory cycle times are required per instruction.  The
+ <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  instruction requires three memory cycles and six memory cycle
+<a name="line22">times; it takes one extra memory cycle to wake up.</a>
+
+Although the Copper can directly affect only machine registers, it can also
+affect memory indirectly by setting up a blitter operation.  More
+information about how to use the Copper in controlling the blitter can be
+found in the sections called  <a href="../Hardware_Manual_guide/node0052.html">Control Register</a>  and
+ <a href="../Hardware_Manual_guide/node005D.html">Using the Copper with the Blitter</a> .
+
+The  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  and  <a href="../Hardware_Manual_guide/node004A.html">MOVE</a>  instructions are described below. The  <a href="../Hardware_Manual_guide/node0059.html">SKIP</a> 
+instruction is described in the &#034;Advanced Topics&#034; section.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

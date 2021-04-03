@@ -1,0 +1,14 @@
+wbinfo 45.0 (28-10-00)
+
+- wbinfo is small program to open Workbench information
+  windows from a shell. For each given object (file/drawer
+  or disk) it will create a separate process which in turn
+  calls workbench.library/WBInfo() to bring up the Icon
+  information requester. Please note that the program has
+  to wait for last the requester to be satisfied before it
+  can quit.
+
+wbinfo 45.1 (07-03-01)
+
+- no longer fails when an icon doesn't have an associated
+  drawer or file <Mario Cattaneo>.

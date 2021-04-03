@@ -1,0 +1,22 @@
+
+RCS file: RCS/Startup-Sequence
+Working file: Startup-Sequence
+head: 45.2
+branch:
+locks:
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+Startup-Sequence for AmigaOS 3.9 systems
+----------------------------
+revision 45.2
+date: 2001/01/19 14:01:47;  author: Helios;  state: Exp;  lines: +21 -15
+- added automatic disabling of ROM Update for IDEFix,
+  XSurfIDE and Env var "NOSCSIUPDATE"
+----------------------------
+revision 45.1
+date: 2001/01/19 13:59:10;  author: Helios;  state: Exp;
+- version by Juergen (25.11.2000)
+=============================================================================

@@ -1,0 +1,11 @@
+chooser.node
+LABEL "Chooser"
+STRING    0x85001501 (I····) CNA_Text "Text" ""
+IMAGE     0x85001502 (I····) CNA_Image "Image"
+IMAGE     0x85001503 (I····) CNA_SelImage "Select Image"
+BOOLEAN   0x85001505 (I····) CNA_Seperator "Seprator" FALSE "Seperator"
+BOOLEAN   0x85001506 (I····) CNA_Disabled "Disabled" FALSE "Disabled"
+PEN       0x85001507 (I····) CNA_BGPen "Background Pen" BACKGROUNDPEN
+PEN       0x85001508 (I····) CNA_FGPen "Foreground Pen" TEXTPEN
+BOOLEAN   0x85001509 (I····) CNA_ReadOnly "Read Only" FALSE "Read Only"
+END

@@ -1,0 +1,25 @@
+
+RCS file: RCS/RXLIB.c
+Working file: RXLIB.c
+head: 45.2
+branch:
+locks:
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 2;	selected revisions: 2
+description:
+RXLIB: C source replacement of original assembler version
+----------------------------
+revision 45.2
+date: 2001/03/09 15:10:14;  author: Helios;  state: Exp;  lines: +4 -4
+- forgot to initialize two fields of Global Data (Locale stuff again)
+----------------------------
+revision 45.1
+date: 2001/03/09 14:38:48;  author: Helios;  state: Exp;
+- initial revision
+- should work like original assembler version, except
+  argument parsing and localization
+- also does not truncate library or function host names to
+  32 chars
+=============================================================================

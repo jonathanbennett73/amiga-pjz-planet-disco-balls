@@ -1,0 +1,40 @@
+
+penmap.image 44.2 (26.06.99)
+
+· mask bitmap was not cleared before usage -> trash on screen
+
+
+penmap.image 45.1 (01.03.01)
+
+· recompiled with new startup code and 68020+ optimiziation
+  turned on.
+
+· blits with mask should even work with interleaved screens, now.
+
+
+penmap.image 45.2 (08.03.01)
+
+· Forgot to check the screendepth before passing a friendbitmap
+  pointer to AllocBitmap(), therefore blits with mask to a 
+  15+ bit screen didn't work anymore (Input prefs).
+
+
+penmap.image 45.3 (09.11.01)
+
+· PENMAP_ColorMap couldn't be used because the image always
+  released the pens from the screens colormap.
+
+· setting PENMAP_Screen or PENMAP_ColorMap to NULL releases
+  all allocated pens, now.
+
+· changing PENMAP_ColorMap didn't force a remap of the
+  image data.
+
+
+penmap.image 45.4 (29.11.01)
+
+· no longer allocates pens on hi-/truecolor screens.
+
+· the mask for the transparent blits is created only once
+  and not every time when drawing the image into the
+  rastport.

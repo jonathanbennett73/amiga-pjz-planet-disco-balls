@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-3" TITLE="2 Coprocessor Hardware / The MOVE Instruction" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 Coprocessor Hardware / The MOVE Instruction</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0049.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node004B.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The MOVE instruction transfers data from RAM to a register destination.
+The transferred data is contained in the second word of the MOVE
+instruction; the first word contains the address of the destination
+register. This procedure is shown in detail in the section called
+ <a href="../Hardware_Manual_guide/node005F.html">Summary of Copper Instructions</a> .
+
+
+     FIRST MOVE INSTRUCTION WORD (IR1)
+     ---------------------------------
+     Bit 0           Always set to 0.
+
+     Bits 8 - 1      Register destination address (DA8-1).
+
+     Bits 15 - 9     Not used, but should be set to 0.
+
+
+     SECOND MOVE INSTRUCTION WORD (IR2)
+     ----------------------------------
+     Bits 15 - 0     16 bits of data to be transferred (moved)
+                     to the register destination.
+
+
+The Copper can store data into the following registers:
+
+   *  Any register whose address is $20 or above.  (Hexadecimal numbers
+      are distinguished from decimal numbers by the $ prefix.)
+
+   *  Any register whose address is between $10 and $20 if the Copper
+      danger bit is a 1. The Copper danger bit is in the Copper's control
+      register,  <a href="../Hardware_Manual_guide/node0052.html">COPCON</a> , which is described in the &#034;Control Register&#034;
+      section.
+
+   *  The Copper cannot write into any register whose address is lower
+      than $10.
+
+ <a href="../Hardware_Manual_guide/node0060.html">Appendix B</a>  contains all of the machine register addresses.
+
+The following example MOVE instructions set bitplane pointer 1 to $21000
+and bitplane pointer 2 to $25000.  (All sample code segments are in
+assembly language.)
+
+        DC.W    $00E0,$0002     ;Move $0002 to register $0E0 (BPL1PTH)
+        DC.W    $00E2,$1000     ;Move $1000 to register $0E2 (BPL1PTL)
+        DC.W    $00E4,$0002     ;Move $0002 to register $0E4 (BPL2PTH)
+<a name="line46">        DC.W    $00E6,$5000     ;Move $5000 to register $0E6 (BPL2PTL)</a>
+
+Normally, the appropriate assembler &#034;.i&#034; files are included so that names,
+rather than addresses, may be used for referencing hardware registers.  It
+is strongly recommended that you reference all hardware addresses via their
+defined names in the system include files.  This will allow you to more
+easily adapt your software to take advantage of future hardware or
+enhancements.  For example:
+
+        INCLUDE &#034;hardware/custom.i&#034;
+
+        DC.W    bplpt+$00,$0002 ;Move $0002 into register $0E0 (BPL1PTH)
+        DC.W    bplpt+$02,$1000 ;Move $1000 into register $0E2 (BPL1PTL)
+        DC.W    bplpt+$04,$0002 ;Move $0002 into register $0E4 (BPL2PTH)
+        DC.W    bplpt+$06,$5000 ;Move $5000 into register $0E6 (BPL2PTL)
+
+For use in the hardware manual examples, we have made a special include
+file (see  <a href="../Hardware_Manual_guide/node01AC.html">Appendix I</a> ) that defines all of the hardware register names
+based off of the &#034;hardware/custom.i&#034; file.  This was done to make the
+examples easier to read from a hardware point of view.  Most of the
+examples in this manual are here to help explain the hardware and are, in
+most cases, not useful without modification and a good deal of additional
+code.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

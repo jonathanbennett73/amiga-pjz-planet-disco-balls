@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-3-3" TITLE="3 / Dual-playfield Display / Dual-Playfield Priority and Control" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Dual-playfield Display / Dual-Playfield Priority and Control</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node007A.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node007C.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Either playfield 1 or 2 may have priority; that is, either one may be
+displayed in front of the other. Playfield 1 normally has priority. The
+bit known as PF2PRI (bit 6) in register  <a href="../Hardware_Manual_guide/node0159.html">BPLCON2</a>  is used to control
+priority. When PF2PRI = 1, playfield 2 has priority over playfield 1. When
+PF2PRI = 0, playfield 1 has priority.
+
+You can also control the relative  <a href="../Hardware_Manual_guide/node0159.html">priority of playfields</a>  and  <a href="../Hardware_Manual_guide/node0156.html">sprites</a> .
+Chapter 7, System Control Hardware, shows you how to control the priority
+<a name="line10">of these objects.</a>
+
+You can control the two playfields separately as follows:
+
+   *  They can have  <a href="../Hardware_Manual_guide/node007E.html">different-sized</a>  representations in memory, and
+      different portions of each one can be selected for display.
+
+   *  They can be  <a href="../Hardware_Manual_guide/node0086.html">scrolled</a>  separately.
+
+   An important warning.
+   ---------------------
+   You must take special care when scrolling one playfield and holding
+   the other stationary. When you are scrolling low resolution
+   playfields, you must fetch one word more than the width of the
+   playfield you are trying to scroll (two words more in high resolution
+   mode) in order to provide some data to display when the actual
+   scrolling takes place. Only one data-fetch start register and one
+   data-fetch stop register are available, and these are shared by both
+   playfields. If you want to scroll one playfield and hold the other,
+   you must adjust the data-fetch start and data-fetch stop to handle
+   the playfield being scrolled. Then, you must adjust the modulo and
+   the bitplane pointers of the playfield that is not being scrolled to
+   maintain its position on the display. In low resolution mode, you
+   adjust the pointers by -2 and the modulo by -2. In high resolution
+   mode, you adjust the pointers by -4 and the modulo by -4.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

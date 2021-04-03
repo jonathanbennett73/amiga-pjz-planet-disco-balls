@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-5" TITLE="7 System Control Hardware / DMA Control" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 System Control Hardware / DMA Control</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node016F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0171.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Many different direct memory access (DMA) functions occur during system
+operation. There is a read address as well as a write address to the DMA
+<a name="line4">control register so you can tell which DMA channels are enabled.</a>
+
+The address names for the DMA registers are as follows:
+
+   DMACONR - Direct Memory Access Control - read-only.
+   DMACON  - Direct Memory Access Control - write-only.
+
+<a name="line11">The contents of this register are shown in Table 7-6 (bit on if enabled).</a>
+<a name="line12"></a>
+
+   Bit
+  Number     Name      Function
+  ------     ----      --------
+    15      SET/CLR    The set/reset control bit. See
+                        <a href="../Hardware_Manual_guide/node0166.html">description of bit 15</a> .
+
+
+    14      <a href="../Hardware_Manual_guide/node0123.html#line5">BBUSY</a>      Blitter busy status - read-only
+
+    13      <a href="../Hardware_Manual_guide/node0126.html">BZERO</a>      Blitter zero status - read-only. Remains 1 if,
+                       during a blitter operation, the blitter output
+                       was always zero.
+
+    12, 11             Unassigned
+
+    10      <a href="../Hardware_Manual_guide/node012B.html#line146">BLTPRI</a>     Blitter priority.  Also known as &#034;blitter-nasty.&#034;
+                       When this is a 1, the blitter has full (instead
+                       of partial) priority over the 680x0.
+
+    9       DMAEN      DMA enable.  This is a master DMA enable bit.
+                       It enables the DMA for all of the channels at
+                       bits 8-0.
+
+    8       <a href="../Hardware_Manual_guide/node0075.html">BPLEN</a>      Bitplane DMA enable
+
+    7       <a href="../Hardware_Manual_guide/node0057.html#line9">COPEN</a>      Coprocessor DMA enable
+
+    6       BLTEN      Blitter DMA enable
+
+    5       SPREN      Sprite DMA enable
+
+    4       DSKEN       <a href="../Hardware_Manual_guide/node0192.html#line14">Disk DMA enable</a> 
+
+    3-0     <a href="../Hardware_Manual_guide/node00E0.html#line7">AUDxEN</a>     Audio DMA enable for channels 3-0 (x = 3 - 0).
+
+
+            Table 7-6: Contents of DMA Control Register
+
+
+For more information on using the DMA, see the following chapters:
+
+   Copper     Chapter 2: Coprocessor Hardware
+   Bitplanes  Chapter 3: Playfield Hardware
+   Sprites    Chapter 4: Sprite Hardware
+   Audio      Chapter 5: Audio Hardware
+   Blitter    Chapter 6: Blitter Hardware
+<a name="line60">   Disk       Chapter 8: Interface Hardware</a>
+
+Processor Access To Chip Memory
+-------------------------------
+The Amiga chips access Chip memory directly via DMA, rather than utilizing
+traditional bus arbitration mechanisms. Therefore, processor supplied
+features for multiprocessor support, such as the 68000 TAS (test and set)
+instruction, cannot serve their intended purpose and are not supported by
+the Amiga architecture.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

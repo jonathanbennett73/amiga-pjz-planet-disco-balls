@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-4-5" TITLE="K / Signal Description / DMA Control Signals" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Signal Description / DMA Control Signals</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02B2.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02B4.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+There are various signals on the expansion bus that coordinate the
+arbitration of bus masters.  Zorro II bus masters use some of the same
+<a name="line4">logical signals, but their arbitration protocol is considerably different.</a>
+
+PIC is DMA Owner (/OWN)
+   This is asserted by the bus controller when a master is about to go
+   on the bus and indicates that some master owns the bus. Zorro II bus
+   masters drive this, and some Zorro III slaves may find a need to
+   monitor it, or /BGACK, to determine who's the bus master. This is
+   ordinarily not important to Zorro III PICs, and they may not drive
+<a name="line12">   this line.</a>
+
+Slot Specific Bus Arbitration (/BRn, /BGn)
+   These are the slot-specific /BRn and /BGn signals, where &#034;n&#034; refers
+   to the expansion slot number. The bus request from each board is
+   taken in by the bus controller and ultimately used to take over the
+   system from the primary bus master, which is always the local master.
+   Zorro III PICs toggle /BRn to register or unregister as a master with
+   the bus controller.  /BGn is asserted to one registered PIC at a
+   time, on a cycle by cycle basis, to indicate to the PIC that it gets
+<a name="line22">   the bus for one full cycle.</a>
+
+Bus Grant Acknowledge (/BGACK)
+   Asserted by the bus controller when a master is about to go on the
+   bus.  As with /OWN, most Zorro III PICs ignore this signal, and none
+<a name="line27">   may drive it.</a>
+
+Bus Want/Clear (/BCLR)
+   This signal is asserted by the bus controller to indicate that a PIC
+   wants to master the bus; Zorro III cards can use this to determine if
+   any Zorro II bus requests are pending; Zorro III bus requests don't
+   affect /BCLR.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-8" TITLE="6 Blitter Hardware / Area Fill Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 Blitter Hardware / Area Fill Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0121.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0123.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+In addition to copying data, the blitter can simultaneously perform a fill
+operation during the copy.  The fill operation has only one restriction --
+the area to fill must be defined first by drawing untextured lines with
+only one bit set per horizontal row.  A special  <a href="../Hardware_Manual_guide/node0128.html">line draw mode</a>  is
+available for this operation.  Use a standard copy blit (or any other
+blit, as area fills take place after all  <a href="../Hardware_Manual_guide/node011F.html">shifts</a> ,  <a href="../Hardware_Manual_guide/node011F.html#line42">masks</a>  and logical
+combination of sources).   <a href="../Hardware_Manual_guide/node0120.html">Descending mode</a>  must be used. Set either the
+inclusive-fill-enable bit (FILL_OR, or bit 3) or the exclusive-fill-enable
+bit (FILL_XOR, or bit 4) in  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a> . The inclusive fill mode fills
+between lines, leaving the lines intact. The exclusive fill mode fills
+between lines, leaving the lines bordering the right edge of filled
+regions but deleting the lines bordering the left edge. Exclusive fill
+yields filled shapes one pixel narrower than the same pattern filled with
+inclusive fill.
+
+For instance, the pattern:
+
+    00100100-00011000
+
+filled with inclusive fill, yields:
+
+    00111100-00011000
+
+with exclusive fill, the result would be
+
+    00011100-00001000
+
+<a name="line29">(Of course, fills are always done on full 16-bit words.)</a>
+
+There is another bit (FILL_CARRYIN or bit 3 in  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a> ) that forces the
+area &#034;outside&#034; the lines be filled; for the above example, with inclusive
+fill, the output would be
+
+    11100111-11111111
+
+with exclusive fill, the output would be
+
+<a name="line39">    11100011-11110111</a>
+
+
+             before                          after
+     ______________________          ______________________
+    |                      |        |                      |
+    |                      |        |                      |
+    |                      |        |                      |
+    |   1   1      1   1   |        |   11111      11111   |
+    |    1  1       1  1   |        |    1111       1111   |
+    |     1 1        1 1   |        |     111        111   |
+    |      11         11   |        |      11         11   |
+    |     1 1        1 1   |        |     111        111   |
+    |    1  1       1  1   |        |    1111       1111   |
+    |   1   1      1   1   |        |   11111      11111   |
+    |                      |        |                      |
+    |                      |        |                      |
+    |______________________|        |______________________|
+
+           Figure 6-5: Use of the FCI Bit - Bit Is a 0
+
+
+If the FCI bit is a 1 instead of a 0, the area outside the lines is filled
+<a name="line62">with 1s and the area inside the lines is left with 0s in between.</a>
+
+
+             before                          after
+     ______________________          ______________________
+    |                      |        |                      |
+    |                      |        |                      |
+    |                      |        |                      |
+    |   1   1      1   1   |        | 111   1111111   11   |
+    |    1  1       1  1   |        | 1111  11111111  11   |
+    |     1 1        1 1   |        | 11111 111111111 11   |
+    |      11         11   |        | 111111111111111111   |
+    |     1 1        1 1   |        | 11111 111111111 11   |
+    |    1  1       1  1   |        | 1111  11111111  11   |
+    |   1   1      1   1   |        | 111   1111111   11   |
+    |                      |        |                      |
+    |                      |        |                      |
+    |______________________|        |______________________|
+
+           Figure 6-6: Use of the FCI Bit - Bit Is a 1
+
+
+If you wish to produce very sharp, single-point vertices, exclusive-fill
+enable must be used. Figure 6-7 shows how a single-point vertex is
+<a name="line86">produced using exclusive-fill enable.</a>
+
+
+             before                   after exclusive fill
+     ______________________          ______________________
+    |                      |        |                      |
+    |                      |        |                      |
+    |                      |        |                      |
+    |   1   1      1   1   |        |    1111       1111   |
+    |    1  1       1  1   |        |     111        111   |
+    |     1 1        1 1   |        |      11         11   |
+    |      11         11   |        |       1          1   |
+    |     1 1        1 1   |        |      11         11   |
+    |    1  1       1  1   |        |     111        111   |
+    |   1   1      1   1   |        |    1111       1111   |
+    |                      |        |                      |
+    |                      |        |                      |
+    |______________________|        |______________________|
+
+             Figure 6-7: Single-Point Vertex Example
+
+
+The blitter uses the fill carry-in bit as the starting fill state
+beginning at the rightmost edge of each line.  For each &#034;1&#034; bit in the
+source area, the blitter flips the fill state, either filling or not
+filling the space with ones.  This continues for each line until the left
+edge of the blit is reached, at which point the filling stops.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

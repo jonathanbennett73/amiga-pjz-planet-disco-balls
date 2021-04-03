@@ -1,0 +1,11 @@
+datebrowser.gadget
+LABEL "Datebrowser"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/datebrowser.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+INTEGER  0x85061000 (I···U) DATEBROWSER_Day "Day" 1 1 31
+INTEGER  0x85061001 (I···U) DATEBROWSER_Month "Month" 1 1 12
+INTEGER  0x85061002 (I···U) DATEBROWSER_Year "Year" 1999 1978 2099
+BOOLEAN  0x85061007 (I····) DATEBROWSER_ShowTitle "Title" FALSE "Show Title"
+BOOLEAN  0x85061008 (I····) DATEBROWSER_MultiSelect "Selection Type" FALSE "Multi Select"
+END

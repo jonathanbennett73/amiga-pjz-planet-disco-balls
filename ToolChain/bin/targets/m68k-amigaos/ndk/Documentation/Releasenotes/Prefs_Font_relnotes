@@ -1,0 +1,62 @@
+
+Font 44.10 (16.7.99)
+
+· The problem with "asl requester does not open after the first time" is a
+  problem with window.class.
+
+Font 44.11 (31.7.99)
+
+· Added stack extension
+
+Font 44.13 (17.8.99)
+
+· added close gadget for window
+
+· change Save/Use/Cancel button layout
+
+· moved sample to top of window
+
+· fixed a bug with large icon fonts overwriting the window borders
+
+Font 44.14 (8.9.99)
+
+· if the SYS:Disk.info icon could not be loaded the sample was not shown. Now
+  the default icon fallback is used. This should help Scalos displaying the
+  sample (can't imagine other reasons than this).
+
+Font 44.15 (16.9.99)
+
+· changed icon name to def_font_prefs.
+
+· Sample did not draw sys images correctly if VisualPrefs was installed.
+
+· if Font is started on Workbench Screen the Workbench Patterns are used
+  as backdrops in the sample.
+
+· Sample is now Visual-Prefs compatible.
+
+Font 44.16 (22.9.99)
+
+· removed some debugging code
+
+· removed unneeded BltBitMap()
+
+Font 44.17 (27.9.99)
+
+· One more sys image was not drawn correctly if a sysiclass patch was 
+  installed (screen depth image)
+
+--- OS 3.5 release --
+
+Font 44.23 (27.10.99)
+
+· Deadlock if Sample was refreshed while IPrefs updates WB patterns.
+
+Font 44.25 (17.11.99)
+
+· Sample use different backdrops: WB Backdrop in screen, WB drawer in WB 
+  drawer window.
+
+Font 44.26 (21.12.99)
+
+· Options USE and SAVE were broken.

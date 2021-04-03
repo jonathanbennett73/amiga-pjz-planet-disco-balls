@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-4-6" TITLE="K / Signal Description / Address And Related Control Signals" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Signal Description / Address And Related Control Signals</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02B3.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02B5.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+These signals are various items used for the addressing of devices in
+Zorro III mode by bus masters either on the bus or from the local bus.
+The bus controller translates local bus signals (68030 protocol on the
+A3000) into Zorro III signals; masters are responsible for creating the
+<a name="line6">appropriate signals via their own bus control logic.</a>
+
+Read Enable (READ)
+   Read enable for the bus; READ is asserted by the bus master during a
+   bus cycle to indicate a read cycle, READ is negated to indicate a
+   write cycle. READ is asserted at address time, prior to /FCS, for a
+   full cycle, and prior to  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  for a short cycle.  READ stays valid
+<a name="line13">   throughout the cycle; no latching required.</a>
+
+Multiplexed Address Bus (A8-A31)
+   These signals are driven by the bus master during address time, prior
+   to the assertion of /FCS.  Any responding slave must latch as many of
+   these lines as it needs on the falling edge of /FCS, as they're
+   tri-stated very shortly after /FCS goes low.  These addresses always
+   include all configuration address bits for normal cycles, and the
+<a name="line21">   cycle type information for  <a href="../Hardware_Manual_guide/node02BA.html">Quick Interrupt cycles</a> .</a>
+
+Short Address Bus (A2-A7)
+   These signals are driven by the bus master during address time, prior
+   to the assertion of /FCS, for full cycles, and prior to the assertion
+   of  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTCR</a>  for short cycles.  They stay valid for the entire full or
+   short cycle, and as such do not need to be latched by responding
+<a name="line28">   slaves.</a>
+
+Memory Space (FC0-FC2)
+   The memory space bits are an extension to the bus address, indicating
+   which type of access is taking place. Zorro III PICs must pay close
+   attention to valid memory space types, as the space type can change
+   the type of the cycle driven by the current bus master.  The encoding
+<a name="line35">   is the same as the valid Motorola function codes for normal accesses.</a>
+   These are driven at address time, and like the low short address, are
+   valid for an entire short or full cycle.
+
+
+      FC0 FC1  FC2  Address   Space Type                 Z3 Response
+      -------  ---  -------   ----------                 -----------
+         0      0      0      Reserved                   None
+         0      0      1      User Data Spce             Memory
+         0      1      0      User Program Space         Memory
+<a name="line45">         0      1      1      Reserved                   None</a>
+         1      0      0      Reserved                   None
+         1      0      1      Supervisor Data Space      Memory
+         1      1      0      Superviser Program Space   Memory
+         1      1      1      CPU Space                  Interrupts
+
+
+                Table K-1: Memory Space Type Codes
+<a name="line53"></a>
+
+Compatibility Cycle Strobe (/CCS)
+   This is equivalent to the Zorro II address strobe,  <a href="../Hardware_Manual_guide/node02A2.html#line18">/AS</a> .  A Zorro III
+   PIC doesn't use this for normal operation, but may use it during the
+    <a href="../Hardware_Manual_guide/node02C7.html">autoconfiguration</a>  process if configuring at the Zorro II address.
+    <a href="../Hardware_Manual_guide/node02C7.html">AUTOCONFIG</a>  cycles at $00E8xxxx always look like Zorro II cycles,
+   though /FCS and the full Zorro III address is available, so a card
+   can use either Zorro II or Zorro III addressing to start the cycle.
+   However, using the /CCS strobe can save the designer the need to
+   compare the upper 8 bits of the address.  Data must be driven Zorro
+   II style, though if the  <a href="../Hardware_Manual_guide/node02B5.html#line17">/DSn</a>  lines are respected for reads,  <a href="../Hardware_Manual_guide/node02B5.html#line36">/CINH</a>  is
+   asserted, and  <a href="../Hardware_Manual_guide/node02B5.html#line44">/MTACK</a>  is negated, the resulting Zorro III cycle will
+   fit within the expected Zorro II cycle generated by the bus
+   controller.  Yes, that should sound weird; it's based on the mapping
+   of Zorro II vs. Zorro III signals, and of course the fact that /FCS
+   always starts any cycle. Also note that a bus cycle with /CCS
+   asserted and /FCS negated is always a Zorro II PIC-as-master cycle.
+   Many Zorro III cards will instead configure at the alternate
+   $FF00xxxx base address, fully in Zorro III mode, and thus completely
+<a name="line73">   ignore this signal.</a>
+
+Full Cycle Strobe (/FCS)
+   This is the standard Zorro III full cycle strobe.  This is asserted
+   by the bus master shortly after addresses are valid on the bus, and
+   signals the start of any kind of Zorro III bus cycle.  Shortly after
+   this line is asserted, all the multiplexed addresses will go invalid,
+   so in general, all slaves latch the bus address on the falling edge
+   of /FCS.  Also,  <a href="../Hardware_Manual_guide/node02B3.html#line12">/BGn</a>  line is negated for a Zorro III mastered cycle
+   shortly after /FCS is asserted by the master.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

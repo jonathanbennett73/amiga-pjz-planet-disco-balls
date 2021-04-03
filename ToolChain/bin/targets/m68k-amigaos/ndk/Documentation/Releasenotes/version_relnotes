@@ -1,0 +1,28 @@
+version 44.1 (24.4.99)
+
+- Bumped to V44.
+
+- Incorporates the changes for the Version command V40.2.
+
+
+version 44.2 (6.5.99)
+
+- Retired all the assembly language support code; the new
+  code also checks for weird node/resident names.
+
+
+Version 44.3 (9.9.99)
+
+- Due to a missing termination character, "version <file> full"
+  could print junk after the date string.
+
+- The date string is now formatted according to the locale
+  selected date format.
+
+
+Version 44.4 (30.9.99)
+
+- Entering "version <file>" could trap the Version command in an
+  endless loop if there was no $VER: tag in the file and the last
+  four characters stored in it would begin with a "$" character.
+  Quite an obscure bug and one that has always been in there. Fixed.

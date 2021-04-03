@@ -1,0 +1,199 @@
+44.127)
+	Arranged for better optimization of really large disks. Also changed the
+	start of the search for nice divisors for heads at one more than the 
+	standard PC value of 63. Now hdwrench.library should handle disks up to
+	1 gigablocks in size, 512 megabytes. If somebody breaks this boundary
+	the reportback for BPT, heads, and cylinders will need a change in its
+	structure. This will not require a change in HDTB at all.
+44.126)
+	Typo fix in .125's repairs.
+44.125)
+	It turns out some Quantum drives can sneak through the optimization
+	algorithm and return values that are larger than the "WORD" sized
+	data field. ie, the values returned are unreasonable. This has been
+	trapped and an error returned. The error return is DA_RIDICULOUS_VALUES.
+44.124)
+	1) Caught you guys not testing, didn't I? I fixed the "it won't work"
+	   trap I (accidentally) put into it.
+44.123)
+	1) Repaired faulty error return on the format command.
+44.122)
+	1) Steven Norburn, <sndev@bigfoot.com>, has developed the first tool
+	   using hdwrench.library other than HDToolBox itself. He discovered
+	   a value that defaulted incorrectly, the prealloc value.
+	2) Added a new error return if any critical value fields are not
+	   filled in. (Previously they'd get 131L installed, which is a
+	   nonsense value for any of these critical fields. This was meant
+	   to be checked on exit from the build a partition routine and
+	   was left incomplete.)
+44.121)
+	1) Increased the internal Inquiry buffer size on reading inquiry for
+	   compatability with some broken implementations. The entire return
+	   is available if the buffer parameter has 0x4d616763L stored in it
+	   on entry to the inquiry command. Otherwise the return is as originally
+	   documented for backwards compatability.
+44.120)
+	1) Revisit the "SYS" filesystem name issue. Generate useful generic names
+	   and trap for "SYS" or "SYS:" stored in the RDBs as a filename.
+44.119)
+	1) Repaired a comment error in HDWrench.h
+	2) InMemRDBStructs() now fills in the devicename for the currently open
+	   device in the internal structures so subsequent mountfile writes work.
+44.118)
+	1) Repaired item 2 for a compiler bug in SAS C 6.57.
+44.117)
+	1) Small change to the logic for assigning a name to a filesystem when
+	   no matching file is found and called with a path of "sys:".
+	2) Added guesses for SFS and PFS-II filesystems in the above case.
+44.116)
+	1) Added code to force the DosType assigned to the FSHD block to match
+	   the first partition for a DosType of DOS^(0..7).
+44.115)
+	1) Cleaned up a couple "unassigned" values that could creep into the
+	   RDBs on the disk for variables not used with SCSI drives in general.
+	2) Added an "autoparkseconds" keyword which defaults to zero if not in
+	   the mountfile.
+44.114)
+	1) Repaired a minor bug in the FindLastSector() entry point. It now
+	   reports the real last available block on the disk instead of 
+	   the total number of blocks on the disk.
+44.113)
+	1) Stopped "FindValid" entry point from attempting to read devices
+	   which are not direct access. Now it only attempts to read to
+	   confirm block sizes on hard disks, write once disks, cdroms,
+	   optical memory devices, and medium changers.
+44.112)
+	1) Mountfile methods did not support multiple filesystems within the
+	   RDBs properly in 44.111. That is fixed in this release.
+	2) Now a DOS^x filesystem saved with a DOSType that does not match
+	   any of the PART DOSTypes might still be saved properly in the
+	   mountfile. (Hopefully the beta testers with such mangled (HDTB)
+	   bootblocks can test this. It seems to work here.)
+
+44.111)
+	1) During an ReadRDBs() call if RDBBlocksLo is NOT the same value
+	   as the RDSK block number on disk then the RDBBlocksLo value is
+	   ammended and we proceed on that basis. This may break some RDBs
+	   which have another possible obscure "legal defect".
+	2) Cosmetic change to HDW_Translations.c source file.
+	3) Reinitialized ddBlockBytes on every OpenDevice entry.
+
+44.110)
+	1) csascsi.device compatibility added.
+	   if no prior RawRead has been performed to hard test block size
+	   the ReadRDBs and WriteRDBs entries will perform a ReadCapacity
+	   to determine the actual disk block size before proceeding.
+	   If there are errors apparent when accessing the disk that are
+	   suggestive of an erroneous block size the RawRead() entry can
+	   be used (immediately after the HDWOpenDevice() to diagnose the
+	   true blocksize via an actual read. With most SCSI devices this
+	   succeeds. With the csascsi.device and perhaps a few others it
+	   fails.
+
+44.109)
+	1) Removed jdow:hdwrench references from tester. It now uses l:
+	   instead.
+
+	2) Special "ldir" values for WriteMountfile of "sys:" and "nil:"
+	   are now documented.
+
+	3) Included the "OutMemMountfile" entry point in the autodocs file,
+	   (Note that this entry point does not provide for saving
+	   filesystems or drive init code to disk. Use the WriteMountfile()
+	   entry for that function. The mountfile itself can be written to
+	   "Nil:" if absolutely required.)
+
+44.108)
+	1) Communications with Randall Jesup lead to a change in the file
+	   include:dos/filehandler.h, herein included, which in turn causes
+	   a small change in hdwrench.library.
+	2) Update HDWrench.h to include both bootblocks and sectorsperblock.
+	   (Not that I suggest using bootblocks except in extraordinary
+	   settings.)
+
+44.107)
+	1) Revised tester.c and hdwrench.doc to add a test.
+	2) Actually got the fix for 105 item 3 into the code in the archive
+	   this time. Argh!
+
+44.106)
+    1) Fixed a typo in KillRDSK so that old RDBs get properly smashed
+       when writing new ones with a higher value of RDBLow than the
+       originals.
+
+44.105)
+    1) Changed Optimize behavior to continue looking for smaller track
+       size (surfaces * blockspertrack) optimums until it falls below
+       1meg. If it falls to too small a value it reverts to any that
+       might have existed below 4megs. Any tracksize < 1meg stops the
+       search.
+    2) Enabled saving longer filesystem and driveinit names in the RDBs
+       since 256 byte RDBs don't exist.
+    3) Fixed a major error in outMemRDBStructs.
+
+44.104)
+    1) Fixed =& bug in the FindValid code.
+    2) Changed the CallBack hook to place strings in the calling function
+       rather than hdwrench.library itself. (Unfortuantely most of the
+       strings cannot be sensibly tested since they are rare error codes
+       from the scsi devices.)
+    3) Aside from bug fixes this should be finished.
+
+44.103)
+    1) Fixed algorithm for calculating LUN when opening a wide scsi device.
+    2) filled out LowlevelFormat ()
+    3) Filled out VerifyDrive ()
+
+44.102)
+    1) Added callback function for QueryFindValid.
+    2) Added LowlevelFormat() and VerifyDrive() as skeleton procedures.
+
+44.101)
+    1)  "Ohmigawd"! Had a nasty FreeMem larger than its AllocMem hole.
+        Don't anymore.
+    2)  Corrected a bug in WriteRDBs which could manage to corrupt
+        internal concepts of blocksize.
+
+44.100:
+    1)  Changed Valid IDs testing to fill a ValidIDstruct with both
+        "there" and "ready" defined. (Ready also means readable.)
+    2)  Changed the RDB read routine to use less stack. It's
+        recursion was blowing stack on a machine set to 4k stack.
+43.108:
+    1) The LUN portion of some commands might not be initialized
+       properly in 43.107 depending on the sequence of operations
+       performed. This is now fixed.
+
+43.107:
+    1)  Fixed WriteRDBStructs so that it writes things into the
+        correct place in the RDB file created.
+
+43.106:
+    1)  Added DE_BOOTBLOCKS - I hope I can convince people to have it
+        chopped out later. It should be manipulated by the program which
+        installs the bootblock code.
+    2)  Added quotes around loadable file names when writing the
+        mountfile.
+    3)  Repaired a "left in debug" caused RDB renumbering problem when
+        reading mountfiles.
+
+43.105:
+    1)  Mungwall hits during ValidIDs testing fixed. Allocated based on
+        "test" read size of 16k block size and had deallocated based
+        on actual read blocksize.
+
+43.104:
+    1)  Zero all fields in ValidIDs array not just the ones appropriate
+        to the type of SCSI device, narrow or wide.
+
+43.101:
+    1)  Added version tag in HDW_Libinitr.c so that it would be found
+        before the filesystem version search string in HDW_Translations.c.
+    2)  Left out code to blank old RDBs that might be left hanging around
+        when RDBLow is larger than in the old RDBs on the disk.
+
+TODO:
+    1)  Find a way to incorporate drive verification and bad blocks
+        swapping.
+    2)  Find a way to incorporate low level formatting capabilities
+        within the library.

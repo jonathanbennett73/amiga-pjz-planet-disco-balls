@@ -1,0 +1,59 @@
+CrossDOS 44.3 (7.8.99)
+
+- Corrected startup issue. Cx would notify that the arexx port could not be
+  created but yet would not cause the Cx if running to show itself.
+
+CrossDOS 44.4 (10.8.99)
+
+- Corrected hits on quit
+
+CrossDOS 44.5 (18.8.99)
+
+- appicon now uses v44 icon.library calls
+
+- removed the height lock on the window
+
+CrossDOS 44.6 (21.8.99)
+
+- changed layout, removed grouping on LB and moved header text to LB ColumnInfo,
+  removed the 'Options' header as it's pretty obvious what they are for.
+
+CrossDOS 44.7 (26.8.99)
+
+- Window now opens at bottom of screen titlebar
+
+CrossDOS 44.8 (1.9.99)
+
+- Corrected disk inserted refresh issue.
+
+CrossDOS 44.9 (10.9.99)
+
+- Added new tag for handling columninfo in the LB properly.
+
+- Recompiled using new options and compilation skeleton.
+
+CrossDOS 44.10 (25.9.99)
+
+- Fixed bug where Icon wouldn't be displayed if app was ran from CLI.
+- Replaced static app name for icon with dynamic determined on startup.
+
+CrossDOS 44.11 (29.9.99)
+
+- Recompile with full optimization.
+- Frozen.
+
+--- OS 3.5 release ---
+
+CrossDOS 44.12 (3.12.99)
+
+- new framework
+
+- device list is scanned on every open window
+
+- changes in GUI layout
+
+--- OS 3.9 release ---
+
+CrossDOS 45.2 (13.12.2000)
+
+- don't use hard coded program name any longer

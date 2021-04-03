@@ -1,0 +1,27 @@
+cpu 44.1 (9.6.99)
+
+- Original code could forget whether it had identified an MMU or
+  not and would have wound up printing junk were not the MMU type
+  test made to look for 68851. Similar effects for the '030 MMU,
+  depending upon whether the MMUTEST/S option was used or not. Fixed.
+
+- Original code would fail to evaluate the CHECK/K option properly.
+  In fact, whatever option to test for was ignored and a "test"
+  was performed that would cause the program to always return "test
+  condition not met", rendering this feature useless. Fixed.
+
+- Now knows the '060 (and actually tests for it rather than
+  trusting the AttnFlags).
+
+- The CHECK/K option can now test for the presence of an '060.
+
+
+cpu 44.2 (18.6.99)
+
+- CPU type detection code did not properly clean up after itself,
+  crashing on machines lacking '040/'060 CPUs. Fixed.
+
+
+CPU 44.3 (6.11.1999)
+
+- Changed the MMU type detection code for the '030 case.

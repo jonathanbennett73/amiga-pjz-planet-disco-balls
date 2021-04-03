@@ -1,0 +1,35 @@
+
+RCS file: RCS/HI.c
+Working file: HI.c
+head: 45.4
+branch:
+locks:
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 4;	selected revisions: 4
+description:
+HI: C replacement of original assembler version
+----------------------------
+revision 45.4
+date: 2001/03/09 15:07:50;  author: Helios;  state: Exp;  lines: +5 -4
+- forgot to initialize some fields of GlobalData (Locale stuff)
+----------------------------
+revision 45.3
+date: 2001/03/09 11:48:54;  author: Helios;  state: Exp;  lines: +5 -4
+- was still opening rexxsyslib.library V45 for testing
+  error message
+- forgot to set return code
+----------------------------
+revision 45.2
+date: 2001/03/09 11:29:15;  author: Helios;  state: Exp;  lines: +12 -6
+- forgot to localize on message
+- the two error messages are common now, cause other commands
+  use them also
+- forgot to close catalog and locale lib
+----------------------------
+revision 45.1
+date: 2001/03/09 11:07:51;  author: Helios;  state: Exp;
+- initial version translated from original assembler version
+- should behave like original except for localization
+=============================================================================

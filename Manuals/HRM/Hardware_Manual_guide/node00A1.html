@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_C" NODE="C-2" TITLE="C Enhanced Chip Set / ECS Hardware and the Graphics Library" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>C Enhanced Chip Set / ECS Hardware and the Graphics Library</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00A0.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00A2.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The Enhanced Chip Set consists of compatible revisions to the Agnus and
+Denise custom chips.  The V36 graphics.library software makes it possible
+for these chips to display images in new resolutions, at new monitor scan
+rates and with new sprite and genlock abilities.
+
+With the enhanced Agnus, the V36 graphics.library supports the new
+programmable scan rate registers to provide multi-sync and bi-sync monitor
+capability. The new SuperHires mode provides 35ns pixel rates and sprite
+positioning at 70ns rates.  Support for big blits (up to 32k x 32k) is
+provided for all graphics functions if the ECS Agnus is present.
+
+With the enhanced Denise, the V36 graphics.library provides display window
+start and stop with explicit control over larger ranges than was possible
+before.  There are new color register interpretations as part of the
+SuperHires mode.  Genlock control has been expanded for more flexibility.
+Borders may be explicitly transparent or opaque, color registers other
+than zero can control video overlay and a bitplane mask may be used for
+special-purpose video masking concurrently with the other genlock features.
+
+   Warning:
+   --------
+   With these new features come certain  new responsibilities when
+   using the graphics.library.
+
+ <a href="../Hardware_Manual_guide/node00A2.html">Determining Chip Revisions</a> 
+ <a href="../Hardware_Manual_guide/node00A3.html">SuperHires Mode</a> 
+ <a href="../Hardware_Manual_guide/node00A4.html">SuperHires Mode and the Denise Color Registers</a> 
+ <a href="../Hardware_Manual_guide/node00A5.html">SuperHires 70ns Sprite Positioning</a> 
+ <a href="../Hardware_Manual_guide/node00A6.html">Multi-Sync and Bi-Sync Monitors</a> 
+ <a href="../Hardware_Manual_guide/node00A7.html">New BEAMCON0 Register</a> 
+ <a href="../Hardware_Manual_guide/node00A8.html">Display Window Specification</a> 
+ <a href="../Hardware_Manual_guide/node00A9.html">Genlock Extensions</a> 
+ <a href="../Hardware_Manual_guide/node00AA.html">Big Blits</a> 
+ <a href="../Hardware_Manual_guide/node00AB.html">Other ECS Modifications</a> 
+ <a href="../Hardware_Manual_guide/node00AC.html">Interpretational Differences</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

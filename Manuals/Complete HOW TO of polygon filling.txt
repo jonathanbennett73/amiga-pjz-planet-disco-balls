@@ -1,0 +1,710 @@
+
+        OTMPOLY.DOC - Complete HOW TO of polygons
+
+        released 12-01-94
+        by Voltaire/OTM (Zach Mortensen)
+
+        email -
+        mortens1@nersc.gov
+
+
+INTRODUCTION
+
+                After receiving numerous requests to do so, I have
+        compiled a HOW TO doc on polygon filling.  It seems that a lot
+        of people out there are a lot like myself, they really dislike
+        using other people's code because it is extremely difficult to
+        figure out, especially if it is highly optimized.  Sometimes
+        text files are the answer, often times however they do more
+        harm than good.  When I was writing my 3d engine a few
+        erroneous text files caused me to waste several days debugging,
+        and in the end I wound up deriving everything on my own.
+        Hopefully I have learned from my painful experiences and will
+        make my explanations clear and concise, yet still offer ideas
+        for optimization.  My polygon routines are among the fastest I
+        have seen on the PC, but that is only because I am a
+        perfectionist obsessed with being the best ;)
+
+                I have attempted to arrange the sections of this
+        document in a somewhat logical fashion; that is, you should 
+        feel confident in one area before attempting to move on to the 
+        next.  This is the order in which I did things, so I figured 
+        what worked for me will most likely work for everyone else as 
+        well.  For my code examples I will use C++, and I will give 
+        ideas for assembler optimizations of these routines.
+
+                Everything here applies to triangles only, although it
+        is possible to adapt the techniques used here to four sided
+        polygons (quadrangles?) as well.  Why use triangles?  The
+        simple and straightforward answer: triangles are the most
+        mathematically correct.  Take any three points in space, ANY
+        three, and you can make a two dimensional plane out of them.
+        If you were to take four points on the other hand, it is very
+        likely that you will end up with a 3 dimensional shape instead.
+        Triangles also make vector operations (dot and cross product)
+        much simpler.
+
+
+SCAN CONVERSION
+
+                The process of determining the coordinates along the
+        edges of a polygon is known as SCAN CONVERSION.  The name comes
+        from the fact that most people use the horizontal scanlines on
+        the screen as the basis for doing this.  You will need to scan
+        convert each edge of every polygon you draw, and to do this you
+        need two points (the endpoints of the edge) P1 (X1, Y1) and P2
+        (X2, Y2)
+
+
+              P1 .  (X1, Y1)
+                  \
+                    \
+                      \
+                        \
+                          \
+                            \
+                              \
+                            P2  \.  (X2, Y2)
+
+
+        Now it's time to take a little trip back in time to the Algebra
+        you suffered through in Junior High (if you ever thought you
+        could be a coder without using any math you may as well turn
+        off your computer right now and throw it out the window).  The
+        equation
+
+
+                y = mx + b
+
+
+        should be indelibly etched in your mind.  To refresh the memory 
+        those who were asleep in class, m is the slope (change in 
+        Y/change in X or dy/dx if you are a calculus type), and b is 
+        the y intercept (value of y when x = 0).  A variation of this 
+        formula you learned in your Algebra II class is
+
+
+                y - Y1 = m(x - X1)
+
+
+        which is much more useful in our case, because we really don't
+        care about the value of y at (x = 0).
+
+
+                What I am about to say will confuse a lot of you, but
+        I'm going to say it anyway.  When filling polygons, we need to
+        switch all the Xs and Ys in the above equation.  WHY???  The
+        reason is simple: the above equation is solved for y in terms
+        of x, which means "you feed me an x value, and I'll tell you
+        the y value at that point."  When filling polygons, we would
+        much rather draw horizontal lines than vertical lines, because
+        horizontal line drawing is MUCH easier and much faster.
+        Therefore, we want an equation that will give us the x value at
+        a given y:
+
+
+                x - X1 = m(y - Y1)
+
+
+        That's simple enough, but there is a catch.  The m in the above
+        equation is no longer dy/dx, instead it is dx/dy.  This is
+        purely logical, dy/dx can be read as "change in y with respect
+        to change in x."  Since we are changing y instead of x in the
+        above equation, it is logical to have m = "change in x with
+        respect to change in y."
+
+                When you begin scan converting an edge, you will only
+        know X1, Y1, X2, and Y2.  Therefore, you need to calculate m.
+        The formula for this is
+
+
+                    (X2 - X1)
+                m = ---------
+                    (Y2 - Y1)
+
+
+                Once we have a value for m, we can determine the x
+        value of any given y.  We will find x values for all integer y 
+        values between Y1 and Y2 in order to determine the edges of our 
+        polygon, so we know where to start and stop drawing horizontal
+        lines when we fill it.  One equation which will give us these
+        values is
+
+
+                x = m(y - Y1) + X1
+
+
+                Now, you could solve this equation for every integer y 
+        value between Y1 and Y2, but this is extrememly slow.  If you 
+        remember that we are starting at y = Y1 and we only interested 
+        in the value of x at each scanline (we are using integers for 
+        y), you can do a little trick to simplify this equation:
+
+
+                point 0 -> x = m((Y1 + 0) - Y1) + X1
+                point 1 -> x = m((Y1 + 1) - Y1) + X1
+                point 2 -> x = m((Y1 + 2) - Y1) + X1
+
+                                ...
+
+                point n -> x = m((Y1 + n) - Y1) + X1
+
+
+        It is obvious that ((Y1 + n) - Y1) is simply n, so we arrive at
+        the general equation
+
+
+                x = m(n) + X1
+
+
+        Now, if we take the difference between two consecutive x
+        values (x values at scanlines n + 1 and n), we find that
+
+
+                  (m(n + 1) + X1) - (m(n) + X1)
+                = mn + m + X1 - mn - X1
+                = m
+
+
+        WOW, that makes life easy.  The difference between the x values
+        of consecutive y values is simply m.  That means that we now
+        have a recursive definition for x (recursive means that the
+        value of each term is based on the value of the previous one)
+
+
+                Xn = X(n-1) + m
+
+
+        So by adding m to the x value of the previous scanline, we can 
+        determine the x value at the current scanline.  Of course we 
+        also know the starting point of this sequence, X1.  Some C++ 
+        code that implements this might look like
+
+
+        float x, m, edge[200];          // use edge to store the x
+        int count;                      // values at each scanline,
+                                        // there are a maximum of 200
+                                        // lines on the screen, so we
+                                        // need room for 200 x values
+
+
+        m = (X2 - X1)/(Y2 - Y1);
+        x = X1;
+
+        for (count = Y1; count < Y2; count++)
+        {
+            edge[count] = x;
+            x += m;
+        }
+
+
+        There is another problem here, we are dealing with floating
+        point numbers, which are incredibly slow in calculations if 
+        you don't have a coprocessor.  The solution to this problem is 
+        to use fixed point integer math.  In fixed point, you multiply 
+        each number by a scaling factor.  When you perform any
+        calculations, divides in particular, the precision of your
+        answer is accurate to a fixed number of decimal places, hence
+        the name fixed point.
+
+                The most common implementations of fixed point scale by
+        factors of either 256 or 65536 because multiplying and dividing
+        by these numbers can be accomplished by shifting bits, and each
+        of these numbers is equivalent to half a register in assembler.
+        In order to use 16 bit or 8.8 fixed point, scale by 256 (you
+        now have 8 bits for the integer part and 8 bits for the decimal
+        part), and scale by 65536 in order to use 32 bit or 16.16 fixed
+        point (16 integer bits, 16 decimal bits).  When you are done
+        with all your calculations and need an integer answer, you
+        simply use the top 8 or 16 bits of your fixed point integer,
+        depending on what your scale factor was.
+
+        The above example converted to fixed point would look something
+        like this
+
+
+        int x, m, count, edge[200];     // if you are using 16 bit
+                                        // code, these should be of
+                                        // type long rather than int
+
+        m = (X2 - X1) << 16;            // dx scaled to 16.16 fixed
+                                        // point, I'm assuming you are
+                                        // using 32 bit code
+
+
+        m /= (Y2 - Y1)                  // notice that you do NOT scale
+                                        // the denominator, if you did
+                                        // you would lose all precision
+                                        // in your answer
+
+        x = X1 << 16;                   // scale the starting x value
+
+        for (count = Y1; count < Y2; count++)
+        {
+            edge[count] = x >> 16;      // store only the integer part
+            x += m;
+        }
+
+
+                Now that you have an incredibly fast way to scan
+        convert a single edge, you must do this for all the edges in
+        your polygon.  Here's another place where triangles are better
+        than quadrangles: on any triangle, there is a top, middle, and
+        bottom point.  The side connecting the top and bottom points is
+        ALWAYS the longest.  Therefore, the best strategy for scan
+        converting an entire triangle is as follows:
+
+        1.  Set up two edge lists, one for the right and one for the
+            left side of each scanline.
+
+        2.  Scan convert the longest edge and store it in the left edge
+            list.
+
+        3.  Scan convert the remaining two edges and store them in the
+            right edge list.
+
+        4.  Well...FILL IT OF COURSE!
+
+
+FLAT FILLING
+
+                Flat filling is the simplest and least impressive form
+        of polygon filling.  The entire polygon is filled with one
+        color.  In order to flat fill a polygon, you need to write two
+        routines
+
+        1.  A routine to scan convert an entire polygon
+
+        2.  A routine to draw a horizontal line
+
+        THAT'S IT!
+
+
+                Horizontal line drawing is very simple in chained
+        (packed pixel) video modes such as VGA mode 13h.  For the sake
+        of simplicity, I will use mode 13h as the example here.
+
+                Your horizontal line routine should definitely be in
+        assembler, because it is going to get called a LOT.
+        Preferably, it will be integrated into your poly filler so you
+        don't have to waste time pushing arguments and calling another
+        procedure.
+
+                To draw a horizontal line you need to know 4 things:
+        the starting and ending x values (X1, X2), the y value (Y), and
+        the color (C).
+
+                The first thing to do is make sure that X1 < X2.  If
+        not, switch them before you continue.
+
+                I'm not going to cover mode 13h graphics basics here
+        because they are too basic.  If you don't know mode 13h yet,
+        you have no business writing anything until you learn it!  The
+        easiest way to draw a horizontal line in mode 13h is to
+
+        1.  Determine the starting memory address of the line (A000h +
+            (320 * Y) + X1)
+
+        2.  Determine the length of the line in pixels
+
+        3.  Store (length) bytes of value (color) starting at the
+            starting memory address.
+
+                In order to make use of the 32 bit processor in your
+        machine, you will want to store doublewords instead of bytes.
+        This makes flat filling in mode 13h almost as fast as flat
+        filling in mode x.  Too store doublewords, you need to
+
+        1.  Perform steps 1 and 2 listed above
+
+        2.  Convert your byte color value into a dword (just make it 4
+            bytes in a row of your original color)
+
+        3.  Store (length / 4) doublewords
+
+        4.  Store (length % 4) bytes  (a quick way to do (length % 4)
+            is (length & 3))
+
+
+                Once you have your horizontal line routine up and
+        running, you need to integrate it into your scan converter.
+        The easiest way to do this is to make a loop from Y1 to Y2
+        where you draw horizontal lines between the edges of the
+        polygon.  Here's some pseudo code
+
+        scanLongSide();
+        scanMidSide();
+        scanShortSide();
+
+        for (count = Y1; count < Y2; count++)
+            hline(lEdge[count], rEdge[count], count, color);
+
+
+        Easy as pi...
+
+
+CLIPPING
+
+                We quicly run into a problem in mode 13h, images drawn
+        off the screen wrap around to the next scanline.  This is not
+        very aesthetically pleasing to say the least.  In protected
+        mode, this poses an even nastier problem.  Any memory writes
+        outside the 64k window reserved for the VGA produce a general
+        protection fault, very nasty.  The answer to these problems is 
+        to "stay inside the lines" when we are drawing, to "clip" our 
+        drawings so we only draw what is physically on screen.
+
+                When incorporated in a poly filler, the most
+        rudimentary form of clipping checks y values at scan conversion
+        time and x values when drawing horizontal lines.
+
+        Scan conversion C++ code that implements y clipping would look
+        somewhat like this
+
+
+        for (count = Y1; count < Y2; count++)
+        {
+            if ((count >= 0) && (count < 200))
+                edge[count] = x;
+            x += m;
+        }
+
+
+        Notice that you change the x value every time through the loop,
+        but you only store the edges that are on the screen.  This
+        assures that the x values you get later in the loop are
+        accurate.
+
+                Clipping in the x direction is best if done in the
+        horizontal line routine, and is even easier to implement than
+        y clipping in the scan conversion.  Once you make sure
+        that X1 < X2, all you need to do is substitute 0 for X1
+        if X1 is smaller than 0, and 319 for X2 if X2 is greater
+        than 0.  Also, if X1 > 319 or X2 < 0 you don't need to
+        draw anything, the line is entirely off screen.
+
+                Some more complicated clipping that will improve your
+        performance significantly involves checking to see if the
+        polygon is on screen before you draw.  Check your vertices to
+        see if the maximum x value is less than 0, the minimum x value
+        is greater than 319, the maximum y value is less than 0, or the
+        minimum y value is greater than 199.  If any of these are true,
+        your polygon is completely off screen and you have no need to
+        scan convert or fill.
+
+
+GOURAUD SHADING
+
+                If you have never heard of or seen gouraud shading,
+        I pity you.  It is the easiest way to make your boring flat 
+        shaded polygons come to life.  In order to explain gouraud
+        shading, I ask you to bear with my while I digress and explain
+        a bit about 3d math.
+
+                According to Lambert's law, the intensity of light
+        falling on a plane is directly related to the angle made when
+        the light vector intersects the normal vector of a plane.
+        Lambert shading a polygon involves taking the dot product of
+        the normal vector and the vector of the light intersecting it,
+        which gives the cosine of the angle made by the intersection.
+        Based on this value, the color of a plane can be calculated.
+        I'm not going to give any further explanation than this because
+        I don't want to be up all night typing.
+
+                Gouraud shading is a simple extension of Lambert
+        shading.  Instead of finding the intensity of light falling on
+        a plane, you determine the average intensity of light at a
+        vertex based on a normalized average of the normal vectors of
+        all the planes that share that point.  Once again, I'm not
+        going to give any further explanation than this of the math
+        behind Gouraud shading.  Suffice to say that Gouraud shading
+        uses a separate color value for each vertex of each polygon
+        rather than a single color for the entire plane.
+
+                After mathematically determining the color of each
+        vertex, the color of each point in the plane can be 
+        approximated using linear interpolation.  First, the color 
+        values along the edges are interpolated between the color 
+        values at each vertex.  Then color values along each scanline 
+        are interpolated between the color values at the edges of the 
+        line
+
+
+        Start with      /16 interpolate  16/16  interpolate  16/16
+        color values  / /   edge        E/ /E   scanline    E/E/E 
+        at vertices /  /    colors    C/  /D    colors    C/CD/D 
+                  /   /             A/   /B             A/AAB/B 
+                /    /            8/    /A            8/899A/A 
+              /     /           6/     /8           6/67778/8 
+            /      /          4/      /7          4/455667/7 
+          /       /         2/       /5         2/2333445/5 
+        /--------/        0/--------/4        0/--------/4
+        0       4          001122334           001122334
+
+        step 1             step 2              step 3
+
+
+                Scan conversion is a form of linear interpolation in 
+        which x values are interpolated between two known points.  
+        Scan conversion for Gouraud shading very similar, but instead 
+        of interpolating only x values, we interpolate x values and 
+        colors.  A Gouraud polygon filler must be given more 
+        information than a flat filler.  For each vertex, we need to 
+        know (X, Y, C) instead of just (X, Y).  As I said before, we 
+        also need to trace color values while scan converting.  This 
+        makes the scan conversion more complicated, however, color is 
+        traced (interpolated) in exactly the same way as x
+
+
+        mx  = (X2 - X1) << 16;
+        mx /= (Y2 - Y1);
+
+        mc  = (C2 - C1) << 16;
+        mc /= (Y2 - Y1);
+
+        x = X1 << 16;                   // scale the starting x value
+        c = C1 << 16;                   // scale the starting c value
+
+        for (count = Y1; count < Y2; count++)
+        {
+            edge[count] = x >> 16;      // store only the integer part
+            color[count] = c >> 16;     // store only the integer part
+            x += mx;
+            c += mc;
+        }
+
+
+                The resulting color values are stored in color lists
+        corresponding with the existing edge lists.  Now we have two x
+        values and two color values for each scanline.  The color
+        values for each scanline are not equal, so we need to
+        interpolate colors along each scanline as we draw.  This is
+        done almost exactly as scan conversion is done, with the
+        sole exception that we use dc/dx instead of dx/dy.
+
+                The Gouraud horizontal line routine needs to be passed
+        x values for the start and end of each scanline (X1, X2) as
+        well as color values (C1, C2) and a y value (Y).  Once
+        again, you need to make sure that X1 < X2.  If you switch
+        X1 and X2, be sure to switch C1 and C2 as well!  Here is some 
+        C++ code for a gouraud hline routine
+
+        mc  = (C2 - C1) << 8;
+        mc /= (X2 - X1);
+
+        c = C1 << 8;
+
+        for (count = X1; count < X2; count++)
+        {
+            setPixel(count, y, c >> 8);  // set pixel at (count, y) to
+                                         // color c
+            c += mc;
+        }
+
+
+        Notice that I used 8.8 fixed point here.  This is because you
+        are GUARANTEED that you will not have any color greater than
+        255 when you are using mode 13h, so you can shift the value
+        left 8 bits without any word overflow.  The reason you want to
+        use 8.8 fixed point is so you can do a little trick when you
+        convert to assembler that will allow you to eliminate the shift
+        right
+
+        ; first, get the starting memory address of the line in edi
+        ; and the number of pixels to draw in ecx
+
+        mov edx, mc     ; (dc/dx * 256)
+        mov ebx, C1     ; starting color
+        shl ebx, 8      ; C1 * 256
+
+        ghlLoop:
+
+        mov [edi], bh   ; draw the upper 8 bits (integer part)
+        add ebx, edx    ; c += mc
+        inc edi         ; go to next screen location
+
+        dec ecx         ; pixels to draw --
+        jnz ghlLoop
+
+
+        That inner loop is VERY FAST, it should almost run in one
+        memory wait state, which means that you get all the cpu cycles
+        for free while you are waiting to be able to write to memory
+        again.
+
+        Clipping here is implemented exactly the same as for flat
+        polygons.
+
+
+
+Z-BUFFERING
+
+                Ah yes, the crux of the biscuit indeed.  Z-buffering is
+        a technique used by more advanced 3d systems, it allows you to
+        do several things.  First, z-buffering speeds up 3d code by
+        eliminating plane sorting.  You can draw planes in any order,
+        and they will come out looking right.  This is a big
+        advantage when drawing objects with many faces, because sorting
+        routines take exponentially longer to sort larger data sets.
+        Second, z-buffering correctly draws intersecting polygons
+        WITHOUT having to calculate where they intersect, which
+        produces some impressive effects and doesn't require any extra
+        calculation.
+
+                Z-buffering accomplishes these feats by interpolating z
+        values between vertices and scanline edges much in the same way
+        Gouraud shading interpolates color.  The resulting z values for
+        each pixel on the screen are stored in a 'z-buffer' containing
+        (screenWidth * screenHeight) elements (64000 in mode 13h).
+        Before a new pixel is drawn, the z-buffer value for that
+        pixel is examined.  If the new pixel's z-value is less than
+        (closer to the viewer than) the z-buffer value, the new z value
+        is stored in the z-buffer and the pixel is drawn to the screen.
+        Otherwise, the z-buffer and the screen remain unchanged.
+        Through this process, the pixel at each screen location which
+        is closest to the viewer (and therefore not obscured by
+        anything else) is always displayed.
+
+                Because we don't want to have a 3d world which is only
+        128 pixels deep, the z-buffer elements cannot be bytes; we need
+        to store at least 16 bits of z data in each array element.
+        This allows us to have a world which is 32768 pixels deep,
+        adequate for most applications.  Right away, we see a big
+        problem with z-buffering, MEMORY!  It takes a LOT of memory to
+        store all those z values, 128k for a 16 bit z-buffer in mode
+        13h.  In my opinion, the advantages of z-buffering disappear
+        when you are in real mode due to the incredible amount of
+        memory required, so switch to protected mode before attempting
+        to implement z-buffering.
+
+                As I said before, z-buffering is almost identical to
+        Gouraud shading, with the exception that z values are
+        interpolated instead of color values.  Of course, you need to
+        pass some more information to your z-buffered poly routine,
+        namely the z values of each vertex. When scan converting, store
+        z values in z lists the same way you store color values in
+        color lists.  Here's some C++ code
+
+        mx  = (X2 - X1) << 16;
+        mx /= (Y2 - Y1);
+
+        mz  = (Z2 - Z1) << 16;
+        mc /= (Y2 - Y1);
+
+        x = X1 << 16;                   // scale the starting x value
+        z = Z1 << 16;                   // scale the starting z value
+
+        for (count = Y1; count < Y2; count++)
+        {
+            edge[count] = x >> 16;      // store only the integer part
+            zval[count] = z >> 16;      // store only the integer part
+            x += mx;
+            z += mz;
+        }
+
+
+                When you are tracing horizontal lines, the z values are
+        interpolated in exactly the same way as they are with Gouraud
+        shading.  After you determine a z value, check it against the z
+        value stored in the z-buffer for the current screen location to
+        see if the current pixel is visible.  If it is, draw it;
+        otherwise skip it and go on.  Here's some C++ again
+
+        mz  = (Z2- Z1) << 16;
+        mz /= (X2 - X1);
+
+        z = Z1 << 16;
+
+        for (count = X1; count < X2; count++)
+        {
+            if ((z >> 16) < zBuffer[y * 320 + x])
+            {
+                setPixel(count, y, c);
+                zBuffer[y * 320 + x] = z >> 16;
+            }
+
+            z += mz;
+        }
+
+                Of course, you don't perform the slow z-buffer address
+        calculation every time through the loop.  Just find the
+        starting offset into the screen, use that to find the starting
+        offset into the z-buffer, and then increment the z-buffer
+        pointer by 2 (for words) every time through the loop.  Also
+        make sure you use 16.16 fixed point here.
+
+                Don't forget to clear the z-buffer every time you clear 
+        the screen.  This is accomplished by filling it with 32767 
+        (7fffh), or whatever your maximum depth is.
+
+                By now you should know how to clip, it's exactly the
+        same for z-buffered polygons as it is for all others.
+
+                Notice that all the above examples deal with flat
+        shaded polygons.  This is because once you have written a
+        Gouraud poly filler, it will take you about a half hour to
+        convert it to a flat z-buffered filler if you were smart about
+        how you wrote your code.  If you are feeling REALLY brave, you
+        should try writing a Gouraud shaded z-buffered poly routine;
+        but let me warn you - YOU _WILL_ RUN OUT OF REGISTERS!  Besides
+        that, the code will be huge.  My gouraud shaded z-buffered poly
+        routine was well over 1200 lines of assembler, about twice as
+        long as this file!  But it's by no means impossible, and it's a
+        lot of fun just sitting and watching two gouraud shaded objects
+        intersecting each other when you are done.
+
+
+CLOSING COMMENTS
+
+                WOW, I didn't intend to write this entire text in one
+        night.  Oh well, at least it's done.  Hopefully I have been of
+        some assistance to just about everyone who reads this file.  I
+        apologize if some of the basics were too simple or if some of
+        the more complex points were not covered in enough detail, but
+        that is what you risk by catering to such a wide group of
+        people.
+
+                If you need any tips on optimization feel free to mail
+        me (mortens1@nersc.gov).  The source to my flat and Gouraud
+        poly fillers has already been released as part of my 3d engine
+        (V3DT090.ZIP availible via ftp at hornet.eng.ufl.edu
+        /demos/code/library/graph/), and my z-buffering code will be
+        released shortly (as soon as I clean it up and document it so
+        that it is READABLE ;))
+
+
+GREETS
+
+
+        Siri                    - I LOVE YOU I LOVE YOU I LOVE YOU
+        All of OTM              - What can I say...we rule ;)
+        Hurricane/OTM           - TED LIVES!
+        Zilym Limms/OTM         - I can't wait to convert OP to pmode ;)
+        Alex Chalfin/OTM        - we need to get you a handle ;)
+        Patrick Aalto           - for explaining Gouraud shading to me
+        Arnold                  -_
+        Hans                    -_- Larry Liverwurst Natural Lavatory
+        Lothar                  -
+        Tran & DareDevil        - for PMODE/W
+        All my #coders buddies...(no particular order)
+        Bone_
+        Trinel
+        ShadowH
+        bri_acid
+        OC
+        Addict
+        doom
+        StarScrm
+        MainFrame
+        BEAn_dIP
+        GodHead
+        Moomin
+        Zep
+        Druggie
+        Stimpee
+        pel
+        Opium
+        PhulAdder
+        Shades
+        BarryE
+        MindRape

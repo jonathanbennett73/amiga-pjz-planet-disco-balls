@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-5" TITLE="K Zorro Expansion Bus / Timing" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K Zorro Expansion Bus / Timing</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02B5.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02B7.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Some of this information is considered preliminary.  Nothing is expected
+to get any more speed critical, but as mentioned previously, the testing
+of Zorro III designs has just started at the time of this writing, final
+bus controllers are not yet available, and only a few PIC designs have
+even been conceived.
+
+This section covers the various timing specifications in detail for
+different Zorro III operations.  It's important to realize that this
+timing information is a specification.  Actual Zorro III systems may offer
+much more relaxed timings.  Today.  The whole point of the specification
+is that as long as all Zorro III PICs and all Zorro III backplanes base
+things on the timings given here, they'll always work together nicely.
+Any design based on the actual characteristics of any particular backplane
+will very likely wind up working only on that particular backplane.
+
+The philosophy of timing on the Zorro III bus is to keep things as simple
+as possible without compromising the performance goals of the bus.  Zorro
+III PICs are expected to be based on F-Series or ACT-series TTL logic,
+fast PALs, and possibly full custom chip designs.  It's very unlikely the
+designer will meet any of these specifications with the LS parts left over
+from old Zorro II card designs.
+
+ <a href="../Hardware_Manual_guide/node02B7.html">Standard Read Cycle Timing</a>       <a href="../Hardware_Manual_guide/node02B9.html">Multiple Transfer Cycle Timing</a> 
+ <a href="../Hardware_Manual_guide/node02B8.html">Standard Write Cycle Timing</a>      <a href="../Hardware_Manual_guide/node02BA.html">Quick Interrupt Cycle Timing</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

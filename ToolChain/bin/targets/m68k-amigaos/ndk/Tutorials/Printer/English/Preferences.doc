@@ -1,0 +1,47 @@
+
+printer.device V44 (OS 3.5)
+
+Preferences
+
+The V44 printer.device supports 10 units. Each unit has its own set of
+preferences associated with it. These are saved as follows:
+
+The file ENV:Sys/printer.prefs contains all settings for unit 0. The file
+ENV:Sys/printergfx.prefs has become obsolete. Any changes to this file are
+still handled by IPrefs but are always overwritten by printer.prefs if this
+file contains a FORM ID_PGFX.
+
+The units 1 to 9 use the files ENV:Sys/printerN.prefs, where N is replaced
+by the numbers 1 to 9.
+
+Typically the files will containg the following FORMs:
+
+ID_PRHD: struct PrefHeader containing version and type and flags all 0.
+
+ID_PTXT: struct PrinterTxtPrefs containing the general printer settings
+         and settings for text printing.
+
+ID_PUNT: struct PrinterUnitPrefs containing the name and unit number of the device
+         for printer output (parallel.device or serial.device, etc.).
+
+ID_PDEV: struct PrinterDeviceUnitPrefs containing unit number and symbolic name
+         for the unit of the printer.device. The name can be assigned by the
+         user and provides more comfort when choosing units via the
+         user interface.
+
+ID_PGFX: struct PrinterGfxPrefs containing the settings for graphics printing.
+
+
+Changes to the preferences
+
+Only the SYS:Prefs/Printer program is allowed to make changes to the preferences
+files and change their structure in the process. If another application wants
+to change the settings (e.g. the printer driver, many fax programs do this),
+it must preserve the structure of the file. This can be achieved by either
+reading all FORMs consecutively and writing them in the same order, or by reading
+the entire file into memory without dissolving its structure - it can the
+be changed and written back.
+
+The preferences files contain no CATs or LISTs, linearly reading all
+FORMs and writing back all FORMs in the old order is therefore possible
+and permitted.

@@ -1,0 +1,31 @@
+winuaenforcer
+
+This program allow uae enforcer support.
+It show all accsesses of adresses 0-1024 (except 4 of course)
+and all unmapped adresses as enforcer do.
+Segtracker is also support now
+
+To be 100% safe you must switch the JIT to indirekt Mode which reduce Speed
+by two
+
+But in direct Mode it show you 98% of hits in praxis
+(shows all hits of lawbreaker) and you loose no speed in this setting
+
+It give the output to the console by default
+If you wish to write to a logfile to disk you can enable
+write log on uae startup
+
+winuaeenforcer 2 do serial output im winuae log (doswindow (and  logfile))
+winuaeenforcer 1 do illegal address exception on enforcer hit(simular OS4 grim reaper)
+winuaeenforcer 3 Mode 1 and 2
+
+Problems:
+
+If you get constant enforcer hits you need to install a seperate tool that
+map the vbr to fastram some setpatch version seem not do this automatic
+
+Type vbr in Aminet search requester and you find some tools
+
+Other problems report to: nospamname@web.de
+and for segtracker/disasm support sb@sebastianbauer.info
+

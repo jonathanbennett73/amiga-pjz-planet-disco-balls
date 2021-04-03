@@ -1,0 +1,31 @@
+
+glyph.image 45.1 (01.03.01)
+
+· recompiled with new startup code and 020+
+  optimiziation.
+
+glyph.image 45.2 (13.03.01)
+
+· completely erases the inner area of radio images,
+  now. This looks better with background images.
+
+glyph.image 45.3 (18.03.01)
+
+· implemented additional rendering code for extremely 
+  small arrows.
+
+glyph.image 45.4 (22.03.01)
+
+· arrows are drawn using horizontal and vertical lines 
+  only, now. For unknwon reasons diagonal lines don't
+  produce a symetric arrow (ok, sometimes it works), even
+  though you can easily draw them with a drawing software.
+
+glyph.image 45.5 (24.03.01)
+
+· "finetuned" the rendering code for arrows.
+
+glyph.image 45.6 (29.03.01)
+
+· added new "artwork" by Massimo Tantignone (arrows/radiobuttons).
+  Thanks Massimo.

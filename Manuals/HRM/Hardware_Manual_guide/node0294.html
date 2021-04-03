@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-2-1-3" TITLE="K / / Changes from the A2000 Bus / Bus Synchronization Delays" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Changes from the A2000 Bus / Bus Synchronization Delays</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0293.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0295.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Due to the  <a href="../Hardware_Manual_guide/node02A5.html">asynchronous</a>  nature of the local-to-expansion bus interface
+for Zorro II cycles, extra wait states may occasionally be added for local
+to expansion or expansion to local cycles.  These are generally manifested
+as delays between consecutive cycles, since the bus controller is not
+going to require extra waiting during the cycle -- things will have
+already been synchronized at that point.  The synchronization problems get
+more difficult for Zorro II master access to local bus slaves, and as a
+result, wait states here are very common.  The actual number of wait
+states generated in any case will be based on the particular
+implementation.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

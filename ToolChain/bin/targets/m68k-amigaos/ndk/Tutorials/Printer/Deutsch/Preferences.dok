@@ -1,0 +1,47 @@
+
+printer.device V44 (OS 3.5)
+
+Preferences
+
+Das printer.device V44 unterstützt 10 Units. Jede Unit hat ihre eigenen
+Einstellungen. Diese sind wie folgt gespeichert:
+
+Die Datei ENV:Sys/printer.prefs enthält alle Einstellungen für Unit 0. Die
+Datei ENV:Sys/printergfx.prefs ist obsolet. Änderungen an dieser Datei werden
+von IPrefs zwar noch behandelt, aber immer durch printer.prefs überschrieben,
+sofern diese Datei einen FORM ID_PGFX enthält.
+
+Die Unit 1 bis 9 benutzen die Dateien ENV:Sys/printerN.prefs, wobei N durch
+die Ziffern 1 bis 9 ersetzt wird.
+
+Typischerweise enthalten die Dateien folgende FORMs:
+
+ID_PRHD: struct PrefHeader mit Version und Type und Flags alle 0.
+
+ID_PTXT: struct PrinterTxtPrefs mit den allgemeinen Druckereinstellungen
+         und Textdruckeinstellungen.
+
+ID_PUNT: struct PrinterUnitPrefs mit dem Namen und Unitnummer des Geräts
+         für die Druckerausgabe (parallel.device oder serial.device o.ä.).
+
+ID_PDEV: struct PrinterDeviceUnitPrefs mit Unitnummer und symbolischen Namen
+         für die Unit des printer.device. Den Namen kann der Benutzer vergeben
+         und dient der besseren Darstellung in Bedienoberflächen.
+
+ID_PGFX: struct PrinterGfxPrefs mit den Einstellungen für Graphikdruck.
+
+
+Änderungen an den Preferences
+
+Nur das Programm SYS:Prefs/Printer darf Änderungen an den Preferencesdateien
+vornehmen und dabei die Struktur der Datei verändern. Wenn ein anderen 
+Programm die Einstellungen ändern möchte (z.B. den Druckertreiber, wie es
+viele Faxprogramme machen), so muß es die Struktur der Datei erhalten.
+Entweder liest es dazu alle FORMs ein und schreibt sie in der gleichen
+Reihenfolge wieder raus, oder es liest die Datei komplett in den Speicher,
+ohne ihre Struktur aufzulösen, verändert sie und schreibt sie wieder
+zurück.
+
+Die Preferences Dateien enthalten keine CATs oder LISTs, das lineare
+Einlesen aller FORMs und wieder schreiben aller FORMs in der alten
+Reihenfolge ist deshalb möglich und erlaubt.

@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-4-2" TITLE="6 / Function Generator / Designing LF Control Byte with Venn Diagrams" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 / Function Generator / Designing LF Control Byte with Venn Diagrams</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node011D.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node011F.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+<a name="line2">Another way to arrive at a particular function is through the use of Venn</a>
+diagrams:
+                         ______  0 ______
+                        /      \  /      \
+                       /        \/        \
+                      /         /\         \
+                     /   A     /  \     B   \
+                    |    -    |    |    -    |
+                    |         |  6 |         |
+                    |         |    |         |
+                    |       4 |____| 2       |
+                    |        /|    |\        |
+                    |       / |  7 | \       |
+                     \     /   \  /   \     /
+                      \   /  5  \/  3  \   /
+                       \ |      /\      | /
+                        \|_____/  \_____|/
+                         |              |
+                         |       1      |
+                         |              |
+                         |              |
+                          \            /
+                           \     C    /
+                            \    -   /
+                             \______/
+
+             Figure 6-3: Blitter Minterm Venn Diagram
+
+
+1. To select a function D=A (that is, destination = A source only),
+   select only the  <a href="../Hardware_Manual_guide/node011D.html">minterms</a>  that are totally enclosed by the A-circle in
+   the Figure above.  This is the set of  <a href="../Hardware_Manual_guide/node011D.html">minterms</a>  7, 6, 5, and 4. When
+   written as a set of 1s for the selected  <a href="../Hardware_Manual_guide/node011D.html">minterms</a>  and 0s for those not
+   selected, the value becomes:
+
+               Minterm Number      7 6 5 4 3 2 1 0
+               Selected Minterms   1 1 1 1 0 0 0 0
+                                  -----------------
+                                        F   0       equals $F0
+
+2. To select a function that is a combination of two sources, look for
+   the  <a href="../Hardware_Manual_guide/node011D.html">minterms</a>  by both of the circles (their intersection).  For
+   example, the combination AB (A &#034;and&#034; B) is represented by the area
+   common to both the A and B circles, or  <a href="../Hardware_Manual_guide/node011D.html">minterms</a>  7 and 6.
+
+               Minterm Numbers     7 6 5 4 3 2 1 0
+               Selected Minterms   1 1 0 0 0 0 0 0
+                                  -----------------
+                                        C   0       equals $C0
+
+3. To use a function that is the inverse, or &#034;not&#034;, of one of the sources,
+           _
+   such as A,
+
+   take all of the  <a href="../Hardware_Manual_guide/node011D.html">minterms</a>  not enclosed by
+   the circle represented by A on the above Figure.  In this case, we
+   have  <a href="../Hardware_Manual_guide/node011D.html">minterms</a>  0, 1, 2, and 3.
+
+               Minterm Numbers     7 6 5 4 3 2 1 0
+               Selected Minterms   0 0 0 0 1 1 1 1
+                                  -----------------
+                                        0   F       equals $0F
+
+4. To combine  <a href="../Hardware_Manual_guide/node011D.html">minterms</a> , or &#034;or&#034; them,  &#034;or&#034; the values together. For
+   example, the equation AB+BC becomes
+
+               Minterm Numbers     7 6 5 4 3 2 1 0
+               AB                  1 1 0 0 0 0 0 0
+               BC                  1 0 0 0 1 0 0 0
+              -------------------------------------
+               AB+BC               1 1 0 0 1 0 0 0
+                                        C   8       equals $C8
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

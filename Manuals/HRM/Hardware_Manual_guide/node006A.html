@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-4" TITLE="3 / Forming a Basic Playfield / Allocating Memory for Bitplanes" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Forming a Basic Playfield / Allocating Memory for Bitplanes</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0069.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node006B.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+After you set the number of bitplanes and specify resolution modes, you
+are ready to allocate memory. A bitplane consists of an end-to-end
+sequence of words at consecutive memory locations. When operating under
+the Amiga operating system, use a system call such as AllocMem() to remove
+a block of memory from the free list and make it available to the program.
+
+A specialized allocation function named AllocRaster() in the
+graphics.library is recommended for all bitplane allocations.
+AllocRaster() will pad the allocation to properly align scan lines
+<a name="line11">for the hardware.</a>
+
+If the machine has been taken over, simply reserve an area of memory for
+the bitplanes. Next, set the bitplane pointer registers ( <a href="../Hardware_Manual_guide/node006B.html#line32">BPLxPTH/BPLxPTL</a> )
+to point to the starting memory address of each bitplane you are using.
+The starting address is the memory word that contains the bits of the
+<a name="line17">upper left-hand corner of the bitplane.</a>
+
+Tables 3-7 and 3-8 show how much memory is needed for basic playfield
+modes under NTSC and PAL, respectively. You may need to balance your color
+and resolution requirements against the amount of available memory you
+<a name="line22">have.</a>
+
+
+          Table 3-7: Playfield Memory Requirements, NTSC
+
+                                           Number of Bytes
+          Picture Size         Modes        per Bitplane
+          ------------         -----       ---------------
+           320 X 200      Low resolution,       8,000
+                          non-interlaced
+
+           320 X 400      Low resolution,      16,000
+                          interlaced
+
+           640 X 200      High resolution,     16,000
+                          non-interlaced
+
+           640 X 400      High resolution,     32,000
+                          interlaced
+
+
+Keep in mind that the number of bytes you allocate for a bitplane must be
+<a name="line44">even.</a>
+
+
+          Table 3-8: Playfield Memory Requirements, PAL
+
+                                           Number of Bytes
+          Picture Size         Modes        per Bitplane
+          ------------         -----       ---------------
+           320 X 256      Low resolution,       8,192
+                          non-interlaced
+
+           320 X 512      Low resolution,      16,384
+                          interlaced
+
+           640 X 256      High resolution,     16,384
+                          non-interlaced
+
+           640 X 512      High resolution,     32,768
+                          interlaced
+
+
+ <a href="../Hardware_Manual_guide/node006B.html">NTSC Example of Bitplane Size</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

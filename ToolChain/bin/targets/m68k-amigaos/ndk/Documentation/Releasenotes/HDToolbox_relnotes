@@ -1,0 +1,283 @@
+HDToolbox 44.1 (22.6.99)
+
+· Added version string and bumprevision control
+
+· If HDToolbox is run with one WB argument (project icon) the tooltypes are
+  read from this project icon. This allows to have different projects for
+  many SCSI boards.
+
+· New tooltype and cli arg ASKDEVICE opens a device list with all open
+  devices. The user selects one of the devices which is used for scanning
+  the SCSI bus. Attention: This may crash the machine if an illegal device
+  is selected.
+
+HDToolbox 44.2 (23.06.99)
+
+· In case of ASKDEVICE the device list now only contains devices that are
+  in use for a filesystem and support ACTION_DISK_INFO. This shows devices
+  like ramdrive.device also but selecting one of these devices should not
+  break the system.
+  
+  The exec devices list should also be scanned for such devices to
+  support boards that are not initialized yet. How?
+  
+  The DEVS: devices should also be scanned for trackdisk devices. How?
+
+· The device list is sorted alphabetical.
+
+HDToolbox 44.3 (25.06.99)
+
+· Changed GUI. Now it does need less than 640 pixel width with topaz/8.
+
+· If "Install drive" finds a RDB the user is asked to edit this RDB or
+to create a new one. This allows to install drives with broken RDBs which
+are not recognized broken by hdwrench.library
+
+HDToolbox 44.6 (27.7.99)
+
+· Adapted to hdwrench V44.100
+
+· After a lot of chrashes and endless loops I stopped all tests to use
+  the NDS features to select usefull devices with option ASKDEVICE. Now
+  all devices that are used with a drive and all devices in memory which
+  do not mach a exclusion-list are presented to the user.
+
+· Cursor-Left and Cursor-Right may be used to browse through the partitions.
+  Usefull if a partition is very small.
+
+· The drive scanning should now work with devices that uses unique names
+  for each board (scsi.device, 2nd.scsi.device ...) and devices which
+  expects the board number in the unit number (100 * board + ...)
+
+· Should now recognize drives with addresses or LUNs larger 7 on wide scsi
+  boards.
+
+· If the user cancels the change-flag question it is not longer repeated
+  until exiting HDToolBox
+
+· Fixed and changed algortihm to change the LAST#? flags. All drives accept
+  Type 0 and 7 are ignored.
+
+· Fixed window title
+
+· Added automatic stack extension at startup
+
+· Changing a RDB now differs between minor and major changes
+
+· Destroying data on partitions now lists all destroyed partitions before
+  saving RDB
+
+· Starting HDToolBox from WB without tooltype DEVICE_NAME caused a lot of
+  hits because there was no default devicename set. Now "scsi.device" is the
+  default.
+
+HDToolbox 44.8 (5.8.99)
+
+· Added callback for scanning drives. Not working yet due to problems with
+  hdwrench.library V44.102
+
+· Reference labels for partition gadgets now uses the different patterns.
+
+· Above partition gadget the first and last cylinder is displayed
+
+· adapted units (K, M, G) to Workbench.
+
+· only drives with type 0 or 7 are editable anymore. An error message pops
+  up for all other or unknown drive types.
+
+· Added tooltype MFSAVEPATH which is used in saving mountfiles for saving
+  filesystems and drive init code. Default is "SYS": which is replaced
+  by hdwrench with L: for filesystems and DEVS: for drive init code. Use
+  an empty string to save to same location as mountfile.
+
+· fixed a bug with extended error messages (drive parameter were trashed)
+
+· string.gadget doesn't except strings that have exactly the size of the 
+  buffer (including NUL char). Increased size of buffer.
+
+· still problems with loading back saved RDB files. Mountfiles seems to work
+  now.
+
+HDToolbox 44.9 (9.8.99)
+
+· fixed wrong device name prefixes
+
+· faster scanning of devices and boards
+
+· calculating pointer addresses from block numbers in RDB were wrong.
+
+· added better test for existing devices while scanning
+
+HDToolbox 44.10 (12.8.99)
+
+· Changed layout a bit to make sure the window can be opened on 640x200 with
+  different bevel styles and topaz/8.
+
+· Fixed a sign extension bug from reading BCPL strings.
+
+· enabled callback hook. You must use hdwrench V44.104 or the drive list will 
+  be empty.
+
+HDToolbox 44.11 (20.9.99)
+
+· MaxChars of some string gadgets were too small (bug in STRGCLASS)
+
+· rdb_RGBBlocksLo was not added to block numbers before saving RDB blocks.
+
+· Calling QueryCapacity() for SCSI types != 0 or 7 is not a good idea. The
+  capacity is now given as "Unknown" for tapes, scanners, etc.
+  
+· Checking validity of RDBs by comparing result of QueryCapacity and RDB
+  irritated beta testers too much.
+
+· Edit hook for hex numbers was too restrictive (RAmiga-X didn't work).
+
+· If a partition was a little bit changed (like DMA mask or number of
+  buffers) the "Reboot" dialog was opened at exit.
+
+HDToolbox 44.12 (20.9.99)
+
+· Changing the visible gadget page may change the window size. This cannot
+  be fixed.
+
+· Updating a filesystem modified DOS Type. Fixed.
+
+HDToolbox 44.13 (22.9.99)
+
+· Ups, forgot to fix the catalog name (Sys/hdtoolbox.catalog).
+
+HDToolbox 44.14 (23.9.99)
+
+· added more devices to the ASKDEVICE exclusion list. 
+
+ATTENTION: cybppc.device is added to the exclusion list. I'm afraid it 
+cannot be handled by HDToolbox. If you try, wired things happen. You still
+can use this and all other devices from the exclusion list by selectem the
+device via tooltype.
+
+· The icon name for iconify icon is now the filename of the program.
+
+· A new partition name was only stored if left pressing [Return].
+
+· fixed one enforcer hit if "Cancel" was pressen in select-device page.
+
+· HDToolbox should now fit on a 640x200 screen if catalog does not contain
+  to long strings.
+
+HDToolbox 44.15 (27.9.99)
+
+· File system name on partition page was not updated after changing the 
+  type.
+
+· Updating a FilesystemHeaderBlock which did not contain a filesystem
+  file name replaced the identifier with default one. This bug was © by
+  "Bad Coding Style Company".
+
+HDToolbox 44.16 (28.9.99)
+
+· Fixed enforcer hits when quitting.
+
+· Opening window from iconify state did not reattach the menu strip to window.
+
+HDToolbox 44.17 (29.9.99)
+
+· returning from "Change..." or "Add/Update..." filesystem selected first
+  partition again.
+
+HDToolbox 44.18 (1.10.99)
+
+· cybscsi.device is added to the exclusion list.
+
+--- OS 3.5 release ---
+
+HDToolbox 44.19 (17.11.99)
+
+· added a lot of GA_TabCycle tags
+
+· changed the LAST#? flag handling a bit.
+
+HDToolbox 44.20 (29.11.99)
+
+· increased default buffers to 80. Is this enough?
+
+· "Automount partition" checkbox uses a wrong tag so it didn't response useful
+  to mouse events.
+
+· default blocksize is now 1024 for drives with physical blocksize 512. Drives
+  with larger physical blocksize (eg 2048) still use the same value as the
+  physical blocksize.
+
+HDToolbox 44.21 (6.12.99)
+
+· default MaxTransfer is set to 0x1fe00 to avoid data crashes
+
+HDToolbox 44.22 (7.12.99)
+
+· removed cybppc.device and cypscsi.device from forbid-list of devices.
+
+· added hyperCOM3Z.device to forbid-list.
+
+--- Boing Bag 1 ---
+
+HDToolbox 44.23 (4.11.2000)
+
+· added "Envoy FS" to the list of forbidden devices.
+
+· fix: the number of entries in Env table is not longer the size of the C
+  structure but the correct number of entries. HDTB still differs between
+  bootable (19 entries) and non bootable (16 entries) partitions. Not really
+  important I think.
+
+· If finding default values of a drive returns an error the function call is
+  done a seconds time without the optimization flag set. I always thought
+  hdwrench.library does this fallback automatically.
+
+--- OS 3.9 release ---
+
+HDToolbox 44.24 (6.11.2000)
+
+· added ahi.device to forbid-list
+
+· vendor string is now filled with unknown + 21 spaces before calling 
+  FindDiskName. This should at least give a valid name if the disk name
+  cannot be read at all.
+
+HDToolbox 44.25 (7.11.2000)
+
+· added more devices to forbid-list (hyperCOM#?, hyperPAR#?, vmcisdn#?,
+  tpspool#?). Added pattern matching for more complex device names.
+
+· one menu item was enabled in partition page. Saving a mountlist of a single
+  partition was planned for OS 3.5 but never supported by hdwrench.library.
+  Now the menu item is disabled too (and so the full menu).
+
+HDToolbox 44.26 (14.11.2000)
+
+· added multidisk.device, vdisk.device and silversurfer.device to forbid-list.
+
+· changed "Load RDB..." to "Load RDB From File..." and "Save RDB..." to
+  "Save RDB To File...".
+
+HDToolbox 44.27 (12.12.2000)
+
+· fixed enforcer hit when deleting partition or clicking into empty space
+  on drive.
+
+HDToolbox 44.28 (19.12.2000)
+
+· added sanamni.device to the forbidden device list
+
+· Appicon for iconify is now unsnapped after loading
+
+HDToolbox 45.1 (19.12.00)
+
+· dumped to V 45.
+
+HDToolbox 45.2 (21.12.2000)
+
+· added iobelix(par|ser).device
+
+· added fd.device
+
+· added iosterix(par|ser).device. I know this devices do not exist. But due
+  to Joanne Dow I had to add them as partners for iobelix.

@@ -1,0 +1,58 @@
+MergeIcons
+
+Template: FROM,TO/A/M,WITH/K,MSS=MINSTACKSIZE/K/N,FP=FREEPOS/S,X/K/N,Y/K/N,BL=BORDERLESS/S
+
+Replace the palette images of destination icons with the image of the 
+source icon(s). Modify stacksize and free position. The old icon image
+(plain format, no palette) or NewIcons tooltypes are not modified or
+deleted.
+
+FROM: If the FROM parameter is a directory for every destination icon a source
+icon with the same filename from this directory is loaded. If the FROM
+parameter is a file this icon is used for all destination icons.
+
+TO: A pattern to select the destination icons. To replace all images in the
+current directory us "?#?.info". This will not try to change the ".info" file
+but all other icons.
+
+WITH: A with-file allows to use source icons that depends patterns or
+datatypes. A with file descripes one source icon with one line of text
+with the following template: CLASS/A/N,TYPE/A,FILE/A. CLASS is 0 for 
+pattern matching, and 1 for datatype examination. TYPE is a pattern
+(if CLASS is 0) or a datatype descriptor (if CLASS is 1). FILE is the
+full path of the source icon (without .info suffix).
+
+Example:
+
+1  ILBM              SYS:Storage/Icons/iffpic
+1  JPEG              SYS:Storage/Icons/jpegpic
+0  #?.iff            SYS:Storage/Icons/iff
+0  #?                SYS:Storage/Icons/blank
+
+Note: The with-file only works for icons that has a file attached. It does
+not work for icons without an attached file (for example a project icon to
+start an application per default-tool).
+
+MINSTACKSIZE: Set the stack size of the icon to at least this value.
+
+FREEPOS: Free the position of the icon.
+
+X: Set the X position of the icons to this value.
+
+Y: Set the Y position of the icons to this value.
+
+BORDERLESS: Make the icons borderless.
+
+Note: A destination file that is not an icon is not an error. If the icon
+can not be loaded (source or destination) MergeIcons continues with the
+next destination icon.
+
+Note: MergeIcons does only merge icons: the image of a source icon is
+written to a destination icon. It is not able to create new icons
+for files without an icon.
+
+Note: To workaround buggy file systems which do not allow changing files
+while scanning a directory all filenames are now put into a list and
+handled after scanning is done. This may need a lot of memory for scanning
+large drives from the root.
+

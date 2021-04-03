@@ -1,0 +1,544 @@
+printer.device V44 (OS 3.5)
+
+Treiber für das neue printer.device.
+
+Das neue printer.device bietet für Druckertreiber vielfältige neue 
+Möglichkeiten und räumt mit einigen Problemen des alten printer.device
+auf.
+
+Änderungen:
+
+1. Der Treiber läuft jetzt immer in einem DOS Prozess. Der Stack ist
+dabei mindestens 8 KB groß.
+
+2. Die Funktionen PWrite und PBothReady sind nun sinnvoll in jeder
+Situation benutzbar, auch in DoSpecial.
+
+8. Treiber können mit der neuen Funktion PRead von der I/O Schnittstelle
+lesen.
+
+3. Durch eine Erweiterung der Kommandotabelle kann die Vertauschung von
+Ausgaben aus DoSpecial mit PWrite und Ausgaben des printer.device verhindert 
+werden.
+
+4. Treiber können aus allen notwendigen Situationen Fehlermeldungen 
+zurückgeben (auch aus DoSpecial) und eigene Fehlercodes benutzen.
+
+5. Treiber formatieren und lokalisieren die Fehlercodes zur Ausgabe selbst.
+
+5. Treiber können die Farbkonvertierung, -korrektur, Dithering usw. selbst
+durchführen ohne Seiteneffekte mit dem printer.device befürchten oder den 
+sehr aufwendigen Weg des PDERR_TOOKCONTROL nehmen zu müssen.
+
+6. Die Skalierung übernimmt das printer.device komplett oder auf Wunsch
+überhaupt nicht.
+
+7. Treiber können eine eigene Struktur für die Farben benutzen. Dadurch sind
+auch Standardimplementationen für Farbraumkonvertierung etc einsetzbar.
+
+9. Treiber können auf die Darstellung der Druckerpreferences Einfluß nehmen
+um diese ihrer Intepretation anzupassen.
+
+10. Treiber können eigenen Druckereinstellungen verwalten und einen eigen
+Druckerdialog besitzen.
+
+11. Treiber können neue Informationen an die Applikationen zurückgeben um
+den Ausdruck zu verbessern.
+
+
+Umsetzung eines alten Treibers in einen neuen Treiber
+
+1. Treibererkennung setzen
+
+Ein neuer Treiber muß eine Versionsnummer 44 oder höher haben und außerdem das
+Bit PPCF_EXTENDED in ped_PrinterClass gesetzt haben. Dann muß die Struktur
+PrinterExtendedData um die neuen Felder ergänzt werden:
+
+ped_TagList ist ein Pointer auf eine Tagliste, die im wesentlichen die
+erweiterte Treiberdefinition enthält.
+
+ped_DoPreferences ist ein Funktionspointer. Die Funktion wird aufgerufen um
+die verschiedenen Kommandos für treiberspezifische Einstellungen zu verwalten.
+
+ped_CallErrHook ist ein Funktionspointer. Die Funktion wird aufgerufen um
+einen treibereigenen Fehlercode zu formatieren und mit Hilfe eines Hooks
+auszugeben.
+
+Die Tags von ped_TagList im einzelnen:
+
+PRTA_8BitGuns: Hat dieses Tag den Wert TRUE, so wird jede Farbe in 256
+Intensitäten berechnet. Damit sind bis zu 16 Millionen Farben möglich
+(die jedoch kaum ein Drucker komplett ausdrucken kann). Ist dieses Tag nicht
+vorhanden oder der Wert FALSE, so wird wie bislang mit 16 Intensitäten pro 
+Farbe gearbeitet. Neue Treiber sollten auf jeden Fall dieses Tag setzen.
+
+PRTA_ConvertSource: Hat dieses Tag den Wert TRUE, so überläßt das
+printer.device die Umrechnung der Farben aus dem sRGB Farbraum in den
+druckerspezifischen Farbraum (häufig YMCK) dem Treiber. Die Konvertierung
+erfolgt dann durch Aufruf der Funktion ped_Render mit Status 8. Der
+1. Parameter ist ein Pointer auf 24 Bit BGR Werte (man beachte die 
+ungewöhnliche Reihenfolge BGR aus Kompatibilitätsgründen), der 2. Parameter
+enthält die Anzahl der Pixel im Array, der 3. Parameter ist 0, falls das
+Array eine Colormap ist oder 1, falls das Array eine Pixelzeile ist. Die 
+Größe jeden Eintrags ist entweder gegeben durch PRTA_ColorSize oder
+sizeof(union colorEntry).
+
+PRTA_FloydDithering: Hat dieses Tag den Wert TRUE, so überläßt das
+printer.device auch das Floyd-Dithering dem Treiber (oder welche Dithermethode
+auch immer benutzt wird). Ist das Tag PRTA_8BitGuns TRUE, so wird implizit
+auch dieses Tag auf TRUE gesetzt, d.h. im Normalfall ist der Treiber immer
+auch für die dritte Dithermethode selbst zuständig.
+
+PRTA_AntiAlias: Hat dieses Tag den Wert TRUE, so überläßt das printer.device
+das Smoothing dem Treiber. Der Treiber muß das Smoothing dann auch im
+render 1 Aufruf durchführen.
+
+PRTA_ColorCorrection: Hat dieses Tag den Wert TRUE, so überläßt das 
+printer.device die Farbkorrektur dem Treiber. Da die Farbkorrektur des
+printer.device nur sehr rudimentär ist und kaum den verschiednen Ansprüchen
+der modernen Drucker gerecht wird, empfiehlt es sich dringend, die 
+Farbkorrektur im Treiber durchzuführen. Die Farbkorrektur erfolgt durch
+Aufruf der ped_Render Funktion mit Status 9. Der erste Parameter ist ein
+pointer auf ein Farbarray, der zweite Parameter die Anahl der Elemente im
+Array und der dritte Parameter ist 0 für eine Colormap oder 1 für eine
+Pixelzeile.
+
+PRTA_NoIO: Hat dieses Tag den Wert TRUE, so wird kein I/O Device geöffnet. Der
+Treiber darf dann nicht PWrite, PBothReady oder PRead aufrufen. Die Ausgabe
+muß direkt durch den Treiber ausgeführt werden. Faxtreiber oder Treiber, die
+die Ausgabe in eine Datei schreiben belegen dadurch nicht mehr unnötig I/O
+Resourcen.
+
+PRTA_NewColor: Hat dieses Tag den Wert TRUE, so interpretiert das 
+printer.device die Farben nach der Konvertierung nicht mehr. Dieses Tag
+impliziert die Tags PRTA_ConvertSource, PRTA_FloydDithering, PRTA_AntiAlias
+und PRTA_ColorCorrection alle mit dem Wert TRUE.
+
+PRTA_ColorSize: Der Wert dieses Tags gibt die Größe einer Farbe bzw. eines
+Pixels an. Der Standardwert ist sizeof(union ColorEntry). Mit Hilfe dieses
+Wertes kann der Treiber auch mehr Informationen in der Farbe speichern und
+aufwendigere Farbräume unterstützen. Hat der Treiber nicht das Tag 
+PRTA_NewColor gesetzt und verwendet einen der Algorithmen des printer.device
+für Konvertierung, Korrektur, oder Anti-Alias, so wird jeder Pixel wie ein
+union ColorEntry intepretiert, auch wenn als Gesamtgröße eines Pixels ein
+größerer Wert benutzt wird. In den meisten Fällen wird man also eine von
+union colorEntry abweichende Farbstruktur mit dem Tag PRTA_NewColor
+kombinieren müssen.
+
+PRTA_NoScaling: Wenn ein Treiber die Skalierung der Rohdaten durch das
+printer.device unterbinden möchte, so kann er das mit diesem Tag tun.
+Allerdings wird die Skalierung immer noch berechnet, d.h. die Anzahl der
+Druckspalten und -zeilen im Renderfall 1 entspricht immer noch den
+skalierten Werten. Die Größe der Rohdaten kann man aus den Feldern
+PrtInfo.pi_width und pi_height entnehmen. Dieses Tag impliziert
+automatisch auch die Tags PRTA_FloydDithering und PRTA_AntiAlias, da diese
+Algorithmen nur auf den fertig skalierten Daten arbeiten können.
+
+PRTA_DitherNames: Der Wert dieses Tags ist ein Array mit 3 Strings, Namen
+für die Ditheringmethoden PD_ORDERED, PD_HALFTONE und PD_FLOYD. Benutzt ein 
+Treiber andere Dithermethoden als diese, so soll er dieses Tag verwenden, um 
+die wirklichen Dithermethoden zu bezeichnen.
+
+PRTA_ShadingNames: Der Wert dieses Tags ist ein Array mit 4 Strings, Namen
+für die Shadingvarianten PS_BW, PS_GREYSCALE, PS_COLOR und PS_GREY_SCALE2.
+Die beiden letzten Strings sind gegenüber ihrer Reihenfolge im Printer
+Einsteller vertauscht! Benutzt ein Treiber andere Shadingmethoden als die
+üblichen (z.B. eine spezielle Variante für Grauwerte im Fall von PS_COLOR
+für Schwarz/Weiß Drucker), so soll er dieses Tag verwenden, um die
+wirklichen Dithermethoden zu bezeichnen. Die Methode PS_GREY_SCALE2 wird
+allerdings intern im printer.device als Sonderfall für den Graustufenmonitor
+A2024 benutzt, daher macht eine Ersetzung dieser Methode wenig Sinn.
+
+PRTA_ColorCorrect: Wenn ein Treiber mit den Einstellungen der Farbkorrektur
+für die einzelnen Farbkanäle Rot, Grün und Blau nichts anzufangen weiß, so
+soll er dieses Tag auf FALSE setzen, damit die Häkchen in der Oberfläche
+gesperrt werden.
+
+PRTA_DensityInfo: Treiber, die über die Dichteeinstellung weitere 
+Veränderungen am Ausdruck vornehmen (z.B. Tintenmenge) können mit diesem
+Tag Benutzerinformationen zu jeder Dichte angeben. Der Wert dieses Tags ist
+ein Array mit 8 Strings. Der erste String wird derzeit ignoriert und muß
+NULL sein, die anderen 7 Strings entsprechen den Dichten 1 bis 7 und werden
+vom Printer Einsteller entsprechend angezeigt.
+
+PRTA_LeftBorder, PRTA_TopBorder: Die meisten Drucker haben kleine
+Papierränder. Der linke und der obere Rand auf dem Papier den der Drucker
+nicht bedrucken kann wird mit diesen Tags in tausendstel inch angegeben. Der
+rechte und untere Rand wird entsprechend durch die bedruckbare Fläche
+festgelegt. Programme könen die Rändergrößen und Größe der bedruckbaren Fläche
+benutzen, um den Ausdruck exakt auf dem Papier zu positionieren.
+
+PRTA_MixBWColor: Druckt eine Applikation in Streifen, so kann sie die
+Druckgeschwindigkeit wesentlich steigern, wenn Streifen in denen nur
+schwarze Graphik/Text auf weißem Papier vorkommt in Schwarz/Weiß druckt;
+Streifen mit farbiger Graphik entsprechend in Graustufen oder Farbe. Manche
+Drucker benutzen jedoch für Schwarz/Weiß eine andere Tintenpatrone als für
+Farbe oder benutzen im Schwarz/Weiß Modus schwarze Tinte und mischen im
+Farbmodus Schwarz aus Gelb, Magenta und Cyan. In diesen beiden Fällen ist
+eine Optimierung durch die Applikation unerwünscht. Ist dieses Tag FALSE,
+so sollte eine Applikation die Optimierung unterlassen.
+
+PRTA_Preferences: Wenn der Treiber eigene Einstellungen benutzt und diese
+über den Treiber auch verändert werden können, so zeigt dieses Tag es mit 
+einem Wert TRUE an. Eine Applikation wird dann einen Knopf "Optionen..."
+freigeben, mit dem der Benutzer das Fenster für die Treibereinstellungen
+öffnen und editieren kann. Dazu wird der neue Befehl PRD_EDITPREFS verwendet.
+
+
+2. Algorithmen anpassen
+
+Die Transfer-Funktion
+
+Die Transfer() Funktion des Treibers, die die Umsetzung der Pixel in den 
+Druckerpuffer übernimmt, muß nicht mehr skalieren. Bislang war der Sonderfall
+der X-Streckung den Treibern überlassen. Dies übernimmt nun immer das
+printer.device, das Skalierungsfeld pi_ScaleX enthält nur noch Einsen, die
+Schleife, um einen X-Wert entsprechend oft zu benutzen, kann aus der
+Funktion entfernt werden.
+
+Neue Treiber sollten das Tag PRTA_8BitGuns gesetzt haben und Drucke mit 256
+Intensitäten pro Farbkanal unterstützen. Normalerweise muß da nicht viel getan
+werden, die typische Transferfunktion arbeitet mit 8 bit genauso wie mit 4.
+
+Zwei Dinge sind dabei jedoch meistens zu beachten: Der Thresholdwert 
+pi_Threshold ist schon auf 256 Intensitäten gestreckt. Viele Treiber 
+invertieren den Wert vor der Benutzung, das muß dann im richtigen Wertebereich
+geschehen.
+
+Die Dithermatrizen pi_dmatrix entsprechen nach wie vor den Dithermethoden
+Ordered und Halftone mit einer Rastergröße 4x4. Wenn man diese Matrizen 
+benutzt, so erhält man nur maximal 16 Intensitäten pro Farbkanal im Ausdruck
+und damit nur ein wenig verbessertes Bild gegenüber den alten Treibern. In
+Äbhängigkeit von der Druckauflösung sollten verschiedene Matrizen benutzt
+werden, z.B. 8x8. Im Falle des dritten Ditheralgorithmus Floyd-Steinberg
+enthält die Matrix pi_dmatrix nur mittlere Intensitäten und ist nicht fürs
+Dithern geeignet.
+
+Die Dichtenberechnung
+
+Die Funktion SetDensity muß die Werte der Tags PRTA_LeftBorder, PRTA_TopBorder
+und PRTA_MixBWColor anpassen, wenn diese von der Druckdichte abhängig sind.
+Dies wird allerdings für die wenigsten Drucker zutreffen. Applikationen sind
+jedoch dazu angehalten, diese Werte für jede Druckdichte neu auszulesen.
+
+Die Renderfunktion
+
+Zwei Fälle der Renderfunktion sind hinzugekommen:
+
+Fall 8: Die Funktion wird aufgerufen mit status 8, wenn Farben von RGB
+in das Treiberformat umgesetzt werden müssen. Der erste Parameter ct enthält
+einen Pointer auf ein Array von Farben. Jeder Eintrag ist so groß, wie
+das Tag PRTA_ColorSize angibt oder wie sizeof(union ColorEntry). 
+Interpretieren sie die Einträge wie union ColorEntry, so erhalten die Bytes
+mit den Indizes PCMRED, PCMGREEN, PCMBLUE die RGB Werte. Der Parameter x
+enthält die Anzahl der Einträge im Array. Der Parameter y enthält eine 0, 
+falls eine Colormap und 1 falls eine Pixelzeile umgesetzt werden soll.
+
+Die Standardumsetzung der RGB Daten in YMCK, wie sie auch das printer.device
+benutzt, kann etwa so aussehen:
+
+case 8:                  /* Convert RGB source to union ColorEntry */
+{
+	/*
+	   ct       - union colorEntry *, pointer to RGB data
+	   x        - width, number of colors in ct array
+	   y        - 0: converting colormap, 1: converting pixel row
+	*/
+	union colorEntry *ColorInt = (union colorEntry *) ct;
+	LONG width = x;
+	ULONG additive = 0xffffffff;
+	additive ^= (PD->pd_Preferences.PrintImage == IMAGE_NEGATIVE) ? 0xffffffff : 0;
+	if (PD->pd_Preferences.PrintShade == SHADE_COLOR)
+	{
+		/* we don't need PCMBLACK, so don't calculate it */
+		do
+		{
+			ColorInt->colorLong ^= additive;
+			ColorInt++;
+		}
+		while (--width);
+	}
+	else
+	{
+		/* calculate PCMBLACK */
+		do
+		{
+			ColorInt->colorLong ^= additive;
+			ColorInt->colorByte[PCMBLACK] =
+				(ColorInt->colorByte[PCMYELLOW]
+				+ ColorInt->colorByte[PCMMAGENTA]
+				+ ColorInt->colorByte[PCMCYAN]) / 3;
+			ColorInt++;
+		}
+		while (--width);
+	}
+	break;
+}
+
+Insbesondere die Berechnung des Grauwertes kann vom einfachen arithmentischen
+Mittel der drei Farbintensitäten abweichen.
+
+
+Fall 9: Die Funktion wird aufgerufen mit status 9, wenn Farben korrigiert
+werden sollen. Der erste Parameter ct enthält einen Pointer auf ein Array
+von Farben im Treiberformat (nach render Aufruf 8). Jeder Eintrag ist so groß,
+wie das Tag PRTA_ColorSize angibt oder wie sizeof(union ColorEntry).
+Der Parameter x enthält die Anzahl der Einträge im Array. Der Parameter y
+enthält eine 0, falls eine Colormap und 1 falls eine Pixelzeile korrigiert
+werden soll.
+
+Die DoSpecial-Funktion
+
+Wenn ein Eintrag in der Kommandotabelle "CommandTable" eine "\377" enthält,
+so wird die Funktion DoSpecial() aufgerufen. Neu ist: wenn ein Kommando
+den String "\377\377" enthält, so werden vor dem Aufruf der Funktion die
+I/O Puffer geflusht. Damit kann der Treiber in DoSpecial durch Aufruf
+von PWrite, PBothReady und PRead selbst I/O durchführen, ohne eine
+Vertauschung des I/O befürchten zu müssen.
+
+Das Ergebnis der Funktion wird neu interpretiert, damit DoSpecial auch
+allgemeine Druckerfehler zurückgeben kann:
+
+Wert         Interpretation
+ >0           Anzahl der Zeichen im Puffer
+  0           Kommando nicht durch DoSpecial behandelt.
+ -1           nicht unterstütztes Kommando
+ -2           (neu) Kommando bearbeitet, aber kein Zeichen in den Puffer
+                    geschrieben
+<-2           (neu) ein I/O oder Druckerfehler minus 65536.
+
+Um also einen Fehler von DoSpecial zurückzugeben, ziehen sie vom Fehlercode
+einfach 65536 ab.
+
+
+3. Fehlerbehandlung
+
+Das neue Feld ped_CallErrHook der Struktur PrinterExtendedData erhält eine
+Funktion, die aufgerufen wird, wenn eine Fehlercode des Treibers für die
+Ausgabe über einen Hook formatiert werden soll.
+
+Der Treiber kann Fehlercodes zwischen PDERR_FIRSTCUSTOM und PDERR_LASTCUSTOM
+definieren und aus seinen Funktionen zurückgeben. Wenn die Applikation einen
+Hook gesetzt hat um Fehler direkt durch das printer.device auszugeben, so
+wird die Funktion ped_CallErrHook für alle Fehlercodes des Treibers 
+aufgerufen.
+
+Der erste Parameter der Funktion ist ein Pointer auf den I/O Request, der den
+Fehler in io_Error enthält. Der zweite Parameter ist der Hook, den die
+Applikation gesetzt hat. Der Treiber muß eine Variable vom Typ PrtErrMsg
+ausfüllen und dann die Funktion pd_CallErrHook der PrinterData Struktur
+aufrufen. Diese erhält als ersten Parameter den Hook, als zweiten Parameter
+den I/O Request und als dritten Parameter einen Pointer auf die Variable
+des Typs PrtErrMsg.
+
+void ErrHook(struct IORequest *ior, struct Hook *hook)
+{
+	struct EasyStruct es;
+	struct PrtErrMsg pem;
+	LONG args[2];
+	es.es_StructSize = sizeof(es);
+	es.es_Flags = 0;
+	es.es_Title = NULL;
+	es.es_GadgetFormat = "OK";
+	pem.pe_Version = PDHOOK_VERSION;
+	pem.pe_ErrorLevel = RETURN_FAIL;
+	pem.pe_Window = NULL;
+	pem.pe_ES = &es;
+	pem.pe_IDCMP = NULL;
+	pem.pe_ArgList = NULL;
+	switch (ior->io_Error)
+	{
+		case FILEERR_FILEOPENFAILED:
+			es.es_TextFormat = "Unable to open file %s.";
+			args[0] = (LONG) outfile;
+			pem.pe_ArgList = args;
+			break;
+	}
+	PD->pd_CallErrHook(hook,ior,&pem);
+}
+
+Die Felder es.es_Title und es.es_GadgetFormat können NULL sein, die Funktion
+pd_CallErrHook füllt sie passend aus, bevor sie den Hook aufruft.
+
+
+4. Treibereinstellungen
+
+Wenn der Treiber eigene Einstellungen unterstützt, so muß er dazu das Tag
+PRTA_Preferences auf TRUE setzen und eine Funktion in ped_DoPreferences 
+eintragen, die die Einstellungen verwaltet.
+
+Treiber können verschiedene Konzepte für Einstellungen unterstützen. Wenn der
+Treiber mit hoher Wahrscheinlichkeit durch mehrere Units benutzt wird, so
+sollte er für jede Unit eine eigene Einstellungsdatei speichern. Wird er
+wahrscheinlich nur von einer Unit benutzt, so reicht eine Einstellungsdatei.
+Leitet der Treiber den Namen der Einstellungsdatei dann aus dem Treibernamen
+ab, so kann der Benutzer durch Duplizieren des Treibers mit neuem Namen
+immerhin auch mehrere Einstellungen verwalten.
+
+Eine weitere Entscheidung ist über den Umfang des Einstellerdialogs zu 
+treffen. Wenn der Triber sehr umfangreiche Einstellungen zuläßt, so ist es
+sinnvoll, wenn der Treiber einen eigenen Einsteller mitbringt (zum Beispiel
+PrinterPS), mit dem alle Einstellungen gesetzt werden können. Der Dialog,
+der mit Hilfe des Kommandos PRD_EDITPREFS geöffnet wird, sollte dann nur
+den Teil der Einstellungen enthalten, der den Ausdruck unmittelbar beeinflußt.
+
+Die Funktion ped_DoPreferences wird mit 2 Parametern aufgerufen: ein I/O
+Request und ein Kommando. Das Kommando kann 7 verschiedene Fälle angeben:
+
+Fall 0: die Einstellungen auf Defaultwerte setzen (PRD_RESETPRFS)
+
+Fall 1: die Einstellungen aus einer Datei laden (PRD_LOADPREFS)
+
+Fall 2: die Einstellungen in eine Datei in ENV: speichern (PRD_USEPREFS)
+
+Fall 3: die Einstellungen in eine Datei in ENV: und in ENVARC: speichern
+        (PRD_SAVEPREFS)
+
+Fall 4: die Einstellungen in einen I/O Puffer kopieren (PRD_READPREFS)
+
+Fall 5: die Einstellungen aus einem I/O Puffer kopieren (PRD_WRITEPREFS)
+
+Fall 6: ein Fenster öffnen, in dem die Einstellungen geändert werden können.
+        (PRD_EDITPREFS)
+
+
+Aufbau der Einstellungsstruktur
+
+Die Struktur, in der die Einstellungen gespeichert werden, muß sich von der
+Struktur PrtDriverPreferences (Include devices/prtbase.h) ableiten:
+
+struct PrtDriverPreferences 
+{
+	UWORD    pdp_Version;       /* PRIVATE! driver specific version */
+	UBYTE    pdp_PrinterID[32]; /* PRIVATE! driver specific id */
+	char     pdp_PrefName[FILENAME_SIZE-16];
+	ULONG    pdp_Length; /* length of this structure */
+	/* more driver private fields follow*/
+};
+
+Anhand der Version und der PrinterID kann der Treiber seine Einstellungen von
+Einstellungen andere Treiber unterscheiden und alte Einstellungen erkennen.
+
+Das Array PrefName soll einen lesbaren Namen für die Einstellungen enthalten,
+das kann z.B. der Name des Treibers sein.
+
+Defaultwerte
+
+Viele Programme werden zu Anfang keine Möglichkeit besitzen den 
+Einstellungsdialog (Fall 6) aufzurufen. Daher müssen die Defaultwerte wirklich
+sinnvoll sein.
+
+Einstellungen laden und speichern
+
+Die Einstellungen des Treibers werden beim Öffnen einer Unit automatisch 
+geladen. Das Dateiformat sollte ein IFF FORM PREF sein und wie die
+Systemdateien aufgebaut sein (d.h. ein FORM PRHD und eine eigene FORM für die
+Einstellungen selbst enthalten).
+
+Einstellungen lesen und schreiben
+
+Eine Applikation kann die Einstellungen eines Treibers lesen und für den 
+späteren Gebrauch speichern (z.B. um sie über das Schließen der Unit zu
+retten). Ebenso kann sie die Einstellungen wieder in den Treiber
+zurückschreiben. 
+
+case 4:
+	/* copy preferences to ior */
+	sior = (struct IOStdReq *) ior;
+	if (sior->io_Data && sior->io_Offset == 0 && sior->io_Length >= sizeof(DriverPrefs))
+	{
+		CopyMem(&DriverPrefs,sior->io_Data,sizeof(DriverPrefs));
+		sior->io_Actual = sizeof(DriverPrefs);
+	}
+	else
+		error = IOERR_BADLENGTH;
+	break;
+case 5:
+	/* check prefs in ior and copy it to preferences */
+	sior = (struct IOStdReq *) ior;
+	if (sior->io_Data && sior->io_Offset == 0 && sior->io_Length >= sizeof(struct PrtDriverPreferences))
+	{
+		tp = (struct FileDriverPrefs *) sior->io_Data;
+		/* check prefs data. If this check fails 0 is returned but
+		   io_Actual is set to 0.
+		*/
+		if (checkDriverPrefs(&tp->fdp_Base))
+		{
+			CopyMem(tp,&DriverPrefs,sizeof(DriverPrefs));
+			sior->io_Actual = sizeof(DriverPrefs);
+		}
+		else
+			sior->io_Actual = 0;
+	}
+	else
+		error = IOERR_BADLENGTH;
+	break;
+
+Damit der Treiber seine Einstellungen wiedererkennt, muß er den Kopf der
+Datenstruktur überprüfen:
+
+static int
+checkDriverPrefs(struct PrtDriverPreferences *p)
+{
+	if (p->pdp_Version == 1
+		&& strcmp(p->pdp_PrinterID,DriverPrefsDefault.fdp_Base.pdp_PrinterID) == 0
+		&& p->pdp_Length == sizeof(struct FileDriverPrefs))
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+Man beachte, daß im Falle einer nicht erkannten Struktur kein Fehler
+zurückgegeben wird, sondern nur io_Actual auf 0 gesetzt wird. Die
+Applikation kann also früher gespeicherte Einstellungen (durchaus auch
+in einer Datei gespeichert) später wieder zurückschreiben - ein Wechsel
+oder Update des Treibers zwischendurch ist dann unproblematisch.
+
+Einstellungen editieren
+
+Der I/O Request um Einstellungen zu editieren (struct IOPrtPrefsReq)
+enthält eine TagListe:
+
+PPRA_Window: Der Wert des Tags gibt ein Fenster an. Dieses Fenster legt den
+Screen für den Einstellerdialog fest. Das Fenster soll für Eingaben gesperrt
+werden, solange der Dialog offen ist.
+
+PPRA_Screen: Falls kein Fenster angegeben wird, so kann mit diesem Tag ein
+Screen angegeben werden, auf dem sich der Einstellerdialog öffnen soll.
+
+PPRA_PubScreen: Der Name eins öffentlichen Screens, auf dem sich der 
+Einstellerdialog öffnen soll.
+
+Der Einstellerdialog soll nur mit "OK" und "Cancel" beendet werden, d.h. die
+Einstellungen werden aus dem Dialog nicht gespeichert. Dafür ist entweder
+die Applikation mit PRD_READPREFS/PRD_WRITEPREFS oder ein eigener Einsteller
+oder ein Systemprogramm mit PRD_SAVEPREFS zuständig.
+
+
+5. Eigene Farbstruktur
+
+Ein Treiber kann eine eigene Farbstruktur benutzen, d.h. er muß nicht die
+Standardstruktur union colorEntry benutzen. Das printer.device muß
+ausschließlich die Größe der Struktur über PRTA_ColorSize kennen. Natürlich
+kann das printer.device dann nur noch wenige Dinge für den Treiber tun: 
+Auslesen der Bitmap, dabei werden die Daten in 24 bit RGB gewandelt und 
+skalieren der RGB Daten. Alle anderen Aufgaben (Konvertierung vom sRGB 
+Farbraum in den druckereigenen Farbraum, Farbkorrektur, Dithering, 
+Anti-Alias) muß dann der Treiber übernehmen.
+
+Benutzt der Treiber eine von union colorEntry abweichende Farbstruktur, so 
+muß er das Tag PRTA_NewColor setzen. Das printer.device setzt damit implizit 
+alle Tags, die auf die Druckalgorithmen Einfluß nehmen.
+
+Benötigt der Treiber nur einige zusätzliche Bytes in der Farbstruktur, z.B.
+für Hilfsdaten während des Rasterns, so kann er mit PRTA_ColorSize die Größe
+der neuen Farbstruktur angeben, aber läßt PRTA_NewColor auf dem Wert FALSE.
+Die neue Farbstruktur muß dann aber mit union colorEntry beginnen, da das
+printer.device die Struktur entsprechend interpretiert:
+
+struct LargeColorEntry
+{
+	union colorEntry lce_ColorEntry;
+	LONG lce_Random;
+};

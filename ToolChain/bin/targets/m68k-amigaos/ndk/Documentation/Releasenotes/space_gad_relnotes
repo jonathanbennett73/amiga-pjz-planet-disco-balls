@@ -1,0 +1,24 @@
+
+--- start stephans log ---
+
+space.gadget 44.2 (20.01.01)
+
+- bugfixed library code.
+
+- the OM_DISPOSE method didn't call the super method,
+  resulting in a memory leak.
+
+
+space.gadget 45.0 (28.02.01)
+
+- bumped to v45, clipping is now supported (for use
+  in virtual groups).
+
+- the size of the bevel (when requested) was always 6x4.
+
+
+space.gadget 45.1 (02.03.01)
+
+- removed clipping support, no real need in this class ;)
+
+- recompiled with new startup code.

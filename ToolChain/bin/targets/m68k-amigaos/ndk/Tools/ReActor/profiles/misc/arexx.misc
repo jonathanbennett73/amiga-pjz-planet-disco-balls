@@ -1,0 +1,8 @@
+arexx.class
+LABEL "ARexx"
+LIBRARY "arexx.class" 0 PRIVATE
+RSTRING  0x85030001 (I····) AREXX_HostName "Host Name" ""
+RSTRING  0x85030002 (I····) AREXX_DefExtension "Default Extension" ".rexx"
+ARRAY    0x85030003 (I····) AREXX_Commands "Commands" "arexx.command" 34 1
+BOOLEAN  0x85030004 (I····) AREXX_NoSlot "No Slot" FALSE "No Slot"
+END

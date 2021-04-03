@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-3-2" TITLE="8 / The Keyboard / Type of Data Received" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / The Keyboard / Type of Data Received</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0198.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node019A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The keyboard data is not received in the form of ASCII characters.
+Instead, for maximum versatility, it is received in the form of keycodes.
+These codes include both the down and up transitions of the keys. This
+allows your software to use both sets of information to determine exactly
+what is happening on the keyboard.
+
+Here is a list of the hexadecimal values that are assigned to the
+keyboard. A downstroke of the key transmits the value shown here. An
+upstroke of the key transmits this value plus $80. The picture of the
+keyboard shows the positions that correspond to the description in the
+sections below.
+
+Note that raw keycodes provide positional information only, the legend
+which is printed on top of the keys changes from country to country.
+
+ <a href="../Hardware_Manual_guide/node019A.html">RAW Keycodes -&#062; 00-3F hex</a> 
+ <a href="../Hardware_Manual_guide/node019B.html">RAW Keycodes -&#062; 40-5F hex  (Codes common to all keyboards)</a> 
+ <a href="../Hardware_Manual_guide/node019C.html">RAW Keycodes -&#062; 60-67 hex  (Key codes for qualifier keys)</a> 
+ <a href="../Hardware_Manual_guide/node019D.html">F0-FF hex</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

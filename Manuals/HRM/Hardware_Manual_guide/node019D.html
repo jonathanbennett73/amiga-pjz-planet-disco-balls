@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-3-2-4" TITLE="8 / / Type Of Data Received / F0-FF hex" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / / Type Of Data Received / F0-FF hex</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node019C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node019E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+These key codes are used for keyboard to 680x0 communication, and are not
+associated with a keystroke. They have no key transition flag, and are
+therefore described completely by 8-bit codes:
+
+   78      Reset warning.  Ctrl-Amiga-Amiga has been pressed. The
+           keyboard will wait a maximum of 10 seconds before
+           resetting the machine. (Not available on all keyboard
+           models)
+
+   F9      Last key code bad, next key is same code retransmitted
+
+<a name="line13">   FA      Keyboard key buffer overflow</a>
+
+   FC      Keyboard self-test fail.  Also, the caps-lock LED will
+           blink to indicate the source of the error.  Once for ROM
+           failure, twice for RAM failure and three times if the
+           watchdog timer fails to function.
+
+   FD      Initiate power-up key stream (for keys held or stuck at
+           power on)
+
+   FE      Terminate power-up key stream.
+
+These key codes will usually be filtered out by keyboard drivers.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,18 @@
+buttonlayout.childs
+ADDCHILDTAG 0x85007014
+ADDIMAGETAG 0x85007015
+AUTODISPOSECHILDS
+INTEGER    0x85007101 (I···U) CHILD_MinWidth "Minimum Width" -1 -1 65535
+INTEGER    0x85007102 (I···U) CHILD_MinHeight "Minimum Height" -1 -1 65535
+BOOLEAN    0x8500710B (I···U) CHILD_NominalSize "Nominal Size" FALSE "Use Nominal Size"
+INTEGER    0x85007103 (I···U) CHILD_MaxWidth "Maximum Width" -1 -1 65535
+INTEGER    0x85007104 (I···U) CHILD_MaxHeight "Maximum Height" -1 -1 65535
+PERCENT    0x85007105 (I···UA) CHILD_WeightedWidth "Weighted Width" 0
+PERCENT    0x85007106 (I···U) CHILD_WeightedHeight "Weighted Height" 100
+BOOLEAN    0x85007109 (·S···) CHILD_CacheDomain "Cache Domain" FALSE "Cache Domain"
+BOOLEAN    0x8500710A (I····) CHILD_WightMinimum "Wight Minimum" FALSE "Weight Minimum"
+IMAGE      0x8500710C (I····) CHILD_Label "Label"
+PERCENT    0x8500710E (I····) CHILD_ScaleHeight "Scale Height" 0
+PERCENT    0x8500710F (I····) CHILD_ScaleWidth "Scale Width" 0
+REM BOOLEAN    0x85007110 (I····) CHILD_DataType "Datatype?" FALSE "Datatype"
+END

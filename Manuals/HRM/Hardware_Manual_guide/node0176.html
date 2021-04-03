@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_G" NODE="G-4" TITLE="G Keyboard Interface / Out-of-Sync Condition" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>G Keyboard Interface / Out-of-Sync Condition</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0175.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0177.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Noise or other glitches may cause the keyboard to get out of sync with the
+computer.  This means that the keyboard is finished transmitting a code,
+but the computer is somewhere in the middle of receiving it.
+
+If this happens, the keyboard will not receive its handshake pulse at the
+end of its transmission.  If the handshake pulse does not arrive within
+<a name="line8">143 ms of the last clock of the transmission, the keyboard will assume</a>
+that the computer is still waiting for the rest of the transmission and is
+therefore out of sync.  The keyboard will then attempt to restore sync by
+going into &#034;resync mode.&#034;  In this mode, the keyboard clocks out a 1 and
+waits for a handshake pulse. If none arrives within 143 ms, it clocks out
+another 1 and waits again.  This process will continue until a handshake
+<a name="line14">pulse arrives.</a>
+
+Once sync is restored, the keyboard will have clocked a garbage character
+into the computer.  That is why the  <a href="../Hardware_Manual_guide/node0174.html">key-up/key-down flag</a>  is always
+transmitted last.  Since the keyboard clocks out 1's to restore sync, the
+garbage character thus transmitted will appear as a key release, which is
+less dangerous than a key hit.
+
+Whenever the keyboard detects that it has lost sync, it will assume that
+the computer failed to receive the keycode that it had been trying to
+transmit.  Since the computer is unable to detect lost sync, it is the
+keyboard's responsibility to inform the computer of the disaster.  It does
+this by transmitting a &#034;lost sync&#034; code (value $F9 = 11111001) to the
+<a name="line27">computer. Then it retransmits the code that had been garbled.</a>
+
+   About Lost Sync.
+   ----------------
+   The only reason to transmit the &#034;lost sync&#034; code to the computer is
+   to alert the software that something may be screwed up. The &#034;lost
+   sync&#034; code does not help the recovery process, because the garbage
+   key code can't be deleted, and the correct key code could simply be
+   retransmitted without telling the computer that there was an error in
+   the previous one.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

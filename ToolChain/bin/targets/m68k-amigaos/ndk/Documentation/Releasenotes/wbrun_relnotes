@@ -1,0 +1,38 @@
+wbrun 45.0 (03-01-01)
+
+- first release.
+
+wbrun 45.1 (09-01-01)
+
+- added DELAY/N/K option.
+
+wbrun 45.2 (16-03-01)
+
+- added DefIcons support, things like "wbrun apicture.ilbm" work,
+  now <Mario Cattaneo>.
+
+wbrun 45.3 (09-04-01)
+
+- changed path handling, this works around a potential bug in
+  workbench.library.
+  
+- the DELAY option specifies the number of seconds to wait _between
+  two_ wbrun calls, now.
+
+wbrun 45.4 (16-04-01)
+
+- the new DELAY implementation wasn't protected against system
+  time changes to an earlier time/date <Mario Cattaneo>.
+
+wbrun 45.5 (26-05-01)
+
+- wbrun handled path names with a trailing slash incorrectly.
+
+wbrun 45.6 (17-07-01)
+
+- it wasn't possible to "wbrun" project icons.
+
+wbrun 45.7 (27-10-01)
+
+- improved DefIcons support, now even works when the default tool
+  is a shell- or arexxscript (eg. s:start-amplifier -> "wbrun mymp3.mp3").

@@ -1,0 +1,40 @@
+getfile.gadget 44.7 (09.11.00)
+
+- recompiled with gnuc making it 1k smaller :)
+
+- bugfixed library code.
+
+- the gadget didn't pass GA_TextAttr/REACTION_TextAttr to its
+  string.gadget child. when the current font wasn't the screen
+  font, the string.gadget used the wrong font for rendering when
+  it got active.
+  
+- you can "tabcycle" to and from the gadget, now.
+
+
+getfile.gadget 45.0 (17.11.00)
+
+- bumped version to 45.
+
+- the display resolution is now taken into account when calculating
+  the size of the getfile image. 
+
+- passes GA_TabCycle to its string.gadget, now. Tabcycling
+  works again, when string.gadget >= 45.5 is installed.
+
+
+getfile.gadget 45.1 (20.02.01)
+
+- fixed GETFILE_FileList, the list was possibly never build
+  because the gadget didn't CD to the home directory of 
+  the selected file(s) before Lock()ing them/it.
+
+
+getfile.gadget 45.2 (28.02.01)
+
+- implemented GM_CLIPRECT.
+
+- recompiled with new startup code.
+
+- passes the right mouse coordinates to its string.gadget
+  object, now.

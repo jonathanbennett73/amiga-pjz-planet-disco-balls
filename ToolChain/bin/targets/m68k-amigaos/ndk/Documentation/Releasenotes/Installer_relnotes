@@ -1,0 +1,52 @@
+
+installer 44.6
+
+· added visual effect (effect: custom screen with colored backfill hook)
+
+· added support for datatypes (showmedia,setmedia,closemedia)
+
+· added backtracemechanism (trace, retrace, back parameter)
+
+· added close gadget for script abort
+
+· "Back" button replaces "Abort Install..." button if backtrace mechanism
+is acitve.
+
+· increased buffer size for string concatenation and format
+
+
+installer 44.7 (7.8.99)
+
+· askdir had no "Back" button
+
+· askfile's "Back" button didn't work at all
+
+· askoptions and askchoice did not reset the gadgets if "Back" button was 
+pressed so the script crashed in most cases
+
+· changed documentation for backtrace mechanism: it should only be used for
+information retreival.
+
+· some scripts used confirm parameter wrong (parameter was expected to be
+a string not integer) which results in enforcer hits instead of error
+message. Now it accepts a string ("expert") or an integer (like (user)
+command).
+
+· Added reboot statement. It is not executed in pretend mode.
+
+· Added workbench object control (openwbobject, showwbobject, closewbobject).
+
+· Extended documentation
+
+installer 44.8 (28.9.99)
+
+· copy_files is not longer aborted if one file copy fails and option force is
+  used.
+
+installer 44.9 (29.9.99)
+
+· some internal project changes
+
+installer 44.10 (1.10.99)
+
+· added automatic stack extension on startup (10000 bytes).

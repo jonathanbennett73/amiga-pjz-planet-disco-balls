@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-4-2" TITLE="8 / Serial I/O Interface / Setting The Baud Rate" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / Serial I/O Interface / Setting The Baud Rate</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node01A0.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node01A2.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The rate of transmission (the baud rate) is controlled by the contents of
+the register named  <a href="../Hardware_Manual_guide/node003E.html">SERPER</a> .  Bits 14-0 of  <a href="../Hardware_Manual_guide/node003E.html">SERPER</a>  are the baud-rate
+<a name="line4">divider bits.</a>
+
+All timing is done on the basis of a &#034;color clock,&#034; which is 279.36ns long
+on NTSC machines and 281.94ns on PAL machines.  If the  <a href="../Hardware_Manual_guide/node003E.html">SERPER</a>  divisor is
+set to the number N, then N+1 color clocks occur between samples of the
+state of the input pin (for receive) or between transmissions of output
+bits (for transmit).  Thus  <a href="../Hardware_Manual_guide/node003E.html">SERPER</a> =(3,579,545/baud)-1. On a PAL machine,
+ <a href="../Hardware_Manual_guide/node003E.html">SERPER</a> =(3,546,895/baud)-1.  For example, the proper  <a href="../Hardware_Manual_guide/node003E.html">SERPER</a>  value for
+9600 baud on an NTSC machine is (3,579,545/9600)-1=371.
+
+With a cable of a reasonable length, the maximum reliable rate is on the
+order of 150,000-250,000 bits per second.  Maximum rates will vary between
+machines.  At these high rate it is not possible to handle the overhead of
+interrupts.  The receiving end will need to be in a tight read loop.
+Through the use of low speed control information and high-speed bursts, a
+very inexpensive communication network can be built.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

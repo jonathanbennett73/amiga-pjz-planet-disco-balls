@@ -1,0 +1,43 @@
+
+button.gadget 45.1 (02.03.01)
+
+· recompiled with new startup code and 68020+
+  optimiziation.
+
+· Ouch! Allocated one byte too less for the label
+  string. Not to the mention the broken StrUCpy()
+  function and gadgetbox.asm ...
+
+button.gadget 45.2 (11.03.01)
+
+· it was not possible to set a shortcut key via
+  GA_ActivateKey (this happens in layout groups when
+  assigning a label via CHILD_Label) because the
+  key was overwritten with NULL each time the
+  button was drawn. The original author tried to
+  support GA_ActivateKey but he failed ...
+
+button.gadget 45.3 (16.03.01)
+
+· GA_Underscore == NULL caused some mungwall hits.
+
+· increased button size to make it as high as the
+  rest of the gadgets.
+
+button.gadget 45.4 (20.03.01)
+
+· Changed calculation of the button height, so that
+  chooser.gadget and button.gadget have the same height
+  (YSize of font + 6).
+
+button.gadget 45.5 (23.03.01)
+
+· undid the change of 45.4 and simply commented some
+  'if's out. This gives the same result but does not make
+  buttons without a border too high. Sigh, should have
+  seen that before...
+
+button.gadget 45.6 (29.03.01)
+
+· now passes the correct state to AutoButton images 
+  <Massimo Tangignone>.

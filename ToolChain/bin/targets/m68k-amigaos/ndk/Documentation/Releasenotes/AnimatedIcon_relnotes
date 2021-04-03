@@ -1,0 +1,35 @@
+
+AnimatedIcon 44.1
+
+· Initial release
+
+AnimatedIcon 44.2 (22.12.99)
+
+· Disposing the pictures after blitting their contents to the strip was
+  a bad idea - all pens were released.
+
+· AddAppIcon does not accept a NULL pointer for icon name -> fixed
+  enforcer hit
+
+· Dropping an icon on the appicon left one lock unlocked.
+
+AnimatedIcon 44.3 (14.8.2000)
+
+· new tooltype "EXECUTE" allows to open a workbench object on double-click.
+  Use qualifier RCOMMAND to open the control requester.
+
+AnimatedIcon 45.1 (24.11.2000)
+
+· bumped version
+
+· tooltype FPS / FRAMESPERSECOND now accpets floating point numbers which
+  allows very slow animations for FPS < 1. 0.01 is the smallest possible
+  value which means one picture every 100 seconds.
+
+· renamed tooltype/arg EXECUTE as OPEN.
+
+--- OS 3.9 release ---
+
+AnimatedIcon 45.2 (19.12.2000)
+
+· Animation strips didn't work anymore due to a problem with linker libraries

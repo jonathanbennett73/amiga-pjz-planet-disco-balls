@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-3-5" TITLE="3 / Forming a Dual-playfield Display / Dual Playfield Summary" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Forming a Dual-playfield Display / Dual Playfield Summary</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node007C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node007E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The steps for defining dual playfields are almost the same as those for
+defining the basic playfield. Only in the following steps does the
+dual-playfield creation process differ from that used for the basic
+playfield:
+
+   *   <a href="../Hardware_Manual_guide/node007A.html">Loading colors into the registers</a> .
+      -----------------------------------
+      Keep in mind that color registers 0-7 are used by playfield 1
+      and registers 8 through 15 are used by playfield 2 (if there are
+      three bitplanes in each playfield).
+
+   *   <a href="../Hardware_Manual_guide/node0079.html">Building bitplanes</a> .
+      --------------------
+      Recall that playfield 1 is formed from PLANES 1, 3, and 5 and
+      playfield 2 from PLANES 2, 4, and 6.
+
+   *   <a href="../Hardware_Manual_guide/node0072.html#line46">Setting the modulo registers</a> .
+      ------------------------------
+      Write the modulo to both  <a href="../Hardware_Manual_guide/node0072.html#line108">BPL1MOD and BPL2MOD</a>  as you will be
+      using both odd- and even-numbered bitplanes.
+
+<a name="line23">These steps are added:</a>
+
+   *   <a href="../Hardware_Manual_guide/node007B.html">Defining priority</a> .
+      -------------------
+      If you want playfield 2 to have priority, set bit 6 (PF2PRI)
+      in  <a href="../Hardware_Manual_guide/node0159.html">BPLCON2</a>  to 1.
+
+   *   <a href="../Hardware_Manual_guide/node007C.html">Activating dual-playfield mode</a> .
+      --------------------------------
+      Set bit 10 ( <a href="../Hardware_Manual_guide/node007C.html">DBLPF</a> ) in  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  to 1.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

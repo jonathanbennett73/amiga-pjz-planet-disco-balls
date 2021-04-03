@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-1-2" TITLE="8 / Controller Port Interface / Reading Mouse/Trackball Controllers" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / Controller Port Interface / Reading Mouse/Trackball Controllers</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node017E.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0180.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Pulses entering the mouse inputs are converted to separate horizontal and
+vertical counts.  The 8 bit wide horizontal and vertical
+ <a href="../Hardware_Manual_guide/node0180.html">counter registers</a>  can track mouse movement without processor
+intervention.
+
+The mouse uses quadrature inputs.  For each direction, a mechanical wheel
+inside the mouse will produce two pulse trains, one 90 degrees out of
+phase with the other (see Figure 8-2 for details).  The phase relationship
+<a name="line10">determines direction.</a>
+
+
+  Case 1: Count Up:
+          ________            ________            ________            __
+         /        \          /        \          /        \          /
+  V  ___/          \________/          \________/          \________/
+               ________            ________            ________
+              /        \          /        \          /        \
+  VQ ________/          \________/          \________/          \_______
+          ___       ___       ___       ___       ___       ___       __
+         /   \     /   \     / 1 \  0  /   \     /   \     /   \     /
+  D0 ___/     \___/     \___/     \___/     \___/     \___/     \___/
+     ________            ________            ________            _______
+             \          /      1 \  0       /        \          /
+  D1          \________/          \________/          \________/
+
+
+  Case 2: Count Down:
+          ________            ________            ________            __
+         /        \          /        \          /        \          /
+  V  ___/          \________/          \________/          \________/
+     ________            ________            ________            _______
+             \          /        \          /        \          /
+  VQ          \________/          \________/          \________/
+     ___       ___       ___       ___       ___       ___       ___
+        \     /   \     /   \     /   \     /   \     /   \     /   \
+  D0     \___/     \___/     \___/     \___/     \___/     \___/     \__
+               ________            ________            ________
+              /        \          /        \          /        \
+  D1 ________/          \________/          \________/          \_______
+          ___
+             \
+  D2          \___ etc           V    VQ   :   D1   D0
+                                 ---------------------
+                                 0    0    :    1    0
+                                 0    1    :    0    1
+                                 1    0    :    1    1
+                                 1    1    :    0    0
+
+
+                       Figure 8-2: Mouse Quadrature
+
+
+The counters increment when the mouse is moved to the right or &#034;down&#034;
+(toward you).
+
+The counters decrement when the mouse is moved to the left or &#034;up&#034; (away
+from you).
+
+ <a href="../Hardware_Manual_guide/node0180.html">Reading the Counters</a> 
+ <a href="../Hardware_Manual_guide/node0181.html">Counter Limitations</a> 
+ <a href="../Hardware_Manual_guide/node0182.html">Mouse Buttons</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,7 @@
+workbench/system/diskcopy
+
+    Should now support >4GB disks. No longer changes the root dir
+    modification date.
+    Froze 43.2.
+
+

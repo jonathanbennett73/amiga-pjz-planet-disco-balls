@@ -1,0 +1,36 @@
+Calculator 45.10
+
+- This version of the calculator does not go back to
+the previous reaction based Calculator at all. It is a 
+new attempt to port the V38 calculator sources to 
+reaction. Therefore, no issues of the V45 have been
+"fixed". Rather, they have been "avoided". 
+
+This release comes therefore with more sophisticated
+ASCII<->Float conversion routines that should avoid
+rounding errors.
+
+- Added the COMPUTE command line argument. This argument
+takes an algebraic expression as input and computes the
+result as floating point number. Note that the calculator
+knows only the four basic operations + - * /. Brackets are
+supported, so are the priorities of these operations.
+
+Note that the calculator never attempts to output numbers
+in scientific (mantissa/exponent) notation, neither as
+workbench tool nor as command line tool.
+
+- The GUI is completely new. It is a Reaction based port
+of the former gadtools GUI.
+
+
+Calculator 45.11
+
+- The icon position is now reset to defaults before the icon
+is placed on the workbench.
+
+- Forgot to translate the american style decimal dot to
+its localized version for some number inputs.
+
+- Reworked the screen handling completely. Should be better
+now.

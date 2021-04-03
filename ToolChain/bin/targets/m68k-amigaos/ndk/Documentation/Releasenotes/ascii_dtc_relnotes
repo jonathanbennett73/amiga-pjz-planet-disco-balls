@@ -1,0 +1,14 @@
+ascii 44.1 (13.3.99)
+
+- Fixed a bug in the library initialization code.
+
+- Simplified the valid char match code a bit.
+
+ascii 45.1 (27.2.01)
+- truncates lines longer than 30000 pixels, should fix problems with
+  really long lines
+
+ascii 45.2 (1.3.01)
+- TextFit() doesn't like strings longer than 32767 characters (returns wrong
+  results then). Added a workaround. Should hopfully fix the remain long line
+  problems

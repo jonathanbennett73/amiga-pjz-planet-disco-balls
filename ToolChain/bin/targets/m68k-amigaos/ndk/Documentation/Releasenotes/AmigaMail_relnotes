@@ -1,0 +1,289 @@
+AmiMail 44.10 (25.9.99)
+
+- while a message is loaded, clicking reply now inserts the correct address into the To: gadget
+- progress window's refresh is now on input.devices context so it'll refresh when resized
+- address select window list (compose->to button) is now removed before addressbook list is read
+- replaced all SetGadgetAttrs() calls with a single function RefreshSetGadgetAttrs() and
+  trimmed off 10k from the exe :)
+- LoadFolderList() is now passed AmiMail.folders from CreateFolderWin() to parse
+  Format is: Path:dir/dir
+- Shuffled the progress window off to its own module and made it more independant
+- SMTP and POP both now use the above progress module.
+- Added extra function calls for easy_req for FolderData or ComposeData passing,
+  same for CreateProgressWindow..shell calls really.
+- Added cancel requester for compose window.
+- Added remove requester for attachments in compose.
+- Added underscores for SMTP host, port, logfile.
+- Added GetFile for SMTPLOG, SIGNATURE, POPSPOOL, POPACTION, & POPSAMPLE, think I covered
+  most..still need IDCMP support though but it was time to snooze..
+- Some SetAttrs() calls didn't have TAG_DONE, fixed.
+- removed am_data.#?
+- added am_locale.#?
+- Most things are now localized except ColumnInfo structs and menus
+- build with new smakefile layout
+- gadgetup on any string gadget in compose window now proceeds to next gadget (bug by Marco)
+- tabcycle in compose now works (bug by Marco)
+- finished columninfo and menu localization.
+- finished snapshot implementation started by Chris.
+- removed all references to wa_nocarefresh and wa_smartrefresh to window.class
+  will default to the users preferences saved for the OS.
+- corrected behavior of prefs gadgets
+- shortened some locale var names
+
+AmiMail 44.11 (26.9.99)
+
+- added version files
+- replaced global title strings
+- fixed prefs where pop spool filename default wasn't added to gadget when creating a new
+  server entry.
+- resend is now partially working. Attachments aren't taken care of yet.
+- Added SPDA_ERROR to the progress hook and the associated locale string
+
+AmiMail 44.12 (27.9.99)
+
+- delete from speedbar now moves to next message (if any)
+- added am_request.c for user/pass checking on a pop if none are entered.
+- requester opens for pop server user and password, appears if either setting is left blank.
+- if pop spoolfile is blank, messages download directly to the inbox.
+
+AmiMail 44.13 (29.9.99)
+
+- delete from speedbar no longers moves LB to top of list but to next
+  node properly now. (DR)
+- resend with attachments is now fully functional again. (CA)
+- filled in the save to disk function. (DR)
+- added pool functions (CA)
+
+AmiMail 44.14 (28.9.99)
+
+- !!CAUTION!! resend of attachments implemented, but untested - may not work!
+
+AmiMail 44.15 (28.9.99)
+
+- build made for next update release, debug removed.
+
+AmiMail 44.16 (28.9.99) (B)
+
+- changed pop icon from a popcorn image to a world -> computer image.
+- moved clear-text image from left size of compose toolbar to right side
+- added save-draft image to compose toolbar.
+- added save to drafts feature in compose.
+- debugged reload/resend email. May be used to resend any message or continue
+  to reload a draft email.
+
+AmiMail 44.17 (28.9.99) (C)
+
+- OOPS! save address book menu was disabled accidently durring localization.
+- Optimized rescan of folder after pop, send mail, etc.
+- folder didn't refresh if draft/outbox messages were added while the either
+  one was the current folder.
+- OOPS! Save all attachments only saved the first part's data. Now saves properly!
+- File exists requester now properly displays name. (DR)
+
+AmiMail 44.18 (29.9.99)
+
+- Now refreshes list after marking an article saved.
+- Previously marked a message as Replied to even if you cancel the reply in compose.
+- Now Disable/Enables speedbuttons appropriatly, matching menu equivs.
+- Locale Catalog now loaded from /sys/
+
+AmiMail 44.19 (30.9.99)
+
+- Catalog and Config files renamed to AmigaMail.#? vs AmiMail.#?
+- A (timed) pop while the inbox was not loaded would cause mail to be
+  downloaded, potentially deleted, and NOT be saved. This was both a
+  bug in AmiMail, and smaller bug in aml.library to allow the mis-use.
+
+AmiMail 44.20 (1.10.99)
+
+- Minimized refresh of speedbuttons in the speedbar/toolbar.
+- Build compiled for next update archive.
+- Expunge now moves deleted articles to the trash folder. Expunging
+  deleted articles in trash simply removes them.
+
+AmiMail 44.21 (2.10.99)
+
+- Fixed crash when clossing address popup in compose.
+- Wrote generic routine too copy selected article(s) between folders.
+
+AmigaMail 44.22 (2.10.99)
+
+- Renamed AmiMail version string to AmigaMail.
+- Reduced minimum size of folder and address book windows.
+- Added SPOOL default folder support to aml library and AmiMail for
+  offline batch emailing.
+- Added "Send Spooled..." menu item to folder window.
+- Added "Send to Spool" icon in compose window.
+
+AmigaMail 44.23 (3.10.99)
+
+- Added a pulldown menu to compose window, alternative to the Toolbar.
+- Added Send Spool main menu item - smtp send selected messages in Spool folder.
+- Added Move to Folder main menu item, copy/move selected messages to an
+  another folder for storage.
+- Fixed 512 byte memory leak in aml.library
+- Fixed potentially large memory leak (size of file) encoding files.
+- Fixed error in boundary line generation in aml.library (aml 44.17)
+- Build compiled for next update archive.
+
+AmigaMail 44.24 (4.10.99)
+
+- Missing NewList() on Move to Folder popup folder list, caused enforcer 
+  hits from 0xDEADBEEF after quiting and doing Avail Flush while mungwall
+  was running.
+- Removed iconify gadget from popup folder list.
+- Made close gadget work (cancels) on popup folder list.
+- SMTP progress requester to Send Spool was missing.
+
+AmigaMail 44.25 (4.10.99)
+
+- Fixed bug with aml.library always returning failure for CopyArticle().
+- Spooled articles are now copied to the OutBox after being sent. (aml 44.18)
+- Fixed bug with aml.library not flaging index for NeedSave when
+  expanding the index via internal/private ExpandFolderIndex() function.
+- Reorganized pulldown menu to fit on smaller screens.
+- Added Select all and Clear all menu items.
+- Updated AmigaMail.cd file.
+- Build compiled for gold disk/release.
+
+AmigaMail 44.26 (11.10.99)
+
+- First OS3.5 UPDATE Version for testing.
+- Sound samples are now played with datatypes rather than custom iff code.
+- Fixed a possible enforcer hit/crash with POP while iconified.
+
+AmigaMail 44.27 (26.10.99)
+
+- Second OS3.5 UPDATE Version for testing.
+- When initially opening address book, all  fields are disabled/ghosted.
+- When selecting an item after fields are disabled, ICQ/FTP were not enabled.
+- When Check Periodically is not enabled, the Pop Time gadget is now disabled.
+- When adding a new pop server, the default spool is now blank. This forces
+  AmigaMail to pop directly to the folder with out any intermediate spool.
+- POP3 actions are NOT done while a prefs window is open now. 
+
+AmigaMail 44.28 (19.12.99)
+
+- Third OS3.5 UPDATE Version for testing.
+- When using "Open..." menu in Compose window, a Save file request was
+  used instead of a "Open..." request.
+- Save All Attachments skips the first attachment, typically the body... 
+  so only true attachments (if any) are prompted to be saved out.
+
+AmigaMail 44.29 (29.12.99)
+
+- Forth OS3.5 UPDATE Version for testing.
+- When composing email using the Address Book selector, the real name is
+  also used for the To/Cc address in the format; Real Name <user@address.com>
+- When composing email, the From address now includes the Real Name.
+- Unable to reproduce reported enforcer hits when sending email. :(
+
+AmigaMail 44.30 (6.3.2001)
+- Last released version made by Christopher Aldi
+- Releasenotes missing
+
+AmigaMail 44.31 (6.3.2001)
+- Possibly only just a version bump made by Christopher Aldi or
+  an new version with missing releasenotes.
+
+--- development taken over by Martin Steigerwald ---
+
+AmigaMail 44.32 (11.5.2001)
+- Adapted sources to StormGCC4
+- StormGCC: Changed all functions using parameter passing in 
+  registers to GCC syntax
+- StormGCC: Added quite some missing casts, corrected some others
+- StormGCC: Re-implemented SAS/C specific stccpy()
+- StormGCC: Re-implemented some needed SAS/C classact.lib linker library 
+  functions and imported some written by Stephan Rupprecht. Thanks.
+- Fixed version tag
+- Changed copyright notice
+- Changed layout of address book entry. IMHO it was far to wide, thus
+  I placed all address entry fields vertically now
+- When opening the address book and no entry is selected the entry
+  field gadgets are disabled now so that the user realizes he has
+  to add an entry before being able to edit it
+- Modularized saving address book entry data
+- Still does not work correctly, address book broken, mails can't be 
+  displayed. Something wrong in the calling of some aml.library 
+  functions like CreateAddressEntry() in am_adrbook.c
+
+AmigaMail 44.33 (12-15.5.2001)
+- FD file for aml.library was wrong. Now AmigaMail should work as 
+  expected (Stephan Rupprecht)
+- Added stack extension code (Stephan)
+- Audio playback fixed. SDTA_SignalBit expects mask (Stephan)
+- timer.device handling fixed (Stephan)
+- Compose message fixed: From was set to Reply-To and Reply-To
+  was not set at all (Stephan)
+
+AmigaMail 44.34 (16.5.2001)
+- changed order of address book fields, name and email are now the
+  first two
+- now uses its own icon as appicon 
+- now uses MSG_AM_NAME as appicon name (fixes ID 1430)
+- now allows downloading mails even if inbox is not selected
+  (fixes ID 1206)
+- now doesn't try to FreeDiskObject() the appicon anymore as this
+  is done by window.class. Fixes crash on exit.
+- fixed uppercasing config keywords when loading "AmigaMail.hosts" file
+
+AmigaMail 44.35 (17.5.2001)
+- fixed broken modularization of am_main.c done previously when 
+  converting AmigaMail to StormC: this fixes not freeing a pending 
+  timer request before the timer was closed and also automatic 
+  POP download should work again 
+- nevertheless made TIMER_Cleanup and TIMER_Start in am_timer.c safer: 
+  They now will always stop a possibly running TIMER request before
+  doing their work
+- removed some uncommented printf's, saved over 5KB code size
+
+AmigaMail 44.36 (17.5.2001)
+- just a revision bump 
+
+AmigaMail 45.1 (31.5.2001)
+- version bump
+- adrbook: automatic save in addressbook, user no longer needs to 
+  press return in gadgets
+- adrbook: fixed creating a new address book entry: AmigaMail created
+  one empty entry and saved all the data the user inputted to a different
+  entry ID not displaying the data anymore when clicking to another
+  entry and then back to the freshly created one and creating two
+  entries instead of one
+- adrbook: fixed saving inputted fields to different field, e.g. 
+  ICQ to FTP and stuff like that, if one uses defines for gadget IDs,
+  one should use them everywhere ;)
+  One exception: FTP is set to URL, needs to be fixed in aml.library >44.20
+- muForce hit when sending a mail immediately via compose mail window 
+  before any folder has been opened in the folder window removed
+- replaced the utterly complicated way of sending messages via 
+  Message/Marked/Send spooled by a simple always selectable
+  Project/Send spooled messages menu entry
+- added a menu entry to get and send messages in one go
+- removed folder menu texts from NewMenu structure, will be localized
+  in anyway
+- expunging deleted messages now also updates the index so that those
+  message really get deleted (i.e. moved to trash or deleted when in trash)
+  they will be removed from the folder display immediately now
+- sending queued messages now also expunges the deleted messages and 
+  removes them from the spool folder display, they have been copied to 
+  the outbox folder anyway
+- TODO: when composing a mail when and selecting to put it in the spool
+  folder while the spool folder is being displayed in the folder window
+  the index of the folder window will not really be refreshed.
+
+AmigaMail 45.2 (7.6.2001)
+- Compose: Fixed Send message menu item, (fixes ID 2311, David Rey)
+- Compose: Actually implements "Cancel" menu item, (fixes ID 2311, David Rey)
+- Compose: Now the hits when spooling or drafting a mail before an folder
+  was opened in the main window are also gone (fixes ID 2310, David Rey)
+- Adrbook: Unable to find the exact cause of the hits when switching 
+  between address book entries. They only happen when AmigaMail was started
+  from Workbench. They happen exactly when AmigaMail calls aml.library/
+  OpenAddressEntry(). I looked at that routine, too, but can't imagine
+  what exactly is causing the hit. Needs further research (ID 2309, David Rey)
+ 
+AmigaMail 45.3 (13.6.2001)
+- Redone the changes done for AmigaMail 45.2 except the debug output.
+  These changes were lost due to a harddisk crash.
+- Made sure there is no other debug output in AmigaMail activated anymore

@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-2-2" TITLE="7 / Collision Detection / How To Interpret the Collision Data" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 / Collision Detection / How To Interpret the Collision Data</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node015B.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node015D.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The collision data register, CLXDAT, is read-only, and its contents are
+<a name="line3">automatically cleared to 0 after it is read.  Its bits are as shown in</a>
+Table 7-3.
+
+                Table 7-3: CLXDAT Bits
+
+
+          Bit Number      Collisions Registered
+          ----------      ---------------------
+              15      not used
+              14      Sprite 4 (or 5) to sprite 6 (or 7)
+              13      Sprite 2 (or 3) to sprite 6 (or 7)
+              12      Sprite 2 (or 3) to sprite 4 (or 5)
+              11      Sprite 0 (or 1) to sprite 6 (or 7)
+              10      Sprite 0 (or 1) to sprite 4 (or 5)
+              9       Sprite 0 (or 1) to sprite 2 (or 3)
+              8       Even bitplanes to sprite 6 (or 7)
+              7       Even bitplanes to sprite 4 (or 5)
+              6       Even bitplanes to sprite 2 (or 3)
+              5       Even bitplanes to sprite 0 (or 1)
+              4       Odd  bitplanes to sprite 6 (or 7)
+              3       Odd  bitplanes to sprite 4 (or 5)
+              2       Odd  bitplanes to sprite 2 (or 3)
+              1       Odd  bitplanes to sprite 0 (or 1)
+              0       Even bitplanes to odd bitplanes
+
+
+   About odd-numbered sprites.
+   ---------------------------
+   The numbers in parentheses in Table 7-3 refer to collisions that will
+   register only if you want them to show up. The
+    <a href="../Hardware_Manual_guide/node015D.html">collision control register</a>  described below lets you either ignore or
+   include the odd-numbered sprites in the collision detection.
+
+
+Notice that in this table, collision detection does not change when you
+select either single- or dual-playfield mode. Collision detection depends
+only on the actual bits present in the odd-numbered or even-numbered
+bitplanes. The  <a href="../Hardware_Manual_guide/node015D.html">collision control register</a>  specifies how to handle the
+bitplanes during collision detect.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

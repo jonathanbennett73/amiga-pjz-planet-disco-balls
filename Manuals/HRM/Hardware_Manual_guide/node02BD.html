@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-6-1-1" TITLE="K / / Expansion Bus Loading / Clock Signals" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Expansion Bus Loading / Clock Signals</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02BC.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02BE.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+All clock signals on the bus are in this group.  Many designs are very
+sensitive to clock delay, skew, and rise/fall times, so loading on the
+clock lines must be kept to a minimum.  These are bussed signals, actively
+driven by the backplane, and source terminated with a low value series
+resistor. PICs can apply one standard load to each of these signals when
+necessary. Zorro II cards have the same clock rules, so there should never
+be clocking problems when using either card type in a backplane.
+
+        <a href="../Hardware_Manual_guide/node02B0.html#line10">/C3</a>       <a href="../Hardware_Manual_guide/node02B0.html#line14">CDAC</a>        <a href="../Hardware_Manual_guide/node02B0.html#line6">/C1</a>         <a href="../Hardware_Manual_guide/node02B0.html#line23">7M</a> 
+        <a href="../Hardware_Manual_guide/node02B0.html#line18">E Clock</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

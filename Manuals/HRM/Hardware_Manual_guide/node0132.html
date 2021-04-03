@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_F" NODE="F-2-2" TITLE="F / Register Functional Description / Handshaking" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>F / Register Functional Description / Handshaking</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0131.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0133.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Handshaking occurs on data transfers using the PC output pin and the FLAG
+input pin.  PC will go low on the third cycle after a  <a href="../Hardware_Manual_guide/node0131.html">port B</a>  access.
+This signal can be used to indicate &#034;data ready&#034; at  <a href="../Hardware_Manual_guide/node0131.html">port B</a>  or &#034;data
+accepted&#034; from  <a href="../Hardware_Manual_guide/node0131.html">port B</a> . Handshaking on 16-bit data transfers (using both
+ <a href="../Hardware_Manual_guide/node0131.html">ports A and B</a> ) is possible by always reading or writing  <a href="../Hardware_Manual_guide/node0131.html">port A</a>  first.
+FLAG is a negative edge-sensitive input that can be used for receiving the
+PC output from another 8520 or as a general- purpose interrupt input.  Any
+negative transition on FLAG will set the FLAG interrupt bit.
+
+        REG  NAME   D7   D6   D5   D4   D3   D2   D1   D0
+        ---  ----   ---- ---- ---- ---- ---- ---- ---- ----
+         0   PRA    PA7  PA6  PA5  PA4  PA3  PA2  PA1  PA0
+         1   PRB    PB7  PB6  PB5  PB4  PB3  PB2  PB1  PB0
+         2   DDRA   DPA7 DPA6 DPA5 DPA4 DPA3 DPA2 DPA1 DPA0
+         3   DDRB   DPB7 DPB6 DPB5 DPB4 DPB3 DPB2 DPB1 DPB0
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

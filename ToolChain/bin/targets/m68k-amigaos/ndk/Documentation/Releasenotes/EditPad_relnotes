@@ -1,0 +1,90 @@
+
+EditPad 44.2 (7.9.99)
+
+· Initial release
+
+EditPad 44.3 (21.9.99)
+
+· Temporary disabled Save and Load toolbar buttons (needs images)
+
+EditPad 44.4 (22.9.99)
+
+· Fixed catalog file name (Sys/EditPad.catalog).
+
+· FIXFONT is now working and uses system default font.
+
+EditPad 44.5 (30.9.99)
+
+· one penmap image object was not disposed.
+
+EditPad 44.6 (30.9.99)
+
+· removed "Cancel" button from find and find&replace dialog to make them
+  smaller.
+
+· To replace the "cancel" button shortcut the dialogs are now closed
+  pressing Escape.
+
+· some cosmetic corrections in all windows.
+
+· shortcut "F" was used twice in find and find&replace dialog.
+
+EditPad 44.7 (1.10.99)
+
+· Made locale.library an optional library. Not sure if all users have 
+  installed it.
+
+--- OS 3.5 release ---
+
+EditPad 44.8 (27.10.99)
+
+· Argument PUBSCREEN was not fully supported (windows always opened on 
+default pub screen but images were calculated for named pubscreen :( )
+
+EditPad 44.9 (16.12.99)
+
+· Dropping an icon on AppIcon freezed system.
+
+--- development taken over by Martin Steigerwald, mainly for bug fixing ---
+
+EditPad 44.10 (28.2.2001)
+
+· Adapted source to compile with ReAction includes
+· 44.9 apparently did never make it into any update
+
+EditPad 44.11 (1.3.2001)
+
+· Note: When I write (fixes ID ...) this means I already set proper
+  status information in the reports database.
+· Now does not use the position of the program icon for iconifying
+  anymore (fixes ID 2023)
+· Added requester when saving a file failed (fixed ID 1513)
+· Added requester when loading a file failed
+
+EditPad 44.12 (2.3.2001)
+
+· Now ignore case while searching should work the right way, not
+  inverted (fixes ID 1475)
+· Now doesn't use filename and path of the inserted file when saving
+  the complete file or loading a new one (fixes ID 1431 and 1353)
+ 
+EditPad 44.13 (2.3.2001)
+
+· was not able to reproduce hits when loading big files with EditPad,
+  probably was fixed some time ago, please test (concerns ID 919 and 1003)
+· Redone german EditPad.ct as original one missing here
+· "Abbruch" --> "Abbrechen" (fixes part of ID 1088)
+· now went through all open bugs I found in the database. If I missed 
+  one please point me to its ID 
+· since recompile EditPad 44.10 scrollers are not working properly:
+  · scroller goes garbage on each mouse, asl req or menu related
+    GUI update but works fine when moving through the text with
+    cursor keys
+  · This only happens after loading or inserting a file. It does not
+    happen when typing empty lines and using the scrollers then.
+
+EditPad 44.14 (3.3.2001)
+
+· bugfix: the vertical scroller was added another time with each "Open"
+  (Jochen). This one fixes the scroller issues mentioned in 44.13
+  which were introduced with 44.9.

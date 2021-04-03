@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_E" NODE="E-2-3-4" TITLE="E / / Game Controller Interface Spec / Proportional Controllers" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>E / / Game Controller Interface Spec / Proportional Controllers</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node010C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node010E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Resistive (potentiometer) element linear taper proportional controllers
+are supported up to 528k Ohms max (470k +/- 10% recommended).  The
+ <a href="../Hardware_Manual_guide/node0038.html">JOY[0/1]DAT</a>  registers contain digital translation values for y in the
+high byte and x in the low byte. A higher count value indicates a higher
+external resistance. The Amiga performs an integrating analog-to-digital
+conversion as follows:
+
+    1.  For the first 7 (NTSC) or 8 (PAL) horizontal display lines,
+    the analog input capacitors are discharged and the positions
+    counters reflected in the  <a href="../Hardware_Manual_guide/node003A.html">POT[O/1]DAT</a>  registers are held reset.
+
+    For the remainder of the display field, the input capacitors are
+    allowed to recharge through the resistive element in the external
+    control device.
+
+    2.  The gradually increasing voltage is continuously compared to
+    an internal reference level while counter keeps track of the
+    number of lines since the end of the reset interval.
+
+    3.  When the input voltage finally exceeds the  internal threshold
+    for a given input channel, the current counter value is latched
+    into the  <a href="../Hardware_Manual_guide/node003A.html">POT[O/1]DAT</a>  register corresponding to that channel.
+
+    4.  During the vertical blanking interval, the  software examines
+    the resulting  <a href="../Hardware_Manual_guide/node003A.html">POT[O/1]DAT</a>  register values and interprets the
+    counts in terms of joystick position.
+
+   NOTE:
+   -----
+   The POTY and POTX inputs are designated as &#034;right mouse button&#034; and
+   &#034;unused mouse button&#034; respectively.  An opened switch corresponds to
+   high resistance, a closed switch to a low resistance.  The buttons
+   are also available in  <a href="../Hardware_Manual_guide/node018B.html">POTGO and POTGOR</a>  registers.  It is recommended
+   that ROM kernel calls be used for future hardware compatibility.
+
+It is important to realize that the proportional controller is more of a
+&#034;pointing&#034; device than an absolute position input.  It is up to the
+software to provide the calibration, range limiting and averaging
+functions needed to support the application's control requirements.
+
+The  <a href="../Hardware_Manual_guide/node003A.html">POT[0/1]DAT</a>  registers are typically read during video blanking, but
+MAY be available prior to that.
+<a name="line44"></a>
+
+CONNECTOR PIN USAGE FOR PROPORTIONAL INPUTS
+-------------------------------------------
+
+   PIN  MNEMONIC  DESCRIPTION              HARDWARE REGISTER/NOTES
+   ---  --------  -----------              -----------------------
+   1    XBUT      Extra Button
+   2    Unused
+   3     LBUT*    Left button              See  <a href="../Hardware_Manual_guide/node010B.html">Digital Joystick</a> 
+   4     RBUT*    Right button             See  <a href="../Hardware_Manual_guide/node010D.html#line44">Digital Joystick</a> 
+   5     POTX     X analog in              POT[0/1]DAT&#060;7:0&#062;, POTGO, POTGOR
+   6    Unused
+   7     +5V      125ma max, 200 ma surge
+   8    Ground
+<a name="line59">   9     POTY     Y analog in              POT[0,1]DAT&#060;15:8&#062;, POTGO, POTGOR</a>
+
+               ___________
+      PORT 0  /         5 \        POT0X
+             |  o o o o o -|- - - - - - - -
+              \        9  /  POT0Y         |
+               \ o o o o-/- - - -
+                \_______/        |         |
+                             ____v____ ____v____
+                            |         |         |
+                            |  POT0Y  |  POT0X  | POT0DAT
+                            | COUNTER | COUNTER | DFF012
+                            |_________|_________|
+
+               ___________
+      PORT 1  /         5 \        POT1X
+             |  o o o o o -|- - - - - - - -
+              \        9  /  POT1Y         |
+               \ o o o o-/- - - -
+                \_______/        |         |
+                             ____v____ ____v____
+                            |         |         |
+                            |  POT1Y  |  POT1X  | POT0DAT
+                            | COUNTER | COUNTER | DFF014
+                            |_________|_________|
+
+
+                             _________________
+                            |               | | POTGO
+                            |_______________|_| DFF034
+
+                             _________________
+                            |                 | POTINP
+                            |_________________| DFF016
+
+
+                 Figure E-2: Pot Counters
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

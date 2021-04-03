@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-8-4" TITLE="3 / Color Selection / Color Selection in Hold-And-Modify Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Color Selection / Color Selection in Hold-And-Modify Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0096.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0098.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+In hold-and-modify mode, the color register contents are changed as shown
+<a name="line3">in Table 3-19.  This mode is in effect only if bit 10 of  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  = 1.</a>
+
+
+  Bitplane 6  Bitplane 5                Result
+  ----------  ----------                ------
+      0           0      Normal operation     (use color register itself)
+      0           1      Hold green and red   B = Bitplane 4-1 contents
+      1           0      Hold green and blue  R = Bitplane 4-1 contents
+      1           1      Hold blue and red    G = Bitplane 4-1 contents
+
+      Table 3-19: Color Selection in Hold-and-modify Mode
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,41 @@
+
+clicktab.gadget v45.1 (09.03.01)
+
+· recompiled with new startup code and 68020+
+  optimiziation turned on. Please test this class
+  carefully as it originates from an older release
+  of the classact source, the v44 source is missing :(
+  I think I fixed all bugs ...
+
+· when the "Thin" or "ThinXEN" look is activated the
+  border of the gadget will be thin, too.
+
+· implemented GM_CLIPRECT method.
+
+· The programmer can pass a string array via GA_Text to
+  the gadget for easy creation of the clicktab nodes, now.
+
+· fixed and improved gadgethelp <William Parker, ID 1779>.
+
+· moving the pointer over the contents of the clicktab
+  and then clicking on the clicktab itself did not trigger a 
+  page change when gadgethelp was activated <also ID 1779>.
+
+· tab selection can be aborted by releasing the mouse
+  button when the pointer isn't over a tab.
+
+· changed placement of underscore.
+
+
+clicktab.gadget v45.2 (30.04.01)
+
+· aborting tab selection didn't work correctly when the button
+  was released over the pagegroup.
+
+
+clicktab.gadget v45.3 (01.09.01)
+
+· added GA_GadgetHelpText support.
+
+· pressing the shortcut of a tab twice activated the first
+  gadget in the group.

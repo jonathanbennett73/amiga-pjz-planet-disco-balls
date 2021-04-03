@@ -1,0 +1,31 @@
+
+Overscan 44.4 (31.7.99)
+
+· added stack extension
+
+Overscan 44.6 (17.8.99)
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+Overscan 44.7 (19.8.99)
+
+· found the reason for gadgets overwriting window border. Fixed.
+
+Overscan 44.8 (20.8.99)
+
+· added some code for making selected monitor visible in list.
+
+Overscan 44.10 (17.9.99)
+
+· new name for project icon def_overscan_prefs.
+
+Overscan 45.1 (27.11.2000)
+
+· Fix: Overscan crashed with a divison by zero if the ViewResolution
+  of the MonitorInfo was smaller than the Resolution of the 
+  DisplayInfo of a certain monitor ID.
+

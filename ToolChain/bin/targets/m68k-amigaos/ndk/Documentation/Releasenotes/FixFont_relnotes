@@ -1,0 +1,34 @@
+FixFonts 45.1 (22.10.2000)
+
+- This is a recompile of my FixFonts 40.2. It
+  is not based on the CBM/Amiga FixFonts, but
+  does the same and works in a similar way.
+  Additionally to what pre 45 FixFonts does,
+  this release will also rebuild the cache for
+  you if caching is turned on. Note that this is
+  usually not required since diskfont is now
+  smart enough to rewrite the cache anyhow. In
+  fact, all what FixFonts does is to run an
+  AvailFonts() and hence to trigger the rewrite.
+  Except that, it is identically to former releases.
+
+- Bumped to V45.
+
+- Note that this release of FixFonts, as well as
+  the original CBM FixFonts uses ExAll() to read
+  the font directories, even while working on them.
+  This has two inherent problems: First of all,
+  ExAll() is severely broken in some filing systems
+  as for example in AFS. Just don't use AFS!
+  Second, creating files in a directory while
+  scanning it via ExAll() or Examine() is dangerous
+  due to the "ingenious" ExAll()/Examine() "design".
+  FixFonts tries to work around this problem by
+  providing a relatively large buffer for ExAll().
+  Bummer.
+
+FixFonts 45.2 (24.07.2001)
+
+- FixFonts clears now explicitly the cache, even though
+  this would not be necessary if the file system would
+  advance the date of the FONTS: directory correctly.

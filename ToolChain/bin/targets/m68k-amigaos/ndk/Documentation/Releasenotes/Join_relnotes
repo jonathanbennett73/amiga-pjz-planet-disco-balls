@@ -1,0 +1,7 @@
+workbench/c/join
+
+    No longer chokes on empty source files.
+    Froze 43.1.
+    I improved the build process and recompiled join.
+    Froze 44.1.
+

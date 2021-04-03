@@ -1,0 +1,145 @@
+BenchTrash 1.51
+
+- Enhanced the error requesters in case a file is not delete-able. BenchTrash 
+  presents now additionally the options to skip the file, skip all files or 
+  to force undelete the file or files. This means that the delete protection 
+  will be removed first before attempting to remove the file. 
+- Checked again the error handling in general and improved it somewhat.
+
+
+BenchTrash 1.52:
+
+- Some minor work on the flickering, requested by Mario.
+- Bugfix concering the global trashcan, it didn't move
+  icons without files into the trash correctly. 
+- Some preparations concerning the new workbench delete
+  hook. It is, unfortunately, not yet useable in its
+  current form.
+- Removed the "Copy first.." gadget as aparently nobody
+  understood it anyhow.
+
+
+BenchTrash 1.53:
+
+- The minor work on flickering turned out to be screwed
+  up and broke things completely. Outch. Got fixed.
+- BT forgot to clear the "Abort" flag properly from time
+  to time, hence, BT aborted future cleanup commands.
+- Re-designed the progression bar. It looks now more 
+  like the workbench style progression bar.
+- Set the MAXAGE by default to zero because nobody would
+  understand this feature anyhow and it could confuse
+  users.
+
+
+BenchTrash 1.54:
+
+- BenchTrash did not handle ".info" workbench cache files
+  correctly and refused to delete or move them correctly.
+- The global trashcan progress bar did not count files and
+  directories correctly.
+- The global trashcan mode did not check icon files
+  correctly, it looked in the wrong directory which could
+  have caused wonderful and strange effects. *Shudder*
+- The text within the progression bar is now no longer
+  drawn in COMPLEMENT mode, but rather with the TEXTPEN.
+  This makes this display less effective, though.
+- The DOS argument parser was broken and could have thrown
+  enforcer hits in case ReadArgs() returned an error.
+- Added a new feature: By specifying DELETEFORWB=ON,
+  BenchTrash will now hook into the "Dispose" function of
+  the workbench.
+
+
+BenchTrash 1.55:
+
+- BenchTrash deletes now files in case a file within the
+  global trashcan was dragged into the trashcan.
+- BenchTrash supports now a "delete" qualifier. In case
+  either shift key is hold while dragging files over the
+  trashcan, BenchTrash will select the "delete" mode.
+- BenchTrash multitasks now. BenchTrash launches now 
+  background tasks for deleting files, and therefore
+  also for the workbench if "DELETEFORWB" is enabled.
+  Note that this does *NOT* work for the workbench
+  "Empty Trashcan" menu item since it is currently not
+  replaced by BenchTrash.
+
+
+BenchTrash 1.56:
+
+- Due to an oversight, the requester builder never tried
+  to localize the requester body. *outch*
+- Added more strings to the locale support. BT comes now
+  with additional strings for "one drawer" or "more than
+  more drawer" as well as "one file" and "more one file"
+  plus additional support strings. The "confirmation
+  requester" body is then build by these strings to allow
+  a more fancy looking requester body. In case a catalog
+  does not contain these new items, BT will fall back to
+  the old style strings.
+
+BenchTrash 1.57:
+
+- Requester body text generation was still buggy. It did
+  not take all arguments into account and therefore
+  generated nonsense texts.
+
+BenchTrash 1.58:
+
+- BenchTrash was unable to tell drawers and files apart
+  if it was run with DELETEFORWB=ON. This was a side
+  effect of the new and different API of the workbench.
+
+BenchTrash 1.59:
+
+- The fix of 1.58 had the side effect that deleting icons
+  without an underlying file was broken since no information
+  about this file can be inquired for this case. Now
+  BenchTrash ignores a file not found error and regards
+  these icons as belonging to files.
+- Added localizeable keyboard shortcuts for all buttons
+  in the control window. This means, again, the locale
+  had to grow.
+
+BenchTrash 1.60:
+
+- Fixed an enforcer hit if one of the radio buttons was pressed
+  twice. 
+- BenchTrash releases now the icon position in case an icon gets
+  dropped into it and the global trashcan mode has been selected. 
+  This did work already for the "local" mode.
+
+BenchTrash 1.70:
+
+- When in local or mixed mode, BenchTrash did not try to generate
+  unique names for the files to be deleted. This got fixed now,
+  hopefully. Please test.
+- Rewrote the interface completely. BT uses now a Reaction type
+  interface.
+
+NOTE: This is not yet for release as too many things changed.
+Please test it carefully, especially the new "local mode".
+
+BenchTrash 1.71:
+
+- Layout of the preferences image changed a bit (slightly).
+- BT avoids now some flickering on refresh of its gadgets.
+- BT renders now the frame in recessed rather in raised mode
+  if the icon does not provide a mask. If the icon includes
+  a mask, no frame whatsoever is drawn.
+
+BenchTrash 1.72:
+
+- BenchTrash deletion failed in mixed mode for icons without
+  underlying files if the corresponding volume contain a trash-
+  can. Fixed. <Mario>
+- BenchTrash could have reported a garbled error message in the
+  above case.
+
+BenchTrash 1.73:
+
+- BenchTrash tries now to setup the progress bar window dimensions
+  correctly even for screen fonts whose tx_Width is much smaller
+  than the individual width of its characters. This will prevent
+  some rendering gliches for "strange" fonts.

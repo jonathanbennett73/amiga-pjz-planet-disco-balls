@@ -1,0 +1,10 @@
+
+PictDT 45.1 (26.08.01)
+
+· initial release, currently no IPrefs support
+  (uses direct interface to picture.datatype instead).
+
+PictDT 45.2 (01.10.01)
+
+· removed an enforcer hit when the picture.datatype
+  wasn't in memory.

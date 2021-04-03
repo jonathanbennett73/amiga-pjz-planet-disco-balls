@@ -1,0 +1,14 @@
+commodities.library 44.17 (15.10.2000)
+
+- Ported to SAS/C 6.58, omitting the 'libcode' option.
+
+- Replaced all assembly language code with 'C' code that
+  could be replaced.
+
+- Disabled the debugging code.
+
+
+commodities.library 44.18 (16.10.2000)
+
+- Small, but important change to the library init code.
+  Maybe this will cure the erratic open failures.

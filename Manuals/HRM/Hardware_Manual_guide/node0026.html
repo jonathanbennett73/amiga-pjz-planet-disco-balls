@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-23" TITLE="A Register Summary / CLXDAT" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / CLXDAT</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0025.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0027.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+CLXDAT     00E      R       D     Collision data register (read and clear)
+
+                 This address reads (and clears) the collision
+                 detection register. The bit assignments are below.
+
+                 NOTE: Playfield 1 is all odd-numbered enabled
+                       bitplanes.  Playfield 2 is all even-numbered
+                       enabled bitplanes
+
+                 BIT#   COLLISIONS REGISTERED
+                 -----  --------------------------
+                 15     not used
+                 14     Sprite 4 (or 5) to sprite 6 (or 7)
+                 13     Sprite 2 (or 3) to sprite 6 (or 7)
+                 12     Sprite 2 (or 3) to sprite 4 (or 5)
+                 11     Sprite 0 (or 1) to sprite 6 (or 7)
+                 10     Sprite 0 (or 1) to sprite 4 (or 5)
+                 09     Sprite 0 (or 1) to sprite 2 (or 3)
+                 08     Playfield 2 to sprite 6 (or 7)
+                 07     Playfield 2 to sprite 4 (or 5)
+                 06     Playfield 2 to sprite 2 (or 3)
+                 05     Playfield 2 to sprite 0 (or 1)
+                 04     Playfield 1 to sprite 6 (or 7)
+                 03     Playfield 1 to sprite 4 (or 5)
+                 02     Playfield 1 to sprite 2 (or 3)
+                 01     Playfield 1 to sprite 0 (or 1)
+                 00     Playfield 1 to playfield 2
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

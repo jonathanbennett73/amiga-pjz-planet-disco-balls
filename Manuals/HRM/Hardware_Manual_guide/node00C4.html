@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-6" TITLE="4 Sprite Hardware / Reusing Sprite DMA Channels" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 Sprite Hardware / Reusing Sprite DMA Channels</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00C3.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00C5.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Each of the eight sprite  <a href="../Hardware_Manual_guide/node00BF.html">DMA channels</a>  can produce more than one
+independently controllable image. There may be times when you want more
+than eight objects, or you may be left with fewer than eight objects
+because you have  <a href="../Hardware_Manual_guide/node00C6.html">attached</a>  some of the sprites to produce more colors or
+larger objects or  <a href="../Hardware_Manual_guide/node00C5.html">overlapped</a>  some to produce more complex images. You
+can reuse each sprite  <a href="../Hardware_Manual_guide/node00BF.html">DMA channel</a>  several times within the same display
+<a name="line8">field, as shown in Figure 4-9.</a>
+
+
+          Part of a screen display
+          ________________________
+         |                        |
+         |              _         |
+         |            _|_|_       |
+         |            \___/_ _ _ _|_ _     Each image of this sprite may
+         |     _ _ _ _ _ _ _ _ _ _|_ _ &#060;-- be placed at any desired spot,
+         |   _/_\_                |        horizontally or vertically.
+         |  |_____|               |        however, at least one video
+         |    \_/_ _ _ _ _ _ _ _ _|_ _     line must seperate the bottom
+         |             _ _ _ _ _ _|_ _ &#060;-- of one usage of a sprite from
+         |           /\           |        the starting point of the next
+         |           \/           |        usage.
+         |                        |
+         |                        |
+         |                        |
+         |                        |
+         |                        |
+         |________________________|
+
+
+               Figure 4-9: Typical Example of Sprite Reuse
+
+
+In single-sprite usage, two all-zero words are placed at the end of the
+ <a href="../Hardware_Manual_guide/node00B9.html">data structure</a>  to stop the DMA channel from retrieving any more data for
+that particular sprite during that display field. To reuse a DMA channel,
+you replace this pair of zero words with another complete sprite
+ <a href="../Hardware_Manual_guide/node00B9.html">data structure</a> , which describes the reuse of the DMA channel at a
+position lower on the screen than the first use. You place the two
+all-zero words at the end of the  <a href="../Hardware_Manual_guide/node00B9.html">data structure</a>  that contains the
+information for all usages of the DMA channel. For example, Figure 4-10
+<a name="line43">shows the  <a href="../Hardware_Manual_guide/node00B9.html">data structure</a>  that describes the picture above.</a>
+
+
+              SPRITE DISPLAY LIST
+          ___________________________ - -
+      |  |                           |   |
+         |___________________________|
+      |  |                           |   |
+         |___________________________|
+      |                                  |
+          ___________________________
+      |  |                           |   |
+         |___________________________|
+      |  |                           |   |
+         |___________________________|          Data describing the
+      |                                  |- - - first vertical usage of
+               ------                           this sprite
+      |        ------                    |
+               ------
+      |   ___________________________    |
+         |                           |
+      |  |___________________________|   |
+         |                           |
+      |  |___________________________|   |
+                                      - -
+  Increasing
+  RAM memory
+  addresses
+          ___________________________ - -
+      |  |                           |   |      Data describing the
+         |___________________________|          second vertical usage of
+      |  |                           |   |- - - this sprite. Contents of
+         |___________________________|          vertical start word must
+      |                                  |      be at least one video
+          ___________________________           line below actual end of
+      |  |                           |   |      preceding usage.
+         |___________________________|
+      |  |                           |   |
+         |___________________________|
+      |                                  |
+               ------
+      |        ------                    |
+               ------
+      |   ___________________________    |
+         |                           |
+      |  |___________________________|   |- - - End-of-data words ending
+         |                           |          the usage of this sprite
+     \|/ |___________________________|   |
+                                      - -
+
+          Figure 4-10: Typical Data Structure for Sprite Re-use
+
+
+The only restrictions on the reuse of sprites during a single display
+field is that the bottom line of one usage of a sprite must be separated
+from the top line of the next usage by at least one horizontal scan line.
+This restriction is necessary because only two DMA cycles per horizontal
+scan line are allotted to each of the eight channels. The sprite channel
+needs the time during the blank line to fetch the  <a href="../Hardware_Manual_guide/node00B9.html#line24">control word</a> 
+describing the next usage of the sprite.
+
+
+The following example displays the spaceship sprite and then redisplays it
+as a different object. Only the sprite data list is affected, so only the
+data list is shown here. However, the sprite looks best with the
+ <a href="../Hardware_Manual_guide/node00D0.html">color registers</a>  set as shown in the example.
+
+        LEA     CUSTOM,a0
+        MOVE.W  #$0F00,COLOR17(a0)      ;Color 17 = red
+        MOVE.W  #$0FF0,COLOR18(a0)      ;Color 18 = yellow
+        MOVE.W  #$0FFF,COLOR19(a0)      ;Color 19 = white
+SPRITE:
+        DC.W    $6D60,$7200
+        DC.W    $0990,$07E0
+        DC.W    $13C8,$0FF0
+        DC.W    $23C4,$1FF8
+        DC.W    $13C8,$0FF0
+        DC.W    $0990,$07E0
+        DC.W    $8080,$8D00     ;VSTART, HSTART, VSTOP for new sprite
+        DC.W    $1818,$0000
+        DC.W    $7E7E,$0000
+        DC.W    $7FFE,$0000
+        DC.W    $FFFF,$2000
+        DC.W    $FFFF,$2000
+        DC.W    $FFFF,$3000
+        DC.W    $FFFF,$3000
+        DC.W    $7FFE,$1800
+        DC.W    $7FFE,$0C00
+        DC.W    $3FFC,$0000
+        DC.W    $0FF0,$0000
+        DC.W    $03C0,$0000
+        DC.W    $0180,$0000
+        DC.W    $0000,$0000     ;End of sprite data
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

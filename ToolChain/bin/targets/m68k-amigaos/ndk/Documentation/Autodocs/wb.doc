@@ -1,0 +1,2133 @@
+TABLE OF CONTENTS
+
+workbench.library/AddAppIconA
+workbench.library/AddAppMenuItemA
+workbench.library/AddAppWindowA
+workbench.library/AddAppWindowDropZoneA
+workbench.library/ChangeWorkbenchSelectionA
+workbench.library/CloseWorkbenchObjectA
+workbench.library/MakeWorkbenchObjectVisibleA
+workbench.library/OpenWorkbenchObjectA
+workbench.library/RemoveAppIcon
+workbench.library/RemoveAppMenuItem
+workbench.library/RemoveAppWindow
+workbench.library/RemoveAppWindowDropZone
+workbench.library/UpdateWorkbench
+workbench.library/WBInfo
+workbench.library/WorkbenchControlA
+workbench.library/AddAppIconA                   workbench.library/AddAppIconA
+
+   NAME
+	AddAppIconA - add an icon to Workbench's list of AppIcons.       (V36)
+
+   SYNOPSIS
+	AppIcon = AddAppIconA(id, userdata, text, msgport,
+	   D0                 D0     D1      A0     A1
+
+	                      lock, diskobj, taglist)
+	                      A2      A3      A4
+
+	struct AppIcon *AddAppIconA(ULONG, ULONG, char *,
+	        struct MsgPort *, BPTR, struct DiskObject *,
+	        struct TagItem *);
+
+	Alternate, varargs version:
+	struct AppIcon *AddAppIcon(ULONG, ULONG, char *,
+	                           struct MsgPort *, BPTR,
+	                           struct DiskObject *,
+	                           tag1, data1,
+	                           tag2, data2,
+	                           ...
+	                           TAG_END );
+
+   FUNCTION
+	Attempt to add an icon to Workbench's list of AppIcons.  If
+	successful, the icon is displayed on the Workbench backdrop (the
+	same place disk icons are displayed).
+
+	This call is provided to allow applications to be notified when
+	a graphical object (not neccessarely associated with a file)
+	gets 'manipulated'.
+
+	The notification consists of an AppMessage (found in workbench.h/i)
+	of type 'MTYPE_APPICON' arriving at the message port you specified.
+
+	The types of 'manipulation' that can occur are:
+
+	1. Double-clicking on the icon.  am_NumArgs will be zero and
+	   am_ArgList will be NULL.
+	2. Dropping an icon or icons on your AppIcon.  am_NumArgs will
+	   be the number of icons dropped on your AppIcon plus one.
+	   am_ArgList will be an array of pointers to WBArg structures.
+	   Refer to the 'WBStartup Message' section of the RKM for more info.
+	3. Dropping your AppIcon on another icon.  NOT SUPPORTED.
+	4. Invoking an "Icons" menu item with your icon selected. (V44)
+	   You have to tell Workbench which menu items your icon
+	   responds to using the tag item list you provide to AddAppIconA().
+	   When one of the supported menu items is invoked, you
+	   will receive an AppMessage with the am_Class entry set to
+	   a value out of AMCLASSICON_Open..AMCLASSICON_EmptyTrash,
+	   corresponding to the menu item used.
+
+   INPUTS
+	id - this variable is strictly for your own use and is ignored by
+	     Workbench.  Typical uses in C are in switch and case statements,
+	     and in assembly language table lookup.
+	userdata - this variable is strictly for your own use and is ignored
+	           by Workbench.
+	text - name of icon (char *)
+	lock - NULL    (Currently unused)
+	msgport - pointer to message port Workbench will use to send you an
+	          AppMessage message of type 'MTYPE_APPICON' when your icon
+	          gets 'manipulated' (explained above).
+	diskobj - pointer to a DiskObject structure filled in as follows:
+	    do_Magic - NULL
+	    do_Version - NULL
+	    do_Gadget - a gadget structure filled in as follows:
+	        NextGadget - NULL
+	        LeftEdge - NULL
+	        TopEdge - NULL
+	        Width - width of icon hit-box
+	        Height - height of icon hit-box
+	        Flags - NULL or GADGHIMAGE
+	        Activation - NULL
+	        GadgetType - NULL
+	        GadgetRender - pointer to Image structure filled in as follows:
+	            LeftEdge - NULL
+	            TopEdge - NULL
+	            Width - width of image (must be <= Width of hit box)
+	            Height - height of image (must be <= Height of hit box)
+	            Depth - # of bit-planes in image
+	            ImageData - pointer to actual word aligned bits (CHIP MEM)
+	            PlanePick - Plane mask ((1 << depth) - 1)
+	            PlaneOnOff - 0
+	            NextImage - NULL
+	        SelectRender - pointer to alternate Image struct or NULL
+	        GadgetText - NULL
+	        MutualExclude - NULL
+	        SpecialInfo - NULL
+	        GadgetID - NULL
+	        UserData - NULL
+	    do_Type - NULL
+	    do_DefaultTool - NULL
+	    do_ToolTypes - NULL
+	    do_CurrentX - NO_ICON_POSITION (recommended)
+	    do_CurrentY - NO_ICON_POSITION (recommended)
+	    do_DrawerData - NULL
+	    do_ToolWindow - NULL
+	    do_StackSize - NULL
+
+	(an easy way to create one of these (a DiskObject) is to create an icon
+	 with the V2.0 icon editor and save it out.  Your application can then
+	 call GetDiskObject on it and pass that to AddAppIcon.)
+
+	taglist - ptr to a list of tag items.  Must be NULL for V2.0.
+
+   TAGS
+	WBAPPICONA_SupportsOpen (BOOL) -- Set this to TRUE if your
+	    AppIcon should respond to the "Open" menu, to FALSE
+	    otherwise. Note that with this attribute set to FALSE,
+	    users will still be able to double-click on your AppIcon
+	    and drop icons on it. This attribute solely controls
+	    whether the "Open" menu item will be available.
+
+	    This tag defaults to TRUE. (V44)
+
+	WBAPPICONA_SupportsCopy (BOOL) -- Set this to TRUE if your
+	    AppIcon should respond to the "Copy" menu, to FALSE
+	    otherwise.
+
+	    This tag defaults to FALSE. (V44)
+
+	WBAPPICONA_SupportsRename (BOOL) -- Set this to TRUE if your
+	    AppIcon should respond to the "Rename" menu, to FALSE
+	    otherwise.
+
+	    This tag defaults to FALSE. (V44)
+
+	WBAPPICONA_SupportsInformation (BOOL) -- Set this to TRUE if your
+	    AppIcon should respond to the "Information" menu, to FALSE
+	    otherwise.
+
+	    This tag defaults to FALSE. (V44)
+
+	WBAPPICONA_SupportsSnapshot (BOOL) -- Set this to TRUE if your
+	    AppIcon should respond to the "Snapshot" menu, to FALSE
+	    otherwise.
+
+	    This tag defaults to FALSE. (V44)
+
+	WBAPPICONA_SupportsUnSnapshot (BOOL) -- Set this to TRUE if your
+	    AppIcon should respond to the "UnSnapshot" menu, to FALSE
+	    otherwise.
+
+	    This tag defaults to FALSE. (V44)
+
+	WBAPPICONA_SupportsLeaveOut (BOOL) -- Set this to TRUE if your
+	    AppIcon should respond to the "Leave Out" menu, to FALSE
+	    otherwise.
+
+	    This tag defaults to FALSE. (V44)
+
+	WBAPPICONA_SupportsPutAway (BOOL) -- Set this to TRUE if your
+	    AppIcon should respond to the "Put Away" menu, to FALSE
+	    otherwise.
+
+	    This tag defaults to FALSE. (V44)
+
+	WBAPPICONA_SupportsDelete (BOOL) -- Set this to TRUE if your
+	    AppIcon should respond to the "Delete" menu, to FALSE
+	    otherwise.
+
+	    This tag defaults to FALSE. (V44)
+
+	WBAPPICONA_SupportsFormatDisk (BOOL) -- Set this to TRUE if your
+	    AppIcon should respond to the "Format Disk" menu, to FALSE
+	    otherwise.
+
+	    This tag defaults to FALSE. (V44)
+
+	WBAPPICONA_SupportsEmptyTrash (BOOL) -- Set this to TRUE if your
+	    AppIcon should respond to the "Empty Trash" menu, to FALSE
+	    otherwise.
+
+	    This tag defaults to FALSE. (V44)
+
+	WBAPPICONA_PropagatePosition (BOOL) -- Set this to TRUE if you
+	    want the AppIcon's position to be propagated back to the
+	    original DiskObject you passed to this function. By
+	    default, Workbench will make a copy of that DiskObject's
+	    icon imagery, allowing you to free the DiskObject.
+	    But if you specify "WBAPPICONA_PropagatePosition,TRUE,"
+	    Workbench will assume that you will not free it and
+	    that the AppIcon's current position should be stored
+	    in its do_CurrentX/do_CurrentY members.
+
+	    This tag defaults to FALSE. (V44)
+
+	WBAPPICONA_RenderHook (struct Hook *) -- Pointer to a hook that
+	    will be invoked when rendering your AppIcon. With this hook
+	    and WorkbenchControlA() you can create dynamic or animated
+	    AppIcons. Your hook will be called with the following
+	    parameters and has to return a result value:
+
+	    result = hookFunc(hook,reserved,arm)
+	      D0               A0     A2     A1
+
+	    LONG hookFunc(struct Hook *hook,APTR reserved,
+	                  struct AppIconRenderMsg *arm);
+
+	    The reserved parameter will be set to NULL (V44).
+
+	    If your hook code returns TRUE, the AppIcon's regular image
+	    will be drawn. If your code returns FALSE, the regular image
+	    will not be drawn; this allows you to do all the icon's on-screen
+	    rendering with the exception of the icon image used when dragging
+	    the icon on the screen.
+
+	    The render message contents are as follows:
+
+	        arm_RastPort
+	            A pointer to the RastPort to render into.
+
+	        arm_Icon
+	            A pointer to the Icon to be rendered.
+
+	        arm_Label
+	            A pointer to the label text to be printed
+	            below the icon.
+
+	        arm_Tags
+	            Further control tags which you should pass on
+	            to icon.library/DrawIconStateA, should you
+	            call this routine.
+
+	        arm_Left
+	        arm_Top
+	            Rendering origin; note that these coordinates
+	            DO NOT take the embossing border sizes into
+	            account.
+
+	        arm_Width
+	        arm_Height
+	            Size of the Icon's image area; you should limit
+	            your drawing to this area.
+
+	        arm_State
+	            An icon drawing state, such as used by
+	            icon.library/DrawIconStateA.
+
+	    Note that all the data in the render message is read-only.
+
+
+	    This tag defaults to NULL. (V44)
+
+	WBAPPICONA_NotifySelectState (BOOL) -- Set this tag to TRUE
+	    if you want to be be notified whenever the AppIcon becomes
+	    selected or unselected. You will hear only state transitions,
+	    i.e. changes from selected to unselected state and the other
+	    way round. On a state transition you will receive AppMessages
+	    with the AppMessage->am_Class member set to AMCLASSICON_Selected
+	    or AMCLASSICON_Unselected, respectively.
+
+	    This tag defaults to FALSE. (V44)
+
+   RESULTS
+	AppIcon - a pointer to an AppIcon structure which you pass to
+	          RemoveAppIcon when you want to remove the icon
+	          from Workbench's list of AppIcons.  NULL
+	          if Workbench was unable to add your icon; typically
+	          happens when Workbench is not running or under low
+	          memory conditions.
+
+   EXAMPLE
+	You could design a print-spooler icon and add it to the Workbench.
+	Any file dropped on the print spooler would be printed.  If the
+	user double-clicked (opened) your printer-spooler icon, you could
+	open a window showing the status of the print spool, allow changes
+	to print priorities, allow deletions, etc.  If you registered this
+	window as an 'AppWindow' (explained in workbench.library/AddAppWindow)
+	files could also be dropped in the window and added to the spool.
+
+   NOTES
+	For this function call to succeed, Workbench must be open. This
+	means that the LoadWB command was executed and the Workbench
+	screen has been opened.
+
+   SEE ALSO
+	workbench.library/RemoveAppIcon
+	workbench.library/WorkbenchControlA
+	icon.library/DrawIconStateA
+
+   BUGS
+	In workbench.library versions 36 through 40 Info cannot be obtained
+	on appicons.
+
+workbench.library/AddAppMenuItemA           workbench.library/AddAppMenuItemA
+
+   NAME
+	AddAppMenuItemA - add a menu item to Workbench's list            (V36)
+                         of AppMenuItems.
+
+   SYNOPSIS
+	AppMenuItem = AddAppMenuItemA(id, userdata, text, msgport, taglist)
+	D0                            D0     D1      A0     A1       A2
+
+	struct AppMenuItem *AddAppMenuItemA(ULONG, ULONG, char *,
+	                                    struct MsgPort *,
+	                                    struct TagItem *);
+
+	Alternate, varargs version:
+	struct AppMenuItem *AddAppMenuItem(ULONG, ULONG, char *,
+	                                   struct MsgPort *,
+	                                   tag1, data1,
+	                                   tag2, data2,
+	                                   ...
+	                                   TAG_END );
+
+   FUNCTION
+	Attempt to add the text as a menu item to Workbench's list
+	of AppMenuItems (the 'Tools' menu strip).
+
+   INPUTS
+	id - this variable is strictly for your own use and is ignored by
+	     Workbench.  Typical uses in C are in switch and case statements,
+	     and in assembly language table lookup.
+	userdata - this variable is strictly for your own use and is ignored
+	           by Workbench.
+	text - text for the menu item (char *); starting with V44, any menu
+	       label consisting entirely of '-', '_' or '~' characters will
+	       result in a separator bar to be added in place of a textual
+	       item.
+	msgport - pointer to message port Workbench will use to send you an
+	          AppMessage message of type 'MTYPE_APPMENUITEM' when your
+	          menuitem gets selected.
+	taglist - ptr to a list of tag items.  Must be NULL for V2.0.
+
+   TAGS
+	WBAPPMENUA_CommandKeyString (STRPTR) -- Command key to assign to
+	    this AppMenu. This must be a NUL-terminated string. If the
+	    string is empty, it will be ignored. Also, if the command key
+	    is already in use by a different menu item it will be ignored,
+	    too. In any case, only the first character of the string will
+	    be used (V44).
+
+	    This tag defaults to NULL.
+
+	WBAPPMENUA_GetKey (ULONG *) -- To add menus with sub menu items,
+	    you need to add a menu item first which the sub items will
+	    be added to later. In order to do this, add the item the sub items
+	    should be attached to and use the WBAPPMENUA_GetKey tag to
+	    obtain a key value. This key value is to be used later with the
+	    WBAPPMENUA_UseKey tag (V44).
+
+	    This feature was introduced in workbench.library 44.1511, it
+	    does not work in any of the older Workbench releases.
+
+	    This tag defaults to NULL.
+
+	WBAPPMENUA_GetTitleKey (ULONG *) -- To add new entries to the Workbench
+	    menu strip you first need to create a new title to which the new
+	    menu items can be attached later. To do this, first create a new
+	    menu entry and use the WBAPPMENUA_GetTitleKey tag to obtain a key
+	    value. This key value is to be used later with the
+	    WBAPPMENUA_UseKey tag (V45).
+
+	    This tag defaults to NULL.
+
+	WBAPPMENUA_UseKey (ULONG) -- When adding a menu item with the
+	    WBAPPMENUA_UseKey tag, using a key value obtained by a previous
+	    invocation of AddAppMenuItemA(), the new menu item will be
+	    added as a sub item (V44).
+
+	    If the key you provide was obtained via the WBAPPMENUA_GetTitleKey
+	    tag, then the item you add will be attached to the respective
+	    menu entry (V45).
+
+	    This tag defaults to NULL.
+
+   RESULTS
+	AppMenuItem - a pointer to an appmenuitem structure which you pass to
+	              RemoveAppMenuItem when you want to remove the menuitem
+	              from Workbench's list of AppMenuItems.  NULL if
+	              workbench was unable to add your menu item; typically
+	              happens when Workbench is not running or under low
+	              memory conditions.
+
+	          Starting with V44 NULL will be returned if you attempt to
+	          add an AppMenu item to a menu which already contains 63
+	          menu items.
+
+   NOTES
+	For this function call to succeed, Workbench must be open. This
+	means that the LoadWB command was executed and the Workbench
+	screen has been opened.
+
+	You can add only a maximum of 62 menu items to the "Tools" menu.
+	Only a maximum of 15 sub items can be added to a menu item.
+
+	When you add a new menu item which sub items should be attached
+	to, the new menu item will not appear until after the first sub
+	item has been attached. The same is true when adding new menu
+	entries to the Workbench menu strip; titles will not appear
+	until you add the first menu item.
+
+	You can add only a maximum of 27 menu entries to the Workbench
+	menu strip. Only a maximum of 63 menu items can be added to
+	a menu entry.
+
+   EXAMPLE
+	Here is how you create a menu item with two sub items attached:
+
+	struct MsgPort * port;
+	struct AppMenuItem * item;
+	struct AppMenuItem * sub1;
+	struct AppMenuItem * sub2;
+	ULONG key;
+
+	/* IMPORTANT: you *must* initialize the key to zero
+	 *            for backwards compatibility!
+	 */
+	key = 0;
+	item = AddAppMenuItem(0,0,"AppMenu item with two sub items",port,
+	    WBAPPMENUA_GetKey,&key,
+	TAG_DONE);
+
+	/* IMPORTANT: always check for the key value to be non-zero! */
+	if(key != 0 && item != NULL)
+	{
+	    sub1 = AddAppMenuItem(0,0,"Sub item #1",port,
+	        WBAPPMENUA_UseKey,key,
+	    TAG_DONE);
+
+	    sub2 = AddAppMenuItem(0,0,"Sub item #2",port,
+	        WBAPPMENUA_UseKey,key,
+	    TAG_DONE);
+
+	    /* ... do something useful with the menus ... */
+
+	    RemoveAppMenuItem(sub1);
+	    RemoveAppMenuItem(sub2);
+	}
+
+	RemoveAppMenuItem(item);
+
+   SEE ALSO
+	workbench.library/RemoveAppMenuItem
+
+   BUGS
+	workbench.library V37 through V40 does not limit the number of menu
+	items to 63. Any menu items after the 63rd will not be selectable.
+	This bug was fixed in V44.
+
+workbench.library/AddAppWindowA               workbench.library/AddAppWindowA
+
+   NAME
+	AddAppWindowA - add a window to Workbench's list of AppWindows.  (V36)
+
+   SYNOPSIS
+	AppWindow = AddAppWindowA(id, userdata, window, msgport, taglist)
+	D0                        D0     D1       A0      A1       A2
+
+	struct AppWindow *AddAppWindowA(ULONG, ULONG, struct Window *,
+	                                struct MsgPort *, struct TagItem *);
+
+	Alternate, varargs version:
+	struct AppWindow *AddAppWindow(ULONG, ULONG, struct Window *,
+	                               struct MsgPort *
+	                               tag1, data1,
+	                               tag2, data2,
+	                               ...
+	                               TAG_END );
+
+   FUNCTION
+	Attempt to add the window to Workbench's list of AppWindows.
+	Normally non-Workbench windows (those not opened by Workbench)
+	cannot have icons dropped in them.  This call is provided to
+	allow applications to be notified when an icon or icons get
+	dropped inside a window that they have registered with Workbench.
+	The notification consists of an AppMessage (found in workbench.h/i)
+	of type 'MTYPE_APPWINDOW' arriving at the message port you specified.
+	What you do with the list of icons (pointed to by am_ArgList) is
+	up to you, but generally you would want to call GetDiskObjectNew on
+	them.
+
+   INPUTS
+	id - this variable is strictly for your own use and is ignored by
+	     Workbench.  Typical uses in C are in switch and case statements,
+	     and in assembly language table lookup.
+	userdata - this variable is strictly for your own use and is ignored
+	           by Workbench.
+	window - pointer to window to add.
+	msgport - pointer to message port Workbench will use to send you an
+	          AppMessage message of type 'MTYPE_APPWINDOW' when your
+	          window gets an icon or icons dropped in it.
+	taglist - ptr to a list of tag items.  Must be NULL for V2.0.
+
+   RESULTS
+	AppWindow - a pointer to an AppWindow structure which you pass to
+	            RemoveAppWindow when you want to remove the window
+	            from Workbench's list of AppWindows.  NULL
+	            if Workbench was unable to add your window; typically
+	            happens when Workbench is not running or under low
+	            memory conditions.
+
+   SEE ALSO
+	workbench.library/AddAppWindowDropZoneA
+	workbench.library/RemoveAppWindow
+
+   NOTES
+	The V2.0 icon editor is an example of an AppWindow.  Note that app
+	window applications generally want to call GetDiskObjectNew
+	(as opposed to GetDiskObject) to get the disk object for the icon
+	dropped in the window.
+
+	For this function call to succeed, Workbench must be open. This
+	means that the LoadWB command was executed and the Workbench
+	screen has been opened.
+
+	When removing an AppWindow, all its drop zones will be automatically
+	removed.
+
+workbench.library/AddAppWindowDropZoneAorkbench.library/AddAppWindowDropZoneA
+
+   NAME
+	AddAppWindowDropZoneA -- Designate an AppWindow area as suitable for
+	    dropping icons on. (V44)
+
+   SYNOPSIS
+	dropZone = AddAppWindowDropZoneA(appWindow,id,userData,tags)
+	   D0                               A0    D0    D1     A1
+
+	struct AppWindowDropZone * AddAppWindowDropZoneA(struct AppWindow *aw,
+	                           ULONG id,ULONG userData,
+	                           struct TagItem * tags);
+
+	dropZone = AddAppWindowDropZone(appWindow,id,userData,zone,...)
+
+	struct AppWindowDropZone * AddAppWindowDropZone(struct AppWindow *aw,
+	                           ULONG id,ULONG userData,...);
+
+   FUNCTION
+	Once it is created, Workbench will allow the user to drop an
+	icon anywhere inside an AppWindow, regardless of whether the
+	icon was dropped on an area designated for dropping icons on
+	or not. With AddAppWindowDropZoneA() you can tell Workbench
+	which AppWindow areas are suitable for dropping icons on.
+
+   INPUTS
+	aw -- An AppWindow data structure, as returned by
+	    workbench.library/AddAppWindowA.
+	id -- This variable is strictly for your own use and is ignored by
+	    Workbench. Typical uses in C are in switch and case statements,
+	    and in assembly language table lookup. Later, when an icon is
+	    dropped on the designated area, the AppMessage sent to your
+	    port will have the am_ID member set to this value.
+	userData -- this variable is strictly for your own use and is ignored
+	    by Workbench. Later, when an icon is dropped on the designated area,
+	    the AppMessage sent to your port will have the am_UserData member
+	    set to this value.
+	tags -- List of attributes to control the position and size
+	    of the drop zone.
+
+   TAGS
+	WBDZA_Left (WORD) -- Left edge of the drop zone; a value of
+	    0 would create a zone located at the left corner of the
+	    window.
+
+	WBDZA_RelRight (WORD) -- Left edge of the drop zone, relative
+	    to the window width; a value of -10 would create a zone located
+	    10 pixels left of the window right edge.
+
+	WBDZA_Top (WORD) -- Top edge of the drop zone; a value of
+	    0 would create a zone located at the top corner of the
+	    window.
+
+	WBDZA_RelBottom (WORD) -- Top edge of the drop zone, relative
+	    to the window height; a value of -10 would create a zone located
+	    10 pixels above the window bottom edge.
+
+	WBDZA_Width (WORD) -- Width of the drop zone.
+
+	WBDZA_RelWidth (WORD) -- Width of the drop zone, relative to the
+	    width of the window; a value of -20 would create a zone that
+	    is by 20 pixels narrower than the window.
+
+	WBDZA_Height (WORD) -- Height of the drop zone.
+
+	WBDZA_RelHeight (WORD) -- Height of the drop zone, relative to the
+	    height of the window; a value of -20 would create a zone that
+	    is by 20 pixels smaller than the window.
+
+	WBDZA_Box (struct IBox *) -- Position and size of the drop zone.
+
+	WBDZA_Hook (struct Hook *) -- Pointer to a hook that will be
+	    invoked whenever the mouse enters or leaves your drop zone
+	    area. Your hook will be called with the following parameters:
+
+	    result = hookFunc(hook,reserved,arm)
+	      D0               A0     A2     A1
+
+	    LONG hookFunc(struct Hook *hook,APTR reserved,
+	                  struct AppWindowDropZoneMsg *adzm);
+
+	    The reserved parameter will be set to NULL (V44).
+	    For future enhancement, make sure that your hook
+	    function always returns NULL (V44).
+
+	    The drop zone message contents are as follows:
+
+	        adzm_RastPort
+	            A pointer to the RastPort to render into.
+	            Typically, this is the RastPort of the window
+	            the drop zone is attached to.
+
+	        adzm_DropZoneBox
+	            This member describes the position and size
+	            of the drop zone. The zone is guaranteed to
+	            be a valid area, i.e. the Width and Height
+	            will both be greater than 0 and the Left/Top
+	            will be well within the bounds of the window
+	            containing the drop zone.
+
+	        adzm_ID
+	        adzm_UserData
+	            These two come straight from the values you passed
+	            as the id and userData parameters to
+	            AddAppWindowDropZoneA().
+
+	        adzm_Action
+	            Depending upon whether the mouse has just entered
+	            or left the drop zone area, this variable will be
+	            set to ADZMACTION_Enter or to ADZMACTION_Leave.
+	            Any other values for adzm_Action should be ignored.
+
+	            When the mouse enters the drop zone, do your drop
+	            zone area highlighting. When the mouse leaves the
+	            drop zone, remove any highlighting done in the
+	            previous ADZMACTION_Enter pass.
+
+	            Note that the mouse leaving your drop zone box
+	            does not imply that no icons will be dropped on it.
+	            You may still receive a notification lateron, telling
+	            you that your drop zone had icons dropped on it.
+	            The hook function is solely for highlighting and
+	            unhighlighting the drop zone area.
+
+	    A final word of warning: when your hook code is called, you
+	    must limit your rendering to simple drawing operations
+	    from graphics.library; if you do anything complex that
+	    involves Intuition locking and unlocking the display,
+	    such as refreshing gadgets or locking IntuitionBase,
+	    you will deadlock the operating system. You have been
+	    warned!
+
+   RESULT
+	dropZone -- A newly created drop zone identifier, or NULL if
+	    it could not be created; use dos.library/IoErr to find out
+	    what caused it to fail.
+
+   NOTES
+	Once an AppWindow has a drop zone installed, Workbench will send
+	a new type of AppMessage to your port if icons are dropped on
+	a drop zone. Instead of AMTYPE_APPWINDOW type messages you
+	will receive AMTYPE_APPWINDOWZONE messages. In fact, you will
+	no longer hear any AMTYPE_APPWINDOW type messages since Workbench
+	will allow users to drop icons only on drop zones. Be prepared
+	to handle this.
+
+	Adding a drop zone to an AppWindow does not guarantee that only
+	AMTYPE_APPWINDOWZONE type messages will arrive at your message
+	port. In fact, the user may be able to drop an icon on the window
+	before the first drop zone is installed. Be prepared to handle
+	this.
+
+	Workbench checks drop zones in the order in which they were added
+	to the AppWindow. Thus, if two zones overlap, the zone that was
+	added first will be reported as hit.
+
+	An AppWindow starts out with its entire area available for dropping
+	icons on. Thus, you may receive AppMessages for icons dropped upon
+	your AppWindow before you have added the first drop zone to it.
+	Be prepared to handle this.
+
+	Drop zones must be created with a position and a size. If you omit
+	either one, this routine will fail.
+
+	When an icon is dropped on a drop zone, the AppMessage am_MouseX and
+	am_MouseY members will be relative to the window top left corner;
+	they WILL NOT be relative to the left/top edge of the drop zone.
+
+   SEE ALSO
+	dos.library/IoErr
+	workbench.library/AddAppWindowA
+
+workbench.library/ChangeWorkbenchSelectionA.library/ChangeWorkbenchSelectionA
+
+   NAME
+	ChangeWorkbenchSelectionA -- Change the selection states of icons
+	    displayed by Workbench. (V44)
+
+   SYNOPSIS
+	success = ChangeWorkbenchSelectionA(name,hook,tags)
+	   D0                                A0   A1   A2
+
+	BOOL ChangeWorkbenchSelectionA(STRPTR name,struct Hook *hook,
+	                               struct TagItem *tags);
+
+	success = ChangeWorkbenchSelection(name,hook,...);
+
+	BOOL ChangeWorkbenchSelection(STRPTR name,struct Hook *hook,...);
+
+   FUNCTION
+	The icons displayed inside each Workbench window can be in selected
+	or in unselected state. This routine allows you to change this state
+	for every icon found in a particular window.
+
+   INPUTS
+	name -- Name of the drawer whose icons should be submitted to the
+	    callback hook for testing; pass NULL as the name to have the
+	    icons in the Workbench backdrop (where disks and AppIcons live)
+	    passed through the hook. Note that the drawer whose icons you
+	    want to change must be open before you can make any changes.
+
+	hook -- Hook to be invoked for each icon in the window.
+
+	    The hook code will be invoked with the following parameters
+
+	    action = hookFunc(hook,reserved,ism)
+	       D0                A0     A2    A1
+
+	    ULONG hookFunc(struct Hook *hook,APTR reserved,
+	                   struct IconSelectMsg *ism);
+
+	    The reserved parameter will be set to NULL (V44).
+
+	    The IconSelectMsg contents are as follows:
+
+	        ism_Length
+	            Size of the IconSelectMsg data structure (in bytes).
+	            Since this message may need to grow in the future,
+	            always compare this value against the message size
+	            you expect. For V44, ism_Length is guaranteed to
+	            contain a value of 36. Expect this value to become
+	            larger in the future.
+
+	        ism_Drawer
+	            A lock on the drawer the object in question resides
+	            in. This may be NULL for the Workbench backdrop (where
+	            disks and AppIcons live).
+
+	        ism_Name
+	            Name of the object in question; please note that for
+	            disk icons the name does not end with a colon character
+	            (":").
+
+	        ism_Type
+	            This is one of WBDISK, WBDRAWER, WBTOOL, WBPROJECT,
+	            WBGARBAGE, WBDEVICE, WBKICK or WBAPPICON.
+
+	        ism_Selected
+	            TRUE if the object in question is currently selected,
+	            FALSE otherwise.
+
+	        ism_Tags
+	            The list of tag items passed to ChangeWorkbenchSelectionA().
+
+	        ism_DrawerWindow
+	            If the object in question is a drawer or disk and its
+	            associated window is currently open, then you will find
+	            a pointer to it here.
+
+	        ism_ParentWindow
+	            This is a pointer to the window the object resides in.
+
+	        ism_Left
+	        ism_Top
+	        ism_Width
+	        ism_Height
+	            These denote the position and size of the object in
+	            question, relative to the top left edge of the window
+	            it resides in.
+
+	    With the exception of the ism_Left and ism_Top members, the
+	    IconSelectMsg is read-only. The ism_Left/ism_Top members can
+	    be used to change the position of the icon.
+
+	    You hook code must return one of the following values:
+
+	        ISMACTION_Unselect
+	            Unselect the icon
+
+	        ISMACTION_Select
+	            Select the icon
+
+	        ISMACTION_Ignore
+	            Do not change the selection state of the icon.
+
+	        ISMACTION_Stop
+	            Do not change the selection state of the icon. Do not
+	            invoke the hook function again.
+
+	tags -- Additional options.
+
+   TAGS
+	No tags are defined yet (V44).
+
+   RESULTS
+	result -- FALSE if the drawer in question could not be found,
+	    TRUE otherwise. If FALSE is returned, you can query the error
+	    code using dos.library/IoErr().
+
+   EXAMPLE
+	/* Select the icon labeled "Prefs" in the drawer "SYS:". */
+	struct Hook hook;
+
+	/* This hook code is responsible for selecting the icon. */
+	BOOL
+	SelectPrefs(struct Hook *hook,APTR reserved,struct IconSelectMsg *ism)
+	{
+	    /* Remember the old icon select status; if the icon name
+	     * does not match "Prefs", this is what we will return,
+	     * not changing anything.
+	     */
+	    BOOL selected = ism->ism_Selected;
+
+	    /* If the name matches, select it. Otherwise, leave its
+	     * select state alone.
+	     */
+	    if(Stricmp(ism->ism_Name,"Prefs") == 0)
+	        selected = TRUE;
+
+	    return(selected);
+	}
+
+	.
+	.
+	.
+
+	/* Set up the hook data structure. */
+	hook.h_Entry = HookEntry;
+	hook.h_SubEntry = (HOOKFUNC)SelectPrefs;
+
+	/* And finally change the selection. */
+	ChangeWorkbenchSelection("SYS:",&hook,TAG_END);
+
+   NOTES
+	The name of the drawer to work on is interpreted relative
+	to the current directory of the program to call
+	ChangeWorkbenchSelectionA().
+
+	For this function call to succeed, Workbench must be open. This
+	means that the LoadWB command was executed and the Workbench
+	screen has been opened.
+
+	While the user is dragging icons, no on-screen rendering may
+	take place. In this state Workbench may refuse to execute the
+	ChangeWorkbenchSelection() call and return an error code instead
+	(ERROR_OBJECT_IN_USE).
+
+   BUGS
+	This function must be considered unsafe for workbench.library
+	version 44 due to unexpected side-effects triggered
+	by changing the state of selection. This bug was fixed in
+	version 45.
+
+   SEE ALSO
+	dos.library/IoErr
+
+workbench.library/CloseWorkbenchObjectAorkbench.library/CloseWorkbenchObjectA
+
+   NAME
+	CloseWorkbenchObjectA -- Close a drawer as if the user had clicked
+	    on the window close gadget. (V44)
+
+   SYNOPSIS
+	success = CloseWorkbenchObjectA(name,tags)
+	   D0                            A0   A1
+
+	BOOL CloseWorkbenchObjectA(STRPTR name,struct TagItem *tags);
+
+	success = CloseWorkbenchObject(name,...);
+
+	BOOL CloseWorkbenchObject(STRPTR name,...);
+
+   FUNCTION
+	This routine attempts to close the named object as if the user
+	had clicked on its drawer window close gadget.
+
+   INPUTS
+	name -- Name of the drawer to be closed.
+
+	tags -- Additional options.
+
+   TAGS
+	No tags are defined yet (V44).
+
+   RESULTS
+	result -- FALSE if the object in question could not be closed,
+	    TRUE otherwise. If FALSE is returned, you can query the error
+	    code using dos.library/IoErr().
+
+   EXAMPLE
+	/* Close the drawer "SYS:" */
+	CloseWorkbenchObjectA("SYS:",NULL);
+
+   NOTES
+	The name of the drawer to be closed is interpreted relative
+	to the current directory of the program to call
+	CloseWorkbenchObjectA().
+
+	For this function call to succeed, Workbench must be open. This
+	means that the LoadWB command was executed and the Workbench
+	screen has been opened.
+
+	While the user is dragging icons, no on-screen rendering may
+	take place. In this state Workbench may refuse to execute the
+	CloseWorkbenchObject() call and return an error code instead
+	(ERROR_OBJECT_IN_USE).
+
+   SEE ALSO
+	dos.library/IoErr
+	workbench.library/OpenWorkbenchObjectA
+
+workbench.library/MakeWorkbenchObjectVisibleArary/MakeWorkbenchObjectVisibleA
+
+   NAME
+	MakeWorkbenchObjectVisibleA -- Change a Workbench window in such a
+	    way as to make a particular icon visible. (V44)
+
+   SYNOPSIS
+	success = MakeWorkbenchObjectVisibleA(name,tags)
+	   D0                                  A0   A1
+
+	BOOL MakeWorkbenchObjectVisibleA(STRPTR name,struct TagItem *tags);
+
+	success = MakeWorkbenchObjectVisible(name,...);
+
+	BOOL MakeWorkbenchObjectVisible(STRPTR name,...);
+
+   FUNCTION
+	Due to how the scrollers of a Workbench window affect the positions
+	of the icons inside that window, some icons may not be drawn inside
+	the bounds of the window. By using MakeWorkbenchObjectVisibleA()
+	the window scrollers can be made to scroll such a "hidden" icon
+	into view.
+
+   INPUTS
+	name -- Name of the icon to make visible. Note that the window
+	    the icon resides in must already be open.
+
+	tags -- Additional options.
+
+   TAGS
+	No tags are defined yet (V44).
+
+   RESULTS
+	result -- FALSE if the icon in question could not be found,
+	    TRUE otherwise. If FALSE is returned, you can query the error
+	    code using dos.library/IoErr().
+
+   EXAMPLE
+	/* Make the icon for the drawer "SYS:" visible. */
+	MakeWorkbenchObjectVisible("SYS:",TAG_END);
+
+   NOTES
+	The name of the icon to make visible is interpreted relative
+	to the current directory of the program to call
+	MakeWorkbenchObjectVisibleA().
+
+	For this function call to succeed, Workbench must be open. This
+	means that the LoadWB command was executed and the Workbench
+	screen has been opened.
+
+	While the user is dragging icons, no on-screen rendering may
+	take place. In this state Workbench may refuse to execute the
+	MakeWorkbenchObjectVisible() call and return an error code instead
+	(ERROR_OBJECT_IN_USE).
+
+   SEE ALSO
+	dos.library/IoErr
+
+workbench.library/OpenWorkbenchObjectA workbench.library/OpenWorkbenchObjectA
+
+   NAME
+	OpenWorkbenchObjectA -- Open a drawer or launch a program as if
+	    the user had double-clicked on an icon. (V44)
+
+   SYNOPSIS
+	success = OpenWorkbenchObjectA(name,tags)
+	   D0                           A0   A1
+
+	BOOL OpenWorkbenchObjectA(STRPTR name,struct TagItem *tags);
+
+	success = OpenWorkbenchObject(name,...);
+
+	BOOL OpenWorkbenchObject(STRPTR name,...);
+
+   FUNCTION
+	This routine attempts to open the named object as if the user
+	had double-clicked on its icon. This allows you to open drawers
+	under program control or to have Workbench launch your programs.
+
+   INPUTS
+	name -- Name of the object to be opened; this can be a drawer
+	    name, a tool name or a project name.
+
+	tags -- Additional options.
+
+   TAGS
+	WBOPENA_ArgLock (BPTR) -- Corresponds to the WBArg->wa_Lock
+	    entry of a WBStartup message, to be sent to a program
+	    to be launched. The lock you provide will be duplicated
+	    when it is put into a WBArg list.
+
+	    The WBOPENA_ArgLock determines the lock parameters
+	    to be associated with all following WBOPENA_ArgName tags.
+
+	    This tag defaults to NULL.
+
+	WBOPENA_ArgName (STRPTR) -- Corresponds to the WBArg->wa_Name
+	    entry of a WBStartup message to be sent to a program
+	    to be launched. This tag can be used to construct a list
+	    of parameters to pass to the tool/project to be launched.
+	    It works in conjunction with the WBOPENA_ArgLock tag.
+	    The name you provide will be duplicated when it is put
+	    into a WBArg list.
+
+	WBOPENA_Show (UBYTE) -- If opening a drawer, change its
+	    show mode. You can either have the drawer show all
+	    files (DDFLAGS_SHOWALL) or only icons (DDFLAGS_SHOWICONS).
+	    If the drawer in question is already open, its show
+	    mode will be changed, too. This may result in the drawer's
+	    contents getting reread. Note that if you specify
+	    a show mode that is not among DDFLAGS_SHOWALL..SHOWICONS
+	    no change will occur; (V45)
+
+	WBOPENA_ViewBy (UBYTE) -- If opening a drawer, change its
+	    view mode. You can view the contents as icons (DDVM_BYICON),
+	    sorted by name (DDVM_BYNAME), sorted by date (DDVM_BYDATE),
+	    sorted by size (DDVM_BYSIZE) or by type (DDVM_BYTYPE).
+	    If the drawer in question is already open, its view mode
+	    will be changed, too. Note that if you specify a view mode
+	    that is not among DDVM_BYICON..BYTYPE no change will
+	    occur; (V45)
+
+   RESULTS
+	result -- FALSE if the object in question could not be opened,
+	    TRUE otherwise. Note that TRUE may be returned even if
+	    the program the object represents could not be launched;
+	    this is due to limitations in the current (V44) Workbench
+	    design. If FALSE is returned, you can query the error
+	    code using dos.library/IoErr().
+
+   EXAMPLE
+	/* Launch Multiview with S:Startup-Sequence as its parameter. */
+	OpenWorkbenchObject("MultiView",
+	    WBOPENA_ArgLock, Lock("S:",SHARED_LOCK),
+	    WBOPENA_ArgName, "Startup-Sequence",
+	TAG_DONE);
+
+	/* Launch the application "Paint" with the project files "Image1"
+	 * and "Image2", which are both found in the drawer "Paint:Pictures".
+	 */
+	OpenWorkbenchObject("Paint",
+	    WBOPENA_ArgLock, Lock("Paint:Pictures",SHARED_LOCK),
+	    WBOPENA_ArgName, "Image1",
+	    WBOPENA_ArgName, "Image2",
+	TAG_DONE);
+
+	/* Launch the application "Paint" with the project files "Image1"
+	 * and "Anim1", which are both found in the drawers "Paint:Pictures"
+	 * and "Paint:Animations", respectively.
+	 */
+	OpenWorkbenchObject("Paint",
+	    WBOPENA_ArgLock, Lock("Paint:Pictures",SHARED_LOCK),
+	    WBOPENA_ArgName, "Image1",
+	    WBOPENA_ArgLock, Lock("Paint:Animations",SHARED_LOCK),
+	    WBOPENA_ArgName, "Anim1",
+	TAG_DONE);
+
+   NOTES
+	You need not specify fully qualified path names for programs to
+	be launched. Workbench will look for files without fully
+	qualified path names along its default Shell search path.
+	In any case, Workbench will look for the tool to be launched
+	in the current directory of the program that called
+	OpenWorkbenchObjectA(). The same holds true for drawers.
+
+	When launching a program, Workbench will automatically figure
+	out which tool to use if the object in question is actually a
+	project file with a project icon. Note that if the project
+	icon's default tool cannot be found, you will not see any
+	error message.
+
+	Workbench transparently supports launching of Shell programs,
+	but this is not recommended. You should always launch Shell
+	programs from your own process.
+
+	If you open a drawer, all WBOPENA_Arg[..] parameters you may
+	have provided will be ignored.
+
+	For this function call to succeed, Workbench must be open. This
+	means that the LoadWB command was executed and the Workbench
+	screen has been opened.
+
+	While the user is dragging icons, no on-screen rendering may
+	take place. In this state Workbench may refuse to execute the
+	OpenWorkbenchObject() call and return an error code instead
+	(ERROR_OBJECT_IN_USE).
+
+   BUGS
+	Up to and including version 45.38 this function was unsafe
+	and could not be used to reliably launch Workbench programs
+	without causing memory to be trashed. The only functionality
+	considered safe involved opening drawer windows.
+
+	Up to and including version 45.2 it was not possible to open
+	project icons that did not have files associated with them.
+	This was fixed with version 45.38 which, if necessary, will
+	resort to reading the project icon associated with the file
+	name given rather than returning an error for the missing file.
+
+   SEE ALSO
+	dos.library/IoErr
+	workbench.library/CloseWorkbenchObjectA
+	<workbench/startup.h>
+
+workbench.library/RemoveAppIcon               workbench.library/RemoveAppIcon
+
+   NAME
+	RemoveAppIcon - remove an icon from Workbench's list            (V36)
+                         of AppIcons.
+
+   SYNOPSIS
+	success = RemoveAppIcon(AppIcon)
+         D0                      A0
+
+	BOOL RemoveAppIcon(struct AppIcon *);
+
+   FUNCTION
+	Attempt to remove an AppIcon from Workbench's list of AppIcons.
+
+   INPUTS
+	AppIcon - pointer to an AppIcon structure returned by AddAppIcon.
+
+   RESULTS
+	success - TRUE if the icon could be removed, FALSE otherwise.
+
+   NOTES
+	As with anything that deals with asynchronous operation, you will need
+	to do a final check for messages on your AppMessage port for messages
+	that may have come in between the last time you checked and the
+	call to remove the AppIcon.
+
+   SEE ALSO
+	workbench.library/AddAppIconA
+
+workbench.library/RemoveAppMenuItem       workbench.library/RemoveAppMenuItem
+
+   NAME
+	RemoveAppMenuItem - remove a menu item from Workbench's list     (V36)
+	                    of AppMenuItems.
+
+   SYNOPSIS
+	success = RemoveAppMenuItem(AppMenuItem)
+         D0                            A0
+
+	BOOL RemoveAppMenuItem(struct AppMenuItem *);
+
+   FUNCTION
+	Attempt to remove an AppMenuItem from Workbench's list
+	of AppMenuItems.
+
+   INPUTS
+	AppMenuItem - pointer to an AppMenuItem structure returned by
+	              AddAppMenuItem.
+
+   RESULTS
+	success - TRUE if the menu could be removed, FALSE otherwise.
+
+   NOTES
+	As with anything that deals with asynchronous operation, you will need
+	to do a final check for messages on your AppMessage port for messages
+	that may have come in between the last time you checked and the
+	call to removed the AppMenuItem.
+
+   SEE ALSO
+	workbench.library/AddAppMenuItemA
+
+workbench.library/RemoveAppWindow           workbench.library/RemoveAppWindow
+
+   NAME
+	RemoveAppWindow - remove a window from Workbench's list         (V36)
+                          of AppWindows.
+
+   SYNOPSIS
+	success = RemoveAppWindow(AppWindow)
+         D0                        A0
+
+	BOOL RemoveAppWindow(struct AppWindow *);
+
+   FUNCTION
+	Attempt to remove an appwindow from Workbench's list of AppWindows.
+
+   INPUTS
+	AppWindow - pointer to an AppWindow structure returned by
+	            AddAppWindow.
+
+   RESULTS
+	success - TRUE if the window could be removed, FALSE otherwise.
+
+   NOTES
+	As with anything that deals with asynchronous operation, you will need
+	to do a final check for messages on your AppMessage port for messages
+	that may have come in between the last time you checked and the
+	call to removed the AppWindow.
+
+	Before the AppWindow is removed, all its drop zones will be removed
+	first. There is no need for you to call RemoveAppWindowDropZone()
+	for every single one.
+
+   SEE ALSO
+	workbench.library/AddAppWindowA
+	workbench.library/RemoveAppWindowDropZone
+
+workbench.library/RemoveAppWindowDropZoneench.library/RemoveAppWindowDropZone
+
+   NAME
+	RemoveAppWindowDropZone -- Remove a drop zone from an AppWindow.
+
+   SYNOPSIS
+	success = RemoveAppWindowDropZone(appWindow,dropZone)
+	  D0                                 A0        A1
+
+	BOOL RemoveAppWindowDropZone(struct AppWindow *,
+	                             struct AppWindowDropZone *);
+
+   FUNCTION
+	Attempt to remove a drop zone from an AppWindow.
+
+   INPUTS
+	appWindow -- pointer to an AppWindow structure returned by
+	    workbench.library/AddAppWindowA. A value of NULL will be
+	    ignored.
+	dropZone -- pointer to an AppWindowDropZone returned by
+	    workbench.library/AddAppWindowDropZoneA. A value of NULL will
+	    be ignored.
+
+   RESULTS
+	success - TRUE if the drop zone could be removed, FALSE otherwise.
+	    The reason for the failure can be obtained using
+	    dos.library/IoErr. This routine may fail if the specified drop
+	    zone is not registered with the AppWindow.
+
+   NOTES
+	Due to the asynchronous nature of Workbench/user interaction, you
+	may receive AppIcon drop zone messages for zones that you have
+	just removed. These messages may arrive in the time between your
+	code calling RemoveAppWindowDropZone() and Workbench responding
+	to the drop zone removal request. Be prepared to handle this. Once
+	a drop zone is removed, it will generate no new AppMessages.
+
+   SEE ALSO
+	workbench.library/AddAppWindowDropZoneA
+
+workbench.library/UpdateWorkbench           workbench.library/UpdateWorkbench
+
+   NAME
+	UpdateWorkbench - Tell Workbench of a new or deleted icon.       (V37)
+
+   SYNOPSIS
+	UpdateWorkbench(name, parentlock, action)
+	                A0    A1          D0
+
+	VOID UpdateWorkbench(char *, BPTR, LONG);
+
+   FUNCTION
+	This function does the "magic" of letting Workbench know that
+	an object has been added, changed, or removed. The name is
+	the name of the object, the lock is a lock on the directory that
+	contains the object. The action determines what has happened.
+	If UPDATEWB_ObjectAdded, the object is either NEW or has CHANGED.
+	If UPDATEWB_ObjectRemoved, the object has been deleted.
+
+   INPUTS
+	name - Name of the object (without the .info)
+
+	parentlock - Lock on the object's parent directory.
+
+	action - UPDATEWB_ObjectAdded for a new or changed object
+	         UPDATEWB_ObjectRemoved for a deleted object
+
+   RESULTS
+	Workbench will update its display, if needed. An object that has
+	been deleted will be removed from the display. An object that is
+	new will be added to the respective display if it is not already
+	there; if it is already there, its appearance will be changed if
+	necessary.
+
+   EXAMPLE
+	/* Remove the object named "Prefs" from the SYS: drawer display;
+	 * note that this will affect only the display, the drawer will
+	 * still remain on the file system, and telling Workbench to
+	 * rescan the drawer will reveal it again.
+	 */
+	BPTR lock,old_dir;
+
+	lock = Lock("SYS:",SHARED_LOCK);
+	UpdateWorkbench("Prefs",lock,UPDATEWB_ObjectRemoved);
+	UnLock(lock);
+
+	/* Change the name of the file "RAM:Thursday"
+	 * to "Friday"; this works by first removing the
+	 * object from the display, renaming the object
+	 * and then telling Workbench that the object has
+	 * changed.
+	 */
+	lock = Lock("RAM:",SHARED_LOCK);
+	UpdateWorkbench("Thursday",lock,UPDATEWB_ObjectRemoved);
+	old_dir = CurrentDir(lock);
+	Rename("Thursday","Friday");
+	CurrentDir(old_dir);
+	UpdateWorkbench("Friday",lock,UPDATEWB_ObjectAdded);
+	UnLock(lock);
+
+   NOTES
+	Note that saying that a DISK icon has been deleted will not do
+	much as disk icons must continue to be visible. Thus, this
+	is currently a NO-OP. At some future date (maybe) it will change
+	the disk icon to the default.
+
+   SEE ALSO
+	icon.library/PutDiskObject
+	icon.library/DeleteDiskObject
+
+workbench.library/WBInfo                             workbench.library/WBInfo
+
+   NAME
+	WBInfo - Bring up the Information requester                     (V39)
+
+   SYNOPSIS
+	worked = WBInfo(lock, name, screen)
+	d0              a0    a1    a2
+
+	ULONG WBInfo(BPTR, STRPTR, struct Screen *);
+
+   FUNCTION
+	This is the LVO that Workbench calls to bring up the Icon Information
+	requester.  External applications may also call this requester.
+	In addition, if someone were to wish to replace this requester
+	with another one, they could do so via a SetFunction.
+
+   INPUTS
+	lock   - A lock on the parent directory
+	name   - The name of the icon contained within above directory
+	screen - A screen pointer on which the requester is to show up
+
+   RESULTS
+	worked - Returns TRUE if the requester came up, FALSE if it did not.
+
+   NOTE
+	Note that this LVO may be called many times by different tasks
+	before other calls return.  Thus, the code must be 100% re-entrant.
+
+   SEE ALSO
+	icon.library
+
+workbench.library/WorkbenchControlA       workbench.library/WorkbenchControlA
+
+   NAME
+	WorkbenchControlA -- Query or modify Workbench and icon
+	    options. (V44)
+
+   SYNOPSIS
+	success = WorkbenchControlA(name,tags)
+	   D0                       A0   A1
+
+	BOOL WorkbenchControlA(STRPTR name,struct TagItem *tags);
+
+	success = WorkbenchControl(name,...);
+
+	BOOL WorkbenchControl(STRPTR name,...);
+
+   FUNCTION
+	With this function you can query or modify global Workbench
+	parameters or local icon options.
+
+   INPUTS
+	name -- Name of an object to query or modify.
+
+	tags -- Additional options.
+
+   TAGS
+	WBCTRLA_IsOpen (LONG *) -- Check if the named object is
+	    currently open. In this case, the function "name"
+	    parameter refers to the drawer that should be
+	    tested; the result value will be set to TRUE if
+	    the named drawer is currently open, FALSE otherwise.
+
+	WBCTRLA_DuplicateSearchPath (BPTR *) -- This is a safe way
+	    to obtain a copy of the Workbench search path list.
+	    You will receive a BPTR to a path list, such as can
+	    be stored in the cli_CommandDir pointer of a
+	    CommandLineInterface structure. Note that this is really
+	    a copy of the Workbench search path list and not a reference
+	    to the data associated with the Workbench process. Thus,
+	    it can be freed by FreeDosObject(DOS_CLI,..), if part of
+	    a CommandLineInterface structure.
+
+	WBCTRLA_FreeSearchPath (BPTR) -- If you did not attach the
+	    data returned by the WBCTRLA_DuplicateSearchPath
+	    to a CLI, to be freed automatically later, you can
+	    pass it back to WorkbenchControlA() to be released.
+
+	WBCTRLA_GetDefaultStackSize (ULONG *) -- Get the default stack
+	    size used by Workbench when launching Shell programs
+	    or programs without a valid stack size number.
+
+	    The default stack size is 4096 bytes.
+
+	WBCTRLA_SetDefaultStackSize (ULONG) -- Set the default stack
+	    size used by Workbench when launching Shell programs
+	    or programs without a valid stack size number. You cannot
+	    set a stack size number smaller than 4096 bytes
+
+	WBCTRLA_RedrawAppIcon (struct AppIcon *) -- This tag will cause
+	    Workbench to redraw an AppIcon. Note that due to which state
+	    the Workbench is currently in, it may refuse to redraw the
+	    icon.
+
+	WBCTRLA_GetProgramList (struct List **) -- You can obtain a list
+	    of currently running Workbench programs; every entry of this
+	    list will have the complete path to the program and the
+	    program name in its Node->ln_Name. When you no longer need
+	    the list, don't forget to free it again using the tag
+	    WBCTRLA_FreeProgramList.
+
+	    Note that the list you will receive may be empty. Be
+	    prepared to handle this.
+
+	WBCTRLA_FreeProgramList (struct List *) -- With this tag you can
+	    free the list allocated by the WBCTRLA_GetProgramList tag.
+
+	WBCTRLA_GetSelectedIconList (struct List **) -- You can obtain a
+	    list of currently selected icons; every entry of this
+	    list will have the complete path to the icon and the
+	    icon name in its Node->ln_Name. Some icons do not enter the
+	    list, such as AppIcons. When you no longer need the list,
+	    don't forget to free it again using the tag
+	    WBCTRLA_FreeSelectedIconList.
+
+	    Note that the list you will receive may be empty. Be
+	    prepared to handle this.
+
+	WBCTRLA_FreeSelectedIconList (struct List *) -- With this tag
+	    you can free the list allocated by the
+	    WBCTRLA_GetSelectedIconList tag.
+
+	WBCTRLA_GetOpenDrawerList (struct List **) -- You can obtain a
+	    list of currently open drawers and volumes; every entry of this
+	    list will have the complete drawer path name in its Node->ln_Name.
+	    When you no longer need the list, don't forget to free it
+	    again using the tag WBCTRLA_FreeOpenDrawerList.
+
+	    Note that the list you will receive may be empty. Be
+	    prepared to handle this.
+
+	WBCTRLA_FreeOpenDrawerList (struct List *) -- With this tag
+	    you can free the list allocated by the
+	    WBCTRLA_GetOpenDrawerList tag.
+
+	WBCTRLA_AddHiddenDeviceName (STRPTR) -- Name of a device which
+	    Workbench should not display a disk or device icon for.
+	    Any such device will be effectively hidden from the Workbench
+	    backdrop. The name must include a terminating colon character,
+	    such as in "DF0:".
+
+	    Note that adding new entries to this list may not immediately
+	    take effect.
+
+	WBCTRLA_RemoveHiddenDeviceName (STRPTR) -- Name of a device on
+	    the list of devices to be hidden which should be removed.
+	    The name must include a terminating colon character,
+	    such as in "DF0:". Trying to remove an entry from the list
+	    that is not on it will have no effect.
+
+	    Note that removing entries from this list may not immediately
+	    take effect.
+
+	WBCTRLA_GetHiddenDeviceList (struct List **) -- This will obtain
+	    the list of devices whose contents which Workbench will not
+	    display.
+
+	    Note that the list you will receive may be empty. Be
+	    prepared to handle this.
+
+	WBCTRLA_FreeHiddenDeviceList (struct List *) -- With this tag
+	    you can free the list allocated by the
+	    WBCTRLA_GetHiddenDeviceList tag.
+
+	WBCTRLA_GetTypeRestartTime (ULONG *) -- Get the number of seconds
+	    that have to pass before typing the next character in a drawer
+	    window will restart with a new file name.
+
+	WBCTRLA_SetTypeRestartTime (ULONG) -- Set the number of seconds
+	    that have to pass before typing the next character in a drawer
+	    window will restart with a new file name. You must specify a
+	    number greater than 0. Default type restart time is 3 seconds.
+
+	WBCTRLA_GetCopyHook (struct Hook **) -- Obtain the hook that will be
+	    invoked when Workbench starts to copy files and data; this
+	    may be NULL which means that Workbench will use the built-in
+	    copy/move code (V45).
+
+	WBCTRLA_SetCopyHook (struct Hook *) -- Install the hook that will be
+	    invoked when Workbench starts to copy files and data.
+	    To make Workbench use the built-in copy code, use a NULL
+	    hook pointer. Note: the hook cannot be replaced if Workbench is
+	    currently copying data; WorkbenchControl() will stop and
+	    return with an error code of ERROR_OBJECT_IN_USE set (V45).
+
+	    The hook will be invoked with three kinds of messages: exactly
+	    one CopyBeginMsg, one CopyDataMsg for each file or drawer to
+	    be copied and exactly one CopyEndMsg after all files and drawers
+	    have been copied.
+
+	    NOTE: you may examine the contents of the message your hook
+	          code receives, but they may not be changed!
+
+	    The hook will be invoked with the following parameters:
+
+	    error = hookFunc(hook,reserved,message)
+	      D0              A0     A2      A1
+
+	    LONG hookFunc(struct Hook *hook,APTR reserved,
+	                  struct CopyBeginMsg *message);
+
+	    -- or --
+
+	    LONG hookFunc(struct Hook *hook,APTR reserved,
+	                  struct CopyDataMsg *message);
+
+	    -- or --
+
+	    LONG hookFunc(struct Hook *hook,APTR reserved,
+	                  struct CopyEndMsg *message);
+
+	    The reserved parameter will always be set to NULL (V45).
+
+	    The copying process starts by invoking the hook with a
+	    CopyBeginMsg whose contents look like this:
+
+	        cbm_Length
+
+	            Size of the CopyBeginMsg in bytes; this may grow
+	            in future Workbench releases.
+
+	        cbm_Action
+
+	            For a CopyBeginMsg this will always be set to
+	            CPACTION_Begin.
+
+	        cbm_SourceDrawer
+
+	            This will be a Lock on the source drawer.
+
+	        cbm_DestinationDrawer
+
+	            This will be a Lock on the destination drawer.
+
+	    You will receive exactly one CopyBeginMsg before copying
+	    starts. You will need to set up all the information and data
+	    you need for copying and return an error code in case your
+	    initialization failed; this should be an error code from
+	    <dos/dos.h>, e.g. ERROR_NO_FREE_STORE. If your initialization
+	    could be completed successfully, a value of 0 should be returned.
+
+
+	    Once the initialization has been completed successfully, your
+	    hook code will receive a CopyDataMsg for every file or drawer
+	    that needs to be copied. Your code will have to figure out for
+	    itself whether the source is a file, a directory or even a
+	    volume. Directories and volumes need to be copied recursively
+	    by copying files and directories located at deeper levels of
+	    the file system.
+
+	    The contents of a CopyDataMsg look like this:
+
+	        cdm_Length
+
+	            Size of the CopyDataMsg in bytes; this may grow
+	            in future Workbench releases.
+
+	        cdm_Action
+
+	            For a CopyDataMsg this will always be set to
+	            CPACTION_Copy.
+
+	        cdm_SourceLock
+
+	            A lock on the source file/drawer's parent directory; this
+	            may be NULL in case an entire volume is to be copied.
+
+	        cdm_SourceName
+
+	            Name of the source file/drawer to be copied, relative
+	            to the parent drawer it is located in and to which you
+	            will find a Lock supplied in the cdm_SourceLock member.
+	            For volumes that Lock may be NULL.
+
+	        cdm_DestinationLock
+
+	            A lock on the drawer in which the destination file or
+	            drawer is to be created.
+
+	        cdm_DestinationName
+
+	            Name of the file or drawer the source data should be
+	            copied to. In most cases this name matches the source
+	            name, but if data is to be duplicated (such as through
+	            the Workbench "Copy" command), then the name will be
+	            different.
+
+	        cdm_DestinationX
+	        cdm_DestinationY
+
+	            After the copy process has successfully completed and the
+	            copied drawer/file icon has to be written, it should be
+	            placed at this position when it is written to disk.
+
+	    Your copy code is responsible for notifying Workbench of any
+	    icons newly created as a result of the copying process. If an error
+	    crops up during copying or the process is aborted, your code must
+	    return a non-zero error code (as listed in <dos/dos.h> or in
+	    <dos/dosasl.h>). A return code of 0 indicates success; Workbench
+	    will proceed to invoke your code again with another file/drawer
+	    name.
+
+
+	    When the copy process has completed, either successfully or due
+	    to an error, your hook code will be invoked exactly once with
+	    a CopyEndMsg. This allows you to perform any cleanup operations
+	    that may be necessary. The contents of a CopyEndMsg look like
+	    this:
+
+	        cem_Length
+
+	            Size of the CopyEndMsg in bytes; this may grow
+	            in future Workbench releases.
+
+	        cem_Action
+
+	            For a CopyEndMsg this will always be set to
+	            CPACTION_End.
+
+
+	    Note that Workbench will not recurse into directories,
+	    supplying you with the names of all files and directories
+	    to be copied; it will generally only supply the names of
+	    the files and drawers that are currently selected. You will
+	    have to handle all the necessary recursion by yourself.
+
+	WBCTRLA_GetDeleteHook (struct Hook **) -- Obtain the hook that will
+	    be invoked when Workbench discards files and drawers or empties
+	    the trashcan. This may be NULL which means that Workbench will
+	    use the built-in deletion code (V45).
+
+	WBCTRLA_SetDeleteHook (struct Hook *) -- Install the hook that will
+	    be invoked when Workbench discards files and drawers or empties
+	    the trash can. To make Workbench use the built-in deletion code,
+	    use a NULL hook pointer. Note: the hook cannot be replaced if
+	    Workbench is currently deleting files and drawers or the trashcan
+	    is being emptied; WorkbenchControl() will stop and return with an
+	    error code of ERROR_OBJECT_IN_USE set (V45).
+
+	    The hook will be invoked with six different kinds of messages,
+	    depending upon what operation is to be performed. If the files
+	    and drawers are to be discarded you will receive exactly one
+	    DeleteBeginMsg with its dbm_Action member set to
+	    DLACTION_BeginDiscard, followed by a DeleteDataMsg for each
+	    file or drawer to be deleted and eventually exactly one
+	    DeleteEndMsg when the deletion process is finished. If the
+	    trashcan is to be emptied you will receive exactly one
+	    DeleteBeginMsg with its dbm_Action member set to
+	    DLACTION_BeginEmptyTrash, followed by exactly one DeleteDataMsg
+	    and eventually exactly one DeleteEndMsg.
+
+	    NOTE: you may examine the contents of the message your hook
+	          code receives, but they may not be changed!
+
+	    The hook will be invoked with the following parameters:
+
+	    error = hookFunc(hook,reserved,message)
+	      D0              A0     A2      A1
+
+	    LONG hookFunc(struct Hook *hook,APTR reserved,
+	                  struct DeleteBeginMsg *message);
+
+	    -- or --
+
+	    LONG hookFunc(struct Hook *hook,APTR reserved,
+	                  struct DeleteDataMsg *message);
+
+	    -- or --
+
+	    LONG hookFunc(struct Hook *hook,APTR reserved,
+	                  struct DeleteEndMsg *message);
+
+	    The reserved parameter will always be set to NULL (V45).
+
+	    The deletion process starts by invoking the hook with a
+	    DeleteBeginMsg whose contents look like this:
+
+	        dbm_Length
+
+	            Size of the DeleteBeginMsg in bytes; this may grow
+	            in future Workbench releases.
+
+	        dbm_Action
+
+	            For a DeleteBeginMsg this will either be set to
+	            DLACTION_BeginDiscard or to DLACTION_BeginEmptyTrash.
+	            DLACTION_BeginDiscard is sent if the "Delete" menu
+	            item was invoked, and DLACTION_BeginEmptyTrash will
+	            be sent if the "Empty Trash" menu item was invoked.
+
+	    You will receive exactly one DeleteBeginMsg before deletion
+	    starts. You will need to set up all the information and data
+	    you need for deleting and return an error code in case your
+	    initialization failed; this should be an error code from
+	    <dos/dos.h>, e.g. ERROR_NO_FREE_STORE. If your initialization
+	    could be completed successfully, a value of 0 should be returned.
+
+	    NOTE: if you return a value of -1, then Workbench will drop
+	          right into the original deletion code. However, this only
+	          works for the actions DLACTION_BeginDiscard and
+	          DLACTION_BeginEmptyTrash. This means you can skip the
+	          deletion process when it begins, but you cannot skip
+	          it while it is running.
+
+	    Once the initialization has been completed successfully, your
+	    hook code will receive a DeleteDataMsg for every file or drawer
+	    that needs to be deleted. Its contents look like this:
+
+	        ddm_Length
+
+	            Size of the DeleteDataMsg in bytes; this may grow
+	            in future Workbench releases.
+
+	        ddm_Action
+
+	            This may be either DLACTION_DeleteContents or
+	            DLACTION_DeleteObject, depending on exactly what
+	            should be deleted.
+
+	            If DLACTION_DeleteContents is received it means
+	            that the object described by lock and name is a
+	            directory: the contents of the directory are to
+	            be deleted, but the empty directory itself
+	            *MUST NOT* be deleted.
+
+	            If DLACTION_DeleteObject is received it means that
+	            the object described by lock and name is either a
+	            file or an empty directory which should be deleted.
+
+	            Typically, if the trash can is to be emptied you will
+	            receive exactly one DLACTION_DeleteContents type
+	            message. If drawers are to be deleted, you will first
+	            receive a DLACTION_DeleteContents type message, followed
+	            by a DLACTION_DeleteObject message to delete the then
+	            empty directory.
+
+	        ddm_Lock
+
+	            A lock on the parent directory of the object whose
+	            contents or which itself should be deleted.
+
+	        ddm_Name
+
+	            The name of the object whose contents or which itself
+	            should be deleted.
+
+	    Your deletion code is responsible for notifying Workbench of any
+	    icons removed as a result of the deletion process. If an error
+	    crops up during deletion or the process is aborted, your code must
+	    return a non-zero error code (as listed in <dos/dos.h> or in
+	    <dos/dosasl.h>). A return code of 0 indicates success; Workbench
+	    will proceed to invoke your code again with another file/drawer
+	    name.
+
+
+	    When the deletion process has completed, either successfully or due
+	    to an error, your hook code will be invoked exactly once with
+	    a DeleteEndMsg. This allows you to perform any cleanup operations
+	    that may be necessary. The contents of a DeleteEndMsg look like
+	    this:
+
+	        dem_Length
+
+	            Size of the DeleteEndMsg in bytes; this may grow
+	            in future Workbench releases.
+
+	        dem_Action
+
+	            For a DeleteEndMsg this will always be set to
+	            DLACTION_End.
+
+
+	    Note that Workbench will not recurse into directories,
+	    supplying you with the names of all files and directories
+	    to be deleted; it will generally only supply the names of
+	    the files and drawers that are currently selected. You will
+	    have to handle all the necessary recursion by yourself.
+
+	WBCTRLA_GetTextInputHook (struct Hook **) -- Obtain the hook that will
+	    be invoked when Workbench requests that the user enters text,
+	    such as when a file is to be renamed or a new drawer is to be
+	    created. This may be NULL which means that Workbench will
+	    use the built-in text input code (V45).
+
+	WBCTRLA_SetTextInputHook (struct Hook *) -- Install the hook that will
+	    be invoked when Workbench requests that the user enters text,
+	    such as when a file is to be renamed or a new drawer is to be
+	    created. To make Workbench use the built-in text input code,
+	    use a NULL hook pointer. Note: the hook cannot be replaced if
+	    Workbench is currently requesting text to be entered;
+	    WorkbenchControl() will stop and return with an error code of
+	    ERROR_OBJECT_IN_USE set.
+
+	    The hook will be invoked with the following parameters:
+
+	    error = hookFunc(hook,reserved,message)
+	     D0               A0     A2      A1
+
+	    LONG hookFunc(struct Hook *hook,APTR reserved,
+	                  struct TextInputMsg *message);
+
+	    You should return a value of 0 when your hook code has
+	    done its job. If a value of -1 is returned, then Workbench
+	    will drop right back into the original text input code.
+
+	    The reserved parameter will always be set to NULL (V45).
+
+	    NOTE: you may examine the contents of the message your hook
+	          code receives, but they may not be changed!
+
+	    The contents of the TextInputMsg look like this:
+
+	        tim_Length
+
+	            Size of the TextInputMsg in bytes; this may grow
+	            in future Workbench releases.
+
+	        tim_Action
+
+	            This can be one the following values:
+
+	                TIACTION_Rename
+
+	                    You will find the name of the file or drawer
+	                    to be renamed in tim_Prompt; you must ask the
+	                    user to change the name and then rename the
+	                    file or drawer in question, including the
+	                    corresponding icon, if there is one.
+
+	                    Note that the current directory of the process
+	                    on whose context your hook code is invoked will
+	                    be the directory in which the file/drawer to be
+	                    renamed is located.
+
+	                TIACTION_RelabelVolume
+
+	                    You will find the name of the volume to be
+	                    relabled in tim_Prompt (the name does not
+	                    include a trailing colon); you must ask the
+	                    user to change the name and the relabel the
+	                    volume.
+
+	                    Note that the current directory of the process
+	                    on whose context your hook code is invoked will
+	                    be the root directory of the volume to be
+	                    relabeled.
+
+	                TIACTION_NewDrawer
+
+	                    You will find the name of a new drawer to be
+	                    created in tim_Prompt; Workbench will have
+	                    provided a name that is not yet used by any
+	                    drawer or file in the current directory of
+	                    the process on whose context your hook code
+	                    is invoked. You must ask the user to change
+	                    the name of the drawer and then create it,
+	                    including the corresponding icon.
+
+	                TIACTION_Execute
+
+	                    You will have to ask the user to supply the
+	                    name and parameters of a program or ARexx
+	                    to be executed, and then execute that program.
+	                    The tim_Prompt member is set to NULL and has
+	                    no meaning for this type of message.
+
+	        tim_Prompt
+
+	            See the descriptions for the individual actions.
+
+
+	    Note that your code will have to perform exactly the same
+	    duties as the built-in Workbench code. It does not merely
+	    replace the text entry code, it replaces the entire process
+	    associated with the respective function. (V45)
+
+	WBCTRLA_AddSetupCleanupHook (struct Hook *) -- Add a hook which
+	    will be invoked before Workbench shuts down and after
+	    Workbench has initialized itself.
+
+	    The hook will be invoked with the following parameters:
+
+	    error = hookFunc(hook,reserved,message)
+	      D0               A0     A2      A1
+
+	    LONG hookFunc(struct Hook *hook,APTR reserved,
+	                  struct SetupCleanupHookMsg *message);
+
+	    The 'error' return code is used only for a special
+	    case of message sent (see below) and will otherwise
+	    be ignored. The reserved parameter will always be set
+	    to NULL (V45).
+
+	    NOTE: You may examine the contents of the message your hook
+	          code receives, but they may not be changed!
+
+	    The contents of the SetupCleanupHookMsg look like this:
+
+	        schm_Length
+
+	            Size of the SetupCleanupHookMsg in bytes; this may grow
+	            in future Workbench releases.
+
+	        schm_State
+
+	            This can be one the following values:
+
+	                SCHMSTATE_TryCleanup
+
+	                    Workbench is attempting to shut down, but there
+	                    may still be windows open on the Workbench screen
+	                    which cannot be closed. You are given the
+	                    opportunity to close any windows you may have open
+	                    before Workbench checks its own resources and verifies
+	                    that the Workbench screen can in fact be closed. If
+	                    your code requires that Workbench stays open, return
+	                    a non-zero value as the error result code (e.g.
+	                    ERROR_OBJECT_IN_USE); otherwise, return a value of 0.
+
+	                    NOTE: Since any of the installed hooks may signal
+	                          Workbench that it cannot be closed just yet,
+	                          it may happen that your hook will never see
+	                          a SCHMSTATE_TryCleanup message.
+
+	                          If one of the hooks reported that Workbench
+	                          should not be closed yet, be prepared to
+	                          receiver another message, but this time of
+	                          type SCHMSTATE_Setup; in case you let go of
+	                          all resources upon receiving the previous
+	                          SCHMSTATE_TryCleanup message, this gives
+	                          you the opportunity to reclaim them. Note
+	                          too that *all* hooks will receive this
+	                          SCHMSTATE_TryCleanup message, regardless
+	                          of whether they previously received a
+	                          SCHMSTATE_TryCleanup message or not.
+
+	                SCHMSTATE_Cleanup
+
+	                    Workbench is about to shut down; your hook
+	                    is invoked directly before Workbench closes
+	                    all its windows and disposes of any other
+	                    resources it may have allocated. Do not delay
+	                    this process, whatever you need to do in your
+	                    hook code, do it quickly!
+
+	                    NOTE: The result your hook code returns will
+	                          be ignored.
+
+	                          Your hook may receive a SCHMSTATE_Cleanup
+	                          message without seeing a SCHMSTATE_TryCleanup
+	                          message first. This will be the case if
+	                          Workbench resets its internal state
+	                          variables; it does not indicate a Workbench
+	                          shutdown. A complete Workbench shutdown is
+	                          indicated by receiving the following messages
+	                          in exactly the order given:
+
+	                              SCHMSTATE_TryCleanup
+	                              SCHMSTATE_Cleanup
+
+	                          In other words, there will be no message of
+	                          the type SCHMSTATE_Setup to directly follow
+	                          the SCHMSTATE_TryCleanup message.
+
+	                SCHMSTATE_Setup
+
+	                    Workbench is (again) in operational state.
+	                    Your hook is invoked right after the initialization
+	                    has completed successfully. This is your chance
+	                    to claim any resources you might need.
+
+	                    NOTE: The result your hook code returns will be
+	                          ignored.
+
+	                          You may receive any number of messages of
+	                          this type. Workbench *does not* keep track
+	                          of which hook previously received one of
+	                          the messages telling it to shut down.
+
+	    Workbench will check the list of hooks already installed and
+	    return an error in case an attempt is made to add the same
+	    hook twice (V45).
+
+	WBCTRLA_RemSetupCleanupHook (struct Hook *) -- Remove a hook
+	    previously installed using the WBCTRLA_AddSetupCleanupHook
+	    tag. Workbench will verify that the hook was in fact installed
+	    before and return an error in case the hook was never ever
+	    installed (V45).
+
+   RESULTS
+	result -- FALSE if the requested action could not be performed,
+	    TRUE otherwise. If FALSE is returned, you can query the error
+	    code using dos.library/IoErr().
+
+   NOTES
+	If this function returns FALSE, the expected result is undefined.
+	For example, if you tried to obtain the list of currently running
+	programs via the WBCTRLA_GetProgramList tag and WorkbenchControl()
+	failed with an error code, do not expect the List pointer you
+	passed in to be initialized.
+
+	This function may only be called by a Process.
+
+	This function may not process all tags if the Workbench is not
+	currently open. For V44, the following tags are support if
+	Workbench is closed:
+
+	    WBCTRLA_SetDefaultStackSize
+	    WBCTRLA_GetDefaultStackSize
+	    WBCTRLA_FreeHiddenDeviceList
+	    WBCTRLA_GetHiddenDeviceList
+	    WBCTRLA_AddHiddenDeviceName
+	    WBCTRLA_RemoveHiddenDeviceName
+	    WBCTRLA_SetTypeRestartTime
+	    WBCTRLA_GetTypeRestartTime
+
+	For V45 the following additional tags are supported while Workbench
+	is closed:
+
+	    WBCTRLA_GetCopyHook
+	    WBCTRLA_SetCopyHook
+	    WBCTRLA_GetDeleteHook
+	    WBCTRLA_SetDeleteHook
+	    WBCTRLA_GetTextInputHook
+	    WBCTRLA_SetTextInputHook
+
+	It should be noted that the copy hook code will never be
+	invoked if data can be moved on the file system just by
+	renaming it. Likewise, if an entire volume is to be copied
+	to a different volume by means of the DiskCopy program,
+	the copy hook code will not be invoked either.
+
+   EXAMPLE
+	/* Obtain a copy of the Workbench search path list, then
+	 * release it again.
+	 */
+	BPTR pathList;
+
+	if(WorkbenchControl(NULL,
+	    WBCTRLA_DuplicateSearchPath,&pathList,
+	TAG_DONE))
+	{
+	    WorkbenchControl(NULL,
+	        WBCTRLA_FreeSearchPath,pathList,
+	    TAG_DONE);
+	}
+
+	/* Check if the drawer "SYS:" is open. */
+	LONG isOpen;
+
+	if(WorkbenchControl("SYS:",
+	    WBCTRLA_IsOpen,&isOpen,
+	TAG_DONE))
+	{
+	    Printf("Drawer \"SYS:\" is %s.\n",
+	        isOpen ? "open" : "closed");
+	}
+
+	/* Print the list of all currently running
+	 * Workbench programs, then free the list again.
+	 */
+	struct List * list;
+
+	if(WorkbenchControl(NULL,
+	    WBCTRLA_GetProgramList,&list,
+	TAG_DONE))
+	{
+	    struct Node * node;
+
+	    for(node = list->lh_Head ;
+	        node->ln_Succ != NULL ;
+	        node = node->ln_Succ)
+	    {
+	        Printf("%s\n",node->ln_Name);
+	    }
+
+	    WorkbenchControl(NULL,
+	        WBCTRLA_FreeProgramList,list,
+	    TAG_DONE);
+	}
+
+   SEE ALSO
+	dos.library/FreeDosObject
+	dos.library/IoErr
+	<dos/dosextens.h>
+
+

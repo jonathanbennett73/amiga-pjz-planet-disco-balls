@@ -1,0 +1,33 @@
+getscreenmode.gadget
+LABEL "GetScreenmode"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/getscreenmode.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+STRING    0x85041001 (I····) GETSCREENMODE_TitleTest "Title" ""
+INTEGER   0x85041002 (I····) GETSCREENMODE_Height "Height" 200 0 32767
+INTEGER   0x85041003 (I····) GETSCREENMODE_Width "Width" 300 0 32767
+INTEGER   0x85041004 (I····) GETSCREENMODE_LeftEdge "Left Edge" 30 0 32767
+INTEGER   0x85041005 (I····) GETSCREENMODE_TopEdge "Top Edge" 20 0 32767
+BOOLEAN   0x8504100C (I····) GETSCREENMODE_InfoOpened "Info Window Opened" FALSE "Opened"
+INTEGER   0x8504100D (I····) GETSCREENMODE_InfoLeftEdge "Info Left Edge" 330 0 32767
+INTEGER   0x8504100E (I····) GETSCREENMODE_InfoTopEdge "Info Top Edge" 20 0 32767
+BOOLEAN   0x8504100F (I····) GETSCREENMODE_DoWidth "Width Gadget Mode" FALSE "Do Width"
+BOOLEAN   0x85041010 (I····) GETSCREENMODE_DoHeight "Height Gadget Mode" FALSE "Do Height"
+BOOLEAN   0x85041011 (I····) GETSCREENMODE_DoDepth "Depth Gadget Mode" FALSE "Do Depth"
+BOOLEAN   0x85041012 (I····) GETSCREENMODE_DoOverscanType "Overscan Gadget Mode" FALSE "Do Overscan"
+BOOLEAN   0x85041013 (I····) GETSCREENMODE_DoAutoScroll "AutoScroll Gadget Mode" FALSE "Do AutoScroll"
+FLAGS     0x85041014 (I····) GETSCREENMODE_PropertyFlags "Property Flags" 0 0
+FLAGS     0x85041015 (I····) GETSCREENMODE_PropertyMask "Property Mask" 0 0
+INTEGER   0x85041016 (I····) GETSCREENMODE_MinWidth "Minimum Width" 16 16 65535
+INTEGER   0x85041017 (I····) GETSCREENMODE_MaxWidth "Maximum Width" 16368 16 65535
+INTEGER   0x85041018 (I····) GETSCREENMODE_MinHeight "Minimum Height" 16 16 65535
+INTEGER   0x85041019 (I····) GETSCREENMODE_MaxHeight "Maximum Height" 16368 16 65535
+INTEGER   0x8504101A (I····) GETSCREENMODE_MinDepth "Minimum Depth" 1 1 48
+INTEGER   0x8504101B (I····) GETSCREENMODE_MaxDepth "Maximum Depth" 24 1 48
+INTEGER   0x85041006 (···N·) GETSCREENMODE_DisplayID "Display ID" 0 0x80000000 0x7fffffff
+INTEGER   0x85041007 (···N·) GETSCREENMODE_DisplayWidth "Display Width" 0 0x80000000 0x7fffffff
+INTEGER   0x85041008 (···N·) GETSCREENMODE_DisplayHeight "Display Height" 0 0x80000000 0x7fffffff
+INTEGER   0x85041009 (···N·) GETSCREENMODE_DisplayDepth "Display Depth" 0 0x80000000 0x7fffffff
+INTEGER   0x8504100A (···N·) GETSCREENMODE_OverscanType "Overscan Type" 0 0x80000000 0x7fffffff
+BOOLEAN   0x8504100B (···N·) GETSCREENMODE_AutoScroll "Auto Scroll" FALSE "Auto Scroll"
+END

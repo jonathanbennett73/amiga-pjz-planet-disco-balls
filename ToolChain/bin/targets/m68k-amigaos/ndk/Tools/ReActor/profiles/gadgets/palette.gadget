@@ -1,0 +1,9 @@
+palette.gadget
+LABEL "Palette"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/palette.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+INTEGER  0x85004001 (I··NU) PALETTE_Color "Color" 0 0 65535
+INTEGER  0x85004002 (I····) PALETTE_ColorOffset "Color Offset" 0 0 65535
+INTEGER  0x85004004 (I····) PALETTE_NumColors "Number of Colours" 0 0 256
+END

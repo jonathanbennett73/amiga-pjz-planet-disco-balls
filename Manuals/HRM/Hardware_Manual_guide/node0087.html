@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-5-1" TITLE="3 / Moving (Scrolling) Playfields / Vertical Scrolling" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Moving (Scrolling) Playfields / Vertical Scrolling</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0086.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0088.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+You can scroll a playfield upward or downward in the window. Each time you
+display the playfield, the bitplane pointers start at a progressively
+higher or lower place in the big picture in memory. As the value of the
+pointer increases, more of the lower part of the picture is shown and the
+picture appears to scroll upward. As the value of the pointer decreases,
+more of the upper part is shown and the picture scrolls downward. On an
+NTSC system, with a display that has 200 vertical lines, each step can be
+as little as 1/200th of the screen. In interlaced mode each step could be
+1/400th of the screen if clever manipulation of the pointers is used, but
+it is recommended that scrolling be done two lines at a time to maintain
+the odd/even field relationship. Using a PAL system with 256 lines on the
+display, the step can be 1/256th of a screen, or 1/512th of a screen in
+interlace.
+
+<a name="line16">     <a href="../Hardware_Manual_guide/node02CF.html">Figure 3-23: Vertical Scrolling</a> </a>
+
+To set up a playfield for vertical scrolling, you need to form bitplanes
+tall enough to allow for the amount of scrolling you want, write software
+to calculate the bitplane pointers for the scrolling you want, and allow
+for the Copper to use the resultant pointers.
+
+Assume you wish to scroll a playfield upward one line at a time. To
+accomplish this, before each field is displayed, the bitplane pointers
+have to increase by enough to ensure that the pointers begin one line
+lower each time. For a normal-sized, low resolution display in which the
+modulo is 0, the pointers would be incremented by 40 bytes each time.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

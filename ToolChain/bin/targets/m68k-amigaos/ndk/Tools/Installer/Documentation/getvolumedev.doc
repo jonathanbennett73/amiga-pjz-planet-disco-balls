@@ -1,0 +1,22 @@
+GetVolumeDev
+------------
+
+Template: NAME/A,DEVENV/K,ADRENV/K
+
+Get the exec device and unit of a DOS handler, a DOS volume or a DOS
+assign.
+
+NAME: Name of handler, volume or assign
+
+DEVENV: Name of environment variable to write the exec device name to.
+Default is "VOLUMEDEVICE"
+
+ADRENV: Name of environment variable to write the unit to. Default is
+"VOLUMEADDRESS". The unit is typically a SCSI or IDE address.
+
+Example:
+
+GetVolumeDev SYS: DEVENV DEV ADRENV ADR
+
+The environment variable DEV may get the name "scsi.device" and ADR the
+value 0 (if your system boot partition is connected to SCSI address 0).

@@ -1,0 +1,63 @@
+
+Workbench 44.1 (5.8.99)
+
+· initial release
+
+Workbench 44.2 (9.8.99)
+
+· added some GA_TabCycle and ICA_TARGET tags
+
+Workbench 44.3 (12.8.99)
+
+· modified layout and removed close gadget from window
+
+Workbench 44.4 (13.8.99)
+
+· Stack Size gadget and Keyboard Delay gadget had no gadget id so their value
+  change were never stored.
+
+Workbench 44.5 (18.8.99)
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+· the checkbox in the hidden device list now toggles if one clicks the entry
+  at all.
+
+Workbench 44.6 (8.9.99)
+
+· Selecting "No Color Icons" now disables the checkbox "No NewIcons"
+
+· changed window title
+
+Workbench 44.7 (17.9.99)
+
+· new project icon name def_workbench.prefs.
+
+--- OS 3.5 release ---
+
+Workbench 44.12 (27.10.99)
+
+· default stack size was not recalculated to KBytes
+
+Workbench 44.14 (17.11.99)
+
+· keyboard delay no has a minimum of 1 and maximum of 10 seconds.
+
+· use same code as Workbench to identify useful devices/volumes
+
+· display volume name instead of device name if possible.
+
+Workbench 44.15 (8.12.99)
+
+· fixed an enforcer hit: Adding hidden devices that are not mounted threw
+  an enforcer hit.
+
+Workbench 45.1 (17.11.2000)
+
+· added options to hide the screen titlebar, hide the gauge, lock the
+  MagicWB pens and set the memory type for the icons.
+

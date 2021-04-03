@@ -1,0 +1,9 @@
+space.gadget
+LABEL "Space"
+LIBRARY "gadgets/space.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+INTEGER   0x85009001 (I····) SPACE_MinHeight "Minimum Height" 0 0 32767
+INTEGER   0x85009002 (I····) SPACE_MinWidth "Minimum Width" 0 0 32767
+BOOLEAN   0x85009003 (I····) SPACE_Transparent "Transparent" FALSE "Transparent"
+IBOX      0x85009006 (I····) SPACE_AreaBox "Area Box"
+END

@@ -1,0 +1,52 @@
+ShowConfig 44.1 (9.6.99)
+
+- Now tries to associate manufacturer IDs with known manufacturer
+  names.
+
+- Fixed the broken MMU type detection (which only worked for the
+  68851 and the 68030) to also detect an '040/'060 MMU. The
+  code can still fail with the embedded versions of the '040/'060
+  family, but these don't work in an Amiga anyway...
+
+- Added '060 detection code.
+
+
+ShowConfig 44.2 (18.6.99)
+
+- CPU type detection code did not properly clean up after itself,
+  crashing on machines lacking '040/'060 CPUs. Fixed.
+
+
+ShowConfig 44.3 (19.6.99)
+
+- Added manufacturer IDs for AB Union and VMC.
+
+
+ShowConfig 44.4 (29.8.99)
+
+- Added aliases for Macro System manufacturer IDs.
+
+
+ShowConfig 44.5 (6.11.1999)
+
+- Changed the MMU type detection code for the '030 case.
+
+
+ShowConfig 44.6 (24.11.1999)
+
+- Changed the entry for "Michigan Software" to read "DKB, Inc.".
+
+
+ShowConfig 44.7 (25.11.1999)
+
+- Added new entry for "RBM Digitaltechnik".
+
+
+ShowConfig 44.8 (31.12.1999)
+
+- Renamed "AB Union" to "ITH".
+
+
+ShowConfig 45.1 (8.2.1999)
+
+- Added 'Individual Computers' and 'Ambience Creation Technology'.

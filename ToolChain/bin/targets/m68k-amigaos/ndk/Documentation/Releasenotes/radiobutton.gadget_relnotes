@@ -1,0 +1,49 @@
+
+radiobutton.gagdet 45.1 (02.03.01)
+
+· recompiled with new startup code.
+
+· implemented GM_CLIPRECT.
+
+· undocumentated feature since v44 (?): one can pass
+  an array of strings to the gadget (via GA_Text)
+  and the gadget will allocate and setup the label
+  list for you. Unfortunately, the code had some
+  memory leaks (first free the list, then clear the
+  pointer and not the other way around;).
+
+· the screen resolution is now taken into account
+  when calculating the gadgetsize.
+
+radiobutton.gagdet 45.2 (08.03.01)
+
+· each label may have a shortcut, now.
+
+· no longer draws the active button twice on select
+  down <Mario Cattaneo>.
+
+· the gadget didn't send a gadgetup message when the
+  mouse pointer wasn't over the selected knob. It 
+  "jumps" back to the old state when releasing the button
+  somewhere else, now.
+
+· extented GM_HELPTEST so that it returns the label number
+  when the pointer is over a label.
+
+radiobutton.gagdet 45.3 (15.03.01)
+
+· reenabled some code that I disabled in 45.1 because it
+  wasn't necessary before 45.2. Unfortunately, this code
+  allocated one byte too less memory so that it threw
+  some mungwall hits. Really wonder why it never hit in v44
+  (possibly because the gadget wasn't using the exec pool
+  functions before, but the function from amiga.lib).
+
+· the REACTION_TextAttr wasn't supported resulting in a 
+  wrong font used for rendering when the fallback font was 
+  used.
+
+radiobutton.gagdet 45.4 (27.03.01)
+
+· clicking on the selected button and then aborting the selection
+  made the gadget "jump" to the first button <Mario Cattaneo>.

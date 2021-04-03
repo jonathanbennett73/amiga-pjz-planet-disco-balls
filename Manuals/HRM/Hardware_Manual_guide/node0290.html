@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-2" TITLE="K Zorro Expansion Bus / Zorro II Compatibility" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K Zorro Expansion Bus / Zorro II Compatibility</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node028F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0291.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The A3000 bus is a rather extensive superset of the A2000 bus design.  The
+compatibility is based on distinct bus modes, rather than a simple
+extension to the existing bus mechanisms. Through the use of an integrated
+bus controller (the  <a href="../Hardware_Manual_guide/node02CA.html#line7">Fat Buster chip</a> ), the expansion bus configures itself
+differently for the 16-bit A2000-compatible Zorro II modes than the 32-bit
+Zorro III modes.  As a result, while there are still only  <a href="../Hardware_Manual_guide/node02C9.html">100 pins</a>  on the
+expansion bus, some pins change function considerably depending on the bus
+activity that's currently in progress.  While the Zorro II modes of the
+Zorro III bus are as compatible as possible with the Zorro II bus
+specification (especially the A2000 implementation of this specification),
+there are some small differences between the two expansion buses.
+
+Aside from these differences, in general, it's important to understand the
+Zorro II bus in order to understand the Zorro III bus.  The general
+features of the A3000 bus, like  <a href="../Hardware_Manual_guide/node029B.html#line30">autoconfiguration</a> , the master-slave bus
+architecture, and the physical attributes come from the Zorro II expansion
+bus.  Other features of the Zorro III bus address shortcomings of the
+Zorro II architecture, but Zorro II has a hand in how some of these
+shortcomings are solved under Zorro III.  Those with a full understanding
+of the Zorro II bus will mainly be concerned with the possible bus
+incompatibilities listed here.
+
+ <a href="../Hardware_Manual_guide/node0291.html">Changes from the A2000 Bus</a>      <a href="../Hardware_Manual_guide/node029C.html">Signal Description</a> 
+ <a href="../Hardware_Manual_guide/node029B.html">Zorro II Bus Architecture</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

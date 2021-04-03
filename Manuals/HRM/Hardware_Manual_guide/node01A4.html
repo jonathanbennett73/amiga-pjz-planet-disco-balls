@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-4-5" TITLE="8 / Serial I/O Interface / How Output Data Is Transmitted" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / Serial I/O Interface / How Output Data Is Transmitted</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node01A3.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node01A5.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+You send data out on the transmit lines by writing into the serial data
+output register (SERDAT).  This register is write-only.
+
+Data will be sent out at the same rate as you have established for the
+read.  Immediately after you write the data into this register, the system
+<a name="line7">will begin the transmission at the baud rate you selected.</a>
+
+At the start of the operation, this data is transferred from SERDAT into
+an internal serial  <a href="../Hardware_Manual_guide/node013E.html">shift register</a> .  When the transfer to the serial
+ <a href="../Hardware_Manual_guide/node013E.html">shift register</a>  has been completed, SERDAT can accept new data; the TBE
+interrupt signals this fact.
+
+Data will be moved out of the  <a href="../Hardware_Manual_guide/node013E.html">shift register</a> , one bit during each time
+interval, starting with the least significant bit. The shifting continues
+until all 1 bits have been shifted out. Any number or combination of data
+and stop bits may be specified this way.
+
+SERDAT is a 16-bit register that allows you to control the format
+(appearance) of the transmitted data. To form a typical data sequence,
+such as one start bit, eight data bits, and one stop bit, you write into
+<a name="line22">SERDAT the contents shown in Figures 8-12 and 8-13.</a>
+
+
+       15        9 8 7             0
+     _________________________________
+                                                         |     |
+       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 - - - - - - - - - -&#062;|  1  |
+     _________________________________                   |     |
+
+                                                         one bit
+
+                                 All zeros from last shift -
+
+
+    Figure 8-12: Starting Appearance of SERDAT and Shift Register
+
+<a name="line38"></a>
+
+
+                   15        9 8 7                 0
+                 __________________________________
+                                 |                 |
+                   0 0 0 0 0 0 1 |&#060;- 8 bits data -&#062;|
+                 ________________|_________________|
+
+                                - - - - - - - - - -&#062;
+
+                     Data gets shfted out this way.
+
+
+           Figure 8-13: Ending Appearance of Shift Register
+<a name="line53"></a>
+
+The register stops shifting and signals &#034;shift register empty&#034; (TSRE) when
+there is a 1 bit present in the bit-shifted-out position and the rest of
+the contents of the  <a href="../Hardware_Manual_guide/node013E.html">shift register</a>  are 0s. When new nonzero contents are
+loaded into this register, shifting begins again.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

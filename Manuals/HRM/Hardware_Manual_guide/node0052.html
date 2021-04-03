@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-5-3" TITLE="2 / Using the Copper Registers / Control Register" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / Using the Copper Registers / Control Register</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0051.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0053.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The Copper can access some special-purpose registers all of the time, some
+registers only when a special control bit is set to a 1, and some registers
+not at all.  The registers that the Copper can always affect are numbered
+$80 through $FF inclusive.  (See  <a href="../Hardware_Manual_guide/node0060.html">Appendix B</a>  for a list of registers in
+address order.) Those it cannot affect at all are numbered $00 to $3E
+inclusive.  The Copper control register is within this group ($00 to $3E).
+The rest of the registers, from $40 to $7E, are protected by a bit in the
+<a name="line9">Copper control register.</a>
+
+In the Copper control register, called COPCON, only bit 1 is currently in
+use by the system. This bit, called CDANG (for Copper Danger Bit) protects
+all registers numbered between $40 and $7E inclusive. This range includes
+the blitter control registers. When CDANG is 0, these registers cannot be
+written by the Copper. When CDANG is 1, these registers can be written by
+the Copper. Preventing the Copper from accessing the blitter control
+registers prevents a runaway Copper (caused by a poorly formed instruction
+list) from accidentally affecting system memory.
+
+   Warning:
+   --------
+   Keep in mind that the CDANG bit is cleared after a reset.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

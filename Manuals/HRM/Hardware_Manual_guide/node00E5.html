@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-3-1-1" TITLE="5 / / Joining Tones / Audio DMA Example" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / / Joining Tones / Audio DMA Example</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00E4.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00E6.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This example details the system audio DMA action in a step-by-step
+fashion.
+
+Suppose you wanted to join together a sine and a triangle waveform,
+end-to-end, for a special audio effect, alternating between them. The
+following sequence shows the action of your program as well as its
+interaction with the audio DMA system. The example assumes that the
+ <a href="../Hardware_Manual_guide/node00DD.html">period</a> ,  <a href="../Hardware_Manual_guide/node00DC.html">volume</a> , and  <a href="../Hardware_Manual_guide/node00DB.html#line26">length</a>  of the data set remains the same for the
+sine wave and the triangle wave.
+<a name="line11"></a>
+
+                         Interrupt Program
+                         -----------------
+If (wave = triangle)
+               write  <a href="../Hardware_Manual_guide/node00DB.html">AUD0LCL</a>  with address of sine wave data.
+
+Else if (wave = sine)
+               write  <a href="../Hardware_Manual_guide/node00DB.html">AUD0LCL</a>  with address of triangle wave data.
+
+
+                          Main Program
+                          ------------
+
+1. Set up  <a href="../Hardware_Manual_guide/node00DC.html">volume</a> ,  <a href="../Hardware_Manual_guide/node00DD.html">period</a> , and  <a href="../Hardware_Manual_guide/node00DB.html#line26">length</a> .
+2. Write  <a href="../Hardware_Manual_guide/node00DB.html">AUD0LCL</a>  with address of sine wave data.
+3. Start DMA.
+4. Continue with something else.
+
+
+                         System Response
+                         ---------------
+
+As soon as DMA starts,
+
+   a. Copy to &#034;back-up&#034; length register from  <a href="../Hardware_Manual_guide/node00DB.html#line26">AUD0LEN</a> .
+   b. Copy to &#034;back-up&#034; location register from  <a href="../Hardware_Manual_guide/node00DB.html">AUD0LCL</a>  (will be used
+      as a pointer showing current data word to fetch).
+   c. Create an  <a href="../Hardware_Manual_guide/node016B.html">interrupt</a>  for the 680x0 saying that it has completed
+      retrieving working copies of  <a href="../Hardware_Manual_guide/node00DB.html#line26">length</a>  and  <a href="../Hardware_Manual_guide/node00DB.html">location registers</a> .
+   d. Start retrieving audio data each allocated DMA time slot.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

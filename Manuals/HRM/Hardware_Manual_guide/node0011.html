@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="MAIN" TITLE="Amiga® Hardware Reference Manual:A Register Summary Alphabetical Order" TOC="Hardware_Manual/MAIN" -->
+<head>
+<title>Amiga&#174; Hardware Reference Manual:A Register Summary Alphabetical Order</title>
+</head>
+<body>
+<a href="../Hardware_Manual_guide/node0000.html"><img src="../images/toc.gif" alt="[Contents]" border=0></a>
+<img src="../images/index_d.gif" alt="[Index]">
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0010.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0012.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This appendix contains the definitive summary, in alphabetical order, of
+the Amiga's custom chip register set and the usages of the individual bits.
+
+The addresses shown here are used by the special custom chips (named
+&#034;Paula&#034;, &#034;Agnus&#034;, and &#034;Denise&#034;) for transferring data among themselves.
+Also, the Copper uses these addresses for writing to the special chip
+registers. To write to these registers with the 680x0, calculate the 680x0
+address using this formula:
+
+          680x0 address = (chip address) + $DFF000
+
+For example, for the 680x0 to write to ADKCON (address = $09E), the
+address would be $DFF09E.  No other access address is valid.  Do not
+attempt to access any documented or unused registers.
+
+All of the &#034;pointer&#034; type registers are organized as 32 bits on a long
+word boundary.  These registers may be written with one MOVE.L
+instruction. The lowest bit of all pointers must be written as zero.  The
+custom chips can only access Chip memory; using a non-Chip address will
+fail (See the AllocMem() documentation or your compiler manual for more
+information on Chip memory).  Disk data, sprite data, bitplane data, audio
+data, copper lists and anything that will be blitted or accessed by custom
+chip DMA must be located in chip memory.
+
+When strobing any register which responds to either a read or a write,
+(for example copjmp2) be sure to use a MOVE.W, not CLR.W.  The CLR
+instruction causes a read and a clear (two accesses) on a 68000, but only
+a single access on 68020 processors.  This will give different results on
+different processors.
+
+   Warning:
+   --------
+   Registers are either read-only or write-only. In the following
+   descriptions, if a register is marked as a read-only register, only
+   read its contents.  Do not attempt to write to a read-only register,
+   as this will cause unpredictable results.  If a register is marked as
+   a write-only register, do not attempt to read from it, as this may
+   trash the register and crash the system.
+
+If a bit is described as unused in a write-only register, be sure to keep
+that bit clear when writing values to that register.  Similarly, do not
+rely on the values of unused bits when reading from a read only register.
+Further, do not write to an address or register that is not documented or
+defined in this appendix.  Setting unused bits in a write-only register,
+reading unused bits from a read only register and writing to undocumented
+registers or addresses may cause serious future software incompatibility
+if those bits or addresses are implemented in the future by Amiga, Inc.
+
+
+   About the ECS registers.
+   ------------------------
+   Registers denoted with an &#034;(E)&#034; in the chip column means that those
+   registers have been changed the Enhanced Chip Set(ECS).  The ECS is
+   found in the A3000, and is installable in the A500 and A2000.
+   Certain ECS registers are completely new, others have been extended
+   in their functionality.  See the  <a href="../Hardware_Manual_guide/node00AD.html">register map in Appendix C</a>  for
+   information on which ECS registers are new and which have been
+   modified.
+
+ <a href="../Hardware_Manual_guide/node0012.html">ADKCON</a>      <a href="../Hardware_Manual_guide/node001D.html#line28">BLTSIZH</a>     <a href="../Hardware_Manual_guide/node0028.html">COP1LCH</a>     <a href="../Hardware_Manual_guide/node0031.html">DSKDAT</a>      <a href="../Hardware_Manual_guide/node0038.html">JOY1DAT</a>     <a href="../Hardware_Manual_guide/node0042.html">STRHOR</a> 
+ <a href="../Hardware_Manual_guide/node0012.html">ADKCONR</a>     <a href="../Hardware_Manual_guide/node001E.html">BLTxDAT</a>     <a href="../Hardware_Manual_guide/node0028.html">COP1LCL</a>     <a href="../Hardware_Manual_guide/node0031.html">DSKDATR</a>     <a href="../Hardware_Manual_guide/node0039.html">JOYTEST</a>     <a href="../Hardware_Manual_guide/node0042.html">STRLONG</a> 
+ <a href="../Hardware_Manual_guide/node0013.html">AUDxDAT</a>     <a href="../Hardware_Manual_guide/node001F.html">BLTxMOD</a>     <a href="../Hardware_Manual_guide/node0028.html">COP2LCH</a>     <a href="../Hardware_Manual_guide/node0032.html">DSKLEN</a>      <a href="../Hardware_Manual_guide/node003A.html">POT0DAT</a>     <a href="../Hardware_Manual_guide/node0042.html#line19">STRVBL</a> 
+ <a href="../Hardware_Manual_guide/node0014.html">AUDxLCH</a>     <a href="../Hardware_Manual_guide/node0020.html">BLTxPTH</a>     <a href="../Hardware_Manual_guide/node0028.html">COP2LCL</a>     <a href="../Hardware_Manual_guide/node0033.html">DSKPTH</a>      <a href="../Hardware_Manual_guide/node003A.html">POT1DAT</a>     <a href="../Hardware_Manual_guide/node0043.html">VBSTOP</a> 
+ <a href="../Hardware_Manual_guide/node0014.html">AUDxLCL</a>     <a href="../Hardware_Manual_guide/node0020.html">BLTxPTL</a>     <a href="../Hardware_Manual_guide/node0029.html">COPCON</a>      <a href="../Hardware_Manual_guide/node0033.html">DSKPTL</a>      <a href="../Hardware_Manual_guide/node003B.html">POTGO</a>       <a href="../Hardware_Manual_guide/node0043.html">VBSTRT</a> 
+ <a href="../Hardware_Manual_guide/node0015.html">AUDxLEN</a>     <a href="../Hardware_Manual_guide/node0021.html">BPL1MOD</a>     <a href="../Hardware_Manual_guide/node002A.html">COPINS</a>      <a href="../Hardware_Manual_guide/node0034.html">DSKSYNC</a>     <a href="../Hardware_Manual_guide/node003B.html">POTGOR</a>      <a href="../Hardware_Manual_guide/node0044.html">VHPOSR</a> 
+ <a href="../Hardware_Manual_guide/node0016.html">AUDxPER</a>     <a href="../Hardware_Manual_guide/node0021.html">BPL2MOD</a>     <a href="../Hardware_Manual_guide/node002B.html">COPJMP1</a>     <a href="../Hardware_Manual_guide/node0035.html">HBSTOP</a>      <a href="../Hardware_Manual_guide/node003C.html">REFPTR</a>      <a href="../Hardware_Manual_guide/node0044.html">VHPOSW</a> 
+ <a href="../Hardware_Manual_guide/node0017.html">AUDxVOL</a>     <a href="../Hardware_Manual_guide/node0022.html">BPLCON0</a>     <a href="../Hardware_Manual_guide/node002B.html">COPJMP2</a>     <a href="../Hardware_Manual_guide/node0035.html">HBSTRT</a>      <a href="../Hardware_Manual_guide/node003D.html">SERDAT</a>      <a href="../Hardware_Manual_guide/node0045.html">VPOSR</a> 
+ <a href="../Hardware_Manual_guide/node0018.html">BEAMCON0</a>    <a href="../Hardware_Manual_guide/node0022.html">BPLCON1</a>     <a href="../Hardware_Manual_guide/node002C.html">DDFSTOP</a>     <a href="../Hardware_Manual_guide/node0035.html">HCENTER</a>     <a href="../Hardware_Manual_guide/node003D.html#line22">SERDATR</a>     <a href="../Hardware_Manual_guide/node0045.html">VPOSW</a> 
+ <a href="../Hardware_Manual_guide/node0019.html">BLTAFWM</a>     <a href="../Hardware_Manual_guide/node0022.html">BPLCON2</a>     <a href="../Hardware_Manual_guide/node002C.html">DDFSTRT</a>     <a href="../Hardware_Manual_guide/node0035.html">HSSTOP</a>      <a href="../Hardware_Manual_guide/node003E.html">SERPER</a>      <a href="../Hardware_Manual_guide/node0046.html">VSSTOP</a> 
+ <a href="../Hardware_Manual_guide/node0019.html">BLTALWM</a>     <a href="../Hardware_Manual_guide/node0022.html#line57">BPLCON3</a>     <a href="../Hardware_Manual_guide/node002D.html">DENISEID</a>    <a href="../Hardware_Manual_guide/node0035.html">HSSTRT</a>      <a href="../Hardware_Manual_guide/node003F.html">SPRxCTL</a>     <a href="../Hardware_Manual_guide/node0046.html">VSSTRT</a> 
+ <a href="../Hardware_Manual_guide/node001A.html">BLTCON0</a>     <a href="../Hardware_Manual_guide/node0023.html">BPLxDAT</a>     <a href="../Hardware_Manual_guide/node002E.html">DIWHIGH</a>     <a href="../Hardware_Manual_guide/node0035.html">HTOTAL</a>      <a href="../Hardware_Manual_guide/node0040.html">SPRxDATA</a>    <a href="../Hardware_Manual_guide/node0046.html">VTOTAL</a> 
+ <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>     <a href="../Hardware_Manual_guide/node0024.html">BPLxPTH</a>     <a href="../Hardware_Manual_guide/node002E.html">DIWSTOP</a>     <a href="../Hardware_Manual_guide/node0036.html">INTENA</a>      <a href="../Hardware_Manual_guide/node0040.html">SPRxDATB</a> 
+ <a href="../Hardware_Manual_guide/node001B.html">BLTCON0L</a>    <a href="../Hardware_Manual_guide/node0024.html">BPLxPTL</a>     <a href="../Hardware_Manual_guide/node002E.html">DIWSTRT</a>     <a href="../Hardware_Manual_guide/node0036.html">INTENAR</a>     <a href="../Hardware_Manual_guide/node003F.html">SPRxPOS</a> 
+ <a href="../Hardware_Manual_guide/node001C.html">BLTDDAT</a>     <a href="../Hardware_Manual_guide/node0025.html">CLXCON</a>      <a href="../Hardware_Manual_guide/node002F.html">DMACON</a>      <a href="../Hardware_Manual_guide/node0037.html">INTREQ</a>      <a href="../Hardware_Manual_guide/node0041.html">SPRxPTH</a> 
+ <a href="../Hardware_Manual_guide/node001D.html">BLTSIZE</a>     <a href="../Hardware_Manual_guide/node0026.html">CLXDAT</a>      <a href="../Hardware_Manual_guide/node002F.html">DMACONR</a>     <a href="../Hardware_Manual_guide/node0037.html">INTREQR</a>     <a href="../Hardware_Manual_guide/node0041.html">SPRxPTL</a> 
+ <a href="../Hardware_Manual_guide/node001D.html#line28">BLTSIZV</a>     <a href="../Hardware_Manual_guide/node0027.html">COLORxx</a>     <a href="../Hardware_Manual_guide/node0030.html">DSKBYTR</a>     <a href="../Hardware_Manual_guide/node0038.html">JOY0DAT</a>     <a href="../Hardware_Manual_guide/node0042.html">STREQU</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

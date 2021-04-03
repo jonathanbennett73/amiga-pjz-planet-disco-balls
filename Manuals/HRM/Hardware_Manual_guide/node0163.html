@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-4-3" TITLE="7 / Interrupts / User Interface to the Interrupt System" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 / Interrupts / User Interface to the Interrupt System</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0162.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0164.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The system software has been designed to correctly handle all system
+hardware interrupts at levels 1 through 6. A separate set of input
+lines, designated INT2* and INT6* have been routed to the expansion
+connector for use by external hardware for interrupts. These are known as
+<a name="line6">the external low- and external high-level interrupts.</a>
+
+These interrupt lines are connected to the peripherals chip and create
+ <a href="../Hardware_Manual_guide/node016F.html">interrupt levels 2 and 6</a> , respectively. It is recommended that you take
+advantage of the interrupt handlers built into the operating system by
+using these external interrupt lines rather than generating interrupts
+directly on the processor interrupt lines.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

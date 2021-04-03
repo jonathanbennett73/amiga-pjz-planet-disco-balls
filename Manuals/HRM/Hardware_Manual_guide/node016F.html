@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-4-5-10" TITLE="7 / / Setting and Clearing Bits / Figure 7-4: Interrupt Priorities" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 / / Setting and Clearing Bits / Figure 7-4: Interrupt Priorities</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node016E.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0170.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+               Exec
+Hardware     Software
+Priority     Priority     Description                  Name
+--------     --------     -----------                  ----
+           ____
+          |     1         transmitter buffer empty     <a href="../Hardware_Manual_guide/node016E.html">TBE</a> 
+          |
+   1 -----|     2         disk block complete          <a href="../Hardware_Manual_guide/node016D.html">DSKBLK</a> 
+          |
+          |     3         software interrupt           SOFTINT
+          |----
+   2 -----|     4         external INT2 &#038; CIAA         <a href="../Hardware_Manual_guide/node0168.html">PORTS</a> 
+          |----
+          |     5         graphics coprocessor         <a href="../Hardware_Manual_guide/node016A.html">COPER</a> 
+          |
+   3 -----|     6         vertical blank interval      <a href="../Hardware_Manual_guide/node0169.html">VERTB</a> 
+          |
+          |     7         blitter finished             <a href="../Hardware_Manual_guide/node016C.html">BLIT</a> 
+          |----
+          |     8         audio channel 2              <a href="../Hardware_Manual_guide/node016B.html">AUD2</a> 
+          |
+          |     9         audio channel 0              <a href="../Hardware_Manual_guide/node016B.html">AUD0</a> 
+   4 -----|
+          |     10        audio channel 3              <a href="../Hardware_Manual_guide/node016B.html">AUD3</a> 
+          |
+          |     11        audio channel 1              <a href="../Hardware_Manual_guide/node016B.html">AUD1</a> 
+          |----
+          |     12        receiver buffer full         <a href="../Hardware_Manual_guide/node016E.html">RBF</a> 
+   5 -----|
+          |     13        disk sync pattern found      <a href="../Hardware_Manual_guide/node016D.html">DSKSYNC</a> 
+          |----
+          |     14        external INT6 &#038; CIAB         <a href="../Hardware_Manual_guide/node0168.html">EXTER</a> 
+   6 -----|
+          |     15        special (master enable)      <a href="../Hardware_Manual_guide/node0167.html">INTEN</a> 
+          |----
+   7 -----|____ --        non-maskable interrupt       <a href="../Hardware_Manual_guide/node0166.html">NMI</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

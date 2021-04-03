@@ -1,0 +1,19 @@
+speedbar.gadget
+LABEL "Speedbar"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/speedbar.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+LIST     0x85013001 (I····) SPEEDBAR_Buttons "Buttons" SPEEDBAR
+SELECT   0x85013002 (I····) SPEEDBAR_Orientation "Orientation" 2 0 0 "Horizontal" 1 "Vertical"
+PEN      0x85013003 (I····) SPEEDBAR_Background "Background Pen" BACKGROUNDPEN
+INTEGER  0x8501300A (I··NU) SPEEDBAR_Top "Top" 0 0 32767
+INTEGER  0x8501300B (I··N·) SPEEDBAR_Visible "Visible " 0 1 32767
+INTEGER  0x8501300C (I··N·) SPEEDBAR_Total "Total" 0 1 32767
+STRING   0x8501300D (I····) SPEEDBAR_Help "Help" ""
+SELECT   0x8501300E (I····) SPEEDBAR_BevelStyle "Bevel Style" 10 0 4 "None" 2 "Group" 0 "Thin" 8 "Box" 9 "Standard" 1 "Button" 3 "Field" 5 "Drop" 6 "Horizontal Bar" 7 "Vertical Bar"
+BOOLEAN  0x85013011 (I····) SPEEDBAR_EvenSize "Even Size" FALSE "Even Size"
+BOOLEAN  0x85013000 (····U) SPEEDBAR_OffButton "Off Button" FALSE "Off"
+BOOLEAN  0x85013000 (····U) SPEEDBAR_OnButton "On Button" FALSE "On"
+BOOLEAN  0x85013000 (····U) SPEEDBAR_ScrollLeft "Scroll Left" FALSE "Scroll"
+BOOLEAN  0x85013000 (····U) SPEEDBAR_ScrollRight "Scroll RIght" FALSE "Scroll"
+END

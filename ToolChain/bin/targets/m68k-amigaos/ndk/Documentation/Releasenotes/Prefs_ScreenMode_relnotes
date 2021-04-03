@@ -1,0 +1,78 @@
+
+Screenmode 44.3 (19.7.99)
+
+· A custom width was used for the custom height also.
+
+· Entering a new value into one of the custom gadgets was lost if the
+  gadget was activated by clicking on the "Default" checkbox.
+
+· Added tab-cycling for the integer gadgets.
+
+Screenmode 44.4 (31.7.99)
+
+· added stack extension
+
+Screenmode 44.5 (9.8.99)
+
+· added some ICA_TARGET tags
+
+Screenmode 44.7 (18.8.99)
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+· modified group layout
+
+· number of colors left to slider was not localized and gave wrong values
+  for screen depth > 24
+
+· for hi and true color screens the depth is set to maximum value and the
+  slider is disabled.
+
+Screenmode 44.8 (20.8.99)
+
+· added some code to make selected screenmode visible in list
+
+Screenmode 44.10 (17.9.99)
+
+· changed project icon name to def_screenmode_prefs.
+
+· if screen is not 256 pixel height a new autoscroll screen is opened. This
+  should allow to use screenmode with all screen settings.
+
+Screenmode 45.1 (20.10.2000)
+
+· added test-environment to test if a screen can be displayed 
+  on the monitor.
+
+ScreenMode 45.2 (02.11.2000)
+
+· The countdown on the testscreen now really counts 10 seconds. The 
+  UNIT_VBLANK-timer seems not to be accurate enough on some systems.
+
+· Added some more patterns to the testscreen.
+
+· Added option/tooltype USER that can be set to NOVICE, ADVANCED and
+  EXPERT. If it is set to ADVANCED or EXPERT, there will be no warning-
+  requester if you're using/saving an untested screenmode.
+
+· The testscreen can now be closed by hitting Return or Esc, too.
+
+· Added a warning-requester if the testscreen could not be opened.
+
+ScreenMode 45.3 (13.11.2000)
+
+· Now the four edges of the testscreen are drawn with the SHINEPEN,
+  so that they're likely to stand out against the maybe-black border.
+
+ScreenMode 45.4 (20.11.2000)
+
+· By mistake the borders of the readonly info (min/max dimensions...) 
+  were forced to "thin" style appearance.
+
+· ScreenMode no longer wants a screen with a height of at least 256 pixels.
+  It fits perfectly into a height of 200 pixels.
+

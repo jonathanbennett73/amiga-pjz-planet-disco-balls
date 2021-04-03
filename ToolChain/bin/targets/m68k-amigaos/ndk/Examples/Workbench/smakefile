@@ -1,0 +1,61 @@
+CFLAGS = debug=sf addsym idir=/
+
+FILES = \
+	ClockIcon CloseWorkbenchObject OpenWorkbenchObject \
+	GetSelectedIconList GetProgramList GetOpenDrawerList \
+	AddHiddenDevice RemoveHiddenDevice MakeIconVisible \
+	SelectIcon GetHiddenDeviceList AddMenus ToggleTitle \
+	AddMoreMenus AddIcon RemIcon
+
+all: $(FILES)
+
+clean:
+	delete $(FILES)
+
+ClockIcon: ClockIcon.c
+	sc $(CFLAGS) link ClockIcon.c
+
+CloseWorkbenchObject: CloseWorkbenchObject.c
+	sc $(CFLAGS) link CloseWorkbenchObject.c
+
+OpenWorkbenchObject: OpenWorkbenchObject.c
+	sc $(CFLAGS) link OpenWorkbenchObject.c
+
+GetSelectedIconList: GetSelectedIconList.c
+	sc $(CFLAGS) link GetSelectedIconList.c
+
+GetProgramList: GetProgramList.c
+	sc $(CFLAGS) link GetProgramList.c
+
+GetOpenDrawerList: GetOpenDrawerList.c
+	sc $(CFLAGS) link GetOpenDrawerList.c
+
+AddHiddenDevice: AddHiddenDevice.c
+	sc $(CFLAGS) link AddHiddenDevice.c
+
+RemoveHiddenDevice: RemoveHiddenDevice.c
+	sc $(CFLAGS) link RemoveHiddenDevice.c
+
+MakeIconVisible: MakeIconVisible.c
+	sc $(CFLAGS) link MakeIconVisible.c
+
+SelectIcon: SelectIcon.c
+	sc $(CFLAGS) link SelectIcon.c
+
+GetHiddenDeviceList: GetHiddenDeviceList.c
+	sc $(CFLAGS) link GetHiddenDeviceList.c
+
+AddMenus: AddMenus.c
+	sc $(CFLAGS) link AddMenus.c
+
+AddMoreMenus: AddMoreMenus.c
+	sc $(CFLAGS) link AddMoreMenus.c
+
+ToggleTitle: ToggleTitle.c
+	sc $(CFLAGS) link ToggleTitle.c
+
+AddIcon: AddIcon.c
+	sc $(CFLAGS) link AddIcon.c
+
+RemIcon: RemIcon.c
+	sc $(CFLAGS) link RemIcon.c

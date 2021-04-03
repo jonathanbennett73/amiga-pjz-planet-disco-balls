@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-8-1" TITLE="2 / Advanced Topics / The SKIP Instruction" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / Advanced Topics / The SKIP Instruction</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0058.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node005A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The SKIP instruction causes the Copper to skip the next instruction if the
+video beam counters are equal to or greater than the value given in the
+instruction.
+
+The contents of the SKIP instruction's words are shown below. They are
+identical to the  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  instruction, except that bit 0 of the second
+instruction word is a 1 to identify this as a SKIP instruction.
+
+
+          FIRST SKIP INSTRUCTION WORD (IR1)
+          ---------------------------------
+          Bit 0           Always set to 1.
+
+          Bits 15 - 8      <a href="../Hardware_Manual_guide/node004D.html">Vertical position</a>  (called VP).
+
+          Bits 7 - 1       <a href="../Hardware_Manual_guide/node004C.html">Horizontal position</a>  (called HP).
+
+                          Skip if the beam counter is equal to or
+                          greater than these combined bits
+                          (bits 15 through 1).
+
+
+          SECOND SKIP INSTRUCTION WORD (IR2)
+          ----------------------------------
+          Bit 0           Always set to 1.
+
+          Bit 15          The  <a href="../Hardware_Manual_guide/node005D.html">blitter-finished-disable bit</a> .
+                          (See &#034;Using the Copper with the Blitter&#034;
+			  below.)
+
+          Bits 14 - 8     Vertical position compare enable bits
+                          (called VE).
+
+          Bits 7 - 1      Horizontal position compare enable bits
+                          (called HE).
+
+
+The notes about  <a href="../Hardware_Manual_guide/node004C.html">horizontal</a>  and  <a href="../Hardware_Manual_guide/node004D.html">vertical beam position</a>  found in the
+discussion of the  <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  instruction apply also to the SKIP instruction.
+
+The following example SKIP instruction skips the instruction following it
+if VP ( <a href="../Hardware_Manual_guide/node004D.html">vertical beam position</a> ) is greater than or equal to 100 ($64).
+
+        DC.W    $6401,$FF01     ;If VP &#062;= 100,
+                                ;  skip next instruction (ignore HP)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

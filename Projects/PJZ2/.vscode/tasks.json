@@ -1,0 +1,43 @@
+{
+        // See https://go.microsoft.com/fwlink/?LinkId=733558
+        // for the documentation about the tasks.json format
+        "version": "2.0.0",
+        "tasks": [
+		{
+			"label": "make demo",
+			"type": "shell",
+			"command": "MakeBuild.cmd demo",
+			"problemMatcher": [],
+			"group": "build",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
+		},
+		{
+			"label": "make clean",
+			"type": "shell",
+			"command": "MakeBuild.cmd clean",
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"group": "build"
+		},
+		{
+			"label": "make vector",
+			"type": "shell",
+			"command": "MakeBuild.cmd cleanobj genvector2 run",
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

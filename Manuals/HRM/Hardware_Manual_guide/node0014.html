@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-3" TITLE="A Register Summary / AUDxLCH, AUDxLCL" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / AUDxLCH, AUDxLCL</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0013.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0015.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+AUDxLCH    0A0      W      A( <a href="../Hardware_Manual_guide/node00AB.html#line4">E</a> )  Audio channel x location (high 3 bits,
+                                       5 bits if ECS)
+AUDxLCL    0A2      W       A      Audio channel x location (low 15 bits)
+
+                 This pair of registers contains the 18 bit starting
+                 address (location) of audio channel x (x=0,1,2,3) DMA
+                 data. This is not a pointer register and therefore needs
+                 to be reloaded only if a different memory location is to
+                 be outputted.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

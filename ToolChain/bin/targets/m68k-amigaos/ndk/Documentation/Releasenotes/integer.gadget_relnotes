@@ -1,0 +1,45 @@
+integer.gadget 45.0 (08.11.00)
+
+- bumped to v45, recompiled with gnuc making it 2k smaller :)
+
+- bugfixed library code.
+
+- the string object used by this class is now a string.gadget
+  object and not a strgclass one.
+  
+- implemented INTEGER_SkipVal attribute. That's for you, Mario:)
+
+
+integer.gadget 45.1 (21.11.00)
+
+- changed the way the given number is increased when the user
+  keeps the up/down button pressed.
+  
+  
+integer.gadget 45.2 (01.01.01)
+
+- added WaitBlit() where it was missing.
+
+- the memory (tmpras) for the arrow image is released only 
+  when necessary, now.
+
+
+integer.gadget 45.3 (28.02.01)
+
+- clipping was totally broken. The gadget can be used in virtual
+  groups, now.
+
+
+integer.gadget 45.4 (08.05.01)
+
+- after a global font change (via Font prefs), the gadget still
+  used the old (rastport) font. Because GM_DOMAIN didn't restore
+  the font information, the label was drawn with the wrong font,
+  too. The GM_DOMAIN method of all RA classes need to be fixed
+  to avoid this kind of trouble...
+
+
+integer.gadget 45.5 (14.05.01)
+
+- the gadget tried to release the RA semaphore even when it couldn't
+  find it <Vit Sindlar>.

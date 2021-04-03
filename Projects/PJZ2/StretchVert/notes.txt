@@ -1,0 +1,68 @@
+dU = (U2-U1) / (Y2-Y1)
+
+
+where U1 & U2 are the source "lines" of your image (U1 will often be zero), and Y1 and Y2 are the start and end screen lines.
+
+Then in your loop (From Y1 to Y2 ) you just add dU to a value (usually initialised to U1)
+
+You will need to probably use fixed point for accuracy, so you can calculate dU like:
+
+dU = ( ( U2 - U1 ) <<8 ) / ( Y2 - Y1 )
+
+
+
+
+dU = (U2-U1) / (Y2-Y1)
+
+Multiply by 256 for fixed point
+dU = ( ( U2 - U1 ) <<8 ) / ( Y2 - Y1 )
+
+U = source image Y values
+U1 = min y
+U2 = max y
+
+Y = destination image Y values
+U1 = min y
+U2 = max y
+
+line = U1
+
+From Y1 to Y2, add dU to line
+
+E.g. Double size
+U1 = 0
+U2 = 16
+Y1 = 0
+Y2 = 32
+
+dU = (16-0) / (32-0) = 0.5
+
+0.5
+1
+1.5
+2
+2.5
+3
+3.5
+
+
+256 lines. Allow doubling and halfing.
+dU = (U2-U1) * 256 / (Y2-Y1)
+
+;Stretch
+dU = SrcHeight * 256 / DestHeight
+
+lineval = 0
+lastline = -1
+lineval += dU
+newline = lineval / 256
+if newline != lastline 
+	drawline
+else
+	reptline
+endif
+lastline = newline
+
+
+
+

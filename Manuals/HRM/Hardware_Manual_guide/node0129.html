@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-13-1" TITLE="6 / Line Mode / Register Summary for Line Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 / Line Mode / Register Summary for Line Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0128.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node012A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Preliminary setup:
+
+   The line goes from (x1,y1) to (x2,y2).
+
+   dx = max(abs(x2 - x1), abs(y2 - y1)) ;
+   dy = min(abs(x2 - x1), abs(y2 - y1)) ;
+
+Register setup:
+
+   <a href="../Hardware_Manual_guide/node011B.html#line31">BLTADAT</a>  = $8000
+   <a href="../Hardware_Manual_guide/node011B.html#line31">BLTBDAT</a>  = line texture pattern ($FFFF for a solid line)
+
+   <a href="../Hardware_Manual_guide/node011F.html#line49">BLTAFWM</a>  = $FFFF
+   <a href="../Hardware_Manual_guide/node011F.html#line49">BLTALWM</a>  = $FFFF
+
+   <a href="../Hardware_Manual_guide/node011B.html#line102">BLTAMOD</a>  = 4 * (dy - dx)
+   <a href="../Hardware_Manual_guide/node011B.html#line102">BLTBMOD</a>  = 4 * dy
+   <a href="../Hardware_Manual_guide/node011B.html#line102">BLTCMOD</a>  = width of the bitplane in bytes
+   <a href="../Hardware_Manual_guide/node011B.html#line102">BLTDMOD</a>  = width of the bitplane in bytes
+
+   <a href="../Hardware_Manual_guide/node011B.html#line6">BLTAPT</a>   = (4 * dy) - (2 * dx)
+   <a href="../Hardware_Manual_guide/node011B.html#line6">BLTBPT</a>   = unused
+   <a href="../Hardware_Manual_guide/node011B.html#line6">BLTCPT</a>   = word containing the first pixel of the line
+   <a href="../Hardware_Manual_guide/node011B.html#line6">BLTDPT</a>   = word containing the first pixel of the line
+
+   <a href="../Hardware_Manual_guide/node001A.html">BLTCON0</a>  bits 15-12 = x1 modulo 15
+   <a href="../Hardware_Manual_guide/node001A.html">BLTCON0</a>  bits SRCA, SRCC, and SRCD = 1
+   <a href="../Hardware_Manual_guide/node001A.html">BLTCON0</a>  bit  SRCB = 0
+            If exclusive-or line mode:                  _   _
+                     then BLTCON0  <a href="../Hardware_Manual_guide/node011C.html#line37">LF control byte</a>  = ABC + AC
+                                                           _
+                     else BLTCON0  <a href="../Hardware_Manual_guide/node011C.html#line37">LF control byte</a>  = AB + AC
+
+   <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  bit  <a href="../Hardware_Manual_guide/node0128.html">LINEMODE</a>  = 1
+   <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  bit  <a href="../Hardware_Manual_guide/node0128.html#line114">OVFLAG</a>  = 0
+   <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  bits 4-2 =  <a href="../Hardware_Manual_guide/node0128.html#line13">octant number</a>  from table
+   <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  bits 15-12 = start bit for line texture (0 = last significant
+            If (((4 * dy) - (2 * dx)) &#060; 0):                bit)
+                     then  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  bit  <a href="../Hardware_Manual_guide/node0128.html#line96">SIGNFLAG</a>  = 1
+                     else  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  bit  <a href="../Hardware_Manual_guide/node0128.html#line96">SIGNFLAG</a>  = 0
+            If one pixel/row:
+                     then  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  bit  <a href="../Hardware_Manual_guide/node0128.html#line114">ONEDOT</a>  = 1
+                     else  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  bit  <a href="../Hardware_Manual_guide/node0128.html#line114">ONEDOT</a>  = 0
+
+   <a href="../Hardware_Manual_guide/node011B.html#line82">BLTSIZE</a>  bits 15-6 = dx + 1
+   <a href="../Hardware_Manual_guide/node011B.html#line82">BLTSIZE</a>  bits  5-0 = 2
+
+   Warning:
+   --------
+   You must set the  <a href="../Hardware_Manual_guide/node011B.html#line82">BLTSIZE</a>  register last as it starts the blit.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

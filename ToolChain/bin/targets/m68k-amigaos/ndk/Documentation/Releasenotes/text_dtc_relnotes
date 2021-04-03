@@ -1,0 +1,58 @@
+text.datatype 45.1 (31.10.00)
+ - completly rewritten
+ - now supports marking
+ - now supports searching.
+   To open the requester press 'Return'. To search forward press 'Tab' and to
+   search backwards press the 'Shift Tab' keys.
+
+text.datatype 45.2 (04.11.00)
+ - had problems with CR+LF text files. Fixed.
+ - fixed marking problems
+ - bottom line wasn't erased when scrolled.
+ - uses now a slightly differnt library initialisation code
+   great thanks to Olaf and Thor
+ - auto copy, thanks to Allan for the framework
+ - search can now be case sensitive
+
+text.datatype 45.3 (05.11.00)
+ - the right of a line wasn't erased. Fixed.
+
+text.datatype 45.4 (10.11.00)
+ - it was always the first line displayed at start. Fixed.
+
+text.datatype 45.5 (17.11.00)
+ - the last line at a end of a text wasn't erased. Fixed.
+
+text.datatype 45.6 (18.11.00)
+ - when pressing tab in the search requester the string gadget
+   gets only deactivated, so the other option can be reached
+   with keyboard only
+
+text.datatype 45.7 (23.11.00)
+ - there was still a last line problem...
+
+text.datatype 45.8 (28.11.00)
+ - fixed an enforcer hit which happened if you word marked a passage below
+   the text
+
+-- OS3.9 Release
+
+text.datatype 45.9 (10.12.00)
+ - somebody seems to set si->si_HorizUnit without using SetAttrs(), added a workaround
+   for this
+
+text.datatype 45.10 (27.02.01)
+ - now can search for multiple words on a line
+
+text.datatype 45.11 (04.03.01)
+ - returns now STM_SEARCH, STM_SEARCH_NEXT, STM_SEARCH_PREV as trigger methods
+
+text.datatype 45.12 (15.03.01)
+ - Pressing Shift B in the search requester exited the string gadget. Fixed.
+
+text.datatype 45.13 (01.07.01)
+ - not always scrolled to the left when using the mouse
+ - when being layouted all inputs are ignored now
+
+text.datatype 45.14 (06.09.01)
+ - fixed printing bug

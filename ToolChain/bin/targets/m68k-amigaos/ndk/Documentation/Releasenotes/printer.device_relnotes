@@ -1,0 +1,325 @@
+
+printer.device 44.10 (06.04.99)
+
+- printer.device is converted to C. Only the Planar->Chunky algorithm is
+  implemented in Assembler (but a C demo version of the code is also part
+  of the source)
+
+- Replaced the printer_automatic_protos.h with proto headers for each module.
+
+- Eliminated K&R function headers.
+
+- Removed a lot of accesses to global variables (but not all yet).
+
+- Improved profiling.
+
+- PRD_DUMPRPORT uses the cybergraphics.library (CGX and P96 compatible) to
+  access RTG BitMaps. CLUT, HiColor and TrueColor is supported (but the
+  driver color model is still limited to 4096 colors).
+
+- Speeded up Planar->Chunky algorithm.
+
+- Speeded up line buffer conversion from 24 bit RGB data to 12 bit ColorEntry.
+
+- fixed some minor bugs.
+
+
+printer.device 44.11 (07.04.99)
+
+- removed most global variables. Now one could try to make printer.device
+  a multi-unit device but the callback functions PWrite and PBothReady do
+  not have the needed parameter (PrinterData *), so we need a hack!
+
+- printer.device is now shorter than version V39.4.
+
+
+printer.device 44.12 (07.04.99)
+
+- PWrite is now usable from DoSpecial. The problem was that the buffer was
+  not flushed before DoSpecial was called - any PWrite in DoSpecial was sent
+  before the data already waiting in the buffer.
+  
+  To force a buffer flush before DoSpcial is called the command must contain
+  two '\377' chars. You don't have to call PBothReady after the PWrite. The
+  printer.device always calls PBothReady after PWrite while printing text
+  so it may be could style to do it also.
+
+  If a driver is accidently using a command "\377\377" nothing critical 
+  happens - the buffer is flushed before the command is executed which may 
+  slow down the output.
+
+- Every return value from DoSpecial less than -2 is now interpreted as I/O
+  error. So the return values are interpreted as follows: 
+	 >0: number of chars added to buffer, 
+	  0: not handled by DoSpecial, 
+	 -1: unsupported command,
+	 -2: (new) DoSpecial handled the command but didn't add chars,
+	<-2: (new) I/O error ( == error-65536).
+  
+  It should be tested if any existing DoSpecial function returns -2 or less
+  instead of -1. This should never happen because it is documented that
+  PRD_PRTCOMMAND returns -1 in io_Error if a command is not supported.
+
+
+printer.device 44.13 (07.04.99)
+
+- Added some tests for illegal and not supported BitMaps (RTG systems other
+than CGX and P96). Some unknown BitMaps will still be printed using
+ReadPixelLine8, some are rejected with PDERR_INTERNALMEMORY.
+
+- Added a test for ColorMap pointer against NULL for non-truecolor
+  dumps. Again the error code is PDERR_INTERNALMEMORY.
+
+printer.device 44.14 (08.04.99)
+
+- Changing the printer driver preferences did not expunge the printer driver.
+  Report from Wolf Faust.
+
+- Improved (?) color reduction. The new color reduction is used if Hi or
+  Truecolor BitMaps are printed and the print quality is set to "Letter".
+
+printer.device 44.15 (08.04.99)
+
+- If a printer driver has a version >= 44 and the (new) bit PPCB_EXTENDED set
+  in the ped_PrinterClass a ped_TagList is evaluated. This TagList may
+  contain flags to move some algorithms (floyd, anti-alias, color
+  correction) into the driver (render(1)), to set some extended features like
+  8 bit per color gun and to force the printer.device to use new data
+  structures for the driver source data.
+
+- PRTA_FloydDithering and PRTA_AntiAlias implemented. The buffers and the
+  cycling of the 3 AntiAlias source rows are still done, only the basic
+  algorithms are skipped. The driver can use the buffers (if it is
+  documented) or choose its own solution.
+
+- PRTA_ColorCorrection implemented. A new render(8) call is used to correct
+  an array of union ColorEntry (first parameter). The number of entries is
+  given as the second parameter. The third parameter is 0 for a colormap
+  and 1 for a row of pixels. The render is not only called for true color
+  or HAM data but for all data formats. The render function has to check the
+  preferences data if the source data contained CLUT (already corrected
+  through color map) or true color pixels. Alternativly the render
+  function can do everything that has to be done once right after the source
+  data conversion but before the y scaling.
+
+- Floyd-Steinberg Dithering used the same dither matrix in the render(1) call
+  as Ordered-Dithering -> both ditherings are added. I think this is a bug
+  (since V33). With Floyd-Steinberg the dither matrix is replaced by one
+  that tresholds the color with value 7 (every color gun that is more 
+  intensiv than 7 is printed). The result has to be tested a lot! I could also
+  add a flag in the PrinterExtendedData TagList that controls this behaviour.
+
+printer.device 44.16 (09.04.99)
+
+- If the picture is reduced in x direction the Hedley conversion is
+  now done after reducing.
+
+- The intensity sums are now calculated with 16 bit values. This allows a
+  reduce factor up to 256 (instead of 16) before arithmetic overflow.
+
+- PRTA_8BitGuns implemented. Changes are done to the following algorithms:
+  dither matrices, colormap initializing, converting BitMap data to source
+  row data (colorEntry), HAM handling.
+
+printer.device 44.17 (11.04.99)
+
+- Floyd-Steinberg is not longer available if PRTA_8BitGuns is set. The driver
+  must implement Floyd-Steinberg itself.
+
+printer.device 44.18 (12.04.99)
+
+- New tags PRTA_DitherNames and PRTA_ShadingNames (list of names for 
+  preferences editors setting the names of the flags).
+
+- New printer.device IO commands PRD_RESETPREFS, PRD_READPREFS, PRD_WRITEPREFS
+  and PRD_EDITPREFS, new tag PRTA_Preferences and new callback function
+  ped_DoPreferences(struct IORequest *, int) supports driver specific
+  preferences.
+
+- The render call for color correction now gets the parameter fourth parameter
+  9.
+  
+- Tag PRTA_ConvertSource implemented. The driver is called with a new
+  render(8) call. Input is 12 bit or 24 RGB data (union ColorEntry), the
+  color range depends on the PRTA_8BitGuns tag. The driver has to calculate
+  the YMCK or BW or RGB data (whatever the printer class of the printer is)
+  and has to take the preferences field PrintImage into account (negate
+  colors if requested). The second parameter is the number of pixels or
+  clormap entries, the third parameter is 0 for colormap and 1 for pixel data.
+
+printer.device 44.19 (12.04.99)
+
+- New command PRD_SETERRHOOK implemented. The hook set using this command is
+  called whenever an error is the result of an I/O Request. A printer driver
+  can now return custom error codes and both the device and the driver calls 
+  the hook with localized formatted error messages. A standard hook calls
+  EasyRequest() to display the error message.
+
+printer.device 44.20 (14.04.99)
+
+- The device task is now a DOS process. This makes it easier to load
+  preferences or to dump data to file (spooler).
+
+- The device now handles up to 10 units (0 ... 9).
+
+- Cleaned up the code again - hopefully the last time. Removed old code,
+  reformatted debug code.
+
+- New command PRD_LOADPREFS implemented. This commands loads the system
+  preferences for the unit and loads the driver preferences if any
+  driver is loaded. This command is currently private and called
+  before the driver is loaded. The driver has to load its preferences
+  at initialization time.
+
+printer.device 44.21 (21.04.99)
+
+- PRD_DUMPRPORT with SPECIAL_NOPRINT flag set does not longer check the size
+  of the BitMap and does not touch io_RastPort at all.
+
+- Added unit -1 for OS purposes: this unit is not able to print. The IORequest
+  for the OpenDevice call is of type struct IOPrefsReq and contains pointers
+  to printer preferences. This unit is used by the printer preferences editor
+  (dump rastport with flag SPECIAL_NOPRINT). This unit does not open the
+  data device (parallel.device etc) so it should never conflict with other
+  units.
+
+- Bugfix: the locale catalog is not longer closed when a unit is closed but
+  when the last unit is closed.
+
+printer.device 44.22 (23.04.99)
+
+- new internal function PRead(char *, LONG *) can be called from printer
+  drivers to read data from the printer
+
+- drivers with the new tag PRTA_NoIO will not open the connection device
+  to the printer. This helps fax, file and network drivers to work
+  without "magic" preferences changes and allows better resource sharing.
+
+- Improved "expunge".
+
+printer.device 44.23 (26.04.99)
+
+- Changed the dump rastport strategy: the data is now first read from bitmap,
+  converted to RGB, scaled (reduced or stretched), and then converted to 
+  driver specific format.
+
+- Added tag PRTA_ColorSize to let the driver set the size per pixel and
+  PRTA_NewColor if the color structure is private. If you set PRTA_NewColor
+  everything has to be done by the driver (convert, floyd, anti-alias,
+  color correction) and the driver gets 8 bit RGB guns.
+
+printer.device 44.24 (30.04.99)
+
+- Scaling is now done by the device in all cases. The ScaleX array (that is
+  used by old drivers to stretch the row of pixels) contains only 1s. New
+  drivers don't have to stretch the row any longer.
+
+- new command PRD_DUMPRPORTTAGS. This is an extension of PRD_DUMPRPORT. Some
+  tags are already defined but not yet implemented. The new tags will allow
+  finer control over the printing (color correction etc).
+
+printer.device 44.27 (06.05.99)
+
+- fixed a bug in the new row scaling function which trashed the output if the
+  left offset was not 0.
+
+printer.device 44.28 (08.05.99)
+
+- PrinterData got a new function entry pd_CallErrHook. This function is to
+  be called from ped_CallErrHook. The functions reworks the error message
+  (for example replace a NULL es_Title with a localized title) and calls
+  the application hook. The return value from the application hook is
+  forwarded to the caller of pd_CallErrHook.
+
+- Enhanced the PDHOOK_STD: if the opener task of the printer unit is a
+  process and the pr_WindowPtr == -1 no requester is opened. If the
+  opener task is a process and the pr_WindowPtr != -1 and the window
+  pointer in the error message packet is NULL the pr_WindowPtr is used.
+
+printer.device 44.29 (10.05.99)
+
+- new Tag PRTA_MixBWColor: set this tag to FALSE if an application should
+  not mix BW and Color graphics in one document (e.g. for speed optimization).
+  Some printer use different print cartridges for B/W and color. Drivers
+  should set this tag to FALSE in that case. Applications should use a
+  default of TRUE for this tag.
+
+printer.device 44.29 (11.05.99)
+
+- new members in PrinterData pd_UnitNumber and pd_DriverName. Useful for
+  creating preferences file names for the driver: printer<driver><N>.prefs,
+  where <driver> is the name of the driver and <N> is the unit number.
+
+- pd_UnitNumber is filled with the unit number from PrinterDeviceUnitPrefs
+  if Unit -1 is opened.
+
+printer.device 44.31 (29.06.99)
+
+- added additional tests for SrcWidth and SrcHeight (DumpRPort) to avoid
+  division by zero.
+
+printer.device 44.32 (19.7.99)
+
+- new Tag PRTA_NoScaling. All scaling calculations are done but the
+  source data is not scaled. The render function (case 1) is called for
+  every source row one times and the pi_ColorInt array contains one entry
+  for each source pixel. 
+  
+  The destination size is transferred callling the render function case 0
+  (but remember the number of horizontal pixels also contains the pi_xpos
+  offset).
+  
+  The source size is always availble through pi_width and pi_height.
+
+- PRead() takes a new parameter struct timeval * (third parameter) which sets
+  the timeout time.
+
+printer 44.33 (29.7.99)
+
+- new tag for PRD_DUMPRPORTTAGS: DRPA_SourceHook points to a struct Hook
+  which is used to read 24 bit RGB Data. The Hook is call with object NULL
+  and message struct DRPSourceMsg *. It must read a array of pixels as 32
+  bit data 0x00RRGGBB. The height of the array is currently 1 but this may
+  change in future.
+
+- new tags for PRD_DUMPRPORTTAGS: DRPA_AspectX and DRPA_AspectY overwrites
+  the aspect values from GfxBase or io_Modes. If one of the tags is used
+  both should be used to avoid unexpected results.
+
+printer 44.34 (10.8.99)
+
+- if the printout was (partially) reduced in both directions the average 
+  color was much too dark.
+
+printer 44.35 (11.8.99)
+
+- if printing with old 4 bit drivers the print quality can be improved by
+  using a dithering algorithm while reducing colorspace. This is enabled
+  with print quality "Letter". But this reducing was done using the wrong
+  color space so the print out was much too dark.
+
+printer 44.36 (12.8.99)
+
+- still some color conversion for 4 bit drivers were broken (true color 
+  printing didn't work)
+
+- PRD_DUMPRPORTTAGS was always executed as "quick" command (dead lock in
+  most cases)
+
+printer 44.37 (8.9.99)
+
+- load driver A, load driver B which fails, load driver A again. Crashed
+  the machine.
+
+printer 44.38 (20.9.99)
+
+- minor code changes
+
+- DRPA_SourceHook did not support Landscape printing. If Landscape printing
+  is used the hook is called with width = 1, thus reading a column instead
+  a row of data.
+
+printer 44.39 (6.12.99)
+
+- calling Expunge() now operates on the "master" device data instead of the
+  unit copy.

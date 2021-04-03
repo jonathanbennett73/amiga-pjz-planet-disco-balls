@@ -1,0 +1,11 @@
+gradientslider.gadget
+LABEL "Gradientslider"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/gradientslider.gadget" 0 PUBLIC
+INCLUDE "gadgetclass.baseclass"
+INTEGER  0x85000001 (I····) GRAD_MaxVal "Maximum Value" 0xFFFF 0x0 0xFFFF
+INTEGER  0x85000002 (I····) GRAD_CurVal "Current Value" 0x0 0x0 0xFFFF
+INTEGER  0x85000003 (I····) GRAD_SkipValue "Skip Value" 0x1111 0 0xFFFF
+INTEGER  0x85000004 (I····) GRAD_KnobPixels "Knob Pixels" 5 2 64
+SELECT   0x80031001 (I····) PGA_Freedom "Direction" 2 1 1 "Horizontal" 2 "Vertical"
+END

@@ -1,0 +1,12 @@
+rexxsyslib 44.1 (25.12.1999)
+
+- Modified WaitDOSPkt() to call WaitPort() instead of Wait()'ing
+  on the MsgPort's signal. I hope that this is really an improvement.
+  The documentation for the WaitDOSPkt() function states its
+  purpose as "Waits at the specified message port for a message or
+  other signal.". Might be that the side-effect was intentional :-/
+
+- Fixed a long standing bug in the CPU type identification code.
+  It no longer mistakenly identifies a machine with an 68040
+  CPU as having an "68060" CPU installed. The new code also
+  makes a point of identifying an 68882 FPU and an 68060 CPU.

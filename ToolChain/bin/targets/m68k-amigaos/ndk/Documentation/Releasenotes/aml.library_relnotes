@@ -1,0 +1,54 @@
+             aml.library and/or AmiMail client bug/change history 
+
+8/8/99 7:45pm EST by caldi:
+
+- aml_parse.c - to set content, a static tag list was set up via looping
+  on content headers, setting pointers in to the header body then doing
+  a SetArticlePartAttrs() after finding the boundary line, well, this was
+  a very strange bug to find, but its obvious now. :) The body buffer was
+  really part of the 1k temp buffer for FGets so the content changed on
+  every loop making the part content pointers in the taglist point to
+  stale data! This explained the bug if getting content type often returned
+  content encoding or some other trash strings. This was a major find, as
+  many enforcer hits and variable trashing has stopped.
+
+- Now properly stops counting part size at the next content line and
+  re-enters the new part content scanning phase.
+
+- aml_content.c - Removed the Flush() call and magically everything works writing
+  messages. The prior lock/stop was inside DoMimeContentLines... I beleive that
+  ALL of the content line, header lines, body and encoding/decoding file i/o are
+  now using buffered i/o calls so there is NO need for a Flush() in most cases.
+
+- I made struct MailLibBase AmlBase *global* in aml.c - and its (re)initialized
+  on every AllocPoolVec() for now. :) Once set, debugf() assigns mlb to it
+  and can make a Delay() call to slow down debug printing such that the
+  enforcer hits display a little closer to the actual debug line near the hit.
+  I did this because most hits I'm getting are from Locale Stricmp(), etc and
+  gives little clue what call in aml is causing it. Many seem to be fixed now.
+
+- aml_article.c - when adding article to a folder, I was calling UpdateFolderIndex()
+  or ParseArticleHeaders() from inside the article type data switch... the file
+  in question was STILL OPEN causing likely/possible failure to read/parse the data.
+  I moved this code after the Close() of the file.
+
+- Added a few more IsListEmpty() checks for the sake of sanity.
+
+- AmiMail GUI added a bit more error handling/checking
+
+- I noticed aml.library seems to corrupt some variables, changing
+  to PARAMS = BOTH and a re-compile seems to have fixed it. Maybe we are
+  passing variables to in what are designated as "scratch" registers?
+  Need to do some sas manual reading on register call conventions I guess.
+  
+- AmiMail GUI can now select and display all attachments (as text currently).
+
+- Minor bug fixes in AmiMail GUI - can now change folders properly and display
+  current folder name in the window title.
+
+- aml_socket.c - added more debug printing.
+
+5/12/01 11:0pm EST by stephanr:
+
+- aml.library 44.20: ported to StormC4, recompiled with new startupcode.
+

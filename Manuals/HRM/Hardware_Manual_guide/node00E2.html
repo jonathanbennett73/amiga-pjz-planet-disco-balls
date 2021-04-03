@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-2-8" TITLE="5 / Forming and Playing a Sound / Audio Summary" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / Forming and Playing a Sound / Audio Summary</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00E1.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00E3.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+These are the steps necessary to produce a steady tone:
+
+   1. Define the waveform.
+   2. Create the data set containing the pairs of data samples (data
+      words). Normally, a data set contains the definition of one
+      waveform.
+   3. Set the location registers:
+
+          <a href="../Hardware_Manual_guide/node00DB.html">AUDxLCH</a>  (high three bits)
+          <a href="../Hardware_Manual_guide/node00DB.html">AUDxLCL</a>  (low fifteen bits)
+
+   4. Set the length register,  <a href="../Hardware_Manual_guide/node00DB.html#line26">AUDxLEN</a> , to the number of data words to
+      be retrieved before starting at the address currently in  <a href="../Hardware_Manual_guide/node00DA.html#line24">AUDxLC</a> .
+<a name="line15">   5. Set the volume register,  <a href="../Hardware_Manual_guide/node00DC.html">AUDxVOL</a> .</a>
+   6. Set the period register,  <a href="../Hardware_Manual_guide/node00DF.html#line34">AUDxPER</a> 
+   7. Start the audio DMA by writing a 1 into bit 9,  <a href="../Hardware_Manual_guide/node00E0.html#line7">DMAEN</a>  , along with
+      a 1 in the  <a href="../Hardware_Manual_guide/node0166.html">SET/CLR</a>  bit and a 1 in the position of the  <a href="../Hardware_Manual_guide/node00E0.html#line7">AUDxEN</a>  bit
+      of the channel or channels you want to start.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

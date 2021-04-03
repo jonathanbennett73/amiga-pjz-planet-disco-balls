@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_E" NODE="E-2-1-1" TITLE="E / / Parallel Interface Specification / Pin Assignment (J8)" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>E / / Parallel Interface Specification / Pin Assignment (J8)</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0101.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0103.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+
+<a name="line3">   NAME    DIR   NOTES</a>
+   ----    ---   ------------------------
+   DRDY*    O    Output-data-ready signal to parallel device in
+                 output mode, used in conjunction with ACK* (pin 10)
+                 for a two-line asynchronous handshake.  Functions
+                 as input data accepted from Amiga in input mode
+<a name="line9">                 (similar to ACK* in output mode).  See  <a href="../Hardware_Manual_guide/node0103.html">timing diagrams</a> </a>
+                 in the following section.
+   D0      I/O   +
+   D1      I/O   |
+   D2      I/O   |
+   D3      I/O   | D0-D7 comprise an eight-bit bidirectional bus
+   D4      I/O   | for communication with parallel devices,
+   D5      I/O   | nominally, a printer.
+<a name="line17">   D6      I/O   |</a>
+   D7      I/O   +
+   ACK*     I    Output-data-acknowledge from parallel device in
+                 output mode, used in conjunction with DRDY* (pin 1)
+                 for a two-line asynchronous handshake.  Functions as
+                 input-data-ready from parallel device in input mode
+                 (similar to DRDY* in output mode).
+                 See  <a href="../Hardware_Manual_guide/node0103.html">timing diagrams</a> .  The 8520 can be programmed to
+<a name="line25">                 conditionally generate a level 2 interrupt to the</a>
+                 680x0 whenever the ACK* input goes active.
+   BUSY    I/O   This is a general purpose I/O pin also connected to a
+<a name="line28">                 serial data I/O pin (serial clock on pin 12).</a>
+                 Note: Nominally used to indicate printer buffer full.
+   POUT    I/O   This is a general purpose I/O pin to a
+<a name="line31">                 serial clock I/O pin (serial data on pin 11).</a>
+                 Note: Nominally used to indicate printer paper out.
+   SEL     I/O   This is a general purpose I/O pin.
+                 Note:  nominally a select output from the parallel
+                 device to the Amiga.  On the A500/A2000 also shared
+<a name="line36">                 with RS232 &#034;ring indicator&#034; signal.</a>
+
+   RESET*   O    Amiga system reset
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

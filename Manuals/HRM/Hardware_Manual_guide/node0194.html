@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-2-2-6" TITLE="8 / / Timing / ADKCON and ADKCONR - Audio and Disk Control Register" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / / Timing / ADKCON and ADKCONR - Audio and Disk Control Register</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0193.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0195.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+ADKCON is the write-only address and ADKCONR is the read-only address for
+this register.  Not all of the bits are dedicated to the disk.  Bit 15 of
+this register allows independent setting or clearing of any bit or bits.
+If bit 15 is a one on a write, any ones in positions 0-14 will set the
+corresponding bit.  If bit 15 is a zero, any ones will clear the
+<a name="line7">corresponding bit.</a>
+<a name="line8"></a>
+
+               Table 8-8: ADKCON and ADKCONR Register
+
+     Bit
+     Number  Name       Function
+     ------  ----       --------
+     15      SET/CLR    Control bit that allows setting or clearing of
+                        individual bits without affecting the rest of
+                        the register.
+
+                        If bit 15 is a 1, the specified bits are set.
+<a name="line20">                        If bit 15 is a 0, the specified bits are cleared.</a>
+
+     14      PRECOMP1   MSB of Precompensation specifier
+     13      PRECOMP0   LSB of Precompensation specifier
+
+                        Value of 00 selects none.
+                        Value of 01 selects 140 ns.
+                        Value of 10 selects 280 ns.
+<a name="line28">                        Value of 11 selects 560 ns.</a>
+
+     12      MFMPREC    Value of 0 selects GCR Precompensation.
+<a name="line31">                        Value of 1 selects MFM Precompensation.</a>
+
+     10      WORDSYNC   Value of 1 enables synchronizing and starting of
+                        DMA on disk read of a word.  The word on which to
+                        synchronize must be written into the  <a href="../Hardware_Manual_guide/node0195.html">DSKSYNC</a> 
+                        address ($DFF07E).  This capability is highly
+<a name="line37">                        useful.</a>
+
+     9       MSBSYNC    Value of 1 enables sync on most significant bit
+<a name="line40">                        of the input (usually used for GCR).</a>
+
+     8       FAST       Value of 1 selects two microseconds per bit cell
+                        (usually MFM).  Data must be valid raw MFM.
+                        0 selects four microseconds per bit (usually GCR).
+
+     <a href="../Hardware_Manual_guide/node00E7.html#line84">7-0</a>                These bits are used by the audio subsystem for
+                        volume and frequency modulation.
+<a name="line48"></a>
+
+The raw MFM data that must be presented to the disk controller will be
+twice as large as the unencoded data.  The following table shows the
+relationship:
+
+               1 -&#062; 01
+               0 -&#062; 10   ;if following a 0
+               0 -&#062; 00   ;if following a 1
+
+With clever manipulation, the blitter can be used to encode and decode the
+<a name="line59">MFM.</a>
+
+In one common form of GCR recording, each data byte always has the most
+significant bit set to a 1.  MSBSYNC, when a 1, tells the disk controller
+to look for this sync bit on every disk byte. When reading a GCR formatted
+disk, the software must use a translate table called a nybble-izer to
+assure that data written to the disk does not have too many consecutive
+1's or 0's.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

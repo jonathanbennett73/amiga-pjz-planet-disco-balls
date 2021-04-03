@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-4-7" TITLE="K / Signal Description / Data And Related Control Signals" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Signal Description / Data And Related Control Signals</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02B4.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02B6.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The data time signals here manage the actual transfer of data between
+master and slave for both full and short cycle types.  The burst mode
+signals are here too, as they're basically data phase signals even through
+<a name="line5">they don't only concern the transfer of data.</a>
+
+Data Output Enable (DOE)
+   This signal is used by an expansion card to enable the buffers on the
+   data bus.  The bus master drives this line is to keep slave PICs from
+<a name="line10">   driving data on the bus until data time.</a>
+
+Data Bus (D0-D31)
+   This is the Zorro III data bus, which is driven by either the master
+   or the slave when DOE is asserted by the master (based on  <a href="../Hardware_Manual_guide/node02B4.html#line6">READ</a> ).
+   It's valid for reads when /DTACK is asserted by the slave; on writes
+   when at least one of /DSn is asserted by the master, for all cycle
+<a name="line17">   types.</a>
+
+Data Strobes (/DSn)
+   These strobes fall during data time; /DS3 strobes D24-D31, while /DS0
+   strobes D0-D7. For write cycles, these lines signal data valid on the
+   bus.  At all times, they indicate which bytes in the 32-bit data word
+   the bus master is actually interested in.  For cachable reads, all
+   four bytes must be returned, regardless of the value of the sizing
+   strobes.  For writes, only those bytes corresponding to asserted /DSN
+   are written.  Only contiguous byte cycles are supported; e.g.,
+<a name="line27">   /DS3-0 = 2, 4, 5, 6, or 10 is invalid.</a>
+
+Data Transfer Acknowledge (/DTACK)
+   This signal is used to normally terminate a Zorro III cycle.  The
+   slave is always responsible for driving this signal.  For a read
+   cycle, it asserts /DTACK as soon as it has driven valid data onto the
+   data bus.  For a write cycle, it asserts /DTACK as soon as it's done
+   with the data.  Latching the data on writes may be a good idea; that
+   can allow a slave to end the cycle before it has actually finished
+<a name="line36">   writing the data to its local memory.</a>
+
+Cache Inhibit (/CINH)
+   This line is asserted at the same time as  <a href="../Hardware_Manual_guide/node02B2.html#line3">/SLAVEn</a>  to indicate to the
+   bus master that the cycle must not be  <a href="../Hardware_Manual_guide/node02A9.html">cached</a> .  If a device doesn't
+   support caching, it must assert /CINH and actually obey the /DSn byte
+   strobes for read cycles.  Conversely, if the device supports caching,
+   /CINH is negated and the device returns all four bytes valid on
+<a name="line44">   reads, regardless of the actual supplied /DSn strobes.</a>
+
+Multiple Cycle Transfers (/MTCR, /MTACK)
+   These lines comprise the  <a href="../Hardware_Manual_guide/node02AA.html">Multiple Transfer Cycle</a>  handshake signals.
+   The bus master asserts /MTCR at the start of data time if it's
+   capable of supporting  <a href="../Hardware_Manual_guide/node02AA.html">Multiple Transfer Cycles</a> , and the slave asserts
+   /MTACK with  <a href="../Hardware_Manual_guide/node02B2.html#line3">/SLAVEn</a>  if it's capable of supporting
+    <a href="../Hardware_Manual_guide/node02AA.html">Multiple Transfer Cycles</a> .  If the handshake goes through, /MTCR
+   strobes in the short address and write data as long as the full cycle
+   continues.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,69 @@
+Asl 45.0 (30.10.00)
+
+- initial release
+
+
+Asl 45.1 (31.10.00)
+
+- the program makes sure that the provided stack 
+  is large enough (at least 6k). If not a new stack
+  of 8k will be allocated.
+
+
+Asl 45.2 (05.11.00)
+
+- the program texts are taken from the prefs.catalog,
+  now.
+
+- the window can be resized in y direction, too.
+
+
+Asl 45.3 (12.11.00)
+
+- the window can be iconified, now.
+
+- reduced flickering when the user plays with the
+  Size and Position gadgets.
+
+- it's possible to "tabcycle" through the integer.gadgets.
+
+- the width and height integer.gadget are bit larger, now.
+
+- the bottom group of gadgets looks like the rest of the 
+  prefs program, now.
+
+- corrected defaulttool of the asl.prefs icon.
+
+
+Asl 45.4 (17.11.00)
+
+- the programname is now used as the title of the appicon.
+
+
+Asl 45.5 (19.11.00)
+
+- added a gadget to activate the ASLOverrides option.
+
+
+Asl 45.6 (27.11.00)
+
+- changed the labelplace of the "Override" checkbox <Jochen Becher>.
+
+
+Asl 45.7 (24.12.00)
+
+- requests prefs.catalog v44, now.
+
+
+Asl 45.8 (06.02.01)
+
+- running multiple instances of the program is no longer
+  possible <David Rey>.
+  
+- when trying load a file that is an iff file but not an asl
+  one, the program will show a error message, now <also David>.
+
+
+Asl 45.9 (26.04.01)
+
+- now allows screen changes.

@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-8-4" TITLE="2 / Advanced Topics / Using the Copper In Interlaced Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / Advanced Topics / Using the Copper In Interlaced Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node005B.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node005D.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+An interlaced bitplane display has twice the normal number of vertical
+lines on the screen.  Whereas a normal NTSC display has 262 lines, an
+interlaced NTSC display has 524 lines.  PAL has 312 lines normally and 625
+in interlaced mode.  In interlaced mode, the video beam scans the screen
+twice from top to bottom, displaying, in the case of NTSC, 262 lines at a
+time. During the first scan, the odd-numbered lines are displayed.  During
+the second scan, the even-numbered lines are displayed and interlaced with
+the odd-numbered ones.  The scanning circuitry thus treats an interlaced
+display as two display fields, one containing the even-numbered lines and
+one containing the odd-numbered lines. Figure 2-1 shows how an interlaced
+<a name="line12">display is stored in memory.</a>
+
+
+         Odd field             Even field
+         (time t)           (time t + 16.6ms)       Data in Memory
+     -----------------      -----------------      -----------------
+                                                   _________________
+                                                  |                 |
+                                                  |        1        |
+                                                  |_________________|
+                                                  |                 |
+     _________________      _________________     |        2        |
+    |                 |    |                 |    |_________________|
+    |        1        |    |        2        |    |                 |
+    |_________________|    |_________________|    |        3        |
+    |                 |    |                 |    |_________________|
+    |        3        |    |        4        |    |                 |
+    |_________________|    |_________________|    |        4        |
+    |                 |    |                 |    |_________________|
+    |        5        |    |        6        |    |                 |
+    |_________________|    |_________________|    |        5        |
+                                                  |_________________|
+                                                  |                 |
+                                                  |        6        |
+                                                  |_________________|
+
+
+                 Figure 2-1: Interlaced Bitplane in RAM
+
+
+The system retrieves data for bitplane displays by using pointers to the
+starting address of the data in memory. As you can see, the starting
+address for the even-numbered fields is one line greater than the starting
+address for the odd-numbered fields. Therefore, the bitplane pointer must
+contain a different value for alternate fields of the interlaced display.
+
+Simply, the organization of the data in memory matches the apparent
+organization on the screen (i.e., odd and even lines are interlaced
+<a name="line50">together). This is accomplished by having a separate</a>
+<a name="line51"> <a href="../Hardware_Manual_guide/node0053.html">Copper instruction list</a>  for each field to manage displaying the data.</a>
+
+To get the Copper to execute the correct list, you set an interrupt to the
+680x0 just after the first line of the display. When the interrupt is
+executed, you change the contents of the  <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a>  location register to
+point to the second list. Then, during the  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  interval,
+ <a href="../Hardware_Manual_guide/node0050.html">COP1LC</a>  will be automatically reset to point to the original list.
+
+For more information about  <a href="../Hardware_Manual_guide/node0069.html#line16">interlaced displays</a> , see Chapter 3,
+&#034;Playfield Hardware.&#034;
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

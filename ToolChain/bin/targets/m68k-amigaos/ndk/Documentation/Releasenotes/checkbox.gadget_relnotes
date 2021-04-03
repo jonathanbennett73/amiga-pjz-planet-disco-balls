@@ -1,0 +1,26 @@
+
+checkbox.gadget 45.1 (02.03.01)
+
+· recompiled with new startup code and, of course, 68020+
+  optimiziation.
+
+· when clicking on the gadget, holding down the button and 
+  then moving the pointer out of the hitbox the gadget did not
+  send a notification to the application. It was possibly
+  supposed to switch back to the old state here, which it
+  didn't. fixed.
+
+· keeping the hotkey of a checkbox pressed, no longer toggles
+  its state over and over. The gadget ignores repeated
+  keymessages, now. Caldi tried to fixed that but he forgot
+  a pair of brackets, so it never worked and he commented it
+  out ;)
+
+checkbox.gadget 45.2 (12.03.01)
+
+· changed placement of underscore.
+
+checkbox.gadget 45.3 (26.03.01)
+
+· the OM_DISPOSE did not free the memory for the label, old
+  ClassAct bug <Thomas Richter>.

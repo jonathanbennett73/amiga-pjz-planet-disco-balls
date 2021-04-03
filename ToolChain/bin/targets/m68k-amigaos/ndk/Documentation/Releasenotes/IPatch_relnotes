@@ -1,0 +1,41 @@
+IPatch 45.1 (18.11.2000)
+
+· initial release
+
+· Thanks to Massimo Tantignone (betatester and author of VisualPrefs): without
+  him this program could not be finished in time. Great work!
+
+· IPatch makes the size gadget and border gadgets larger (height of size
+  gadget is increased from 10 pixels to 14). Lower window border is set
+  to 3 pixels (1 pixel fillpen between shine and shadow). This matches
+  4:3 screen resolutions as good as possible.
+
+· This is only a betatest program. We will integrate it into IPrefs and add
+  an option to IControl to switch it on/off. Currently activate it by settings
+  arg ACTIVE on startup or press Ctrl-D to toggle active/inactive state.
+
+· For first testing you don't have to put it into your startup-sequence. Just
+  run it from CLI. Screen opened after activting it should use the larger
+  size gadget, screens that were opened before shouldn't. Please test this
+  carefully. Force a workbench reset (change screen font or similar) to see
+  if activating / inactivating it on Workbench do work.
+
+· Now please run it from your startup-sequence BEFORE IPrefs. Set arg
+  ACTIVE if you want to start it active.
+
+  RUN >NIL: <NIL: IPatch ACTIVE
+
+· After integrating it into IPrefs it will reset the Workbench screen
+
+· For testing: Please try it together with other window border enhancers
+  (VisualPrefs, MCP, SysIHack (some might still use it)). Test what happens
+  if it is started before or after the patches. What happens after
+  activating / inactivating it? I expect no really bad results with 
+  VisualPrefs but I am not sure about MCP and SysIHack.
+
+· I am not sure about its quality for lowres screens. Typically AmigaOS
+  knows two different sizes for window border: LOWRES and MEDRES. LOWRES
+  is a small (mostly) 1:1 resolution and MEDRES is (mostly) 2:1. We only
+  changed the MEDRES resolutions (now 4:3) which is used for all Non-LoRes
+  screens. But it is possible that the patches do not work perfectly with
+  LowRes screens. Please test this carefully.

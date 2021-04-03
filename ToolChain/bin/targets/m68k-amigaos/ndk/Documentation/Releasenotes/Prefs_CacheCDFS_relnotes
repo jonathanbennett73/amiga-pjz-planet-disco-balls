@@ -1,0 +1,81 @@
+
+CacheCDFS 44.1 (3.8.99)
+
+· Initial release for Reaction. Most of code is identical to the original
+  GadTools version so it should work without many bugs.
+
+  Changes to GadTools version:
+
+  · Uses Reaction classes, resizable, iconifyable window
+
+  · Added group labels
+  
+  · Changed window title
+  
+  · Removed About... menu item
+  
+  · Removed error message if program icon not found: the message is not 
+    displayed if started from workbench and not important if started from
+    CLI.
+  
+  · Added version string
+  
+  · Added localization, strings are part of system preferences catalog
+  
+  · Ctrl-C cancles program, Ctrl-F brings window to front (like all other
+    preferences windows)
+  
+  · Removed close gadget from window
+
+CacheCDFS 44.2 (9.8.99)
+
+· Changing integer gadgets caused enforcer hits.
+
+· uniconfiy and possible startup (no reproducable) caused hits.
+
+· added a lot of GA_TabCycle tags
+
+CacheCDFS 44.4 (18.8.99)
+
+· added close gadget
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+· modified some group title layouts
+
+· I didn't find a layout that works with 640x200. Now it opens an own screen
+  using AutoScroll if needed. The height is now 256, which should work with
+  topaz/8, layout spacing 1 and as soon as the layout spacing bug in 
+  layout.gadget is fixed.
+
+CacheCDFS 44.5 (8.9.99)
+
+· fixed typo in catalog file name.
+
+· starting CDFSPrefs a second time crashed.
+
+· starting CDFSPrefs a second time now activates the first started program
+  (like all other prefs tools do)
+
+· changed window title
+
+CacheCDFS 44.6 (17.9.99)
+
+· screen height must be at least 270 or a larger custom screen will be
+  opened. But you must use topaz/8, GadTools layout and layout spacing 1.
+
+CacheCDFS 44.11 (1.10.99)
+
+· screen width must now be at least 704 or a larger screen will be opened.
+
+· uses now name of Executable as title for iconify icon.
+
+· iconify icon is unsnapshot on startup
+
+CacheCDFS 44.12 (1.10.99)
+
+· changed layout a but to make it smaller. A 640 wide screen should be enough
+  now for all locales but I stay with the autoscroll screen dimensions.
+  

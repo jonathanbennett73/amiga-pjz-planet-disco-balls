@@ -1,0 +1,11 @@
+tapedeck.gadget
+LABEL "Tapedeck"
+PARENTPROFILE "Special Gadget"
+LIBRARY "gadgets/tapedeck.gadget" 0 PUBLIC
+INCLUDE "gadgetclass.baseclass"
+SELECT  0x85000001 (I····) TDECK_Mode "Mode" 8 0 0 "Rewind" 1 "Play" 2 "Forward" 3 "Stop" 4 "Pause" 5 "Begin" 6 "Frame" 7 "End"
+BOOLEAN 0x85000002 (I····) TDECK_Paused "Paused" FALSE "Paused"
+BOOLEAN 0x85000003 (I····) TDECK_Tape "Tape" FALSE "Use tapedeck"
+INTEGER 0x8500000B (I····) TDECK_Frames "Frames" 0 0 0x80000000
+INTEGER 0x8500000C (I····) TDECK_CurrentFrame "Current Frame" 0 0 0x80000000
+END

@@ -1,0 +1,61 @@
+ilbm 44.1 (13.3.99)
+
+- Completely rewritten from scratch.
+
+- Now requires Kickstart 3.1.
+
+
+ilbm 44.2 (13.3.99)
+
+- Added true colour support. This includes the 12, 15, 18,
+  21 and 24 bit variants used by ASDG and NewTek software.
+
+
+ilbm 44.3 (14.3.99)
+
+- Now honours the "colour map is really 8 bits
+  wide" flag proposed for use in the BitMapHeader.
+
+
+ilbm 44.4 (16.3.99)
+
+- Now requires picture.datatype V43.
+
+
+ilbm 44.5 (17.3.99)
+
+- For true colour picture data the BitMapHeader now always
+  reports the picture depth to be 24 bits, regardless of
+  whether it was really 24 bits or less. This is because
+  the conversion process always yields 24 bit colour data.
+
+
+ilbm 44.6 (20.4.99)
+
+- Added support for the PDTA_GetNumPictures and PDTA_WhichPicture
+  tags.
+
+- Smarter descriptor now allows for ILBM chunks to be in CATs
+  and LISTs.
+
+
+ilbm 44.7 (23.4.99)
+
+- True colour picture data with a width that is not a multiple
+  of 16 no longer causes the planar to chunky conversion code
+  to crash.
+
+
+ilbm 44.8 (27.6.99)
+
+- The descriptor code was too "smart". It even mis-identified
+  IFF-ANIM files as being IFF-ILBM files. Considering that
+  IFF-ANIM files do contain lists of embedded IFF-ILBM chunks
+  it was right about it. Still, that's too smart and now
+  the code stops reading if it hits a FORM ANIM chunk.
+
+
+ilbm 44.9 (2.8.2000)
+
+- No longer loads palette mapped image data that doesn't sport
+  any colour palette information.

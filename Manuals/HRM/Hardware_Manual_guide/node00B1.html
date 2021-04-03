@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-2-1" TITLE="4 / Forming a Sprite / Screen Position" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 / Forming a Sprite / Screen Position</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00B0.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00B2.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A sprite's screen position is defined as a set of X,Y coordinates.
+Position (0,0), where X = 0 and Y = 0, is the upper left-hand corner of
+the display. You define a sprite's location by specifying the coordinates
+of its upper left-hand pixel. Sprite position is always defined as though
+the display modes were low resolution and non-interlaced. The X,Y
+coordinate system and definition of a sprite's position are graphically
+represented in Figure 4-1. Notice that because of display overscan,
+position (0,0) (that is, X = 0, Y = 0) is not normally in a viewable
+<a name="line10">region of the screen.</a>
+
+
+       (0,0) __
+               \
+                \
+                 +-----------------------------+
+                 |###############|#############|
+                 |###############|#############|
+                 |###+-----------|---------+###|
+                 |###|                     |###|  __ visible screen
+                 |###|        Y axis       |###| /     boundaries
+                 |###|                     |###|/
+                 |###|           |         |###/
+                 |###|           |         |##/|
+                 |###|           |         |#/#|
+                 |----- X axis --+---+     |/##|
+                 |###|           |/*\|     |###|
+                 |###|           |***|     |###|
+                 |###|           |\*/|     |###|
+                 |###|           +---+     |###|
+                 |###|                     |###|
+                 |###|                     |###|
+                 |###|                     |###|
+                 |###|                     |###|
+                 |###+---------------------+###|
+                 |#############################|
+                 |#############################|
+                 +-----------------------------+
+
+
+          Figure 4-1: Defining Sprite On-screen Position
+<a name="line42"></a>
+
+The amount of viewable area is also affected by the size of the
+ <a href="../Hardware_Manual_guide/node006F.html">playfield display window</a>  (defined by the values in  <a href="../Hardware_Manual_guide/node0072.html#line9">DDFSTRT</a> ,  <a href="../Hardware_Manual_guide/node0072.html#line31">DDFSTOP</a> ,
+ <a href="../Hardware_Manual_guide/node0070.html">DIWSTRT</a> ,  <a href="../Hardware_Manual_guide/node0071.html">DIWSTOP</a> , etc.). See the &#034;Playfield Hardware&#034; chapter for more
+information about  <a href="../Hardware_Manual_guide/node007E.html">overscan and display windows</a> .
+
+ <a href="../Hardware_Manual_guide/node00B2.html">Horizontal Position</a> 
+ <a href="../Hardware_Manual_guide/node00B3.html">Vertical Position</a> 
+ <a href="../Hardware_Manual_guide/node00B4.html">Clipped Sprites</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

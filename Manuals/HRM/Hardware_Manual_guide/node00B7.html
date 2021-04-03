@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-2-4" TITLE="4 / Forming a Sprite / Sprite Color" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 / Forming a Sprite / Sprite Color</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00B6.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00B8.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+When sprites are used individually (that is, not attached as described in
+the  <a href="../Hardware_Manual_guide/node00C6.html">Attached Sprites</a>  section), each pixel can be one of three colors
+or transparent.  Color selection in similar to the method used for
+<a name="line5">playfield colors. Figure 4-5 shows how the color of each pixel in a sprite</a>
+is determined.
+
+                                                 high-order word of
+                                                  sprite data line
+   _______________________________
+  |            _|#|_              |    _ _0 0 0 0 0 1 1 1 0 1 1 1 0 0 0 0
+  |          _|o|#|o|_            |   |
+  |_ _ _ _ _|o|o|#|o|o|_ _ _ _ _ _|       |
+  |_|_|_|_|#|#|#|_|#|#|#|_|_|_|_|_|- -|   |
+  |    |    |o|o|#|o|o|           |       |
+  |    |      |o|#|o|             |   |_ _|_0 0 0 0 0 1 1 1 0 1 1 1 0 0 0 0
+  |____|________|#|_______________|       |
+       |                                  | |      low-order word of
+       |                                  | |      sprite data line
+                                          | |
+  transparent                             | |
+                 Forms a binary code,
+                   used as the color  --&#062; 0 0
+                 choice from a group
+                  of color registers.
+
+
+                   Figure 4-5: Sprite Color Definition
+<a name="line29"></a>
+
+The 0s and 1s in the two  <a href="../Hardware_Manual_guide/node00BC.html">data words</a>  that define each line of a sprite in
+the  <a href="../Hardware_Manual_guide/node00B9.html">data structure</a>  form a binary number. This binary number points to
+one of the four  <a href="../Hardware_Manual_guide/node00D0.html">color registers</a>  assigned to that particular sprite
+ <a href="../Hardware_Manual_guide/node00BF.html">DMA channel</a>. The eight sprites use system color registers 16 - 31. For
+purposes of color selection, the eight sprites are organized into pairs
+and each pair uses four of the  <a href="../Hardware_Manual_guide/node00D0.html">color registers</a>  as shown in Figure 4-6.
+
+   About sprite  <a href="../Hardware_Manual_guide/node00D0.html">color registers</a> .
+   -------------------------------
+   The color value of the first register in each group of four registers
+   is ignored by sprites. When the sprite bits select this register, the
+<a name="line42">   &#034;transparent&#034; value is used.</a>
+
+
+                 00  Unused
+                 01  Unused
+                       &#183;
+                       &#183;
+                       &#183;         _
+                 16  Unused   00  |
+                 17  Color 1  01  |
+                 18  Color 2  10  |-- Sprites 0 and 1
+                 19  Color 3  11 _|
+                 20  Unused   00  |
+                 21  Color 1  01  |
+                 22  Color 2  10  |-- Sprites 2 and 3
+                 23  Color 3  11 _|
+                 24  Unused   00  |
+                 25  Color 1  01  |
+                 26  Color 2  10  |-- Sprites 4 and 5
+                 27  Color 3  11 _|
+                 28  Unused   00  |
+                 29  Color 1  01  |
+                 30  Color 2  10  |-- Sprites 6 and 7
+                 31  Color 3  11 _|
+
+
+               Figure 4-6: Color Register Assignments
+
+
+If you require certain colors in a sprite, you will want to load the
+sprite's  <a href="../Hardware_Manual_guide/node00D0.html">color registers</a>  with those colors. The &#034;Playfield Hardware&#034;
+chapter contains instructions on loading  <a href="../Hardware_Manual_guide/node0067.html">color registers</a> .
+
+The binary number 00 is special in this color scheme. A pixel whose value
+is 00 becomes transparent and shows the color of any other sprite or play-
+field that has lower video priority. An object with low priority appears
+&#034;behind&#034; an object with higher priority. Each sprite has a fixed video
+priority with respect to all the other sprites. You can vary the priority
+between sprites and playfields. (See Chapter 7, &#034;System Control Hardware,&#034;
+for more information about  <a href="../Hardware_Manual_guide/node0155.html">sprite priority</a> .)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

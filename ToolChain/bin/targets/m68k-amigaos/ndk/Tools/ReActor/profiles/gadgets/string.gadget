@@ -1,0 +1,17 @@
+string.gadget
+LABEL "String"
+LIBRARY "gadgets/string.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+INTEGER  0x80032001 (I····) STRINGA_MaxChars "Max. Chars" 15 1 32767
+STRING   0x80032012 (I··NU) STRINGA_TextVal "String Mode" ""
+BOOLEAN  0x8003200D (I····) STRINGA_ReplaceMode "Replace Mode" FALSE "Replace Chars"
+BOOLEAN  0x8003200E (I····) STRINGA_FixFieldMode "Fix Field Mode" FALSE "Fix Field"
+BOOLEAN  0x8003200F (I····) STRINGA_NoFilterMode "No Filter Mode" FALSE "No Filter"
+BOOLEAN  0x80032013 (I····) STRINGA_ExitHelp "Exit Help Mode" FALSE "Exit On Help-Key"
+SELECT   0x80032010 (I····) STRINGA_Justification "Justification" 3 0x0000 0x0000 "Left" 0x0200 "Center" 0x0400 "Right"
+TWOPENS  0x80032009 (I····) STRINGA_Pens "Pens" BACKGROUNDPEN TEXTPEN
+TWOPENS  0x8003200A (i····) STRINGA_ActivePens "Active Pens" BACKGROUNDPEN TEXTPEN
+INTEGER  0x85055000 (I····) STRINGA_MinVisible "Minimum Visible" 0 0 65535
+SELECT   0x85055001 (I····) STRINGA_HookType "Hook Type" 9 0 0 "Custom" 1 "Password" 2 "IP Address" 3 "Float" 4 "Hexadecimal" 5 "Telephone" 6 "Postalcode" 7 "Amount" 8 "Uppercase"
+LINK     0x8003200B (I····) STRINGA_EditHook "Edit Hook"
+END

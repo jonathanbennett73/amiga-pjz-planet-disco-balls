@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-3-1" TITLE="K / Zorro III Bus Architecture / Basic Zorro III Bus Cycles" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Zorro III Bus Architecture / Basic Zorro III Bus Cycles</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02A3.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02A5.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The basic Zorro III bus cycle is a  <a href="../Hardware_Manual_guide/node02AA.html">multiplexed</a>  address/data cycle which
+supplies a full 32 bits worth of address and data per simple cycle.  The
+cycle is a fully  <a href="../Hardware_Manual_guide/node02A5.html">asynchronous</a>  cycle.  The bus master for a given cycle
+supplies strobes to indicate when address is valid, write data is valid,
+and read data may be driven.  In return, the bus slave for a cycle
+supplies a strobe to indicate that it is responding to a bus address, and
+a strobe to indicate that it is done with the bus data for a write cycle,
+or has supplied valid bus data for a read cycle.  The minimum theoretical
+bus speed is governed only by setup and hold time requirements for the
+various bus signals.  Actual bus speeds are always a function of the bus
+master and bus slave active for a given cycle.  This is considerably
+different than the Zorro II bus, and for several good reasons, which are
+explained below.
+
+ <a href="../Hardware_Manual_guide/node02A5.html">Design Goals</a>      <a href="../Hardware_Manual_guide/node02A6.html">Simple Bus Cycle Operation</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

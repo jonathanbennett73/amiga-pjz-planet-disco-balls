@@ -1,0 +1,119 @@
+TABLE OF CONTENTS
+
+drawlist_ic/--datasheet--
+drawlist_ic/DRAWLIST_GetClass
+drawlist_ic/--datasheet--                           drawlist_ic/--datasheet--
+
+    NAME
+        drawlist_ic -- create drawlist BOOPSI objects
+
+    SUPERCLASS
+        imageclass
+
+    REQUIRES
+        None.
+
+    DESCRIPTION
+        This image class can create custom scaled glyphs via a
+        "drawlist". The drawlist is an array of drawing directives
+        such as lines, areafills, etc. All coordinates are based
+        on an imaginary grid of a user specified size, then
+        ScalerDiv() is used to scale these coordinates to the desired
+        image size to be rendered. This is a lower level class utilized
+        by glyph.image, if you create some interesting drawlist, please
+        consider passing them on to others, or to us for inclusion.
+
+    METHODS
+        OM_NEW -- Create the drawlist image.  Passed to superclass, then
+            OM_SET.
+
+        OM_GET -- Get object attributes.  Passed to superclass first.
+
+        OM_SET -- Set object attributes.  Passed to superclass first.
+
+        OM_UPDATE -- Set object notification attributes.  Passed to
+            superclass first.
+
+        IM_DRAW -- Renders the images.  Overrides the superclass.
+        IM_DRAWFRAME -- Renders the images scaled to thee frame size.
+            Overrides the superclass.
+
+        All other methods are passed to the superclass, including OM_DISPOSE.
+
+    ATTRIBUTES
+        DRAWLIST_Directives (struct DrawList *)
+            An array of drawlist directive structures are passed
+            to specify the vectors and render operation. The last
+            entry must be DLST_END!
+
+            struct DrawList
+            {
+                WORD dl_Directive;
+                WORD dl_X1, dl_Y1;
+                WORD dl_X2, dl_Y2;
+                WORD dl_Pen;
+            };
+
+
+            The following directives are supported;
+
+            DLST_END      - End the directive list.
+            DLST_LINE     - Render a line from dl_x1,dl_y1 to dl_x2,dl_y2
+            DLST_RECT     - Cause a RectFill() of size dl_x1,dl_y1,dl_x2,dl_y2
+            DLST_LINEPAT  - Set the line pattern to value held in dl_Pen
+            DLST_FILLPAT  - Set the fill pattern to value held in dl_Pen
+            DLST_LINESIZE - Set the drawlist line thickness via dl_Pen
+            DLST_AMOVE    - AreaMove() using dl_x1,dl_y1
+            DLST_ADRAW    - AreaDraw() using dl_x1,dl_y1
+            DLST_AFILL    - Cause the AreaFill() operation 
+            DLST_FILL     - Flood() an area.
+            DLST_ELLIPSE  - AreaEllipse()
+            DLST_CIRCLE   - AreaCircle()
+            DLST_BEVELBOX - currently unsupported (alpha function removed)
+            DLST_ARC      - currently unsupported
+            DLST_START    - currently unsupported
+            DLST_BOUNDS   - currently unsupported
+
+            Defaults to NULL.
+
+            Applicability is (OM_NEW, OM_SET, OM_GET)
+
+        DRAWLIST_RefHeight (WORD)
+            Reference height of the drawlist imagary grid.
+
+            Applicability is (OM_NEW, OM_SET, OM_GET)
+
+        DRAWLIST_RefWidth (WORD)
+            Reference width of the drawlist imagary grid.
+
+            Applicability is (OM_NEW, OM_SET, OM_GET)
+drawlist_ic/DRAWLIST_GetClass                   drawlist_ic/DRAWLIST_GetClass
+
+    NAME
+        DRAWLIST_GetClass -- Gets the pointer to the drawlist class.
+
+    SYNOPSIS
+        drawlist_class = DRAWLIST_GetClass();
+        D0
+
+        Class * DRAWLIST_GetClass(VOID);
+
+    FUNCTION
+        Obtains the pointer to the DrawList image class for use with
+        NewObject().  This function always returns a valid pointer so
+        you do not need to check it.  The reason is that if the library
+        opens fine, then the pointer returned is already setup.  (Of course
+        this implies that if opening the library fails, you shouldn't be
+        calling this.)
+
+        Note that this function does not create the class, that is done
+        when the class library is opened.
+
+    INPUTS
+        Nothing.
+
+    RESULT
+        drawlist_class - Pointer to the DrawList image class.
+
+    SEE ALSO
+

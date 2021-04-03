@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-15" TITLE="6 Blitter Hardware / Blitter Operations and System DMA" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 Blitter Hardware / Blitter Operations and System DMA</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node012A.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node012C.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The operations of the blitter affect the performance of the rest of the
+system. The following sections explain how system performance is affected
+by blitter direct memory access priority, DMA time slot allocation, bus
+sharing between the 680x0 and the display hardware, the operations of the
+blitter and Copper, and different playfield display sizes.
+
+The blitter performs its various data-fetch, modify, and store operations
+through DMA sequences, and it shares memory access with other devices in
+the system. Each device that accesses memory has a priority level assigned
+<a name="line11">to it, which indicates its importance relative to other devices.</a>
+
+Disk DMA, audio DMA, display DMA, and sprite DMA all have the highest
+priority level.  Display DMA has  <a href="../Hardware_Manual_guide/node0155.html">priority</a>  over sprite DMA under certain
+circumstances.  Each of these four devices is allocated a group of time
+slots during each horizontal scan of the video beam. If a device does not
+request one of its allocated time slots, the slot is open for other uses.
+These devices are given first priority because missed DMA cycles can cause
+lost data, noise in the sound output, or on-screen interruptions.
+
+The Copper has the next priority because it has to perform its operations
+at the same time during each display frame to remain synchronized with the
+display beam sweeping across the screen.
+
+The lowest priorities are assigned to the blitter and the 68000, in that
+order. The blitter is given the higher priority because it performs data
+copying, modifying, and line drawing operations operations much faster
+<a name="line28">than the 68000.</a>
+<a name="line29"></a>
+During a horizontal scan line (about 63 microseconds), there are 227.5
+&#034;color clocks&#034;, or memory access cycles.  A memory cycle is approximately
+280 ns in duration.  The total of 227.5 cycles per horizontal line
+includes both display time and non-display time.  Of this total time, 226
+cycles are available to be allocated to the various devices that need
+<a name="line35">memory access.</a>
+
+The time-slot allocation per horizontal line is:
+
+      4 cycles for memory refresh
+      3 cycles for disk DMA
+      4 cycles for audio DMA (2 bytes per channel)
+     16 cycles for sprite DMA (2 words per channel)
+     80 cycles for bitplane DMA (even- or odd-numbered slots
+<a name="line44">          according to the display size used)</a>
+
+Figure 6-9 shows one complete horizontal scan line and how the clock
+cycles are allocated.
+
+     <a href="../Hardware_Manual_guide/node02D4.html">Figure 6-9: DMA Time Slot Allocation</a> 
+
+The 68000 uses only the even-numbered memory access cycles. The 68000
+spends about half of a complete processor instruction time doing internal
+operations and the other half accessing memory. Therefore, the allocation
+of alternate memory cycles to the 68000 makes it appear to the 68000 that
+<a name="line55">it has the memory all of the time, and it will run at full speed.</a>
+
+Some 68000 instructions do not match perfectly with the allocation of even
+cycles and cause cycles to be missed. If cycles are missed, the 68000 must
+wait until its next available memory slot before continuing. However, most
+instructions do not cause cycles to be missed, so the 68000 runs at full
+speed most of the time if there is no blitter DMA interference.
+
+<a name="line63">Figure 6-10 illustrates the normal cycle of the 68000.</a>
+
+   Avoid the TAS instruction.
+   --------------------------
+   The 68000 test-and-set instruction (TAS) should never be used in the
+   Amiga; the indivisible read-modify-write cycle that is used only in
+<a name="line69">   this instruction will not fit into a DMA memory access slot.</a>
+
+
+      |                                                       |
+      |&#060;- - - - - - - - average 68000 cycle - - - - - - - - -&#062;|
+      |                                                       |
+      |                                                       |
+      |                           |                           |
+      |&#060;- - - - internal  - - - -&#062;|&#060;- - - - - memory  - - - -&#062;|
+      |         operation         |           access          |
+      |         portion           |           portion         |
+      |                           |                           |
+      |                           |                           |
+      |        odd cycle,         |         even cycle,       |
+      |        assigned to        |         available to      |
+      |        other devices      |         the 68000         |
+      |                           |                           |
+      |                           |                           |
+      |                           |                           |
+      |                           |                           |
+
+                   Figure 6-10: Normal 68000 Cycle
+
+
+If the display contains four or fewer low resolution bitplanes, the 68000
+can be granted alternate memory cycles (if it is ready to ask for the
+cycle and is the highest priority item at the time). However, if there are
+more than four bitplanes, bitplane DMA will begin to steal cycles from the
+68000 during the display.
+
+During the display time for a six bitplane display (low resolution, 320
+pixels wide), 160 time slots will be taken by bitplane DMA for each
+horizontal line. As you can see from Figure 6-11, bitplane DMA steals 50
+percent of the open slots that the processor might have used if there were
+<a name="line103">only four bitplanes displayed.</a>
+
+
+                          - timing cycle -
+      T                                                     T + 7
+
+      +               *               +               *
+   _______________________________________________________________
+  |       |       |       |       |       |       |       |       |
+  |       |   4   |   6   |   2   |       |   3   |   5   |   1   |
+  |_______|_______|_______|_______|_______|_______|_______|_______|
+
+       Figure 6-11: Time Slots Used by a Six Bitplane Display
+<a name="line116"></a>
+
+If you specify four high resolution bitplanes (640 pixels wide), bitplane
+DMA needs all of the available memory time slots during the display time
+just to fetch the 40 data words for each line of the four bitplanes
+(40 * 4 = 160 time slots).  This effectively locks out the 68000 (as well
+as the blitter or Copper) from any memory access during the display,
+<a name="line123">except during horizontal and  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a> .</a>
+
+
+                          - timing cycle -
+      T                                                     T + 7
+
+   _______________________________________________________________
+  |       |       |       |       |       |       |       |       |
+  |   4   |   2   |   3   |   1   |   4   |   2   |   3   |   1   |
+  |_______|_______|_______|_______|_______|_______|_______|_______|
+
+      Figure 6-12: Time Slots Used by a High Resolution Display
+
+
+Each horizontal line in a normal, full-sized display contains 320 pixels
+in low resolution mode or 640 pixels in high resolution mode.  Thus,
+either 20 or 40 words will be fetched during the horizontal line display
+time. If you want to  <a href="../Hardware_Manual_guide/node0086.html">scroll a playfield</a> , one extra data word per line must
+be fetched from the memory.
+
+ <a href="../Hardware_Manual_guide/node006F.html">Display size</a>  is adjustable (see Chapter 3, &#034;Playfield Hardware&#034;), and
+bitplane DMA takes precedence over sprite DMA.  As shown in  <a href="../Hardware_Manual_guide/node02D4.html">Figure 6-9</a> 
+larger displays may block out one or more of the highest-numbered sprites,
+<a name="line146">especially with scrolling.</a>
+
+As mentioned above, the blitter normally has a higher priority than the
+processor for DMA cycles.  There are certain cases, however, when the
+blitter and the 68000 can share memory cycles. If given the chance, the
+<a name="line151">blitter would steal every available Chip memory cycle. Display, disk, and</a>
+audio DMA take precedence over the blitter, so it cannot block them from
+bus access.  Depending on the setting of the blitter DMA mode bit,
+commonly referred to as the &#034;blitter-nasty&#034; bit, the processor may be
+blocked from bus access.  This bit is called DMAF_BLITHOG (bit 10) and is
+in register  <a href="../Hardware_Manual_guide/node0170.html">DMACON</a> .
+
+If DMAF_BLITHOG is a 1, the blitter will keep the bus for every available
+Chip memory cycle.  This could potentially be every cycle (ROM and Fast
+memory are not typically Chip memory cycles).
+
+If DMAF_BLITHOG is a 0, the DMA manager will monitor the 68000 cycle
+requests.  If the 68000 is unsatisfied for three consecutive memory
+cycles, the blitter will release the bus for one cycle.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

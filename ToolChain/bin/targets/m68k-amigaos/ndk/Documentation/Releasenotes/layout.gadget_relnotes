@@ -1,0 +1,63 @@
+layout.gadget 45.3 (27.10.2000)
+
+· added tag LAYOUT_NoLayout which makes layout.gadget not to change position
+  and size of children.
+
+layout.gadget 45.4 (13.11.2000)
+
+· page gadget didn't propagate back fill hook to children correctly.
+
+· on page selections the page background wasn't erased using the backfill
+  hook. So only groups as top object worked correctly.
+
+· added a missing semaphore zero initialization.
+
+layout.gadget 45.5 (27.02.2001)
+
+· implemented (partial) support for the upcoming 
+  virtualgroup.gadget.
+
+· when the root layout.gadget of a window was activated
+  by intuition.library/ActivateGadget(), the gadget failed
+  to setup some important fields (correctly), so that
+  the child object that got activated never could go
+  inactive. This happened when the "Screen activation" 
+  function of MCP was used <Allan Odgaard>.
+
+· dragging a weightbar "too far" to the left/bottom made it
+  jump to the right/top.
+
+layout.gadget 45.6 (02.03.2001)
+
+· finally recognizes clicks on the left or top gadget
+  border of child objects (x==0 || y==0).
+
+· now queries the size of images through IM_DOMAINFRAME instead of
+  using the obsolete IM_DOMAIN method. A fallback is implemented.
+
+layout.gadget 45.7 (17.03.2001)
+
+· page.gadget: improved virtual.gadget support.
+
+· changed vertical label placement, so that it matches the
+  placement of labels inside buttons.
+
+layout.gadget 45.8 (08.05.2001)
+
+· changing the screen font didn't have any effect on group
+  labels.
+
+· GM_LAYOUT of page.gadget could crash when creating a gadget
+  without any page.
+
+layout.gadget 45.9 (09.10.2001)
+
+· LAYOUT_WeightBar didn't work correctly when used in the
+  root layoutgroup because the render request on SELECTUP
+  was rejected by window.class <Sebastian Bauer>.
+  Possible workarounds for this bug are: 
+  a) Don't use LAYOUT_DeferLayout
+  b) set WFLG_NOCAREREFRESH
+  c) don't add the weightbar to the rootlayout, instead add
+     a "dummy" group to the rootlayout that contains all the
+     children and the weightbar.

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-5" TITLE="3 Playfield Hardware / Moving (Scrolling) Playfields" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 Playfield Hardware / Moving (Scrolling) Playfields</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0085.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0087.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+If you want a background display that moves, you can design a playfield
+larger than the display window and scroll it. If you are using dual
+playfields, you can scroll them separately.
+
+In vertical scrolling, the playfield appears to move smoothly up or down
+on the screen. All you need do for vertical scrolling is progressively
+increase or decrease the starting address for the bitplane pointers by the
+size of a horizontal line in the playfield. This has the effect of showing
+a lower or higher part of the picture each field time.
+
+In horizontal scrolling the playfield appears to move from right-to-left
+or left-to-right on the screen. Horizontal scrolling works differently
+from vertical scrolling -- you must arrange to fetch one more word of data
+<a name="line15">for each display line and delay the display of this data.</a>
+
+For either type of scrolling, resetting of pointers or data-fetch
+registers can be handled by the Copper during the  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a> 
+interval.
+
+ <a href="../Hardware_Manual_guide/node0087.html">Vertical Scrolling</a> 
+ <a href="../Hardware_Manual_guide/node0088.html">Horizontal Scrolling</a> 
+ <a href="../Hardware_Manual_guide/node008C.html">Scrolling Playfield Summary</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

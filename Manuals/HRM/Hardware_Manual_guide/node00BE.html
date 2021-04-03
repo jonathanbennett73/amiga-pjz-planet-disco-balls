@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-3" TITLE="4 Sprite Hardware / Displaying a Sprite" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 Sprite Hardware / Displaying a Sprite</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00BD.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00BF.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+After building the  <a href="../Hardware_Manual_guide/node00B9.html">data structure</a> , you need to tell the system to
+display it. This section describes the display of sprites in
+ <a href="../Hardware_Manual_guide/node00C8.html#line86">automatic mode</a>  . In this mode, once the sprite DMA channel begins to
+retrieve and display the data, the display continues until the VSTOP
+<a name="line6">position is reached.  <a href="../Hardware_Manual_guide/node00C7.html">Manual mode</a>  is described later on in this chapter.</a>
+
+The following steps are used in displaying the sprite:
+
+   1. Decide which of the eight sprite DMA channels to use (making certain
+      that the chosen channel is available).
+
+   2. Set the sprite pointers to tell the system where to find the sprite
+      data.
+
+   3. Turn on sprite direct memory access if it is not already on.
+
+   4. For each subsequent display field, during the  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a> 
+      interval, rewrite the sprite pointers.
+
+   About sprite DMA.
+   -----------------
+   If sprite DMA is turned off while a sprite is being displayed (that
+   is, after VSTART but before VSTOP), the system will continue to
+   display the line of sprite data that was most recently fetched. This
+   causes a vertical bar to appear on the screen. It is recommended that
+   sprite DMA be turned off only during  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  or during some
+   portion of the display where you are sure that no sprite is being
+   displayed.
+
+     <a href="../Hardware_Manual_guide/node00BF.html">Selecting a DMA Channel and Setting the Pointers</a> 
+     <a href="../Hardware_Manual_guide/node00C0.html">Resetting the Address Pointers</a> 
+     <a href="../Hardware_Manual_guide/node02D2.html">Sprite Display Example</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

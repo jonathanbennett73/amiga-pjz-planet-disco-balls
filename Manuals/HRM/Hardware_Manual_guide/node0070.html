@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-6-1" TITLE="3 / / Size Display Window / Setting Display Window Starting Position" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / Size Display Window / Setting Display Window Starting Position</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node006F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0071.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A horizontal starting position of approximately $81 and a vertical
+starting position of approximately $2C centers the display on most
+standard television screens. If you select high resolution mode (640
+pixels horizontally) or interlaced mode (400 lines NTSC, 512 PAL) the
+starting position does not change. The starting position is always
+interpreted in low resolution, non-interlaced mode. In other words, you
+select a starting position that represents the correct coordinates in low
+<a name="line9">resolution, non-interlaced mode.</a>
+
+The register  <a href="../Hardware_Manual_guide/node0083.html">DIWSTRT</a>  (for &#034;Display Window Start&#034;) controls the display
+window starting position. This register contains both the horizontal and
+vertical components of the display window starting positions, known
+respectively as HSTART and VSTART. The following example sets DIWSTRT for
+a basic playfield. You write $2C for VSTART and $81 for HSTART.
+
+     LEA     CUSTOM,a0            ; Get base address of custom hardware...
+     MOVE.W  #$2C81,DIWSTRT(a0)   ; Display window start register...
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

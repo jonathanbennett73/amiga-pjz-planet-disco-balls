@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-2-1-4" TITLE="K / / Changes from A2000 Bus / Zorro II Master Access to Local Slaves" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Changes from A2000 Bus / Zorro II Master Access to Local Slaves</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0294.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0296.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The only supported local bus resource that's guaranteed accessible to a
+Zorro II expansion bus master as a slave device is chip bus memory.  All
+I/O devices are implementation dependent and not supportable via DMA.  Any
+attempted access to unsupported local bus resources as expansion slaves
+will result in an  <a href="../Hardware_Manual_guide/node029F.html#line4">error</a>  condition being signaled on both the local and
+the expansion buses.  Most other local bus resources, such as local bus
+fast memory, are located outside of Zorro II space on most systems and
+obviously not available to Zorro II masters.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

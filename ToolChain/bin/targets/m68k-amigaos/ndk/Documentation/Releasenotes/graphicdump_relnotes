@@ -1,0 +1,31 @@
+graphicdump 44.1 (15.7.99)
+
+- Bumped to V44.
+
+- Removed the copyright text.
+
+
+GraphicDump 44.2 (13.8.99)
+
+- Rewritten from scratch.
+
+- Now uses the ReadArgs() parser and requires Kickstart 2.04.
+
+- Added an option to choose the printer.device unit to be used.
+
+- Now complains about printing and setup errors.
+
+- While the initial delay is ticking, ^C will stop GraphicDump
+  before it has started the printout.
+
+
+GraphicDump 44.3 (15.8.99)
+
+- Now makes a bold attempt to lock the screen currently being
+  printed, if that screen is a public screen.
+
+- Reset the page scaling values to match the documentation.
+
+- Updated the documentation, or what was supposed to be a
+  documentation for the original GraphicDump program (back then,
+  called "VersaDump").

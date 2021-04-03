@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-3-2-2" TITLE="K / / Advanced Mode Support Logic / Cache Support" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Advanced Mode Support Logic / Cache Support</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02A8.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02AA.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The other advanced cycle modifier on the Zorro III bus is the cache
+inhibit line,  <a href="../Hardware_Manual_guide/node02B5.html#line36">/CINH</a> .  On the Zorro II bus, there was originally no
+caching envisioned, and therefore no real support for caching of Zorro II
+PICs. First in the A2630 and later in the Zorro III bus' emulation of
+Zorro II, conventions were adopted to permit caching of Zorro II cards.
+These conventions aren't perfect; MMU tables will sometimes have to
+supplant this geographic mapping.  While Zorro III doesn't have any cache
+consistency mechanisms for managing caches between several caching bus
+masters, it does allow cards that absolutely must not be cached to assert
+a cache inhibit line,  <a href="../Hardware_Manual_guide/node02B5.html#line36">/CINH</a> , on a per-cycle basis (asserted at slave
+time by a responding slave).  This cache management is basically the
+lowest level of a cache management system, mainly useful for support of
+I/O and other devices that shouldn't be cached.  Software will be required
+for the higher levels of cache management.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

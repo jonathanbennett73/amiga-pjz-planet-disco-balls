@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_E" NODE="E-2-3-1" TITLE="E / / Game Controller Interface Specification / Mouse/Trackball" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>E / / Game Controller Interface Specification / Mouse/Trackball</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0109.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node010B.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A mouse or trackball is a device that translates planar motion into pulse
+trains.  Quadrature techniques are employed to preserve the direction as
+well as magnitude of displacement.  The registers  <a href="../Hardware_Manual_guide/node0038.html">JOY0DAT and JOY1DAT</a> 
+become counter registers, with y displacement in the high byte and x in
+the low byte.  Movement causes the following action:
+
+        Up:    y decrements
+        Down:  y increments
+        Right: x increments
+        Left:  x decrements
+
+To determine displacement,  <a href="../Hardware_Manual_guide/node0038.html">JOYxDAT</a>  is read twice with corresponding x and
+y values subtracted (careful, modulo 128 arithmetic).  Note that if either
+count changes by more than 127, both distance and direction become
+ambiguous.  There is a relationship between the sampling interval and the
+maximum speed (that is, change in distance) that can be resolved as
+follows:
+
+     Velocity &#060; Distance(max) / SampleTime
+
+     Velocity &#060; SQRT(DeltaX**2 + DeltaY**2) / SampleTime
+
+For an Amiga with a 200 count-per-inch mouse sampling during each vertical
+blanking interval, the maximum velocity in either the X or Y direction
+becomes:
+
+    Velocity &#060; (128 Counts * 1 inch/200 Counts) / .017 sec = 38 in/sec
+
+which should be sufficient for most users.
+
+   NOTE:
+   -----
+   The Amiga software is designed to do mouse update cycles during
+   vertical blanking.  The horizontal and vertical counters are always
+   valid and may be read at any time.
+<a name="line37"></a>
+
+CONNECTOR PIN USAGE FOR MOUSE/TRACKBALL QUADRATURE INPUTS
+---------------------------------------------------------
+
+ PIN   MNEMONIC   DESCRIPTION                    HARDWARE REGISTER/NOTES
+ ---   --------   -----------                    -----------------------
+ 1        V       Vertical pulses                JOY[0/1]DAT&#060;15:8&#062;
+ 2        H       Horizontal pulses              JOY[0/1]DAT(7:0&#062;
+ 3        VQ      Vertical quadrature pulses     JOY[0/1]DAT&#060;15:8&#062;
+ 4        HQ      Horizontal quadrature pulses   JOY[0/1]DAT&#060;7:0&#062;
+ 5       UBUT*    Unused mouse button            See  <a href="../Hardware_Manual_guide/node010D.html#line44">Proportional Inputs</a> .
+ 6       LBUT*    Left mouse button              See  <a href="../Hardware_Manual_guide/node010C.html">Fire Button</a> .
+ 7       +5V      +5V, current limited
+ 8      Ground
+ 9       RBUT*    Right mouse button             See  <a href="../Hardware_Manual_guide/node010D.html#line44">Proportional Inputs</a> .
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

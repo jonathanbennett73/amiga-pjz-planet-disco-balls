@@ -1,0 +1,3 @@
+This drawer contains a test program for hdwrench.library; it can be used
+to query a device's characteristics. Documentation is found in the
+"tester.c" file.

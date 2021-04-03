@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-3-2-1" TITLE="K / / Advanced Mode Support Logic / Bus Locking" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Advanced Mode Support Logic / Bus Locking</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02A7.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02A9.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The first advanced modification of the basic bus cycle is bus locking, via
+the /LOCK signal.  Bus locking is a hardware convention that allows a bus
+master to guarantee several cycles will be atomic on the bus. This is
+necessary to support the sharing of special &#034;mail-box&#034; memory between a
+bus master and an alternate PIC-based processor; Bridge Cards are an
+example of this kind of device. The Zorro II bus itself supports bus
+locking via the 68000 convention.  However, the 68000 style of bus locking
+is often difficult to implement, and support for it was often ignored in
+Zorro II designs, especially those not directly concerned with
+multiprocessor support.
+
+The Zorro III mechanism involves no change to the basic bus cycle, other
+than the monitoring of this /LOCK signal, and as such is much more
+reasonable to support.  The /LOCK signal is asserted by a bus master at
+address time and maintained across cycles to lock out shared memory
+coprocessors, allowing hardware backed semaphores to easily be used
+between such coprocessors.  We expect multiprocessing will be a greater
+concern on the Zorro III bus than it is at present;  video coprocessors,
+RISC devices, and special purpose processors for image processing or
+mathematics should find a comfortable home on the Zorro III bus.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

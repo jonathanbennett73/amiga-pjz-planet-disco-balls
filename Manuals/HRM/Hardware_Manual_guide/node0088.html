@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-5-2" TITLE="3 / Moving (Scrolling) Playfields / Horizontal Scrolling" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Moving (Scrolling) Playfields / Horizontal Scrolling</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0087.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0089.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+You can scroll playfields horizontally from left to right or right to left
+on the screen. You control the speed of scrolling by specifying the amount
+of delay in pixels. Delay means that an extra word of data is fetched but
+not immediately displayed. The extra word is placed just to the left of
+the window's leftmost edge and before normal data fetch. As the display
+shifts to the right, the bits in this extra word appear on-screen at the
+left-hand side of the window as bits on the right-hand side disappear
+off-screen. For each pixel of delay, the on-screen data shifts one pixel
+to the right each display field. The greater the delay, the greater the
+speed of scrolling. You can have up to 15 pixels of delay. In high
+resolution mode, scrolling is in increments of 2 pixels. Figure 3-24 shows
+how the delay and extra data fetch combine to cause the scrolling effect.
+
+     <a href="../Hardware_Manual_guide/node02D0.html">Figure 3-24: Horizontal Scrolling</a> 
+
+   NOTE: Fetching an extra word for scrolling will disable some  <a href="../Hardware_Manual_guide/node00C2.html#line5">sprites</a> .
+
+To set up a playfield for horizontal scrolling, you need to:
+
+   *  Define bitplanes wide enough to allow for the scrolling you need.
+   *  Set the data-fetch registers to correctly place each horizontal
+      line, including the extra word, on the screen.
+   *  Set the delay bits.
+<a name="line25">   *  Set the modulo so that the bitplane pointers begin at the correct</a>
+      word for each line.
+   *  Write  <a href="../Hardware_Manual_guide/node0053.html">Copper instructions</a>  to handle the changes during the
+       <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  interval.
+
+ <a href="../Hardware_Manual_guide/node0089.html">Specifying Data Fetch in Horizontal Scrolling</a> 
+ <a href="../Hardware_Manual_guide/node008A.html">Specifying the Modulo in Horizontal Scrolling</a> 
+ <a href="../Hardware_Manual_guide/node008B.html">Specifying Amount of Delay</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

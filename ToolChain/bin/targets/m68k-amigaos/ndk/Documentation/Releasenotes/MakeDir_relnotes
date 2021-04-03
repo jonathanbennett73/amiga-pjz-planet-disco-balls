@@ -1,0 +1,111 @@
+
+RCS file: RCS/MakeDir.c
+Working file: MakeDir.c
+head: 45.10
+branch:
+locks:
+access list:
+symbolic names:
+keyword substitution: kv
+total revisions: 10;	selected revisions: 10
+description:
+New MakeDir with ALL keyword and more AmigaOS 3.1-ish behaviour.
+----------------------------
+revision 45.10
+date: 2001/02/27 11:00:56;  author: Helios;  state: Exp;  lines: +5 -6
+- now initializes GlobalData structure to avoid silly calling
+  OpenCatalog() with random LocaleBase pointer problem. This
+  should fix those nasty crashes ;-)
+----------------------------
+revision 45.9
+date: 2001/02/23 16:55:34;  author: Helios;  state: Exp;  lines: +20 -7
+- applied early locale startup bug work-around by checking for
+  existance for ENV: without showing requester. Thanks to Stephan
+  Rupprecht for quick code snippet.
+----------------------------
+revision 45.8
+date: 2001/02/22 09:57:13;  author: Helios;  state: Exp;  lines: +8 -6
+- it is safe to pass a NULL pointer to CloseCatalog()
+  saved four bytes
+----------------------------
+revision 45.7
+date: 2001/02/22 09:49:20;  author: Helios;  state: Exp;  lines: +43 -13
+- localized MakeDir
+- changed GlobalData handling, GlobalData is initialized in
+  dummy() already: this allows easily passing a pointer
+  to it from function to function instead of the whole
+  global structure including contents
+----------------------------
+revision 45.6
+date: 2001/02/21 15:46:10;  author: Helios;  state: Exp;  lines: +17 -12
+- 20.2.2001: now ignores 202 - object is in use error
+----------------------------
+revision 45.5
+date: 2000/12/30 13:53:10;  author: Helios;  state: Exp;  lines: +4 -3
+- compiled without debug files. Only saved 8 bytes tough.
+- still doesn't use "residentable" option in linker settings,
+  but still seems to be residentable nicely. Saves another
+  8 bytes.
+----------------------------
+revision 45.4
+date: 2000/12/26 23:36:36;  author: Helios;  state: Exp;  lines: +48 -49
+- added parsing stuff from Joanne Dow. Thanks Joanne, this
+  does it well. Looked at whether its possible to get rid
+  of firstchar and prevchar variables but this isn't easy
+  and would probably make source quite unreadable
+- 700 bytes. Well thats 80 bytes more than the SAS/C
+  version from Joanne Dow. But then this one checks for
+  WB start (well shouldn't take 80 bytes.)
+- Thanks Joanne and Stephan for your help! ;-)
+----------------------------
+revision 45.3
+date: 2000/12/26 22:36:55;  author: Helios;  state: Exp;  lines: +55 -45
+- Stephan Rupprecht managed to compile MakeDir 45.2 on his StormC 4
+  installation. I got his project file and compared and there were
+  some silly compiler settings different. I must have had tomatoes
+  on my eyes. My compiler settings were still C++, RTTI and with
+  Exceptions. I disabled all of this and then it worked here too.
+- Did not use separate options as Stephan Rupprecht did. Here it
+  just work with setting small code, small data in the compiler
+  settings. And setting residentable program in the linker
+  settings.
+  (But its 40 Byte more here. Don't understand this one.)
+- Compile to 68020
+- As Stephan did not uses FindTask to check whether its CLI or
+  not and replies WB message itself
+  s/not/now ;-)
+- Insists on opening dos.library 40.x. Well this is not for
+  AmigaOS 2.04 users, but for AmigaOS 3.9 users, so there.
+----------------------------
+revision 45.2
+date: 2000/12/16 10:21:22;  author: Helios;  state: Exp;  lines: +87 -60
+- reduced executable size by about 3500 bytes
+- uses almost no startup code: noixemul with commandline parser
+  and init shared libraries disabled
+- uses GeekGadgets GCC since StormC 4 GCC does not work:
+  Error: In function 'int MakeDir(char *, GlobalData, long int)':
+  parse error before '__asm'
+  MakeDir.c, line 43
+  [ ... some more errors like that ... ]
+  Error: In function 'int MakeDir(char *, GlobalData, long int)':
+  confused by earlier errors, bailing out
+  MakeDir.c, line 47
+  So what? When StormGCC decides to be confused I simply use the
+  GeekGadgets gcc
+- noixemul startup code gives easy access to WBenchMsg. So I check
+  for it to prevent crashes when run from Workbench. Just click on
+  the supplied icon.
+- should already be able to work without any startup code: I just
+  don't know how to tell GCC from GG to link without any startup
+  code and did not look on how to access WBenchMsg then.
+- Thanks to Stephan Rupprecht for the gcc code example, Joanne Dow
+  for her SAS/C example and Michael Christoph and Thomas Richter
+  for their help.
+- so now the notes are longer than the program itself ;-)
+----------------------------
+revision 45.1
+date: 2000/12/16 09:00:44;  author: Helios;  state: Exp;
+- First AmigaOS 3.9 version. Implemented "ALL" keyword.
+- using PrintFault() everywhere where applicable.
+- using ReadArgs().
+=============================================================================

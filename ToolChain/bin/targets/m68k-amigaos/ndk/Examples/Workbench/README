@@ -1,0 +1,57 @@
+This drawer contains a few test and demonstration programs for
+workbench.library and its new V44 API. The programs will do the
+following:
+
+   AddHiddenDevice
+
+      Add a device or volume to the list of devices Workbench
+      should not display.
+
+   ClockIcon
+
+      This is a very simplistic and none too sophisticated
+      example of a program which dynamically updates the appearance
+      of an AppIcon.
+
+   CloseWorkbenchObject
+
+      This demonstrates how a Workbench drawer can closed under
+      program control.
+
+   GetHiddenDeviceList
+
+      This prints the list of volumes and devices which Workbench
+      should not display.
+
+   GetOpenDrawerList
+
+      This prints the list of drawer windows Workbench has
+      currently open.
+
+   GetProgramList
+
+      This prints the list of programs that were launched from
+      Workbench and are still running.
+
+   GetSelectedIconList
+
+      This prints the list of icons currently selected.
+
+   MakeIconVisible
+
+      This will make an icon entirely visible, if possible.
+
+   OpenWorkbenchObject
+
+      This demonstrates how drawers can be opened and how and programs
+      can be launched by Workbench under program control.
+
+   RemoveHiddenDevice
+
+      Removes a device or volume from the list of devices Workbench
+      should not display.
+
+   SelectIcon
+
+      This demonstrates how an icon can be selected under
+      program control.

@@ -1,0 +1,127 @@
+
+StringSnip is part of the ViNCEd distribution. It can be used as a stand-
+alone application, but the vnc.library and SetVNC is required for 
+customization.
+
+The following table shows the default configuration for string gadget hooks:
+
+Alt+Cursor keys:	Move to beginning of next/previous word
+Alt+Ctrl+Cursor keys:	Move to beginning of next/previous path component
+Shift+Cursor keys:	Move to start/end of the contents.
+Alt+Cursor keys:	ditto.
+Alt+Del:		Clear the contents.
+Shift+Del:		ditto.
+ALT+Backspace:		Erase to the beginning of the word under the cursor
+Shift+Alt+Del:		Erase text behind the cursor
+Shift+Alt+BS:		Erase text before the cursor position
+Amiga+X:		Cut the contents of the gadget to the clipboard
+Amiga+C:		Copy the contents to the clipboard
+Amiga+V:		Insert the clipboard contents into the gadget
+Shift+Amiga+V:		Replace the string gadget contents by the clipboard
+Aniga+Q:		Undo-operation
+Ctrl+Tab:		TAB expansion
+Ctrl+Shift+Tab:		TAB expansion backwards
+Commodore-key:		Turn off the extended editing features temporary
+
+
+The configuration is, however, fully adjustable with the SetVNC program
+of the "ViNCEd" package, see below for details.
+
+The TAB expansion is a "cut down" version of the ViNCEd style expansion
+mechanism without a double-TAB requester, without the complete command
+path search and without a TAB expansion cache.
+Please note that string gadget does not come with a "natural" directory the 
+TAB expansion should search in, hence the path to be expanded must be either
+absolute or relative to the boot volume, i.e. SYS:
+
+
+Installation:
+	Copy to your C: drawer.
+
+	StringSnip install	To install the extended editing features
+	StringSnip remove	To remove it again.
+
+Additionally:	
+	Copy the demo prefs file below to ENVARC:StringSnip.prefs and 
+	add the line
+
+	StringSnip PREFS ENV:StringSnip.prefs INSTALL
+_____________________________________________________________________________
+
+Extended options, full synopsis:
+
+StringSnip INSTALL/S,REMOVE/S,PREFS/K,HELP/S
+
+
+INSTALL/S			Installs the enhanced string edit hook
+				or replaces a previously installed 
+				"StringSnip" copy.
+				This is the default operation.
+
+REMOVE/S			Remove the StringSnip hook.
+
+PREFS/K				Specifies a file name where the preferences
+				should be taken from. This is a text based
+				ViNCEd-compatible preferences file. It
+				should be created by the "SetVNC" program
+				and should be placed somehwere in the ENV:
+				drawer.
+				THIS OPTION REQUIRES the vnc.library, i.e.
+				ViNCEd must have been installed.
+
+HELP/S				Prints a tiny overview about the command line
+				options.
+_____________________________________________________________________________
+
+The preferences file: 
+
+It is recommended that you use the "SetVNC" program of the ViNCEd package
+to generate this file, as the vnc.library is required anyways to read it.
+
+As last resort, an ASCII editor is enough to edit this file, though.
+
+The file is a listing of options, followed by an "=" ("equals") sign,
+followed by the value you want to set the option to. This must be "on"
+or "off" for boolean options, a number for numerical or a key specification
+for the keyboard configuration options. Commands must be introduced by a
+semicolon.
+
+_____________________________________________________________________________
+
+StringSnip 2.01:
+
+- Almost a complete rewrite, fully configurable with ViNCEd style
+  preferences (vnc.library required).
+- Includes now TAB expansions and much more editor commands.
+
+StringSnip 2.02:
+
+- The NumLock function was erraneously bound to Alt-Ü on german
+  keyboards. Never thrust a Data-Becker book, especially when
+  looking up key-codes.
+
+StringSnip 2.03:
+
+- Fixed a possible incompatibility of Amiga-V that could have
+  resulted in inserting a string twice if the application edit
+  hook is able to parse this key as well.
+
+StringSnip 2.04:
+
+- Due to some unfortune, an internal structure appeared on an odd
+  address which caused a crash on 68000 and 68010 based systems.
+  Nothing else changed.
+
+StringSnip 2.05:
+
+- The possible TAB expansions are now sorted alphabetically.
+- Note that in case you want both the functions "Insert 
+  Clipboard" and "Replace by Clipboard", the keyboard strings
+  PASTE=RAmiga v and PASTE=RAmiga V must be defined *both* and
+  must be defined to both the same ViNCEd function.
+
+StringSnip 2.06:
+
+- The 2.05 release handled soft links incorrectly and crashed
+  upon detection of such a beast. Fixed.
+

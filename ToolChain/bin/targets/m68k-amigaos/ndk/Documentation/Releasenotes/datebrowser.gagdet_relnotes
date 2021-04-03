@@ -1,0 +1,6 @@
+datebrowser.gadget 45.1 (02.03.01)
+
+· recompiled with new startup-code, moved all
+  global variabels to the classbase.
+
+· implemented GM_CLIPRECT method.

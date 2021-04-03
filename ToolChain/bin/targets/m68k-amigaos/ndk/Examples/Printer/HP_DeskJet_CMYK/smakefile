@@ -1,0 +1,133 @@
+#
+# $Id: smakefile 44.5 1999/09/29 13:43:04 olsen Exp olsen $
+#
+# :ts=8
+#
+
+.c.o:
+	sc $(CFLAGS) $<
+
+.asm.o:
+	asm $(ASMFLAGS) $<
+
+###############################################################################
+
+PROJECT = HP_DeskJet_880C
+
+###############################################################################
+
+#############################################################################
+#
+# Program version
+#
+#############################################################################
+
+VERSION = 44
+
+###############################################################################
+
+OPTIMIZE =	optimize opttime optinline optinlocal optschedule
+CPU =		any
+#CPU =		040
+DEBUG =		line
+#DEBUG =	symbolflush noopt
+
+###############################################################################
+
+ASMFLAGS =	-d
+CFLAGS =	idlen=64 comnest streq strmerge nostkchk \
+		strsect=code $(OPTIMIZE) cpu=$(CPU) debug=$(DEBUG) \
+		params=r commentnest idir=include nover
+LFLAGS =	smallcode smalldata noicons quiet
+
+###############################################################################
+
+C_FILES =	compression.c data.c density.c dospecial.c \
+		init.c locale.c render.c sprintf.c transfer.c
+
+HEADERS =	compression.h data.h density.h dospecial.h \
+		global.h init.h locale.h printertag.h render.h \
+		sprintf.h transfer.h
+
+ASM_FILES =	printertag.asm utility.asm
+
+OTHER =		smakefile $(PROJECT)_rev.h $(PROJECT)_rev.i $(PROJECT)_rev.rev \
+		releasenotes HP_DeskJet_CMYK.doc crank.c
+
+SOURCE =	$(C_FILES) $(ASM_FILES) $(HEADERS) $(OTHER)
+
+OBJS =		printertag.o \
+		compression.o data.o density.o dospecial.o \
+		init.o locale.o render.o sprintf.o transfer.o utility.o
+
+###############################################################################
+
+LIBS = lib:sc.lib lib:debug.lib lib:amiga.lib
+
+###############################################################################
+
+all: tagfiles devs.h $(PROJECT)
+
+tagfiles:
+	makedir $@
+
+$(PROJECT): $(OBJS)
+	slink $(OBJS) to $@.debug lib $(LIBS) $(LFLAGS) \
+		map $(PROJECT).map,fhx fwidth 32 pwidth 32 swidth 32
+	slink $@.debug to $@ noicons nodebug
+	@type tagfiles/\#? >t:tags
+	@copy t:tags ""
+	@delete >nil: t:tags
+
+install : $(PROJECT)
+	copy $(PROJECT) printers:
+
+###############################################################################
+
+printertag.o : printertag.asm $(PROJECT)_rev.i config.i
+density.o : density.c config.h
+dospecial.o : dospecial.c config.h
+render.o : render.c config.h
+data.o : data.c config.h
+locale.o : locale.c devs.h
+
+###############################################################################
+
+$(PROJECT)_rev.i :
+	smake version
+
+###############################################################################
+
+clean:
+	-delete \#?.o $(PROJECT)(%|.debug)
+
+realclean: clean
+	-delete tags tagfiles \#?.map all
+
+###############################################################################
+
+mkid:
+	mkid -v \#?.(c|h|a|asm|i)
+
+update:
+	mkid -v -u
+
+version:
+	bumprev $(VERSION) $(PROJECT)
+
+###############################################################################
+
+checkin: rcs
+	ci -M -d -l$(VERSION) -m. -t-. $(SOURCE)
+
+freeze: rcs
+	rcs -q -nV$(VERSION)_`type $(PROJECT)_rev.rev`: $(SOURCE)
+
+unlock: rcs
+	rcs -u $(SOURCE)
+
+lock: rcs
+	rcs -l $(SOURCE)
+
+rcs:
+	makedir $@

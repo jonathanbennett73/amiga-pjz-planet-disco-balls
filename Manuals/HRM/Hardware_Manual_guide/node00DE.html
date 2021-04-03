@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-2-5-1" TITLE="5 / / Data Output Rate / Limitations on Selection of Sampling Period" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / / Data Output Rate / Limitations on Selection of Sampling Period</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00DD.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00DF.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The  <a href="../Hardware_Manual_guide/node00DD.html">sampling period</a>  is limited by the number of DMA cycles allocated to
+an audio channel. Each audio channel is allocated one DMA slot per
+horizontal scan line of the screen display. An audio channel can retrieve
+two data samples during each horizontal scan line. The following
+calculation gives the maximum sampling rate in samples per second.
+
+   2 samples/line * 262.5 lines/frame * 59.94 frames/second = 31,469
+                                                            samples/second
+
+The figure of 31,469 is a theoretical maximum. In order to save buffers,
+the hardware is designed to handle 28,867 samples/second. The system
+timing interval is 279.365 nanoseconds, or .279365 microseconds. The
+maximum sampling rate of 28,867 samples per second is 34.642 microseconds
+<a name="line15">per sample (1/28,867 = .000034642). The formula for calculating the</a>
+ <a href="../Hardware_Manual_guide/node00DD.html">sampling period</a>  is:
+
+                  sample interval     clock constant
+   Period value = --------------- = ------------------
+                  clock interval    samples per second
+
+Thus, the minimum period value is derived by dividing 34.642 microseconds
+per sample by the number of microseconds per interval:
+
+                      34.642 microseconds/sample
+   Minumum period = ------------------------------ = 124 timing
+                    0.279365 microseconds/interval   intervals/sample
+
+or:
+
+                    3,579,545 ticks/second
+   Minumum period = ----------------------  = 124 ticks/sample
+                    28,867 samples/second
+
+Therefore, a value of at least 124 must be written into the
+ <a href="../Hardware_Manual_guide/node00DF.html#line34">period register</a>  to assure that the audio system DMA will be able to
+retrieve the next data sample. If the period value is below 124, by the
+time the cycle count has reached 0, the audio DMA will not have had
+enough time to retrieve the next data sample and the previous sample will
+<a name="line40">be reused.</a>
+
+28,867 samples/second is also the maximum sampling rate for PAL systems.
+Thus, for PAL systems, a value of at least 123 ticks/sample must be
+<a name="line44">written into the  <a href="../Hardware_Manual_guide/node00DF.html#line34">period register</a> .</a>
+
+
+                       Clock Values
+                       ------------
+
+                      NTSC        PAL     units
+                      ----        ---     -----
+   Clock Constant    3579545    3546895   ticks per second
+   Clock Interval   0.279365   0.281937   microseconds per interval
+
+   NOTE:
+   -----
+   The Clock Interval is derived from the clock constant, where:
+
+                                      1
+               clock interval = --------------
+                                clock constant
+
+   then scale the result to microseconds. In all of these calculations
+   &#034;ticks&#034; and &#034;timing intervals&#034; refer to the same thing.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

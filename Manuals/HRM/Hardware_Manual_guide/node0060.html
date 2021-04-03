@@ -1,0 +1,369 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_B" NODE="MAIN" TITLE="Amiga® Hardware Reference Manual: B Register Summary Address Order" TOC="Hardware_Manual/MAIN" -->
+<head>
+<title>Amiga&#174; Hardware Reference Manual: B Register Summary Address Order</title>
+</head>
+<body>
+<a href="../Hardware_Manual_guide/node0000.html"><img src="../images/toc.gif" alt="[Contents]" border=0></a>
+<img src="../images/index_d.gif" alt="[Index]">
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node005F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0061.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+This appendix contains information about the register set in address order.
+
+The following codes and abbreviations are used in this appendix:
+
+  &#038;        Register used by DMA channel only.
+
+  %        Register used by DMA channel usually, processors sometimes.
+
+  +        Address register pair.  Must be an even address pointing to chip
+           memory.
+
+  *        Address not writable by the Copper.
+
+  ~        Address not writable by the Copper unless the &#034;copper danger
+           bit&#034;,  <a href="../Hardware_Manual_guide/node0029.html">COPCON</a>  is set true.
+
+  A,D,P    A=Agnus chip, D=Denise chip, P=Paula chip.
+
+  W,R      W=write-only; R=read-only,
+
+  ER       Early read. This is a DMA data transfer to RAM, from either the
+           disk or the blitter.  RAM timing requires data to be on the bus
+           earlier than microprocessor read cycles. These transfers are
+           therefore initiated by Agnus timing, rather than a read address
+           on the destination address bus.
+
+  S        Strobe (write address with no register bits).  Writing the
+           register causes the effect.
+
+  PTL,PTH  Chip memory pointer that addresses DMA data.  Must be reloaded
+           by a processor before use (vertical blank for bitplane and
+           sprite pointers, and prior to starting the blitter for blitter
+           pointers).
+
+  LCL,LCH  Chip memory location (starting address) of DMA data.  Used to
+           automatically restart pointers, such as the Copper program
+           counter (during vertical blank) and the audio sample counter
+           (whenever the audio length count is finished).
+
+  MOD      15-bit modulo. A number that is automatically added to the
+           memory address at the end of each line to generate the address
+           for the beginning of the next line. This allows the blitter (or
+           the display window) to operate on (or display) a window of data
+           that is smaller than the actual picture in memory (memory map).
+           Uses 15 bits, plus sign extend.
+
+   About the ECS registers.
+   ------------------------
+   Registers denoted with an &#034;(E)&#034; in the chip column means that
+   those registers have been changed in the Enhanced Chip Set
+   (ECS).  The ECS is found in the A3000, and is installable in the
+   A500 and A2000.  Certain ECS registers are completely new,
+   others have been extended in their functionality. See the
+    <a href="../Hardware_Manual_guide/node00AD.html">register map</a>  in Appendix C for information on which ECS
+   registers are new and which have been modified.
+
+----------------------------------------------------------------------
+NAME        ADD  R/W  CHIP    FUNCTION
+----------------------------------------------------------------------
+ <a href="../Hardware_Manual_guide/node001C.html">BLTDDAT</a>   &#038; *000  ER  A       Blitter destination early read
+                                   (dummy address)
+ <a href="../Hardware_Manual_guide/node002F.html">DMACONR</a>     *002  R   AP      DMA control (and blitter status) read
+ <a href="../Hardware_Manual_guide/node0045.html">VPOSR</a>       *004  R   A( <a href="../Hardware_Manual_guide/node00A2.html">E</a> )  Read vert most signif. bit (and frame flop)
+ <a href="../Hardware_Manual_guide/node0044.html">VHPOSR</a>      *006  R   A       Read vert and horiz. position of beam
+ <a href="../Hardware_Manual_guide/node0031.html">DSKDATR</a>   &#038; *008  ER  P       Disk data early read (dummy address)
+ <a href="../Hardware_Manual_guide/node0038.html">JOY0DAT</a>     *00A  R   D       Joystick-mouse 0 data (vert,horiz)
+ <a href="../Hardware_Manual_guide/node0038.html">JOY1DAT</a>     *00C  R   D       Joystick-mouse 1 data (vert,horiz)
+ <a href="../Hardware_Manual_guide/node0026.html">CLXDAT</a>      *00E  R   D       Collision data register (read and clear)
+ <a href="../Hardware_Manual_guide/node0012.html">ADKCONR</a>     *010  R   P       Audio, disk control register read
+ <a href="../Hardware_Manual_guide/node003A.html">POT0DAT</a>     *012  R   P( <a href="../Hardware_Manual_guide/node00AC.html">E</a> )  Pot counter pair 0 data (vert,horiz)
+ <a href="../Hardware_Manual_guide/node003A.html">POT1DAT</a>     *014  R   P( <a href="../Hardware_Manual_guide/node00AC.html">E</a> )  Pot counter pair 1 data (vert,horiz)
+ <a href="../Hardware_Manual_guide/node003B.html">POTGOR</a>      *016  R   P       Pot port data read (formerly POTINP)
+ <a href="../Hardware_Manual_guide/node003D.html#line22">SERDATR</a>     *018  R   P       Serial port data and status read
+ <a href="../Hardware_Manual_guide/node0030.html">DSKBYTR</a>     *01A  R   P       Disk data byte and status read
+ <a href="../Hardware_Manual_guide/node0036.html">INTENAR</a>     *01C  R   P       Interrupt enable bits read
+ <a href="../Hardware_Manual_guide/node0037.html">INTREQR</a>     *01E  R   P       Interrupt request bits read
+ <a href="../Hardware_Manual_guide/node0033.html">DSKPTH</a>    + *020  W   A( <a href="../Hardware_Manual_guide/node00AB.html#line4">E</a> )  Disk pointer (high 3 bits, 5 bits if ECS)
+ <a href="../Hardware_Manual_guide/node0033.html">DSKPTL</a>    + *022  W   A       Disk pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0032.html">DSKLEN</a>      *024  W   P       Disk length
+ <a href="../Hardware_Manual_guide/node0031.html">DSKDAT</a>    &#038; *026  W   P       Disk DMA data write
+ <a href="../Hardware_Manual_guide/node003C.html">REFPTR</a>    &#038; *028  W   A       Refresh pointer
+ <a href="../Hardware_Manual_guide/node0045.html">VPOSW</a>       *02A  W   A       Write vert most signif. bit (and frame flop)
+ <a href="../Hardware_Manual_guide/node0044.html">VHPOSW</a>      *02C  W   A       Write vert and horiz position of beam
+ <a href="../Hardware_Manual_guide/node0029.html">COPCON</a>      *02E  W   A( <a href="../Hardware_Manual_guide/node00AC.html#line17">E</a> )  Coprocessor control register (CDANG)
+ <a href="../Hardware_Manual_guide/node003D.html">SERDAT</a>      *030  W   P       Serial port data and stop bits write
+ <a href="../Hardware_Manual_guide/node003E.html">SERPER</a>      *032  W   P       Serial port period and control
+ <a href="../Hardware_Manual_guide/node003B.html">POTGO</a>       *034  W   P       Pot port data write and start
+ <a href="../Hardware_Manual_guide/node0039.html">JOYTEST</a>     *036  W   D       Write to all four joystick-mouse counters
+                               at once
+ <a href="../Hardware_Manual_guide/node0042.html">STREQU</a>    &#038; *038  S   D       Strobe for horiz sync with VB and EQU
+ <a href="../Hardware_Manual_guide/node0042.html#line19">STRVBL</a>    &#038; *03A  S   D       Strobe for horiz sync with VB (vert. blank)
+ <a href="../Hardware_Manual_guide/node0042.html">STRHOR</a>    &#038; *03C  S   DP      Strobe for horiz sync
+ <a href="../Hardware_Manual_guide/node0042.html">STRLONG</a>   &#038; *03E  S   D( <a href="../Hardware_Manual_guide/node00AB.html#line18">E</a> )  Strobe for identification of long
+                                   horiz. line.
+ <a href="../Hardware_Manual_guide/node001A.html">BLTCON0</a>     ~040  W   A       Blitter control register 0
+ <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>     ~042  W   A( <a href="../Hardware_Manual_guide/node00AB.html#line26">E</a> )  Blitter control register 1
+ <a href="../Hardware_Manual_guide/node0019.html">BLTAFWM</a>     ~044  W   A       Blitter first word mask for source A
+ <a href="../Hardware_Manual_guide/node0019.html">BLTALWM</a>     ~046  W   A       Blitter last word mask for source A
+ <a href="../Hardware_Manual_guide/node0020.html">BLTCPTH</a>   + ~048  W   A       Blitter pointer to source C (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0020.html">BLTCPTL</a>   + ~04A  W   A       Blitter pointer to source C (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0020.html">BLTBPTH</a>   + ~04C  W   A       Blitter pointer to source B (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0020.html">BLTBPTL</a>   + ~04E  W   A       Blitter pointer to source B (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0020.html">BLTAPTH</a>   + ~050  W   A( <a href="../Hardware_Manual_guide/node00AB.html#line4">E</a> )  Blitter pointer to source A (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0020.html">BLTAPTL</a>   + ~052  W   A       Blitter pointer to source A (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0020.html">BLTDPTH</a>   + ~054  W   A       Blitter pointer to destination D
+                                   (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0020.html">BLTDPTL</a>   + ~056  W   A       Blitter pointer to destination D
+                                   (low 15 bits)
+ <a href="../Hardware_Manual_guide/node001D.html">BLTSIZE</a>     ~058  W   A       Blitter start and size (window width,height)
+ <a href="../Hardware_Manual_guide/node001B.html">BLTCON0L</a>    ~05A  W   A( <a href="../Hardware_Manual_guide/node00AB.html#line34">E</a> )  Blitter control 0, lower 8 bits (minterms)
+ <a href="../Hardware_Manual_guide/node001D.html#line28">BLTSIZV</a>     ~05C  W   A( <a href="../Hardware_Manual_guide/node00AA.html#line13">E</a> )  Blitter V size (for 15 bit vertical size)
+ <a href="../Hardware_Manual_guide/node001D.html#line28">BLTSIZH</a>     ~05E  W   A( <a href="../Hardware_Manual_guide/node00AA.html#line13">E</a> )  Blitter H size and start (for 11 bit H size)
+ <a href="../Hardware_Manual_guide/node001F.html">BLTCMOD</a>     ~060  W   A       Blitter modulo for source C
+ <a href="../Hardware_Manual_guide/node001F.html">BLTBMOD</a>     ~062  W   A       Blitter modulo for source B
+ <a href="../Hardware_Manual_guide/node001F.html">BLTAMOD</a>     ~064  W   A       Blitter modulo for source A
+ <a href="../Hardware_Manual_guide/node001F.html">BLTDMOD</a>     ~066  W   A       Blitter modulo for destination D
+             ~068
+             ~06A
+             ~06C
+             ~06E
+ <a href="../Hardware_Manual_guide/node001E.html">BLTCDAT</a>   % ~070  W   A       Blitter source C data register
+ <a href="../Hardware_Manual_guide/node001E.html">BLTBDAT</a>   % ~072  W   A       Blitter source B data register
+
+ <a href="../Hardware_Manual_guide/node001E.html">BLTADAT</a>   % ~074  W   A       Blitter source A data register
+             ~076
+ SPRHDAT     ~078  W   A( E )  Ext. logic UHRES sprite pointer and data id
+             ~07A
+ <a href="../Hardware_Manual_guide/node002D.html">DENISEID</a>    ~07C  R   D( <a href="../Hardware_Manual_guide/node00A2.html#line21">E</a> )  Chip revision level for Denise
+                                   (video out chip)
+ <a href="../Hardware_Manual_guide/node0034.html">DSKSYNC</a>     ~07E  W   P       Disk sync pattern register for disk read
+ <a href="../Hardware_Manual_guide/node0028.html">COP1LCH</a>   +  080  W   A( <a href="../Hardware_Manual_guide/node00AB.html#line4">E</a> )  Coprocessor first location register
+                                  (high 3 bits, high 5 bits if ECS)
+ <a href="../Hardware_Manual_guide/node0028.html">COP1LCL</a>   +  082  W   A       Coprocessor first location register
+                                  (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0028.html">COP2LCH</a>   +  084  W   A( <a href="../Hardware_Manual_guide/node00AB.html#line4">E</a> )  Coprocessor second location register
+                                  (high 3 bits, high 5 bits if ECS)
+ <a href="../Hardware_Manual_guide/node0028.html">COP2LCL</a>   +  086  W   A       Coprocessor second location register
+                                  (low 15 bits)
+ <a href="../Hardware_Manual_guide/node002B.html">COPJMP1</a>      088  S   A       Coprocessor restart at first location
+ <a href="../Hardware_Manual_guide/node002B.html">COPJMP2</a>      08A  S   A       Coprocessor restart at second location
+ <a href="../Hardware_Manual_guide/node002A.html">COPINS</a>       08C  W   A       Coprocessor instruction fetch identify
+ <a href="../Hardware_Manual_guide/node002E.html">DIWSTRT</a>      08E  W   A       Display window start (upper left
+                                  vert-horiz position)
+ <a href="../Hardware_Manual_guide/node002E.html">DIWSTOP</a>      090  W   A       Display window stop (lower right
+                                  vert.-horiz. position)
+ <a href="../Hardware_Manual_guide/node002C.html">DDFSTRT</a>      092  W   A       Display bitplane data fetch start
+                                  (horiz. position)
+ <a href="../Hardware_Manual_guide/node002C.html">DDFSTOP</a>      094  W   A       Display bitplane data fetch stop
+                                  (horiz. position)
+ <a href="../Hardware_Manual_guide/node002F.html">DMACON</a>       096  W   ADP     DMA control write (clear or set)
+ <a href="../Hardware_Manual_guide/node0025.html">CLXCON</a>       098  W   D       Collision control
+ <a href="../Hardware_Manual_guide/node0036.html">INTENA</a>       09A  W   P       Interrupt enable bits (clear or
+                                  set bits)
+ <a href="../Hardware_Manual_guide/node0037.html">INTREQ</a>       09C  W   P       Interrupt request bits (clear or
+                                  set bits)
+ <a href="../Hardware_Manual_guide/node0012.html">ADKCON</a>       09E  W   P       Audio, disk, UART control
+ <a href="../Hardware_Manual_guide/node0014.html">AUD0LCH</a>   +  0A0  W   A( <a href="../Hardware_Manual_guide/node00AB.html#line4">E</a> )  Audio channel 0 location (high 3 bits,
+                                   5 if ECS)
+ <a href="../Hardware_Manual_guide/node0014.html">AUD0LCL</a>   +  0A2  W   A       Audio channel 0 location (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0015.html">AUD0LEN</a>      0A4  W   P       Audio channel 0 length
+ <a href="../Hardware_Manual_guide/node0016.html">AUD0PER</a>      0A6  W   P( <a href="../Hardware_Manual_guide/node00AC.html#line30">E</a> )  Audio channel 0 period
+ <a href="../Hardware_Manual_guide/node0017.html">AUD0VOL</a>      0A8  W   P       Audio channel 0 volume
+ <a href="../Hardware_Manual_guide/node0013.html">AUD0DAT</a>   &#038;  0AA  W   P       Audio channel 0 data
+              0AC
+              0AE
+ <a href="../Hardware_Manual_guide/node0014.html">AUD1LCH</a>   +  0B0  W   A       Audio channel 1 location (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0014.html">AUD1LCL</a>   +  0B2  W   A       Audio channel 1 location (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0015.html">AUD1LEN</a>      0B4  W   P       Audio channel 1 length
+ <a href="../Hardware_Manual_guide/node0016.html">AUD1PER</a>      0B6  W   P       Audio channel 1 period
+ <a href="../Hardware_Manual_guide/node0017.html">AUD1VOL</a>      0B8  W   P       Audio channel 1 volume
+ <a href="../Hardware_Manual_guide/node0013.html">AUD1DAT</a>   &#038;  0BA  W   P       Audio channel 1 data
+              0BC
+              0BE
+ <a href="../Hardware_Manual_guide/node0014.html">AUD2LCH</a>   +  0C0  W   A       Audio channel 2 location (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0014.html">AUD2LCL</a>   +  0C2  W   A       Audio channel 2 location (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0015.html">AUD2LEN</a>      0C4  W   P       Audio channel 2 length
+ <a href="../Hardware_Manual_guide/node0016.html">AUD2PER</a>      0C6  W   P       Audio channel 2 period
+ <a href="../Hardware_Manual_guide/node0017.html">AUD2VOL</a>      0C8  W   P       Audio channel 2 volume
+ <a href="../Hardware_Manual_guide/node0013.html">AUD2DAT</a>   &#038;  0CA  W   P       Audio channel 2 data
+              0CC
+              0CE
+ <a href="../Hardware_Manual_guide/node0014.html">AUD3LCH</a>   +  0D0  W   A       Audio channel 3 location (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0014.html">AUD3LCL</a>   +  0D2  W   A       Audio channel 3 location (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0015.html">AUD3LEN</a>      0D4  W   P       Audio channel 3 length
+ <a href="../Hardware_Manual_guide/node0016.html">AUD3PER</a>      0D6  W   P       Audio channel 3 period
+ <a href="../Hardware_Manual_guide/node0017.html">AUD3VOL</a>      0D8  W   P       Audio channel 3 volume
+ <a href="../Hardware_Manual_guide/node0013.html">AUD3DAT</a>   &#038;  0DA  W   P       Audio channel 3 data
+              0DC
+              0DE
+ <a href="../Hardware_Manual_guide/node0024.html">BPL1PTH</a>   +  0E0  W   A       Bitplane 1 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0024.html">BPL1PTL</a>   +  0E2  W   A       Bitplane 1 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0024.html">BPL2PTH</a>   +  0E4  W   A       Bitplane 2 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0024.html">BPL2PTL</a>   +  0E6  W   A       Bitplane 2 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0024.html">BPL3PTH</a>   +  0E8  W   A       Bitplane 3 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0024.html">BPL3PTL</a>   +  0EA  W   A       Bitplane 3 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0024.html">BPL4PTH</a>   +  0EC  W   A       Bitplane 4 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0024.html">BPL4PTL</a>   +  0EE  W   A       Bitplane 4 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0024.html">BPL5PTH</a>   +  0F0  W   A       Bitplane 5 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0024.html">BPL5PTL</a>   +  0F2  W   A       Bitplane 5 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0024.html">BPL6PTH</a>   +  0F4  W   A       Bitplane 6 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0024.html">BPL6PTL</a>   +  0F6  W   A       Bitplane 6 pointer (low 15 bits)
+              0F8
+              0FA
+              0FC
+              0FE
+ <a href="../Hardware_Manual_guide/node0022.html">BPLCON0</a>      100  W   AD( <a href="../Hardware_Manual_guide/node00A3.html">E</a> ) Bitplane control register
+                                   (misc. control bits)
+ <a href="../Hardware_Manual_guide/node0022.html">BPLCON1</a>      102  W   D       Bitplane control reg.
+                                   (scroll value PF1, PF2)
+ <a href="../Hardware_Manual_guide/node0022.html">BPLCON2</a>      104  W   D( <a href="../Hardware_Manual_guide/node00A9.html">E</a> )  Bitplane control reg. (priority control)
+ <a href="../Hardware_Manual_guide/node0022.html#line57">BPLCON3</a>      106  W   D( <a href="../Hardware_Manual_guide/node00A9.html">E</a> )  Bitplane control (enhanced features)
+
+ <a href="../Hardware_Manual_guide/node0021.html">BPL1MOD</a>      108  W   A       Bitplane modulo (odd planes)
+ <a href="../Hardware_Manual_guide/node0021.html">BPL2MOD</a>      10A  W   A       Bitplane modulo (even planes)
+              10C
+              10E
+ <a href="../Hardware_Manual_guide/node0023.html">BPL1DAT</a>   &#038;  110  W   D       Bitplane 1 data (parallel-to-serial convert)
+ <a href="../Hardware_Manual_guide/node0023.html">BPL2DAT</a>   &#038;  112  W   D       Bitplane 2 data (parallel-to-serial convert)
+ <a href="../Hardware_Manual_guide/node0023.html">BPL3DAT</a>   &#038;  114  W   D       Bitplane 3 data (parallel-to-serial convert)
+ <a href="../Hardware_Manual_guide/node0023.html">BPL4DAT</a>   &#038;  116  W   D       Bitplane 4 data (parallel-to-serial convert)
+ <a href="../Hardware_Manual_guide/node0023.html">BPL5DAT</a>   &#038;  118  W   D       Bitplane 5 data (parallel-to-serial convert)
+ <a href="../Hardware_Manual_guide/node0023.html">BPL6DAT</a>   &#038;  11A  W   D       Bitplane 6 data (parallel-to-serial convert)
+              11C
+              11E
+ <a href="../Hardware_Manual_guide/node0041.html">SPR0PTH</a>   +  120  W   A       Sprite 0 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR0PTL</a>   +  122  W   A       Sprite 0 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR1PTH</a>   +  124  W   A       Sprite 1 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR1PTL</a>   +  126  W   A       Sprite 1 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR2PTH</a>   +  128  W   A       Sprite 2 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR2PTL</a>   +  12A  W   A       Sprite 2 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR3PTH</a>   +  12C  W   A       Sprite 3 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR3PTL</a>   +  12E  W   A       Sprite 3 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR4PTH</a>   +  130  W   A       Sprite 4 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR4PTL</a>   +  132  W   A       Sprite 4 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR5PTH</a>   +  134  W   A       Sprite 5 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR5PTL</a>   +  136  W   A       Sprite 5 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR6PTH</a>   +  138  W   A       Sprite 6 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR6PTL</a>   +  13A  W   A       Sprite 6 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR7PTH</a>   +  13C  W   A       Sprite 7 pointer (high 3 bits)
+ <a href="../Hardware_Manual_guide/node0041.html">SPR7PTL</a>   +  13E  W   A       Sprite 7 pointer (low 15 bits)
+ <a href="../Hardware_Manual_guide/node003F.html">SPR0POS</a>   %  140  W   AD      Sprite 0 vert-horiz start position
+                                  data
+ <a href="../Hardware_Manual_guide/node003F.html">SPR0CTL</a>   %  142  W   AD( <a href="../Hardware_Manual_guide/node00A5.html">E</a> ) Sprite 0 vert stop position and
+                                  control data
+ <a href="../Hardware_Manual_guide/node0040.html">SPR0DATA</a>  %  144  W   D       Sprite 0 image data register A
+ <a href="../Hardware_Manual_guide/node0040.html">SPR0DATB</a>  %  146  W   D       Sprite 0 image data register B
+ <a href="../Hardware_Manual_guide/node003F.html">SPR1POS</a>   %  148  W   AD      Sprite 1 vert-horiz start position
+                                  data
+ <a href="../Hardware_Manual_guide/node003F.html">SPR1CTL</a>   %  14A  W   AD      Sprite 1 vert stop position and
+                                  control data
+ <a href="../Hardware_Manual_guide/node0040.html">SPR1DATA</a>  %  14C  W   D       Sprite 1 image data register A
+ <a href="../Hardware_Manual_guide/node0040.html">SPR1DATB</a>  %  14E  W   D       Sprite 1 image data register B
+ <a href="../Hardware_Manual_guide/node003F.html">SPR2POS</a>   %  150  W   AD      Sprite 2 vert-horiz start position
+                                  data
+ <a href="../Hardware_Manual_guide/node003F.html">SPR2CTL</a>   %  152  W   AD      Sprite 2 vert stop position and
+                                  control data
+ <a href="../Hardware_Manual_guide/node0040.html">SPR2DATA</a>  %  154  W   D       Sprite 2 image data register A
+ <a href="../Hardware_Manual_guide/node0040.html">SPR2DATB</a>  %  156  W   D       Sprite 2 image data register B
+ <a href="../Hardware_Manual_guide/node003F.html">SPR3POS</a>   %  158  W   AD      Sprite 3 vert-horiz start position
+                                  data
+ <a href="../Hardware_Manual_guide/node003F.html">SPR3CTL</a>   %  15A  W   AD      Sprite 3 vert stop position and
+                                  control data
+ <a href="../Hardware_Manual_guide/node0040.html">SPR3DATA</a>  %  15C  W   D       Sprite 3 image data register A
+ <a href="../Hardware_Manual_guide/node0040.html">SPR3DATB</a>  %  15E  W   D       Sprite 3 image data register B
+ <a href="../Hardware_Manual_guide/node003F.html">SPR4POS</a>   %  160  W   AD      Sprite 4 vert-horiz start position
+                                  data
+ <a href="../Hardware_Manual_guide/node003F.html">SPR4CTL</a>   %  162  W   AD      Sprite 4 vert stop position and
+                                  control data
+ <a href="../Hardware_Manual_guide/node0040.html">SPR4DATA</a>  %  164  W   D       Sprite 4 image data register A
+ <a href="../Hardware_Manual_guide/node0040.html">SPR4DATB</a>  %  166  W   D       Sprite 4 image data register B
+ <a href="../Hardware_Manual_guide/node003F.html">SPR5POS</a>   %  168  W   AD      Sprite 5 vert-horiz start position
+                                  data
+ <a href="../Hardware_Manual_guide/node003F.html">SPR5CTL</a>   %  16A  W   AD      Sprite 5 vert stop position and
+                                  control data
+ <a href="../Hardware_Manual_guide/node0040.html">SPR5DATA</a>  %  16C  W   D       Sprite 5 image data register A
+ <a href="../Hardware_Manual_guide/node0040.html">SPR5DATB</a>  %  16E  W   D       Sprite 5 image data register B
+ <a href="../Hardware_Manual_guide/node003F.html">SPR6POS</a>   %  170  W   AD      Sprite 6 vert-horiz start position
+                                  data
+ <a href="../Hardware_Manual_guide/node003F.html">SPR6CTL</a>   %  172  W   AD      Sprite 6 vert stop position and
+                                  control data
+ <a href="../Hardware_Manual_guide/node0040.html">SPR6DATA</a>  %  174  W   D       Sprite 6 image data register A
+ <a href="../Hardware_Manual_guide/node0040.html">SPR6DATB</a>  %  176  W   D       Sprite 6 image data register B
+ <a href="../Hardware_Manual_guide/node003F.html">SPR7POS</a>   %  178  W   AD      Sprite 7 vert-horiz start position
+                                  data
+ <a href="../Hardware_Manual_guide/node003F.html">SPR7CTL</a>   %  17A  W   AD      Sprite 7 vert stop position and
+                                  control data
+ <a href="../Hardware_Manual_guide/node0040.html">SPR7DATA</a>  %  17C  W   D       Sprite 7 image data register A
+ <a href="../Hardware_Manual_guide/node0040.html">SPR7DATB</a>  %  17E  W   D       Sprite 7 image data register B
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR00</a>      180  W   D       Color table 00
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR01</a>      182  W   D       Color table 01
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR02</a>      184  W   D       Color table 02
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR03</a>      186  W   D       Color table 03
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR04</a>      188  W   D       Color table 04
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR05</a>      18A  W   D       Color table 05
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR06</a>      18C  W   D       Color table 06
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR07</a>      18E  W   D       Color table 07
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR08</a>      190  W   D       Color table 08
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR09</a>      192  W   D       Color table 09
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR10</a>      194  W   D       Color table 10
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR11</a>      196  W   D       Color table 11
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR12</a>      198  W   D       Color table 12
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR13</a>      19A  W   D       Color table 13
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR14</a>      19C  W   D       Color table 14
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR15</a>      19E  W   D       Color table 15
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR16</a>      1A0  W   D       Color table 16
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR17</a>      1A2  W   D       Color table 17
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR18</a>      1A4  W   D       Color table 18
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR19</a>      1A6  W   D       Color table 19
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR20</a>      1A8  W   D       Color table 20
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR21</a>      1AA  W   D       Color table 21
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR22</a>      1AC  W   D       Color table 22
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR23</a>      1AE  W   D       Color table 23
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR24</a>      1B0  W   D       Color table 24
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR25</a>      1B2  W   D       Color table 25
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR26</a>      1B4  W   D       Color table 26
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR27</a>      1B6  W   D       Color table 27
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR28</a>      1B8  W   D       Color table 28
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR29</a>      1BA  W   D       Color table 29
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR30</a>      1BC  W   D       Color table 30
+ <a href="../Hardware_Manual_guide/node0027.html">COLOR31</a>      1BE  W   D       Color table 31
+
+ <a href="../Hardware_Manual_guide/node0035.html">HTOTAL</a>       1C0  W   A( <a href="../Hardware_Manual_guide/node00A6.html#line8">E</a> )  Highest number count, horiz line
+                                   (VARBEAMEN=1)
+ <a href="../Hardware_Manual_guide/node0035.html">HSSTOP</a>       1C2  W   A( <a href="../Hardware_Manual_guide/node00A6.html#line29">E</a> )  Horizontal line position for HSYNC stop
+ <a href="../Hardware_Manual_guide/node0035.html">HBSTRT</a>       1C4  W   A( <a href="../Hardware_Manual_guide/node00A6.html#line42">E</a> )  Horizontal line position for HBLANK start
+ <a href="../Hardware_Manual_guide/node0035.html">HBSTOP</a>       1C6  W   A( <a href="../Hardware_Manual_guide/node00A6.html#line42">E</a> )  Horizontal line position for HBLANK stop
+ <a href="../Hardware_Manual_guide/node0046.html">VTOTAL</a>       1C8  W   A( <a href="../Hardware_Manual_guide/node00A6.html#line21">E</a> )  Highest numbered vertical line
+                                   (VARBEAMEN=1)
+ <a href="../Hardware_Manual_guide/node0046.html">VSSTOP</a>       1CA  W   A( <a href="../Hardware_Manual_guide/node00A6.html#line29">E</a> )  Vertical line position for VSYNC stop
+ <a href="../Hardware_Manual_guide/node0043.html">VBSTRT</a>       1CC  W   A( <a href="../Hardware_Manual_guide/node00A6.html#line42">E</a> )  Vertical line for VBLANK start
+ <a href="../Hardware_Manual_guide/node0043.html">VBSTOP</a>       1CE  W   A( <a href="../Hardware_Manual_guide/node00A6.html#line42">E</a> )  Vertical line for VBLANK stop
+
+              1D0              Reserved
+              1D2              Reserved
+              1D4              Reserved
+              1D6              Reserved
+              1D8              Reserved
+              1DA              Reserved
+
+ <a href="../Hardware_Manual_guide/node0018.html">BEAMCON0</a>     1DC  W   A( <a href="../Hardware_Manual_guide/node00A7.html">E</a> )  Beam counter control register (SHRES,PAL)
+ <a href="../Hardware_Manual_guide/node0035.html">HSSTRT</a>       1DE  W   A( <a href="../Hardware_Manual_guide/node00A6.html#line29">E</a> )  Horizontal sync start (VARHSY)
+ <a href="../Hardware_Manual_guide/node0046.html">VSSTRT</a>       1E0  W   A( <a href="../Hardware_Manual_guide/node00A6.html#line29">E</a> )  Vertical sync start   (VARVSY)
+ <a href="../Hardware_Manual_guide/node0035.html">HCENTER</a>      1E2  W   A( <a href="../Hardware_Manual_guide/node00A6.html#line29">E</a> )  Horizontal position for Vsync on interlace
+ <a href="../Hardware_Manual_guide/node002E.html">DIWHIGH</a>      1E4  W   AD( <a href="../Hardware_Manual_guide/node00A8.html#line16">E</a> ) Display window -  upper bits for start, stop
+
+
+ RESERVED     1110X
+ RESERVED     1111X
+ NO-OP(NULL)  1FE
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

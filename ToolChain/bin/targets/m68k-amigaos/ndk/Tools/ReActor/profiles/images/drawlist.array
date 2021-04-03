@@ -1,0 +1,9 @@
+drawlist.array
+SELECT  0x00000000 (I····AFW) dl_Directive "Directive" 12 0 0 "End" 6 "Linepat" 7 "Fillpat" 15 "Linesize" 1 "Line" 2 "Rect" 3 "Fill" 8 "Area Move" 9 "Area Draw" 10 "Area Fill" 4 "Area Ellipse" 5 "Area Circle"
+INTEGER 0x00000002 (I····AFW) dl_X1 "X 1" 0 -32768 32767
+INTEGER 0x00000004 (I····AFW) dl_Y1 "Y 1" 0 -32768 32767
+INTEGER 0x00000006 (I····AFW) dl_X2 "X 2" 0 -32768 32767
+INTEGER 0x00000008 (I····AFW) dl_Y2 "Y 2" 0 -32768 32767
+INTEGER 0x0000000A (I····AFWX) [ TYPE 1 ] dl_Value "Value" 0 -32768 32767
+PEN     0x0000000A (I····AFWX) [ TYPE 2 ] dl_Pen "Pen" TEXTPEN
+END

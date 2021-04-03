@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-44" TITLE="A Register Summary / POTGO, POTGOR" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / POTGO, POTGOR</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node003A.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node003C.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+POTGO      034      W       P     Pot port data write and start.
+
+POTGOR     016      R       P     Pot port data read
+                                      (formerly called POTINP).
+
+                 This register controls a 4-bit bi-directional I/O port
+                 that shares the same four pins as the four pot counters
+                 above.
+
+                 BIT#  FUNCT   DESCRIPTION
+                 ----  ---------------------------------------
+                 15    OUTRY   Output enable for Paula pin 36
+                 14    DATRY   I/O data Paula pin 36
+                 13    OUTRX   Output enable for Paula pin 35
+                 12    DATRX   I/O data Paula pin 35
+                 11    OUTLY   Output enable for Paula pin 33
+                 10    DATLY   I/O data Paula pin 33
+                 09    OUTLX   Output enable for Paula pin 32
+                 08    DATLX   I/O data Paula pin 32
+                 07-01   0     Reserved for chip ID code (presently 0)
+                 00    START   Start pots (dump capacitors, start
+                                 counters)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

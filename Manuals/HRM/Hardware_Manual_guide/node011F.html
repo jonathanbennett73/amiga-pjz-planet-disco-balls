@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-5" TITLE="6 Blitter Hardware / Shifts and Masks" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 Blitter Hardware / Shifts and Masks</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node011E.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0120.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Up to now we have dealt with the blitter only in moving words of memory
+around and combining them with logic operations.  This is sufficient for
+ <a href="../Hardware_Manual_guide/node011D.html#line46">moving graphic images</a>  around, so long as the images stay in the same
+position relative to the beginning of a word.  If our car image has its
+leftmost pixel on the second pixel from the left, we can easily draw it on
+the screen in any position where the leftmost pixel also starts two pixels
+from the beginning of some word.  But often we want to draw that car
+shifted left or right by a few pixels. To this end, both the A and B
+ <a href="../Hardware_Manual_guide/node011B.html">DMA channels</a>  have a barrel shifter that can shift an image between 0 and
+15 bits.
+
+This shifting operation is completely free; it requires no more time to
+execute a blit with shifts than a blit without shifts, as opposed to
+shifting with the 680x0.  The shift is normally towards the right. This
+shifter allows movement of images on pixel boundaries, even though the
+pixels are addressed 16 at a time by each word address of the bitplane
+image.
+
+So if the incoming data is shifted to the right, what is shifted in
+from the left?  For the first word of the blit, zeros are shifted in; for
+each subsequent word of the same blit, the data shifted out from the
+<a name="line23">previous word is shifted in.</a>
+
+The shift value for the A channel is set with bits 15 through 12 of
+ <a href="../Hardware_Manual_guide/node001A.html">BLTCON0</a> ; the B shift value is set with bits 15 through 12 of  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a> .
+For most operations, the same value will be used for both shifts.  For
+shifts of greater than fifteen bits, load the  <a href="../Hardware_Manual_guide/node011B.html#line6">address register pointer</a> 
+of the destination with a higher address; a shift of 100 bits would
+require the  <a href="../Hardware_Manual_guide/node011B.html#line6">destination pointer</a>  to be advanced 100/16 or 6 words (12
+bytes), and a right shift of the remaining 4 bits to be used.
+
+As an example, let us say we are doing a blit that is three words wide,
+two words high, and we are using a shift of 4 bits.  For simplicity, let
+us assume we are doing a straight copy from A to D.  The first word that
+will be written to D is the first word fetched from A, shifted right four
+bits with zeros shifted in from the left.  The second word will be the
+second word fetched from the A, shifted right, with the least significant
+(rightmost) four bits of the first word shifted in. Next, we will write
+the first word of the second row fetched from A, shifted four bits, with
+the least significant four bits of the last word from the first row
+<a name="line42">shifted in. This would continue until the blit is finished.</a>
+
+On shifted blits, therefore, we only get zeros shifted in for the first
+word of the first row. On all other rows the blitter will shift in the
+bits that it shifted out of the previous row. For most graphics
+applications, this is undesirable.  For this reason, the blitter has the
+ability to mask the first and last word of each row coming through the A
+<a name="line49"> <a href="../Hardware_Manual_guide/node011B.html">DMA channel</a> .</a>
+
+Thus, it is possible to extract rectangular data from a source whose right
+and left edges are between word boundaries. These two registers are called
+BLTAFWM and BLTALWM, for blitter A channel first and last word masks.
+<a name="line54">When not in use, both should be initialized to all ones ($FFFF).</a>
+
+   A note about fonts.
+   -------------------
+   Text fonts on the Amiga are stored in a packed bitmap.  Individual
+   characters from the font are extracted using the blitter, masking out
+   unwanted bits.  The character may then be positioned to any pixel
+<a name="line61">   alignment by shifting it the appropriate amount.</a>
+
+These masks are &#034;anded&#034; with the source data, before any shifts are
+applied. Only when there is a 1 bit in the first-word mask will that bit
+of source A actually appear in the logic operation. The first word of each
+row is anded with BLTAFWM, and the last word is &#034;anded&#034; with BLTALWM.  If
+the width of the row is a single word, both masks are applied
+simultaneously.
+
+The masks are also useful for extracting a certain range of &#034;columns&#034; from
+some bitplane.  Let us say we have, for example, a predrawn rectangle
+containing text and graphics that is 23 pixels wide.  The leftmost edge is
+the leftmost bit in its bitmap, and the bitmap is two words wide.  We wish
+to render this rectangle starting at pixel position 5 into our 320 by 200
+<a name="line75">screen bitmap, without disturbing anything that lies outside of the</a>
+rectangle.
+
+                 |&#060;--------- two word source bitmap --------&#062;|
+                 |                                           |
+                 |&#060;--- extract a 32-bit image ---&#062;|          |
+                 |                                |          |
+                 |&#060;--- 16-bit word --&#062;|           |          |
+                 |____________________|___________|__________|
+                 |                                           |
+    source       | 00000000  00000000     00000000  00000000 |
+    DMA B        | 11111111  11111111     11111111  11111111 |
+                 | 10101010  01010101     10101010  01010101 |
+                 |___________________________________________|
+                       |         |          |         |
+                 Source is passed through mask when it is one,
+                     outherwise the destination is copied.
+                       |         |          |         |
+                  _____v_________v____   ___v_________v______
+                 |                    | |                    |
+    mask on      | 11111111  11111111 | | 11111110  00000000 |
+    DMA A        |  first word mask   | |  second word mask  |
+                 |____________________| |____________________|
+                       |         |          |  ||     |
+                       |         |          |  |-     -
+                  _____v_________v__________v__v_____________
+    final        |                                           |
+    destination  | 00000000  00000000     00000000  11111111 |
+    DMA D        | 11111111  11111111     11111111  11111111 |
+    (points to   | 10101010  01010101     10101010  11111111 |
+    same address |___________________________________________|
+    as DMA C)                                   ^   ^  ^   ^
+                       -         -         -    |   |  |   | &#060;-+
+                  _____|_________|_________|____|___|__|___|_  |
+    destination  |                                           | |
+    before blit  | 00000000  00000000     00000000  00000000 | |
+    DMA C        | 11111111  11111111     11111111  11111111 | |
+    (to be       | 10101010  01010101     10101010  01010101 | |
+    overwritten) |___________________________________________| |
+                                                               |
+                 Destination does not change where mask is 0 --+
+
+
+                   Figure 6-4: Extracting a Range of Columns
+<a name="line119"></a>
+
+To do this, we point the B  <a href="../Hardware_Manual_guide/node011B.html">DMA channel</a>  at the bitmap containing the
+source image, and the D  <a href="../Hardware_Manual_guide/node011B.html">DMA channel</a>  at the screen bitmap. We use a shift
+value of 5.  We also point the C  <a href="../Hardware_Manual_guide/node011B.html">DMA channel</a>  at the screen bitmap. We
+use a blit width of 2 words. What we need is a simple copy operation,
+<a name="line125">except we wish to leave the first five bits of the first word, and the</a>
+last four bits (2 times 16, less 23, less 5) of the last word alone. The A
+ <a href="../Hardware_Manual_guide/node011B.html">DMA channel</a>  comes to the rescue.  We preload the A  <a href="../Hardware_Manual_guide/node011B.html#line31">data register</a>  with
+$FFFF (all ones), and use a first word mask with the most significant five
+bits set to zero ($07FF) and a last word mask with the least significant
+four bits set to zero ($FFF0).  We do not enable the A  <a href="../Hardware_Manual_guide/node011B.html">DMA channel</a> , but
+only the B, C, and D channels, since we want to use the A channel as a
+simple row mask. We then wish to pass the B (source) data along wherever
+the A channel is 1 (for a  <a href="../Hardware_Manual_guide/node011D.html">minterm</a>  of AB) and pass along the original
+destination data (from the C channel) wherever A is 0
+                    _
+(for a  <a href="../Hardware_Manual_guide/node011D.html">minterm</a>  of AC),
+                                               _
+yielding our classic cookie-cut function of AB+AC, or $CA.
+
+   About disabling.
+   ----------------
+   Even though the A channel is disabled, we use it in our logic
+   function and preload the  <a href="../Hardware_Manual_guide/node011B.html#line31">data register</a> .  Disabling a channel simply
+   turns off the memory fetches for that channel; all other operations
+   are still performed, only from a constant value stored in the
+   channel's  <a href="../Hardware_Manual_guide/node011B.html#line31">data register</a> .
+
+An alternative but more subtle way of accomplishing the same thing is to
+use an A shift of five, a first word mask of all ones, and a last word
+mask with the rightmost nine bits set to zero.  All other registers remain
+<a name="line151">the same.</a>
+
+   Warning:
+   --------
+   Be sure to load the blitter immediate  <a href="../Hardware_Manual_guide/node011B.html#line31">data registers</a>  only after
+   setting the shift count in  <a href="../Hardware_Manual_guide/node001A.html">BLTCON0/BLTCON1</a> , as loading the
+    <a href="../Hardware_Manual_guide/node011B.html#line31">data registers</a>  first will lead to unpredictable results. For instance,
+   if the last person left BSHIFT to be &#034;4&#034;, and I load BDATA with &#034;1&#034; and
+   then change BSHIFT to &#034;2&#034;, the resulting BDATA that is used is
+   &#034;1&#060;&#060;4&#034;, not &#034;1&#060;&#060;2&#034;. The act of loading one of the  <a href="../Hardware_Manual_guide/node011B.html#line31">data registers</a> 
+   &#034;draws&#034; the data through the machine and shifts it.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

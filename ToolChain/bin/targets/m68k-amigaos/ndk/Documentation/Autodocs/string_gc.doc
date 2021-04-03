@@ -1,0 +1,160 @@
+TABLE OF CONTENTS
+
+string_gc/--datasheet--
+string_gc/STRING_GetClass
+string_gc/--datasheet--                               string_gc/--datasheet--
+
+   NAME
+        string_gc -- create string BOOPSI objects
+
+    SUPERCLASS
+        gadgetclass
+
+    REQUIRES
+        bevel.image
+
+    DESCRIPTION
+        The string gadget class is used to create single line
+        editable strings. This class also supports window relativity.
+        This class is a subclass of rom strgclass which automatically
+        creates a field bevel and supports GM_DOMAIN for layout groups.
+
+     METHODS
+        OM_NEW -- Passed to superclass, strgclass allocated, then OM_SET.
+
+        OM_SET -- Passed to superclass, and strgclass is set.
+
+        OM_UPDATE -- Passed to superclass, and strgclass is set then
+            rendered.
+
+        OM_DISPOSE -- Disposes strgclass object, then passed to superclass.
+
+        GM_RENDER -- Passed to superclass, then strgclass object
+
+        GM_HITTEST -- Overrides supperclass, returns GMR_HITTEST.
+
+        GM_GOACTIVE -- Passed to superclass, strgclass, string activated
+
+        GM_HANDLEINPUT -- Routes input to strgclass object.
+
+        GM_GOINACTIVE -- Passed to superclass, strgclass, string deactivated.
+
+        GM_DOMAIN -- Returns GDOMAIN_MINIMUM, GDOMAIN_NOMINAL and
+            GDOMAIN_MAXIMUM dimensions.
+
+     ATTRIBUTES
+        GA_Disabled (BOOL)
+            Determines whether the string is disabled or not.
+            Changing disable state will invoke GM_RENDER.  A disabled
+            string is dusted in a ghosting pattern that is rendered
+            in SHADOWPEN.
+
+            Defaults to FALSE.
+
+            Applicability is (OM_NEW, OM_SET, OM_UPDATE)
+
+        GA_TextAttr (struct TextAttr *)
+            Text attribute for the font to use for the string.
+
+            Defaults to RPort->Font, which is often the screen or
+            window font.
+
+            Applicability is (OM_NEW)
+
+        GA_ReadOnly (BOOL)
+            Read-only gadgets ignore activation attempts.
+
+            Defaults to FALSE.
+
+            Applicability is (OM_NEW, OM_SET, OM_UPDATE)
+
+        STRINGA_MinVisible (WORD) (V41)
+            Set the minimum number of characters that should be
+            visible for a 'GDOMAIN_MIMIMUM' domain size. Nominal
+            domain sizes to twice this minimum. This is a handy
+            addition (also present in V40.35) to ensure a mimimum
+            number characters will be visible in a string gadget.
+
+            Defaults to 4.
+
+            Applicability is (OM_NEW, OM_SET, OM_UPDATE)
+            
+            
+        STRINGA_HookType (UWORD) (v41)            
+            Use one of the build in string editing hooks:
+            
+            SHK_CUSTOM (default)
+            SHK_PASSWORD
+            SHK_IPADDRESS
+            SHK_FLOAT
+            SHK_HEXIDECIMAL
+            SHK_TELEPHONE
+            SHK_POSTALCODE
+            SHK_AMOUNT
+            SHK_UPPERCASE
+            SHK_HOTKEY (v45)
+            
+            WARNING: Do NOT use STRINGA_HookType unless string.gadget
+            v45 is installed. Some of the hooks were broken before!
+            
+	    Applicability is (OM_NEW)
+	    
+	    
+	 STRINGA_Mark (ULONG) (v45)
+	    Mark the given block. The upper 16bit of the longword contain the
+	    start position and the lower one the end position. If one or both
+	    values are -1, the current block will be unmarked.
+	    
+	    Applicability is (OM_SET,OM_NEW,OM_UPDATE,OM_GET)
+	    
+	    
+	 STRINGA_AllowMarking (BOOL) (v45)
+	    If true (default) marking is enabled.
+	    
+	    Applicability is (OM_SET,OM_NEW,OM_UPDATE,OM_GET)
+	    
+
+     NOTES
+
+        The string class passes all tags to its strgclass child,
+        please see strgclass tags & autodocs, and look in
+        <intuition/gadgetclass.h> for the STRINGA_ tags.
+
+        WARNING: Upto v45 string.gadget is ROM strgclass wrapper.
+        Depending on string.gadget version, passing GA_Text can crash strgclass,
+        please use STRING_TextVal as its intended. STRINGA_Font and
+        STRINGA_LongVal are not directly supported, for numeric
+        strings use our more powerful integer.gadget class. To specify
+        the font for the gadget, use GA_TextAttr which is consistant
+        with all other ReAction gadget attributes.
+        
+string_gc/STRING_GetClass                           string_gc/STRING_GetClass
+
+    NAME
+        STRING_GetClass -- Gets the pointer to the string class.
+
+    SYNOPSIS
+        string_class = STRING_GetClass();
+        D0
+
+        Class * STRING_GetClass(VOID);
+
+    FUNCTION
+        Obtains the pointer to the String gadget class for use with
+        NewObject().  This function always returns a valid pointer so
+        you do not need to check it.  The reason is that if the library
+        opens fine, then the pointer returned is already setup.  (Of course
+        this implies that if opening the library fails, you shouldn't be
+        calling this.)
+
+        Note that this function does not create the class, that is done
+        when the class library is opened.
+
+    INPUTS
+        Nothing.
+
+    RESULT
+        string_class - Pointer to the String gadget class.
+
+    SEE ALSO
+

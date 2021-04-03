@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_5" NODE="5-4-3" TITLE="5 / Producing High-quality Sound / Efficiency" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>5 / Producing High-quality Sound / Efficiency</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00EA.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00EC.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A certain amount of overhead is involved in the handling of audio DMA.
+If you are trying to produce a smooth continuous audio synthesis, you
+should try to avoid as much of the system control overhead as possible.
+Basically, the larger the audio buffer you provide to the system, the less
+often it will need to  <a href="../Hardware_Manual_guide/node016B.html">interrupt</a>  to reset the pointers to the top of the
+next buffer and, coincidentally, the lower the amount of system
+interaction that will be required. If there is only one waveform buffer,
+the hardware automatically resets the pointers, so no software overhead is
+used for resetting them.
+
+The  <a href="../Hardware_Manual_guide/node00E4.html">Joining Tones</a>  section illustrated how you could join &#034;ends&#034; of tones
+together by responding to  <a href="../Hardware_Manual_guide/node016B.html">interrupts</a>  and changing the values of the
+ <a href="../Hardware_Manual_guide/node00DB.html">location registers</a>  to splice tones together. If your system is heavily
+loaded, it is possible that the response to the  <a href="../Hardware_Manual_guide/node016B.html">interrupt</a>  might not
+happen in time to assure a smooth audio transition. Therefore, it is
+advisable to utilize the longest possible audio table where a smooth
+output is required. This takes advantage of the audio DMA capability as
+well as minimizing the number of  <a href="../Hardware_Manual_guide/node016B.html">interrupts</a>  to which the 680x0 must
+respond.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

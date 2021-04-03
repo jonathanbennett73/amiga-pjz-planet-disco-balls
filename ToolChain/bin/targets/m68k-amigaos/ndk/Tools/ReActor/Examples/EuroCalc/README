@@ -1,0 +1,14 @@
+If you want to have a quick look on the EuroCalc resource file do the
+following (due to the beta state of ReActor):
+
+1. Start ReActor
+
+2. Select menu item Project/Load.
+
+3. Enter PROGDIR/Examples/EuroCalc and select EuroCalcFrame.res
+
+4. Press "O_pen" to open the window.
+
+This drawer contains an AREXX script catcomp.srx which can be used for
+StormC. Create a StormC project, add all C sources, headers, catalog and
+object files and add catcomp.srx as makescript for the catalog file.

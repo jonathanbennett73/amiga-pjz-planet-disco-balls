@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-3-1" TITLE="7 / Beam Position Detection / Using the Beam Position Counter" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 / Beam Position Detection / Using the Beam Position Counter</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node015E.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0160.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+There are four addresses that access the beam position counter. Their
+<a name="line3">usage is described in Table 7-5.</a>
+
+
+          Table 7-5: Contents of the Beam Position Counter
+<a name="line7"></a>
+
+  VPOSR   Read-only   Read the high bit of the vertical position (V8) and
+                      the frame-type bit.
+
+          Bit 15      LOF (Long-frame bit). Used to initialize interlaced
+                      displays.
+
+          Bits 14-1   Unused
+
+          Bit 0       High bit of the vertical position (V8).  Allows PAL
+                      line counts (313) to appear in PAL versions of the
+<a name="line19">                      Amiga.</a>
+
+  VHPOSR  Read-only   Read vertical and horizontal position of the counter
+                      that is producing the beam on the screen (also
+                      reads the light pen).
+
+          Bits 15-8   Low bits of the vertical position, bits V7-V0
+
+          Bits  7-0   The horizontal position, bits H8-H1.  Horizontal
+<a name="line28">                      resolution is 1/160th of the screen width.</a>
+
+<a name="line30">  VPOSW   Write only  Bits same as VPOSR above.</a>
+
+  VHPOSW  Write only  Bits same as VHPOSR above.  Used for counter
+                      synchronization with chip test patterns.
+
+
+As usual, the address pairs VPOSR,VHPOSR and VPOSW,VHPOSW can be read from
+and written to as long words, with the most significant addresses being
+VPOSR and VPOSW.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

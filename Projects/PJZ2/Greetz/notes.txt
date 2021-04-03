@@ -1,0 +1,53 @@
+Greetz uses a screen twice the normal height. A line of text is written just offscreen
+at the top and bottom and then this is switched after a screenful has scrolled to give
+impression of infinite scrolling.
+
+--
+font height (draw area 2)
+--
+screen size
+--
+screen size
+--
+font height (draw area 1)
+--
+font height overrun buffer
+--
+
+In theory only need screensize*2, but that doesn't allow for variable Y spacing where the
+scrolling reset and line draw are out of sync. So we always allow drawing of a new line above
+and below the visible area at any time
+
+
+Blitting an entire line of proportional fonts is quite costly. To offset this this is done
+over a number of frames:
+
+frame1 - clear the font buffer, while clearing work out line stats 
+	(centered width, num chars, etc).
+
+frame2 - blit x letters of line
+frame3 - blit x letters of line
+framex - blit x letters of line
+
+framex+1 - copy line to screen x 2 (top and bottom for infinite scroll)
+
+Highest frame cost should be the 2 x copy in the last stage.
+
+The number of letters to blit per frame depends on the font height and required
+vertical spacing. Need to blit ~40 chars by the time the next line is needed. :)
+Just tune it so that the line copy is the longest - any other tweaking is overkill.
+
+Status
+
+Text_Scroll
+If clear/wait/copy as required. Have to clear a line each frame as well so that
+can have variable Y spacing without increasing font size buffer.
+
+Text_Draw
+0 = Text_Draw_ClearBuffer, analyse text
+1 = Text_Draw_BlitChars
+2 = Text_Draw_CopyBuffer
+
+Text_Draw_ClearBuffer
+Text_Draw_BlitChars
+Text_Draw_CopyBuffer

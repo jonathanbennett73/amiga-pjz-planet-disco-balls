@@ -1,0 +1,14 @@
+setenv 45.0 (05.01.01)
+
+- rewrite based on the AROS version of setenv
+  (needed some bugfixing). Please note that
+  you need to remove the original SetEnv
+  via the resident command before you can
+  use the update.
+  
+- added SAVE/S option that tells setenv to 
+  save the variable to env: *and* envarc:
+  (a feature of dos.library v39). Please
+  note that you need to specify the SAVE
+  option in front of the STRING option
+  (ie "SetEnv the_var SAVE the_contents")!

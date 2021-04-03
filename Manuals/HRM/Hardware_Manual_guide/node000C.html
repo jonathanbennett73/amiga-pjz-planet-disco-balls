@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_1" NODE="1-3-1" TITLE="1 / General Development Guidelines / 68010/020/030/040 Compatibility" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>1 / General Development Guidelines / 68010/020/030/040 Compatibility</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node000B.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node000D.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Special care must be taken to be compatible with the entire family of
+68000 processors:
+
+*  Do not use the upper 8 bits of a pointer for storing unrelated
+   information.  The 68020, 68030, and 68040 use all 32 bits for
+   addressing.
+
+*  Do not use signed variables or signed math for addresses.
+
+*  Do not use software delay loops, and do not make assumptions about the
+   order in which asynchronous tasks will finish.
+
+*  The stack frame used for exceptions is different on each member of the
+   68000 family.  The type identification in the frame must be checked! In
+   addition, the interrupt autovectors may reside in a different location
+   on processors with a VBR register.
+
+*  Do not use the MOVE SR,&#060;dest&#062; instruction!  This 68000 instruction acts
+   differently on other members of the 68000 family.  If you want to get a
+   copy of the processor condition codes, use the exec.library/GetCC()
+   function.
+
+*  Do not use the CLR instruction on a hardware register which is
+   triggered by Write access.  The 68020 CLR instruction does a single
+   Write access. The 68000 CLR instruction does a Read access first,
+   then a Write access. This can cause a hardware register to be
+   triggered twice.  Use MOVE.x #0, &#060;address&#062; instead.
+
+*  Self-modifying code is strongly discouraged.  All 68000 family
+   processors have a pre-fetch feature.  This means the CPU loads
+   instructions ahead of the current program counter.  Hence, if your code
+   modifies or decrypts itself just ahead of the program counter, the
+   pre-fetched instructions may not match the modified instructions. The
+   more advanced processors prefetch more words.  If self-modifying code
+   must be used, flushing the cache is the safest way to prevent troubles.
+
+*  The 68020, 68030, and 68040 processors all have instruction caches.
+   These caches store recently used instructions, but do not monitor
+   writes.  After modifying or directly loading instructions, the cache
+   must be flushed.  See the exec.library/CacheClearU() Autodoc for more
+   details.  If your code takes over the machine, flushing the cache will
+   be trickier.  You can account for the current processors, and hope the
+   same techniques will work in the future:
+
+
+        CACRF_ClearI    EQU      $0008  ;Bit for clear instruction cache
+                        ;
+                        ;Supervisor mode only.	Use only if you have taken
+                        ;over the machine.  Read and store the ExecBase
+                        ;processor AttnFlags flags at boot time, call this
+                        ;code only if the &#034;68020 or better&#034; bit was set.
+                        ;
+        ClearICache:    dc.w    $4E7A,$0002   ;MOVEC CACR,D0
+                        tst.w   d0            ;movec does not affect CC's
+                        bmi.s   cic_040       ;A 68040 with enabled cache!
+                        ori.w   #CACRF_ClearI,d0
+                        dc.w    $4E7B,$0002   ;MOVEC D0,CACR
+                        bra.s   cic_exit
+        cic_040:        dc.w    $f4b8         ;CPUSHA (IC)
+        cic_exit:
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

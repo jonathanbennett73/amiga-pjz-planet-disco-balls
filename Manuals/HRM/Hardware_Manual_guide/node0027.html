@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-24" TITLE="A Register Summary / COLORxx" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / COLORxx</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0026.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0028.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+COLORxx    180      W       D     Color table xx
+
+                 There are 32 of these registers (xx=00-31) and they
+                 are sometimes collectively called the &#034;color
+                 palette.&#034;  They contain 12-bit codes representing
+                 red, green, and blue colors for RGB systems.
+                 One of these registers at a time is selected
+                 (by the BPLxDAT serialized video code)
+                 for presentation at the RGB video output pins.
+                 The table below shows the color register bit usage.
+
+                 BIT# 15,14,13,12,11,10,09,08,07,06,05,04,03,02,01,00
+                      ----------- ----------- ----------- -----------
+                 RGB  X  X  X  X  R3 R2 R1 R0 G3 G2 G1 G0 B3 B2 B1 B0
+
+                 B=blue, G=green, R=red,
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

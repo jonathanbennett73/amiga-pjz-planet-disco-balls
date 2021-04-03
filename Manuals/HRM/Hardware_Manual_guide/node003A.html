@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-43" TITLE="A Register Summary / POT0DAT, POT1DAT" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / POT0DAT, POT1DAT</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0039.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node003B.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+POT0DAT    012      R      P( <a href="../Hardware_Manual_guide/node00AC.html">E</a> ) Pot counter data left pair (vert,horiz.)
+POT1DAT    014      R      P( <a href="../Hardware_Manual_guide/node00AC.html">E</a> ) Pot counter data right pair (vert,horiz.)
+
+                 These addresses each read a pair of 8-bit pot counters.
+                 (Four counters total.) The bit assignment for both
+                 addresses is shown below. The counters are stopped by
+                 signals from two controller connectors (left-right)
+                 with two pins each.
+
+                 BIT#  15,14,13,12,11,10,09,08  07,06,05,04,03,02,01,00
+                 ----- ------------------------ -----------------------
+                 RIGHT Y7 Y6 Y5 Y4 Y3 Y2 Y1 Y0  X7 X6 X5 X4 X3 X2 X1 X0
+                 LEFT  Y7 Y6 Y5 Y4 Y3 Y2 Y1 Y0  X7 X6 X5 X4 X3 X2 X1 X0
+
+                           CONNECTORS                PAULA
+                         --------------------    ----------------
+                         Loc. Dir. Sym   Pin     Pin#    Pin Name
+                         ----  --- ----  ----    ----    --------
+                         RIGHT  Y   RY    9      36      (POT1Y)
+                         RIGHT  X   RX    5      35      (POT1X)
+                         LEFT   Y   LY    9      33      (POT0Y)
+                         LEFT   X   LX    5      32      (POT0X)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

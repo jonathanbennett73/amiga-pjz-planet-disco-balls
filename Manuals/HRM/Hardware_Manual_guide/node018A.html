@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-1-5-1" TITLE="8 / / Reading A Light Pen / Reading the Light Pen Registers" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>8 / / Reading A Light Pen / Reading the Light Pen Registers</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0189.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node018B.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The light pen register is at the same address as the beam counters. The
+bits are as follows:
+
+   VPOSR:     Bit 15       Long frame/short frame.  0=short frame
+              Bits 14-1    Chip ID code.  Do not depend on value!
+              Bit 0        V8 (most significant bit of vertical position)
+
+   VHPOSR:    Bits 15-8    V7-V0 (vertical position)
+              Bits 7-0     H8-H1 (horizontal position)
+
+The software can refer to this register set as a long word whose address
+is VPOSR.
+
+The positional resolution of these registers is as follows:
+
+   Vertical      1 scan line in non-interlaced mode
+                 2 scan lines in interlaced mode (However, if you know
+                 which interlaced frame is under display, you can
+                 determine the correct position)
+
+   Horizontal    2 low resolution pixels in either high or low resolution
+
+The quality of the light pen will determine the amount of short-term
+jitter.  For most applications, you should average several readings
+<a name="line26">together.</a>
+
+To enable the light pen input, write a 1 into bit 3 (LPEN) of  <a href="../Hardware_Manual_guide/node0022.html">BPLCON0</a> .
+Once the light pen input is enabled and the light pen issues a trigger
+signal, the value in VPOSR is frozen. If no trigger is seen, the counters
+latch at the end of the display field. It is impossible to read the
+current beam location while the VPOSR register is latched. This freeze is
+released at the end of internal  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  (vertical position
+20). There is no single bit in the system that indicates a light pen
+trigger. To determine if a trigger has occurred, use one of these methods:
+
+   1. Read (long) VPOSR twice.
+
+   2. If both values are not the same, the light pen has not triggered
+      since the last top-of-screen (V = 20).
+
+   3. If both values are the same, mask off the upper 15 bits of the
+      32-bit word and compare it with the hex value of $10500 (V = 261).
+
+   4. If the VPOSR value is greater than $10500, the light pen has not
+      triggered since the last top-of-screen. If the value is less,
+      the light pen has triggered and the value read is the screen
+      position of the light pen.
+
+A somewhat simplified method of determining the truth of the light pen
+value involves instructing the system software to read the register only
+during the internal  <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  period of 0 &#060; V20:
+
+   1. Read (long) VPOSR once, during the period of 0 &#060; V20.
+
+   2. Mask off the upper 15 bits of the 32-bit word and compare it
+      with the hex value of $10500 (V = 261).
+
+   3. If the VPOSR value is greater than $10500, the light pen has not
+      triggered since the last top-of-screen. If the value is less,
+      the light pen has triggered and the value read is the screen
+      position of the light pen.
+
+Note that when the light pen latch is enabled, the VPOSR register may be
+latched at any time, and cannot be relied on as a counter.  This behavior
+may cause problems with software that attempts to derive timing based on
+VPOSR ticks.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

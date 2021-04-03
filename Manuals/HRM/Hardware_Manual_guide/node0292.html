@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-2-1-1" TITLE="K / / Changes from the A2000 Bus / 6800 Bus Interface" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / / Changes from the A2000 Bus / 6800 Bus Interface</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0291.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0293.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+A major difference between the A3000 expansion bus in Zorro II mode and
+the A2000 bus is the absence of the signals /VPA and /VMA, which comprise
+the 6800/6502 peripheral support mechanism that's part of the 68000 bus
+interface.  This mechanism was never a supported part of the Zorro II
+specification, however, and it should not be used by any PIC.  Any Zorro
+II PIC that depends on /VPA or /VMA will not work in the A3000 bus.  It
+was, in fact, impossible to legally use this on the A2000 bus.  The
+ <a href="../Hardware_Manual_guide/node02B0.html#line18">E clock</a>  is, however, supported on the Zorro III bus, though its duty
+cycle may vary in some situations.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

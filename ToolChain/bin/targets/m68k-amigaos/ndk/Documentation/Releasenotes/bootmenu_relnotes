@@ -1,0 +1,38 @@
+kickstart/bootmenu
+
+    Building on base code provided by olsen which was extracted
+    from the monitor handling, I reworked the bootmenu to support
+    DblPAL and DblNTSC (both VGAOnly) correctly and to provide
+    these modes also for a boot without Startup-Sequence. This
+    means that once the initial reboot of SetPatch has installed
+    the ROM update, there is typically no need anymore for a 15kHz
+    capable display or a flicker fixer. For compatibility reasons,
+    the initial mode will still be 15kHz. So when you press the
+    mouse buttons, you will get into the boot menu with a 15kHz
+    display mode. To let you know that you are in the boot menu,
+    the boot menu will now blink the LED while you still hold
+    both mouse buttons. You then select the VGA style bootmenu by
+    pressing CTRL-LALT-DEL-BACKSPACE. This key combination has been
+    chosen, so that noone can complain that a 15kHz only display
+    got destroyed "by accident". I have thought about allocating a
+    battmem bit to force Dbl modes on bootup, but this is probably
+    not too great an idea. If someone wants to boot into a readable
+    display without S-S, he might as well use the majik keys, once
+    he has triggered the boot menu.
+    Froze 44.2.
+    *blush* I overlooked two things. Old C= code freed the
+    VisualInfo before freeing the gadgets. As the bootmenu
+    previously used less than system friendly methods to switch
+    between PAL and NTSC the bug in the code did notturn into an
+    issue until now. Also, due to a fairly stupid oversight, either
+    the PAL or the NTSC monitor did not get set up leading to a
+    paranoia dead end Alert that I put in. The bootmenu is now
+    truly system friendly and does not poke the chips anymore.
+    Froze 44.3.
+    The bootmenu can now be invoked with the keyboard if the HELP
+    key is pressed right after(!) the reboot. The key can not be
+    held during reboot. Also, keyboard based mouse pointer movement
+    in the bootmenu is now possible as key presses are ignored now
+    while any SHIFT/ALT/AMIGA qualifiers are held down.
+    Froze 44.4.
+

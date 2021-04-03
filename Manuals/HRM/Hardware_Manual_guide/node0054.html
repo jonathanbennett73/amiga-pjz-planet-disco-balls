@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-6-1" TITLE="2 / Putting Together a Copper List / Complete Sample Copper List" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / Putting Together a Copper List / Complete Sample Copper List</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0053.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0055.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The following example shows a complete Copper list. This list is for two
+bitplanes -- one at $21000 and one at $25000. At the top of the screen,
+the  <a href="../Hardware_Manual_guide/node0067.html">color registers</a>  are loaded with the following values:
+
+          Register        Color
+          --------        -----
+          COLOR00         white
+          COLOR01         red
+          COLOR02         green
+          COLOR03         blue
+
+At line 150 on the screen, the  <a href="../Hardware_Manual_guide/node0067.html">color registers</a>  are reloaded:
+
+          Register        Color
+          --------        -----
+          COLOR00         black
+          COLOR01         yellow
+          COLOR02         cyan
+          COLOR03         magenta
+
+The complete Copper list follows.
+
+;
+; Notes: 1. Copper lists must be in Chip RAM.
+;        2. Bitplane addresses used in the example are arbitrary.
+;        3. Destination register addresses in Copper move instructions
+;           are offsets from the base address of the custom chips.
+;        4. As always, hardware manual examples assume that your
+;           application has taken full control of the hardware, and is not
+;           conflicting with operating system use of the same hardware.
+;        5. Many of the examples just pick memory addresses to be used.
+;           Normally you would need to allocate the required type of
+;           memory from the system with AllocMem()
+;        6. As stated earlier, the code examples are mainly to help
+;           clarify the way the hardware works.
+;        7. The following INCLUDE files are required by all example code
+;           in this chapter.
+;
+        INCLUDE &#034;exec/types.i&#034;
+        INCLUDE &#034;hardware/custom.i&#034;
+        INCLUDE &#034;hardware/dmabits.i&#034;
+        INCLUDE &#034;hardware/hw_examples.i&#034;
+
+COPPERLIST:
+;
+;  Set up pointers to two bitplanes
+;
+        DC.W    BPL1PTH,$0002   ;Move $0002 into register $0E0 (BPL1PTH)
+        DC.W    BPL1PTL,$1000   ;Move $1000 into register $0E2 (BPL1PTL)
+        DC.W    BPL2PTH,$0002   ;Move $0002 into register $0E4 (BPL2PTH)
+        DC.W    BPL2PTL,$5000   ;Move $5000 into register $0E6 (BPL2PTL)
+;
+;  Load color registers
+;
+        DC.W    COLOR00,$0FFF   ;Move white into register $180 (COLOR00)
+        DC.W    COLOR01,$0F00   ;Move red into register   $182 (COLOR01)
+        DC.W    COLOR02,$00F0   ;Move green into register $184 (COLOR02)
+        DC.W    COLOR03,$000F   ;Move blue into register  $186 (COLOR03)
+;
+;   Specify 2 Lores bitplanes
+;
+        DC.W    BPLCON0,$2200   ;2 lores planes, coloron
+;
+;  Wait for line 150
+;
+        DC.W    $9601,$FF00     ;Wait for line 150, ignore horiz. position
+;
+;  Change color registers mid-display
+;
+        DC.W    COLOR00,$0000  ;Move black into register $0180 (COLOR00)
+        DC.W    COLOR01,$0FF0  ;Move yellow into register $0182 (COLOR01)
+        DC.W    COLOR02,$00FF  ;Move cyan into register $0184 (COLOR02)
+        DC.W    COLOR03,$0F0F  ;Move magenta into register $0186 (COLOR03)
+;
+; End Copper list by waiting for the impossible
+;
+        DC.W    $FFFF,$FFFE    ;Wait for line 255, H = 254 (never happens)
+
+For more information about  <a href="../Hardware_Manual_guide/node0067.html">color registers</a> , see Chapter 3, &#034;Playfield
+Hardware.&#034;
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

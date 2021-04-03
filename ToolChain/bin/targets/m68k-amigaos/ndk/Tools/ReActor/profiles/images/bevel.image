@@ -1,0 +1,21 @@
+bevel.image
+LABEL "Bevel"
+PARENTPROFILE "Image"
+LIBRARY "images/bevel.image" 0 PRIVATE
+INCLUDE "imageclass.baseclass"
+BOOLEAN  0x80020015 (IS···) IA_Recessed "Recessed Frame?" FALSE "Recessed"
+BOOLEAN  0x80020017 (IS···) IA_EdgesOnly "Edges Only?" FALSE "Edges Only"
+TEXTATTR 0x80020013 (I····) IA_Font "Font"
+PEN      0x80020006 (I····) IA_FGPen "Shine Pen" SHINEPEN
+PEN      0x80020007 (I····) IA_BGPen "Shadow Pen" SHADOWPEN
+SELECT   0x85016001 (I···U) BEVEL_Style "Bevel Style" 10 0 4 "None" 2 "Group" 0 "Thin" 8 "Box" 9 "Standard" 1 "Button" 3 "Field" 5 "Drop" 6 "Horizontal Bar" 7 "Vertical Bar"
+STRING   0x85016003 (I···U) BEVEL_Label "Label" ""
+IMAGE    0x85016004 (I····) BEVEL_Image "Image"
+SELECT   0x85016005 (I····) BEVEL_LabelPlave "Label Place" 9 1 0 "Top Center" 1 "Top Left" 2 "Top Right" 3 "In Center" 4 "In Left" 5 "In Right" 6 "Bottom Center" 7 "Bottom Left" 8 "Bottom Right"
+PEN      0x8501600C (I····) BEVEL_FillPen "Fill Pen" BACKGROUNDPEN
+ARRAY    0x8501600D (I····) BEVEL_FillPattern "Fill Pattern" "pattern.array" 2 0
+PEN      0x8501600E (I····) BEVEL_TextPen "Text Pen" TEXTPEN
+BOOLEAN  0x8501600F (I····) BEVEL_Transparent "Transparent" FALSE "Transparent"
+FLAGS    0x85016010 (I····) BEVEL_SoftStyle "Soft Style" 4 0 0 7 "Normal" 1 1 "Underlined" 2 2 "Bold" 4 4 "Italics"
+DRAWINFO 0x80020018 (I····) IA_DrawInfo
+END

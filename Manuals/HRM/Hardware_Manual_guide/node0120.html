@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-6" TITLE="6 Blitter Hardware / Descending Mode" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 Blitter Hardware / Descending Mode</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node011F.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0121.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Our standard memory copy blit works fine if the source does not overlap
+the destination.  If we want to move an image one row down (towards
+increasing addresses), however, we run into a problem -- we overwrite the
+second row before we get a chance to copy it!  The blitter has a special
+<a name="line6">mode of operation -- descending mode -- that solves this problem nicely.</a>
+
+Descending mode is turned on by setting bit one of  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a>  (defined as
+BLITREVERSE). If you use descending mode the address pointers will be
+decremented by two (bytes) instead of incremented by two for each word
+fetched.  In addition, the modulo values will be subtracted rather than
+added.   <a href="../Hardware_Manual_guide/node011F.html">Shifts</a>  are then towards the left, rather than the right, the
+first word  <a href="../Hardware_Manual_guide/node011F.html#line42">mask</a>  masks the last word in a row (which is still the first
+<a name="line14">word fetched), and the last word  <a href="../Hardware_Manual_guide/node011F.html#line42">mask</a>  masks the first word in a row.</a>
+
+Thus, for a standard memory copy, the only difference in blitter setup
+(assuming no  <a href="../Hardware_Manual_guide/node011F.html">shifting</a>  or  <a href="../Hardware_Manual_guide/node011F.html#line42">masking</a> ) is to initialize the
+ <a href="../Hardware_Manual_guide/node011B.html#line6">address pointer registers</a>  to point to the last word in a block, rather
+than the first word.  The  <a href="../Hardware_Manual_guide/node011B.html#line102">modulo values</a> ,  <a href="../Hardware_Manual_guide/node011B.html#line82">blit size</a> , and all other
+parameters should be set the same.
+
+   NOTE:
+   -----
+   This differs from predecrement versus postincrement in the 680x0,
+   where an address register would be initialized to point to the word
+   after the last, rather than the last word.
+
+Descending mode is also necessary for  <a href="../Hardware_Manual_guide/node0122.html">area filling</a> , which will be
+covered in a later section.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

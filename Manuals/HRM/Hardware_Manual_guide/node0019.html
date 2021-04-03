@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_A" NODE="A-8" TITLE="A Register Summary / BLTAFWM, BLTALWM" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>A Register Summary / BLTAFWM, BLTALWM</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0018.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node001A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+                          Agnus/
+                  Read/   Denise/
+Register Address  Write   Paula         Function
+-------- -------  -----   -------       --------
+BLTAFWM    044      W       A      Blitter first-word mask for source A
+BLTALWM    046      W       A      Blitter last-word mask for source A
+
+                 The patterns in these two registers are ANDed with
+                 the first and last words of each line of data from
+                 source A into the blitter. A zero in any bit
+                 overrides data from source A.  These registers
+                 should be set to all 1s for fill mode or for
+                 line-drawing mode.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

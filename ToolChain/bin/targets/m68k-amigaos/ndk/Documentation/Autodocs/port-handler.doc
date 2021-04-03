@@ -1,0 +1,126 @@
+TABLE OF CONTENTS
+
+port-handler/port_handler
+port-handler/port_handler                           port-handler/port_handler
+
+   NAME
+	port_handler -- standard serial/parallel/printer port handler.
+
+   SYNOPSIS
+	Open("PRT:[RAW/TRANSPARENT/UNIT=<Unit number>]",...);
+
+	Open("SER:[BAUD=<speed>/CONTROL=<settings>/UNIT=<Unit number>]",...);
+
+	Open("PAR:[UNIT=<Unit number>]",...);
+
+   FUNCTION
+	Port-handler allows AmigaDOS to interface to a standard parallel
+	device, a standard printer device, and a standard serial device.
+
+	Accessing "PAR:" connects AmigaDOS to the system's parallel port.
+	By default this will use parallel.device, unit 0. To use a
+	different unit number, such as 1, specify "PAR:UNIT=1" instead.
+
+	Accessing "PRT:" connects AmigaDOS to the system's printer. Data
+	written to PRT: is processed by the Amiga's printer device, handling
+	conversions of ANSI sequences, and sent to the printer. Accessing
+	"PRT:RAW" instead causes carriage return translation to be turned
+	off in the printer device while printing. To send data transparently
+	to the printer, without any translation or escape sequence substitution
+	whatsoever, use "PRT:TRANSPARENT". The TRANSPARENT and RAW switches
+	are mutually exclusive. By default "PRT:" will access printer.device,
+	unit 0. To use a different unit number, such as 1, specify "PRT:UNIT=1"
+	instead. The keywords can be combined, such as in "PRT:RAW/UNIT=1".
+
+	Accessing "SER:" connects AmigaDOS to the system's default serial port.
+	Following SER:, the baud rate and some control information can be
+	supplied. This is done in the form "SER:baud/control" where baud is
+	a number indicating the baud rate, and where control is a 3 letter
+	sequence denoting the number of read/write bits, the parity, and the
+	number of stop bits. For example, "SER:9600/8N1" connects to the
+	serial port, sets the baud rate to 9600, with 8 bit data, no parity,
+	and 1 stop bit. The possible control settings are:
+
+	        1st character: 7 or 8
+	        2nd character: N (No parity), O (Odd parity), E (Even parity)
+	                       M (Mark parity), S (Space parity)
+	        3rd character: 1 or 2
+
+	Specifying no baud rate or control values when accessing SER: gives you
+	the values set in Serial preferences.
+	To override the default unit number, use the UNIT keyword, as with the
+	PRT: and PAR: devices described above. For example, to access unit 1
+	with 38400 bps you could use "SER:38400/UNIT=1".
+
+   PACKETS
+	ACTION_FINDINPUT
+	ACTION_FINDOUTPUT
+	ACTION_FINDUPDATE
+	ACTION_READ
+	ACTION_WRITE
+	ACTION_END
+	ACTION_IS_FILESYSTEM
+
+   MOUNTLIST ENTRIES
+	dos.library automatically mounts PAR:, PRT:, and SER: upon
+	system boot up. The mount entries used by dos.library are equivalent
+	to:
+
+	   SER:    Handler   = L:Port-Handler
+	           Priority  = 5
+	           StackSize = 800
+	           GlobVec   = 1
+	           Startup   = 0
+	   #
+
+	   PAR:    Handler   = L:Port-Handler
+	           Priority  = 5
+	           StackSize = 800
+	           GlobVec   = 1
+	           Startup   = 1
+	   #
+
+	   PRT:    Handler   = L:Port-Handler
+	           Priority  = 5
+	           StackSize = 1000
+	           GlobVec   = 1
+	           Startup   = 2
+	   #
+
+	Starting with V40, you can also provide disk-based mount entries
+	which let you use port-handler as a serial handler on various devices
+	and units. The form of these mount entries is:
+
+	   SER0:   EHandler  = L:Port-Handler
+	           Priority  = 5
+	           StackSize = 800
+	           GlobVec   = 1
+	           Device    = serial.device
+	           Unit      = 0
+	           Flags     = 0
+	           Control   = "8N1"
+	           Baud      = 9600
+	#
+
+	The "Device", "Unit" and "Flags" keywords define the parameters
+	that the handler uses for OpenDevice(). "Baud" and "Control"
+	define the default values for baud rate and control information for
+	whenever that serial handler is accessed by name only, without
+	explicit baud rate and control information specified.
+
+   NOTE
+	Prior to V40, the baud rate and control information for SER: were
+	only recognized if an A2232 multi-serial card was installed in the
+	system. Starting with V40, these values are always recognized.
+
+	The TRANSPARENT, UNIT, BAUD and CONTROL keywords were introduced
+	with Port-Handler V44. For the different devices, the argument
+	templates are:
+
+	    PRT:RAW/S,TRANSPARENT/S,UNIT/K/N
+	    SER:BAUD/N,UNIT/K/N,CONTROL/F
+	    PAR:UNIT/K/N
+
+	Instead of blank spaces, keywords must be separated by slashes ("/").
+
+

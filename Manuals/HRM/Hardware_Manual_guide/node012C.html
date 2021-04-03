@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-16" TITLE="6 Blitter Hardware / Blitter Block Diagram" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 Blitter Hardware / Blitter Block Diagram</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node012B.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node012D.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Figure 6-13 shows the basic building blocks for a single bit of a 16-bit
+wide operation of the blitter.  It does not cover the line-drawing
+hardware.
+
+     <a href="../Hardware_Manual_guide/node02DD.html">Figure 6-13: Blitter Block Diagram</a> 
+
+*  The upper left corner shows how the first-- and last-- word  <a href="../Hardware_Manual_guide/node011F.html#line42">masks</a>  are
+   applied to the incoming A-source data.  When the blit shrinks to one
+   word wide, both  <a href="../Hardware_Manual_guide/node011F.html#line42">masks</a>  are applied.
+
+*  The shifter (upper right and center left) drawing illustrates how 16
+   bits of data is taken from a specified position within a 32-bit
+   register, based on the A  <a href="../Hardware_Manual_guide/node011F.html">shift</a>  or B  <a href="../Hardware_Manual_guide/node011F.html">shift</a>  values shown in  <a href="../Hardware_Manual_guide/node001A.html">BLTCON0</a> 
+   and  <a href="../Hardware_Manual_guide/node001A.html">BLTCON1</a> .
+
+*  The  <a href="../Hardware_Manual_guide/node011D.html">minterm</a>  generator (center right) illustrates how the  <a href="../Hardware_Manual_guide/node011D.html">minterm</a> 
+   select bits either allow or inhibit the use of a specific  <a href="../Hardware_Manual_guide/node011D.html">minterm</a> .
+
+*  The drawing shows how the fill operation works on the data generated
+   by the  <a href="../Hardware_Manual_guide/node011D.html">minterm</a>  combinations.  Fill operations can be performed
+   simultaneously with other complex logic operations.
+
+*  At the bottom, the drawing shows that data generated for the
+   destination can be prevented from being written to a destination by
+   using one of the blitter control bits.
+
+*  Not shown on this diagram is the logic for zero detection, which
+   looks at every bit generated for the destination.  If there are any
+   1-bits generated, this logic indicates that the area of the blit
+   contained at least one 1-bit (zero detect is false.)
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

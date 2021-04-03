@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_7" NODE="7-6" TITLE="7 System Control Hardware / Reset and Early Startup Operation" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>7 System Control Hardware / Reset and Early Startup Operation</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0170.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0172.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+When the Amiga is turned on or externally reset, the memory map is in a
+special state.  An additional copy of the system ROM responds starting at
+memory location $00000000.  The system RAM that would normally be located
+at this address is not available.  On some Amiga models, portions of the
+RAM still respond.  On other models, no RAM responds.  Software must
+assume that memory is not available.  The OVL bit in one of the 8520 Chips
+<a name="line8">disables the overlay (See  <a href="../Hardware_Manual_guide/node012E.html">Appendix F</a>  for the bit location).</a>
+
+The Amiga System ROM contains an ID code as the first word.  The value of
+the ID code may change in the future.  The second word of the ROM contains
+a JMP instruction ($4ef9).  The next two words are used as the initial
+<a name="line13">program counter by the 680x0 processor.</a>
+
+The 68000 RESET instruction works much like external reset or power on.
+All memory and AUTOCONFIG(TM) cards disappear, and the ROM image appears
+at location $00000000.  The difference is that the CPU continues execution
+with the next instruction.  Since RAM may not be available, special care
+is needed to write reboot code that will reliably reboot all Amiga models.
+
+     <a href="../Hardware_Manual_guide/node02E3.html">coldreboot.asm</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

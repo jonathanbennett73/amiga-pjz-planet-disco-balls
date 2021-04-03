@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-3" TITLE="3 / Basic Playfield / Selecting Horizontal and Vertical Resolution" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / Basic Playfield / Selecting Horizontal and Vertical Resolution</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0068.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node006A.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+Standard home television screens are best suited for low resolution
+displays. Low resolution mode provides 320 pixels for each horizontal
+line. High resolution monochrome and RGB monitors can produce displays in
+high resolution mode, which provides 640 pixels for each horizontal line.
+If you define an object in low resolution mode and then display it in high
+<a name="line7">resolution mode, the object will be only half as wide.</a>
+
+To set horizontal resolution mode, you write to bit 15, HIRES, in register
+ <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a> :
+
+   High resolution mode -- write 1 to bit 15.
+<a name="line13">   Low resolution mode -- write 0 to bit 15.</a>
+
+Note that in high resolution mode, you can have up to four bitplanes in
+<a name="line16">the playfield and, therefore, up to 16 colors.</a>
+
+Interlaced mode allows twice as much data to be displayed in the same
+vertical area as in non-interlaced mode. This is accomplished by doubling
+the number of lines appearing on the video screen. The following table
+<a name="line21">shows the number of lines required to fill a normal, non-overscan screen.</a>
+
+
+                              NTSC      PAL
+                              ----      ---
+          Non-interlaced      200       256
+          Interlaced          400       512
+
+
+        Table 3-6: Lines in a Normal Playfield
+
+
+In interlaced mode, the scanning circuitry vertically offsets the start of
+<a name="line34">every other field by half a scan line.</a>
+
+           _____________________
+  line 1 _|_____________________|_
+          |_____________________| \
+          |      _________      |  \
+          |      _________      |   \
+          |                     |    \
+          |      Odd Field      |     \   _____________________
+          |      _________      |      \_|_____________________|_ Line 1
+          |      _________      |       _|_|___________________|_ Line 2
+          |_____________________|      / |                     |
+          |_____________________|     /  | |                   |
+          |_____________________|    /   |    Video Display    |
+                                    /    | | (400 lines NTSC   |
+           _____________________   /     |    512 lines PAL)   |
+  line 2 _|_____________________|_/      | |                   |
+          |_____________________|        |                     |
+          |      _________      |        |\|/                  |
+          |      _________      |        |_____________________|
+          |                     |
+          |      Even Field     |      Same physical space as used
+          |      _________      |       by a 200-line (256) PAL),
+          |      _________      |         noninterlaced display.
+          |_____________________|
+          |_____________________|
+          |_____________________|
+
+
+                         Figure 3-5: Interlacing
+
+
+Even though interlaced mode requires a modest amount of extra work in
+setting registers (as you will see later on in this section), it provides
+fine tuning that is needed for certain graphics effects. Consider the
+diagonal line in Figure 3-6 as it appears in non-interlaced and interlaced
+modes. Interlacing eliminates much of the jaggedness or &#034;staircasing&#034; in
+<a name="line71">the edges of the line.</a>
+
+              ___________________        ___________________
+             |#|#| | | | | | | | |      |#|#|_|_|_|_|_|_|_|_|
+             |#|#|_|_|_|_|_|_|_|_|      |_|#|#|_|_|_|_|_|_|_|
+             | | |#|#| | | | | | |      |_|_|#|#|_|_|_|_|_|_|
+             |_|_|#|#|_|_|_|_|_|_|      |_|_|_|#|#|_|_|_|_|_|
+             | | | | |#|#| | | | |      |_|_|_|_|#|#|_|_|_|_|
+             |_|_|_|_|#|#|_|_|_|_|      |_|_|_|_|_|#|#|_|_|_|
+             | | | | | | |#|#| | |      |_|_|_|_|_|_|#|#|_|_|
+             |_|_|_|_|_|_|#|#|_|_|      |_|_|_|_|_|_|_|#|#|_|
+             | | | | | | | | |#|#|      |_|_|_|_|_|_|_|_|#|#|
+             |_|_|_|_|_|_|_|_|#|#|      |_|_|_|_|_|_|_|_|_|#|
+
+                non-interlaced               interlaced
+
+
+         Figure 3-6: Effect of Interlaced Mode on Edges of Object
+<a name="line89"></a>
+
+When you use the special blitter DMA channel to draw lines or polygons
+onto an interlaced playfield, the playfield is treated as one display,
+rather than as odd and even fields. Therefore, you still get the smoother
+<a name="line94">edges provided by interlacing.</a>
+
+To set interlaced or non-interlaced mode, you write to bit 2, LACE, in
+register  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a> :
+
+   Interlaced mode -- write 1 to bit 2.
+   Non-interlaced mode -- write 0 to bit 2.
+
+As explained above in  <a href="../Hardware_Manual_guide/node0068.html">Setting the Number of Bitplanes</a> , bits in
+ <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>  are not independently settable.
+
+The following example shows how to specify high resolution and interlaced
+modes.
+
+<a name="line108">        MOVE.W  #$A204,<a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a>+CUSTOM   ; Write to it</a>
+
+The example above also sets the following parameters that are also
+controlled through register  <a href="../Hardware_Manual_guide/node0092.html">BPLCON0</a> :
+
+   <a href="../Hardware_Manual_guide/node0069.html#line7">*</a>   High resolution mode is enabled.
+   <a href="../Hardware_Manual_guide/node0068.html#line4">*</a>   Two bitplanes are used.
+   <a href="../Hardware_Manual_guide/node008F.html#line51">*</a>   Hold-and-modify mode is disabled.
+   <a href="../Hardware_Manual_guide/node007C.html">*</a>   Single-playfield mode is enabled.
+   <a href="../Hardware_Manual_guide/node0076.html">*</a>   Composite video color is enabled.
+   <a href="../Hardware_Manual_guide/node0092.html#line24">*</a>   Genlock audio is disabled.
+   <a href="../Hardware_Manual_guide/node018A.html#line26">*</a>   Light pen is disabled.
+   <a href="../Hardware_Manual_guide/node0069.html#line94">*</a>   Interlaced mode is enabled.
+   <a href="../Hardware_Manual_guide/node0092.html#line11">*</a>   External resynchronization is disabled.
+
+The amount of memory you need to allocate for each bitplane depends upon
+the resolution modes you have selected, because high resolution or
+interlaced playfields contain more data and require larger bitplanes.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

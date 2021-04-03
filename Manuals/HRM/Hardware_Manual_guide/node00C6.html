@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_4" NODE="4-8" TITLE="4 Sprite Hardware / Attached Sprites" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>4 Sprite Hardware / Attached Sprites</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00C5.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00C7.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+You can create sprites that have fifteen possible color choices (plus
+transparent) instead of three (plus transparent), by &#034;attaching&#034; two
+sprites. To create attached sprites, you must:
+
+<a name="line6">   *  Use two channels per sprite, creating two sprites of the same</a>
+      size and located at the same position.
+
+   *  Set a bit called  <a href="../Hardware_Manual_guide/node00CE.html#line7">ATTACH</a>  in the  <a href="../Hardware_Manual_guide/node00BB.html">second sprite control word</a> .
+
+The fifteen colors are selected from the full range of  <a href="../Hardware_Manual_guide/node00D0.html#line38">color registers</a> 
+<a name="line12">available to sprites -- registers 17 through 31. The extra color choices</a>
+are possible because each pixel contains four bits instead of only two as
+in the normal, unattached sprite. Each sprite in the attached pair
+contributes two bits to the binary color selector number. For example, if
+you are using sprite  <a href="../Hardware_Manual_guide/node00BF.html">DMA channels</a>  0 and 1, the high and low order
+ <a href="../Hardware_Manual_guide/node00BC.html">color descriptor words</a>  for line 1 in both  <a href="../Hardware_Manual_guide/node00B9.html">data structures</a>  are combined
+into line 1 of the attached object.
+
+Sprites can be attached in the following combinations:
+
+                       Sprite 1 to sprite 0
+                       Sprite 3 to sprite 2
+                       Sprite 5 to sprite 4
+                       Sprite 7 to sprite 6
+
+Any or all of these attachments can be active during the same display
+field. As an example, assume that you wish to have more colors in the
+spaceship sprite and you are using sprite  <a href="../Hardware_Manual_guide/node00BF.html">DMA channels</a>  0 and 1. There
+are five colors plus transparent in this sprite.
+
+
+                         0000154444510000
+                         0001564444651000
+                         0015676446765100
+                         0001564444651000
+                         0000154444510000
+<a name="line38"></a>
+
+The first line in this sprite requires the four  <a href="../Hardware_Manual_guide/node00BC.html">data words</a>  shown in
+<a name="line41">Table 4-4 to form the correct binary color selector numbers.</a>
+
+
+        Table 4-4:  <a href="../Hardware_Manual_guide/node00BC.html">Data Words</a>  for First Line of Spaceship Sprite
+
+
+                           Pixel Number
+                           ------------
+
+           15  14  13  12  11  10   9   8   7   6   5   4   3   2   1   0
+   ----------------------------------------------------------------------
+   Line 1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+   Line 2   0   0   0   0   0   1   1   1   1   1   1   0   0   0   0   0
+   Line 3   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+   Line 4   0   0   0   0   1   1   0   0   0   0   1   1   0   0   0   0
+
+
+The highest numbered sprite (number 1, in this example) contributes the
+highest order bits (leftmost) in the binary number. The high order
+ <a href="../Hardware_Manual_guide/node00BC.html">data word</a>  in each sprite contributes the leftmost digit. Therefore, the
+lines above are written to the sprite  <a href="../Hardware_Manual_guide/node00B9.html">data structures</a>  as follows:
+
+        Line 1    Sprite 1 high order word for sprite line 1
+        Line 2    Sprite 1 low order word for sprite line 1
+        Line 3    Sprite 0 high order word for sprite line 1
+        Line 4    Sprite 0 low order word for sprite line 1
+
+See  <a href="../Hardware_Manual_guide/node00B9.html#line57">Figure 4-7</a>  for the order these words are stored in memory. Remember
+<a name="line69">that this data is contained in two sprite structures.</a>
+
+The binary numbers 0 through 15 select registers 17 through 31 as shown in
+<a name="line72">Table 4-5.</a>
+
+
+          Table 4-5: Color Registers in Attached Sprites
+
+
+            Decimal        Binary     Color Register
+            Number         Number         Number
+            -------        ------     --------------
+               0            0000            16 *
+               1            0001            17
+               2            0010            18
+               3            0011            19
+               4            0100            20
+               5            0101            21
+               6            0110            22
+               7            0111            23
+               8            1000            24
+               9            1001            25
+              10            1010            26
+              11            1011            27
+              12            1100            28
+              13            1101            29
+              14            1110            30
+              15            1111            31
+
+
+              * Unused; yields transparent pixel.
+
+
+Attachment is in effect only when the  <a href="../Hardware_Manual_guide/node00CE.html#line7">ATTACH</a>  bit, bit 7 in sprite
+ <a href="../Hardware_Manual_guide/node00BB.html">control word 2</a> , is set to 1 in the  <a href="../Hardware_Manual_guide/node00B9.html">data structure</a>  for the odd-numbered
+sprite. So, in this example, you set bit 7 in sprite  <a href="../Hardware_Manual_guide/node00BB.html">control word 2</a>  in
+<a name="line105">the  <a href="../Hardware_Manual_guide/node00B9.html">data structure</a>  for sprite 1.</a>
+
+When the sprites are moved, the Copper list must keep them both at exactly
+the same position relative to each other. If they are not kept together on
+the screen, their pixels will change color. Each sprite will revert to
+three colors plus transparent, but the colors may be different than if
+they were ordinary, unattached sprites. The color selection for the lower
+numbered sprite will be from color registers 17-19. The color selection
+<a name="line113">for the higher numbered sprite will be from color registers 20, 24, and 28.</a>
+
+The following  <a href="../Hardware_Manual_guide/node00B9.html">data structure</a>  is for the six-color spaceship made with two
+attached sprites.
+
+SPRITE0:
+        DC.W    $6D60,$7200     ;VSTART = 65, HSTART = 128
+        DC.W    $0C30,$0000     ;First  <a href="../Hardware_Manual_guide/node00BC.html">color descriptor word</a> 
+        DC.W    $1818,$0420
+        DC.W    $342C,$0E70
+        DC.W    $1818,$0420
+        DC.W    $0C30,$0000
+        DC.W    $0000,$0000     ;End of sprite 0
+SPRITE1:
+        DC.W    $6D60,$7280     ;Same as sprite 0 except  <a href="../Hardware_Manual_guide/node00CE.html#line7">attach</a>  bit on
+        DC.W    $07E0,$0000     ;First descriptor word for sprite 1
+        DC.W    $0FF0,$0000
+        DC.W    $1FF8,$0000
+        DC.W    $0FF0,$0000
+        DC.W    $07E0,$0000
+        DC.W    $0000,$0000     ;End of sprite 1
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

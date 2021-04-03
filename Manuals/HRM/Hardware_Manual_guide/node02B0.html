@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_K" NODE="K-4-2" TITLE="K / Signal Description / Clock Signals" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>K / Signal Description / Clock Signals</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02AF.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02B1.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The expansion bus provides clock signals for expansion boards.  The main
+use for these clocks on Zorro III cards is bus arbitration clocking. There
+is no relationship between any of these clocks and normal Zorro III bus
+activity. The relationship between these clocks is illustrated in
+<a name="line6"> <a href="../Hardware_Manual_guide/node029E.html#line33">Figure K-3</a> .</a>
+
+/C1 Clock
+   This is a 3.58 MHz clock (3.55 MHz on PAL systems) that's synched to
+<a name="line10">   the falling edge of the 7M system clock.</a>
+
+/C3 Clock
+   This is a 3.58 MHz clock (3.55 MHz on PAL systems) that's synched to
+<a name="line14">   the rising edge of the 7M system clock.</a>
+
+CDAC Clock
+   This is a 7.16 MHz system clock (7.09 MHz on PAL systems) which
+<a name="line18">   trails the 7M clock by 90 degrees (approximately 35ns).</a>
+
+E Clock
+   This is the 68000 generated &#034;E&#034; clock, used for 6800 family
+   peripherals driven by &#034;E&#034; and 6502 peripherals driven by phi(2). This
+<a name="line23">   clock is four 7M clocks high, six clocks low, as per the 68000 spec.</a>
+
+7M Clock
+   This is the 7.16 MHz system clock (7.09 MHz on PAL systems).  This
+   clock drives the bus master registration mechanism for Zorro III bus
+   masters.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

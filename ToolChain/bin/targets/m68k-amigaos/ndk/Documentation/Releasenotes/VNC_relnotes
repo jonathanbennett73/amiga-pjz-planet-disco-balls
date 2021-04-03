@@ -1,0 +1,222 @@
+	VNC 42.75
+
+- I'm using now OpenWindowTagList() instead of
+  OpenWindow(). 
+
+- ViNCEd does now no longer insert the dummy
+  gadget into the window border if it really doesn't
+  have to. This might help to work around the broken
+  MCP window border hack. This does not mean that
+  this problem won't bite back sometimes. There are,
+  in fact, situations where this gadget is required, for
+  example if "NOSIZE" is selected. 
+
+- I replaced the default iconification image by
+  something which looks more what people seem to
+  prefer. This is now also a pure Boopsi class
+  and a look-alike to Massimos Boopsi class.
+
+- With kind permission of Massimo, I include 
+  the toolbutton image class again. VNC has now
+  its own iconification image, but it is recommended
+  to replace it by this class to make the iconify
+  image public to the system. Thanks Massimo!
+
+- Updated the NDK to include the toolbutton 
+  image includes and autodocs.
+
+- Enhanced the double TAB handling again (oh no,
+  not yet another feature). First, the double TAB
+  delay time is now selectable and is under control
+  of the timing page. Second, if this time is set to
+  zero, the TAB requester will always pop up after the
+  second TAB.
+
+- Made the default settings aware of this setup.
+  Hence, the requester will pop up after the second TAB.
+  I hope this will *finally* end this discussion.
+
+- ViNCEd still allocates two boopsi images per arrow.
+  The reason is that the sysiclass boopsi comes with
+  a specific tag item to select the raised/recessed state.
+  I read this as an indicator that not all implementations
+  of the sysiclass can handle raised/recessed states 
+  automatically. The V40 sysiclass should do however. 
+  Since this causes no additional drawback, I will keep 
+  it like this.
+
+
+	VNC 42.76
+
+- ^J (insert CSI) did not work very well with the TAB
+  expansion, due to two bugs or oversights in the code.
+  Should be fixed now, even though the fix was quite tough.
+
+- The "KeyCursorNRight" primitive did not work as expected
+  in case line break at the right window border was turned
+  on and the flag "don't scroll into the border" was turned
+  on simultaneously. This was a new bug introduced in 42.74.
+
+- The window open code is now about 100% faster simply by
+  not sending a reset "ESCc" to the console.device.
+
+- Changed the menu item "Hide" to "Unmark". 
+
+- Added again new features. Feature number one is that
+  the TAB expansion can be told now to ignore the data
+  behind the cursor in the sense that this data will not
+  contribute to the pattern. This improves the usefulness
+  of the TAB expansion by about 1% and required one 
+  additional TAB expansion flag and one additional TAB
+  control page of SetVNC (there are now seven Shell pages)
+  decreasing the useabilty of the configuration by 
+  about 20%. It also means I have to re-organize the guide and
+  have to build a new locale for the new strings.
+
+- Added another new feature. Due to common request, the TAB
+  expansion may now list its results on the console instead
+  of using the ASL requester. This can be found on the fourth
+  shell page as the other new flag.
+  Be warned! This feature was a nightmare to implement and it
+  really breaks with various issues of good style. First of
+  all, it breaks the input mask of programs which is un-
+  desirable. Secondly, it messes with data structures of 
+  the main task it shouldn't mess with. It required the intro-
+  duction of one additional DOS packet and various long
+  testing sessions. 
+
+
+	VNC 42.77
+
+- Border computation was partially wrong, it did not take the
+  border protection zone into account, leading to partial
+  border trashing on CSI x.
+
+- Macro button expansion did not keep track of the keyboard
+  lock correctly and hence might have locked the output in
+  situations where it should have been unlocked.
+
+
+	VNC 42.78
+
+- The window contents re-arrangement on a window resize was
+  partially wrong for some setups. This was due to a register
+  trashing in one of the low-level routines. *Outch*
+
+- In case iconficiation is forbidden, the second press on the
+  iconification gadget will restore the original window 
+  position and size.
+
+
+	VNC 42.79
+
+- The calculation of the iconification image size wasn't always
+  optimal. It now closely reassembles the same style and size as
+  the intuition code.
+
+
+	VNC 42.80
+
+- The default preferences still listed Amiga-H instead of Amiga-U
+  for "unmark". Similary, the name of the keyboard function was
+  still wrong.
+
+- Fixed the wrong layout of the left border of the build-in
+  iconification image. The color choice for the leftmost line of
+  the "selected" image was wrong.
+
+- Improved the gagdet layout for bitmaps of depth one, i.e. if only
+  two pens are available.
+
+- Removed the old Mwm style iconification image completely. This means
+  that no iconification gadget can be build in case allocating the
+  new boopsi failed.
+
+- Added a new feature: Double clicking on a word captures the complete
+  word in a block. 
+
+- Added a new CSI sequence. CSI ?46h turns on logging. All printed
+  data will be written over the serial port at 9600 baud, 8 bit, one
+  stop bit. Alternatively, you may capture this data with Sashimi.
+
+
+	VNC 42.81
+
+- Fixed a crash of the buffer IO module that was caused by a register 
+  trash in the IO support routines.
+
+- The VNC requester layout routine removes now a terminating LF in the
+  requester body to make the requesters looking a bit more fancy.
+
+
+	VNC 42.82
+
+- ViNCEd forgot to close the initial screen in case the window layout
+  of the initial window failed.
+
+NOTE: If you see crashes and hangs on a window open with "unusual"
+dimensions, i.e. on tiny screens, then blame your favourite GUI improver
+hack for this. ViNCEd is rather bullet proof in this respect.
+
+	VNC 42.83
+
+- ViNCEd forgot to dispose one of its boopsis correctly on an error
+  condition. This did not cause any problems until you tried to flush
+  the vnc.library, which then resulted in a warning since VNC could
+  not unlink its private Boopsi classes then. Fixed.
+- Added a somewhat uneffective workaround against a gadtools bug.
+  The gadtools menu creator loops forever if the screen is too
+  small or the font is too large. VNC tries now to detect this
+  situation and will not call gadtools then. However, as it is unclear
+  under which circumstances exactly gadtools will lock up, this
+  workaround might not be very effective. It should catch the most
+  obvious cases, at least. [David]
+- Changed the copyright from 2000 to 2001.
+
+	VNC 42.84
+
+- Fixed all the copyright notices to 2001 now. Really.
+
+	VNC 42.85
+
+- Forgot to bump the library release to 42.84, is now 42.85. Fixed.
+- TAB expansion behaviour changed slightly now. The TabHook flushes
+  its internal list now as soon as you press a different "Expansion"
+  key than the expansion was started with. Old behaivour was to ignore
+  the expansion type when cycling thru the list of found expansions.
+  [Vit Sindlar]
+
+	VNC 42.86
+
+- VNC supports now a new "keyboard type". If the keyboard name "*" or "?"
+  is selected, ViNCEd will update the keyboard type automatically to the
+  default system keymap as soon as it gets changed (i.e. by the input
+  preferences program). Note that this feature is disabled by default 
+  for backwards compatibility. To use it, an explicit "SetKeyBoard "?""
+  or the equivalent "echo "*E]42;**"" is required. You may want to add 
+  this command to your "Shell-Startup" file. [Vit Sindlar]
+- Updated the ViNCEd NDK files, brought them up to date and reworked
+  some of the example programs a bit.
+
+	VNC 42.87
+
+- Fixed a bug in the button setup routine that broke the gadget list
+  completely if the available space for the buttons was not available.
+
+	VNC 42.88
+
+- Save requesters appear now in inverse colors.
+- Updated SetVNC 41.48 to use the new requester flags as well.
+
+	VNC 42.89
+
+- The TAB expansion ignores now a trailing '/' or ':' when sorting
+  in found expansions. [Allan]
+
+	VNC 42.90
+
+- The "do not match characters behind cursor" option of the TAB
+  expansion always tried to concatenate the found file with the
+  remaining string. It now uses a heuristic based on the first
+  character whether the string should be concatenated or not.
+  [Allan]

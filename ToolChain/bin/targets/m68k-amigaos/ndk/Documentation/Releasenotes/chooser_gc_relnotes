@@ -1,0 +1,53 @@
+
+chooser.gadget 45.1 (14.11.2000)
+
+· an image set with GA_Image is used in drop down choosers without title. It
+  replaces the chooser popup glyph.
+
+chooser.gadget 45.2 (28.02.2001)
+
+· implemented new tag CHOOSER_LabelArray.
+
+chooser.gadget 45.3 (08.03.2001)
+
+· added CHOOSER_Justification tag that allows to change the
+  label placement.
+
+· added missing SetDrMd(rp,JAM1); which could lead to wrong
+  text rendering when refreshing the button.
+
+· for choosers with only two entries no popup menu will be shown
+  <Mario Cattaneo>.
+
+· the title text of the gadget when in dropdown mode, may have
+  a keyboard shortcut, now.
+
+chooser.gadget 45.4 (15.03.2001)
+
+· if you don't like to see the popup menu of choosers with only two entries,
+  you can set the env: variable "classes/gadgets/chooser.gadget" to
+  "MAXCYCLE=2".
+
+· if you want to have a 3d menu, set the variable to "3DLOOK". Due to a bug
+  in layers.library the background won't shine through the shadow on a pure
+  ECS/AGA based system.
+
+chooser.gadget 45.5 (21.03.2001)
+
+· the popup window is opened in simple-refresh mode, now. This works around
+  the layers bug mentioned above <Massimo Tantignone>.
+
+· it's no longer possible to cycle to an item that "lies" outside of
+  CHOOSER_MaxLabels <Massimo Tantignone>.
+
+chooser.gadget 45.6 (01.09.2001)
+
+· added GA_GadgetHelpText support.
+
+· the selected image of a node was never drawn because of a copy'n'paste
+  bug.
+  
+chooser.gadget 45.7 (22.10.2001)
+
+· just some artwork and a new env option called DRAWFRAME. Try it together
+  with 3DLOOK and you'll see... :)

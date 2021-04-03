@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_C" NODE="C-2-9" TITLE="C / ECS Hardware and the Graphics Library / Big Blits" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>C / ECS Hardware and the Graphics Library / Big Blits</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00A9.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00AB.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The V36 graphics.library supports the ECS Agnus Blitter enhancements,
+which provide for contiguous blits of up to 32768 x 32768 pixels at a
+time.  Under the original chip set 1024 x 1024 was the maximum:
+
+   BLTSIZE   W   A    Old Blitter size and start (window width, height)
+
+        Bit   15 14 13 12 11 10 09 08 07 06 05 04 03 02 01 00
+        Use   h9 h8 h7 h6 h5 h4 h3 h2 h1 h0 w5 w4 w3 w2 w1 w0
+
+            h = Height (10 bit height = 1024 lines  max)
+            w = Width  (6 bit width  = 1024 pixels max)
+<a name="line13"></a>
+
+Two new registers have been added which make larger blits possible:
+
+   BLTSIZV   W   A       ECS Blitter V size
+
+         Bit   15 14  12  12  11  10  09 08 07 06 05 04 03 02 01 00
+         Use    0 h14 h13 h12 h11 h10 h9 h8 h7 h6 h5 h4 h3 h2 h1 h0
+
+            h = Height (15 bit height = 32768 lines  max)
+
+
+   BLTSIZH   W   A       ECS Blitter Horizontal size &#038; start
+
+         Bit   15 14  13  12  11  10  09 08 07 06 05 04 03 02 01 00
+         Use    0  0   0   0   0  w10 w9 w8 w7 w6 w5 w4 w3 w2 w1 w0
+
+            w = Width  (11 bit width  = 32768 pixels max)
+
+
+With these two registers, blits up to 32K by 32K are now possible - much
+larger than the original chip set could accept. The original commands are
+retained for compatibility.  BLTSIZV should be written first, followed by
+BLTSIZH, which starts the blitter.
+
+The existence of the enhanced Agnus Blitter is reflected in the state of
+the GfxBase-&#062;ChipRevBits bit definition GFXB_BIG_BLITS and is initialized
+by the graphics.library at powerup. Note that the &#060;hardware/blits.h&#062;
+constant MAXBYTESPERROW has been redefined to reflect the larger range of
+legal blitter operations.
+
+   About RastPort Sizes.
+   ---------------------
+   If the ECS Blitter is accessible, the graphics.library supports its
+   use for all graphics functions including areafill, gels, line and
+   ellipse drawing functions.
+
+   If the ECS Blitter is not installed, programmers should limit the
+   absolute size of their RastPorts to values that the old BLTSIZE
+   register can address.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_6" NODE="6-9-1" TITLE="6 / Blitter Done Flag / Multitasking and the Blitter" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>6 / Blitter Done Flag / Multitasking and the Blitter</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0123.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node0125.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+When a blit is in progress, none of the blitter registers should be
+written.  For details on arbitration of blitter access in the system,
+please refer to the ROM Kernel Manual.  In particular, read the discussion
+about the OwnBlitter() and DisownBlitter() functions.  Even after the
+blitter has been &#034;owned&#034;, a blit may still be finishing up, so the blitter
+ <a href="../Hardware_Manual_guide/node0123.html">done flag</a>  should be checked before using it even the first time.  Use of
+<a name="line8">the ROM kernel function WaitBlit() is recommended.</a>
+
+You should also check the blitter  <a href="../Hardware_Manual_guide/node0123.html">done flag</a>  before using results of a
+blit.  The blit may not be finished, so the data may not be ready yet.
+This can lead to difficult to find bugs, because a 68000 may be slow
+enough for a blit to finish without checking the  <a href="../Hardware_Manual_guide/node0123.html">done flag</a> , while a
+68020, perhaps running out of its cache, may be able to get at the data
+before the blitter has finished writing it.
+
+Let us say that we have a subroutine that displays a text box on top of
+other imagery temporarily.  This subroutine might allocate a chunk of
+memory to hold the original screen image while we are displaying our text
+box, then draw the text box.  On exit, the subroutine might blit the
+original imagery back and then free the allocated memory.  If the memory
+is freed before the blitter  <a href="../Hardware_Manual_guide/node0123.html">done flag</a>  is checked, some other process
+might allocate that memory and store new data into it before the blit is
+finished, trashing the blitter source and, thus, the screen imagery being
+restored.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,1621 @@
+TABLE OF CONTENTS
+
+aml.library/--rexxhost--
+aml.library/AddArticlePartA
+aml.library/AddCustomField
+aml.library/AddFolderArticle
+aml.library/CreateAddressEntryA
+aml.library/CreateArticleA
+aml.library/CreateArticlePartA
+aml.library/CreateDecoderA
+aml.library/CreateFolderA
+aml.library/CreateServerA
+aml.library/Decode
+aml.library/DisposeAddressEntry
+aml.library/DisposeArticle
+aml.library/DisposeArticlePart
+aml.library/DisposeDecoder
+aml.library/DisposeFolder
+aml.library/DisposeServer
+aml.library/Encode
+aml.library/ExpungeFolder
+aml.library/FindAddressEntryA
+aml.library/GetAddressEntryAttrsA
+aml.library/GetArticleAttrsA
+aml.library/GetArticlePartDataA
+aml.library/GetCustomFieldData
+aml.library/GetDecoderAttrsA
+aml.library/GetFolderAttrsA
+aml.library/GetServerArticles
+aml.library/GetServerAttrsA
+aml.library/GetServerHeaders
+aml.library/HuntAddressEntryA
+aml.library/OpenAddressEntry
+aml.library/OpenArticle
+aml.library/OpenFolderA
+aml.library/ReadFolderSpool
+aml.library/RemAddressEntry
+aml.library/RemCustomField
+aml.library/RemFolder
+aml.library/RemFolderArticle
+aml.library/SaveAddressEntry
+aml.library/SaveFolder
+aml.library/ScanFolderIndex
+aml.library/SendArticle
+aml.library/SetAddressEntryAttrsA
+aml.library/SetArticleAttrsA
+aml.library/SetArticlePartDataA
+aml.library/SetDecoderAttrsA
+aml.library/SetFolderAttrsA
+aml.library/SetServerAttrsA
+aml.library/WriteFolderSpool
+aml.library/AddArticlePartA                       aml.library/AddArticlePartA
+
+NAME
+	AddArticlePartA -- Add a part to an article
+	AddArticlePart -- Varargs stub for AddArticlePartA
+
+SYNOPSIS
+	success = AddArticlePartA(article, part, tags)
+	D0					A0	 	A1	   A2
+
+	BOOL AddArticlePartA(APTR article, APTR part, struct TagItem *tags);
+
+	BOOL AddArticlePart(APTR article, APTR part, ULONG tag1, ...);
+
+FUNCTION
+	Adds a previously allocated article part to the specified
+	article.  Parts added are always in order of addition, which is
+	how the resulting article will be built.
+
+	Note that at least one part must be added to the article, which
+	is normally considered the main body of the article.
+
+INPUTS
+	article - Pointer to an article object
+	part - Pointer to an article part object
+	tags - An array of TagItems
+
+TAGS
+	See SetArticlePartDataA().
+
+RETURNS
+	success - 1 if successful, 0 otherwise.
+
+SEE ALSO
+	RemArticlePart()
+aml.library/AddCustomField                         aml.library/AddCustomField
+
+NAME
+	AddCustomField -- Add a custom data field to an address
+		entry object
+
+SYNOPSIS
+	success = AddCustomField(addr, field, data)
+	D0					A0	 A1		A2
+
+	BOOL AddCustomField(APTR addr, STRPTR field, STRPTR data);
+
+FUNCTION
+	Adds the specified data, which currently must be a string,
+	to the address entry object, identifiable by the field name.
+	Field names must be unique.
+
+RETURNS
+	success - 1 if successful, 0 otherwise.
+
+SEE ALSO
+	RemCustomField(), GetCustomFieldData()
+aml.library/AddFolderArticle                     aml.library/AddFolderArticle
+
+NAME
+	AddFolderArticle -- Adds an article to a folder
+
+SYNOPSIS
+	success = AddFolderArticle(folder, type, data)
+	D0						A0	 D0	 A1
+
+	BOOL AddFolderArticle(APTR folder, ULONG type, APTR data);
+
+FUNCTION
+	This function attempts to add the the specified article
+	to the folder.
+
+	The type parameter specifies how the article data will
+	be interpreted.  The following values are valid:
+
+		ARTICLE_TYPE_FILE - data is a filename of
+			an RFC822/MIME formatted message.
+		ARTICLE_TYPE_ARTICLE - data is a pointer to
+			an allocated article object.
+		ARTICLE_TYPE_BUFFER - data is a pointer to a
+			buffer, which contains an RFC822/MIME
+			style message.
+
+INPUTS
+	folder - Pointer to a folder object
+	type - One of the types listed above
+	data - Pointer to the article data
+
+RETURNS
+	success - 1 if successful, 0 otherwise
+
+SEE ALSO
+	RemFolderArticle()
+aml.library/CreateAddressEntryA               aml.library/CreateAddressEntryA
+
+NAME
+	CreateAddressEntryA -- Create a new address entry object.
+	CreateAddressEntry -- Varargs stub for CreateAddressEntryA
+
+SYNOPSIS
+	addr = CreateAddressEntryA(tags)
+	D0					  A0
+
+	APTR CreateAddressEntryA(struct TagItem *tags);
+
+	APTR CreateAddressEntry(ULONG tag1, ...);
+
+FUNCTION
+	Creates a new address entry object, and fills in the appropriate
+	fields with the provided data.
+
+INPUTS
+	tags - Pointer to an array of TagItems.
+
+TAGS
+	See SetAddressEntryAttrsA() for a description of valid tags.
+
+RETURNS
+	addr - A pointer to a new address entry object.
+
+SEE ALSO
+	DisposeAddressEntry()
+aml.library/CreateArticleA                         aml.library/CreateArticleA
+
+NAME
+	CreateArticleA -- Creates an article object
+	CreateArticle -- Varargs stub for CreateArticleA
+
+SYNOPSIS
+	article = CreateArticleA(folder, tags)
+	D0					A0	 A1
+
+	APTR CreateArticleA(APTR folder, struct TagItem *)
+
+	APTR CreateArticle(APTR folder, ULONG, ...)
+
+FUNCTION
+	Creates an article object.  This object is used to create
+	an e-mail message, newsgroup article or whatever.  Every
+	article must have at least one ArticlePart object, which is
+	allocated with the CreateArticlePart() function, and
+	added to the article with the AddArticlePartA() function.
+
+INPUTS
+	folder - Folder object to which the new article will
+		belong
+	tags - Array of TagItems to set attributes for the new
+		article
+
+RETURNS
+	article = Pointer to an article object
+
+SEE ALSO
+	DisposeArticle, CreateArticlePart,
+	AddArticlePartA
+aml.library/CreateArticlePartA                 aml.library/CreateArticlePartA
+
+NAME
+	CreateArticlePartA -- Creates a new part object
+	CreateArticlePart -- Varargs stub for CreateArticlePartA
+
+SYNOPSIS
+	part = CreateArticlePartA(article, tags)
+	D0					 A0	 	A1
+
+	APTR CreateArticlePartA(APTR aritcle, struct TagItem *tags);
+
+	APTR CreateArticlePart(APTR article, ULONG tag1, ...);
+
+FUNCTION
+
+INPUTS
+
+TAGS
+
+RETURNS
+
+SEE ALSO
+	DisposeArticlePart()
+aml.library/CreateDecoderA                         aml.library/CreateDecoderA
+
+NAME
+	CreateDecoderA -- Creates a de/encoder object
+	CreateDecoder -- Varargs stub for CreateDecoderA
+
+SYNOPSIS
+	decoder = CreateDecoderA(tags)
+	D0					A0
+
+	APTR CreateDecoderA(struct TagItem *tags);
+
+	APTR CreateDecoder(ULONG tag1, ...);
+
+FUNCTION
+	Creates a decoder/encoder object for use with
+	encoding or decoding a stream or buffer of
+	data.
+
+INPUTS
+	tags - An array of TagItems.
+
+TAGS
+	See SetDecoderAttrsA() for details.
+
+RETURNS
+	decoder - Pointer to a decoder/encoder object
+
+SEE ALSO
+	DisposeDecoder(), SetDecoderAttrsA(), Decode(), Encode()
+aml.library/CreateFolderA                           aml.library/CreateFolderA
+
+NAME
+	CreateFolderA -- Create a folder object
+	CreateFolder -- Varargs stub for CreateFolderA
+
+SYNOPSIS
+	folder = CreateFolderA(server, tags)
+	D0					A0	 A1
+
+	APTR CreateFolderA(APTR server, struct TagItem *tags);
+
+	APTR CreateFolder(APTR server, ULONG tag1, ...);
+
+FUNCTION
+	This function creates a new folder object for storing
+	article objects.
+
+INPUTS
+	server - The server object, such as a POP server, to
+		associate with this object.  One server can be
+		assigned to multiple folder objects.  The server
+		object MUST remain valid for the life of the
+		folder object.
+	tags - An array of TagItems
+
+TAGS
+	See SetFolderAttrsA() for details.
+
+RETURNS
+	folder - Pointer to a folder object
+
+SEE ALSO
+	DisposeFolder(), SetFolderAttrsA()
+aml.library/CreateServerA                           aml.library/CreateServerA
+
+NAME
+	CreateServerA -- Create a server object
+	CreateServer -- Varargs stub for CreateServerA
+
+SYNOPSIS
+	server = CreateServerA(tags)
+	D0					A0
+
+	APTR CreateServerA(struct TagItem *tags);
+
+	APTR CreateServer(ULONG tag1, ...);
+
+FUNCTION
+	This function creates a new server object, for use
+	as a POP or SMTP server, an address book, or whatever
+	else.
+
+	Note that when using a server object with folders or
+	address entries, the server must remain valid for the life
+	of the associated object.
+
+INPUTS
+	tags - An array of TagItems
+
+TAGS
+	See SetServerAttrsA() for details.
+
+RETURNS
+	server - Pointer to a server object
+
+SEE ALSO
+	DisposeServer(), SetServerAttrsA()
+aml.library/Decode                                         aml.library/Decode
+
+NAME
+	Decode -- Decode a stream/buffer
+
+SYNOPSIS
+	length = Decode(decoder, type)
+	D0				A0	 A1
+
+	LONG Decode(APTR decoder, ULONG type);
+
+FUNCTION
+	Decodes data from a input stream or buffer to
+	an output stream or buffer.  The corresponding
+	stream/buffer must be set up when the decoder is
+	created via CreateDecoderA().
+
+INPUTS
+	decoder - Pointer to a decoder object.
+	type - One of the following values, that specifies
+		how to decode the input stream/buffer:
+
+		DECODE_COPY - Do nothing to the stream.
+		DECODE_QP - Decode the stream as quoted-printable
+			data.  See the MIME RFCs for details.
+		DECODE_B64 - Decode the stream as base64.
+		DECODE_UU - Decode the stream as uuencoded.
+		DECODE_ROT - Decode the stream as ROT-13 style.
+
+RETURNS
+	length - The resulting length of the output stream or
+		buffer.
+
+SEE ALSO
+	CreateDecoderA()
+aml.library/DisposeAddressEntry               aml.library/DisposeAddressEntry
+
+NAME
+	DisposeAddressEntry -- Frees an address entry object.
+
+SYNOPSIS
+	success = DisposeAddressEntry(addr)
+	D0						A0
+
+	BOOL DisposeAddressEntry(APTR addr);
+
+FUNCTION
+	Frees the address entry object and any associated memory or
+	resources.
+
+INPUTS
+	addr - The address entry to dispose.
+
+RETURNS
+	success - If the address entry object was successfully
+		disposed.
+
+SEE ALSO
+	CreateAddressEntryA()
+aml.library/DisposeArticle                         aml.library/DisposeArticle
+
+NAME
+	DisposeArticle -- Free an article object
+
+SYNOPSIS
+	success = DisposeArticle(article)
+	D0					A0
+
+	BOOL DisposeArticle(APTR article);
+
+FUNCTION
+	Free the article object and any associated data.
+
+INPUTS
+	article - Pointer to an article object
+
+RETURNS
+	success - 1 if successful, 0 otherwise.
+
+SEE ALSO
+	CreateArticleA(), OpenArticle()
+aml.library/DisposeArticlePart                 aml.library/DisposeArticlePart
+
+NAME
+	DisposeArticlePart -- Frees an article part
+
+SYNOPSIS
+	DisposeArticlePart(part)
+					A0
+
+	void DisposeArticlePart(APTR part);
+
+FUNCTION
+	Frees the part object and any associated resources.
+	Note that the part must have already been removed from an
+	article's list with RemArticlePart() before disposing it.
+
+INPUTS
+	part - Pointer to a part object
+
+SEE ALSO
+	CreateArticlePartA()
+aml.library/DisposeDecoder                         aml.library/DisposeDecoder
+
+NAME
+	DisposeDecoder -- Frees a decoder object
+
+SYNOPSIS
+	DisposeDecoder(decoder)
+				A0
+
+	void DisposeDecoder(APTR decoder);
+
+FUNCTION
+	Frees the specified decoder object and any associated
+	resources.
+
+INPUTS
+	decoder - Pointer to a decoder object to free.
+
+SEE ALSO
+	CreateDecoderA()
+aml.library/DisposeFolder                           aml.library/DisposeFolder
+
+NAME
+	DisposeFolder -- Frees a folder object
+
+SYNOPSIS
+	success = DisposeFolder(folder)
+	D0					A0
+
+	BOOL DisposeFolder(APTR folder);
+
+FUNCTION
+	This function frees the folder object and any
+	associated resources.
+
+INPUTS
+	folder - Pointer to a folder object
+
+RETURNS
+	success - 1 if successful, 0 otherwise
+
+SEE ALSO
+	CreateFolderA(), OpenFolderA()
+aml.library/DisposeServer                           aml.library/DisposeServer
+
+NAME
+	DisposeServer -- Frees a server object
+
+SYNOPSIS
+	DisposeServer(server);
+				A0
+
+	void DisposeServer(APTR server);
+
+FUNCTION
+	This function frees the server object and any associated
+	resources.
+
+INPUTS
+	server - Pointer to a server object to free
+
+SEE ALSO
+	CreateServerA()
+aml.library/Encode                                         aml.library/Encode
+
+NAME
+	Encode -- Encode a stream/buffer
+
+SYNOPSIS
+	length = Encode(encoder, type)
+	D0				A0	 A1
+
+	LONG Encode(APTR encoder, ULONG type);
+
+FUNCTION
+	Encodes data from a input stream or buffer to
+	an output stream or buffer.  The corresponding
+	stream/buffer must be set up when the encoder is
+	created via CreateDecoderA().
+
+INPUTS
+	encoder - Pointer to a encoder object.
+	type - One of the following values, that specifies
+		how to encode the input stream/buffer:
+
+		ENCODE_COPY - Do nothing to the stream.
+		ENCODE_QP - Encode the stream as quoted-printable
+			data.  See the MIME RFCs for details.
+		ENCODE_B64 - Encode the stream as base64.
+		ENCODE_UU - Encode the stream as uuencoded.
+		ENCODE_ROT - Encode the stream as ROT-13 style.
+
+RETURNS
+	length - The resulting length of the output stream or
+		buffer.
+
+SEE ALSO
+	CreateDecoderA()
+aml.library/ExpungeFolder                           aml.library/ExpungeFolder
+
+NAME
+	ExpungeFolder -- Deletes a folder and its contents.
+
+SYNOPSIS
+	value = ExpungeFolder(folder, trash, hook)
+	D0					A0	 A1	  A2
+
+	LONG ExpungeFolder(APTR folder, APTR trash, struct Hook *hook);
+
+FUNCTION
+	This function will delete the entire contents of the
+	specified folder, including indexing and folder information.
+	The provided hook will be called for each article item
+	deleted, to allow for progress displays and such.  If the trash
+	argument is provided, it must be a pointer to another folder
+	object to act as a Trash folder, in which the "deleted"
+	articles will be placed.
+
+INPUTS
+	folder - Pointer to a folder object
+	trash - Optional pointer to a folder object to
+		act as trash
+	hook - Pointer to a hook, data is a struct FolderIndex pointer.
+
+RETURNS
+	value - The number of articles deleted from the folder.
+aml.library/FindAddressEntryA                   aml.library/FindAddressEntryA
+
+NAME
+	FindAddressEntryA -- Searches an addressbook for an address entry.
+	FindAddressEntry -- Varargs stub for FindAddressEntryA
+
+SYNOPSIS
+	addr = FindAddressEntryA(server, tags)
+	D0					A0	 	A1
+
+	APTR FindAddressEntryA(APTR server, struct TagItem *tags);
+
+	APTR FindAddressEntry(APTR server, ULONG tag1, ...);
+
+FUNCTION
+	Searches the address book server specified for an address
+	entry matching the criteria provided.  This function only
+	returns the FIRST matching address object.  Use
+	HuntAddressEntryA() to match against ALL possible address
+	entry objects.
+
+INPUTS
+	server - Pointer to an address book server to search
+	tags - An array of TagItems that specify the match criteria
+
+TAGS
+	See SetAddressEntryAttrsA() for a description of valid
+	tags that may be used.  Also:
+
+	ADDRESSA_PartialMatch (BOOL) - Lets the match routine know
+		whether it should match the entire field against the
+		match criteria data.
+
+RETURNS
+	addr - Pointer to the matching address entry object, or NULL
+		if no match was found.  This object is allocated, and
+		must be properly disposed via DisposeAddressEntry().
+
+SEE ALSO
+	HuntAddressEntryA(), CreateServerA(), DisposeAddressEntry()
+aml.library/GetAddressEntryAttrsA           aml.library/GetAddressEntryAttrsA
+
+NAME
+	GetAddressEntryAttrsA -- Get attributes of an address entry object
+	GetAddressEntryAttrs -- Varargs stub for GetAddressEntryAttrsA
+
+SYNOPSIS
+	value = GetAddressEntryAttrsA(addr, tags)
+	D0						A0	 A1
+
+	ULONG GetAddressEntryAttrsA(APTR addr, struct TagItem *tags);
+
+	ULONG GetAddressEntryAttrs(APTR addr, ULONG tag1, ...);
+
+FUNCTION
+	Gets the requested attributes from the specified
+	address entry object.
+
+INPUTS
+	addr - A pointer to a previously-created address entry object.
+	tags - Pointer to an array of TagItems.
+
+TAGS
+	See SetAddressEntryAttrsA() for description of the tags.  Also:
+
+	ADDRESSA_EntryID (LONG) - Record number of this address entry.
+
+RETURNS
+	value - The number of attributes successfully gotten.
+
+SEE ALSO
+	SetAddressEntryAttrsA()
+aml.library/GetArticleAttrsA                     aml.library/GetArticleAttrsA
+
+NAME
+	GetArticleAttrsA -- Get article attributes
+	GetArticleAttrs -- Varargs stub for GetArticleAttrsA
+
+SYNOPSIS
+	value = GetArticleAttrsA(article, tags)
+	D0					A0	 	A1
+
+	ULONG GetArticleAttrsA(APTR article, struct TagItem *)
+
+	ULONG GetArticleAttrs(APTR article, ULONG, ...)
+
+FUNCTION
+	Gets attributes of the specified article object.
+
+INPUTS
+	article - The article object to query
+	tags - An array of TagItems
+
+TAGS
+	See SetArticleAttrsA().
+
+RETURNS
+	value - The number of attributes successfully queried.
+aml.library/GetArticlePartDataA               aml.library/GetArticlePartDataA
+
+NAME
+	GetArticlePartDataA -- Gets the data for the specified part
+	GetArticlePartData -- Varargs stub for GetArticlePartDataA
+
+SYNOPSIS
+	success = GetArticlePartDataA(article, part, tags)
+	D0						A0	 	A1	  A2
+
+	BOOL GetArticlePartDataA(APTR article, APTR part, struct TagItem *tags);
+
+	BOOL GetArticlePartData(APTR article, APTR part, ULONG tag1, ...);
+
+FUNCTION
+	Gets the data for the part object.  Pass in one of the appropriate
+	tag values for the type of buffer/file to store the data in, and the
+	part's data will be placed there.
+
+INPUTS
+	article - Pointer to an article object
+	part - Pointer to a part object
+	tags - An array of TagItems
+
+TAGS
+	See SetArticlePartDataA()
+
+RETURNS
+	success - 1 if successful, 0 otherwise.
+
+SEE ALSO
+	SetArticlePartDataA()
+aml.library/GetCustomFieldData                 aml.library/GetCustomFieldData
+
+NAME
+	GetCustomFieldData -- Returns the data assigned to a custom
+		address entry field
+
+SYNOPSIS
+	data = GetCustomFieldData(addr, field)
+	D0					 A0	 A1
+
+	APTR GetCustomFieldData(APTR addr, STRPTR field);
+
+FUNCTION
+	Retrieves the data associated with a custom field
+	previously added to the address entry object.
+
+INPUTS
+	addr - Pointer to an address entry object.
+	field - Name of field to get data
+
+RETURNS
+	data - Pointer to the data for the requested field.
+
+SEE ALSO
+	AddCustomField(), RemCustomField()
+aml.library/GetDecoderAttrsA                     aml.library/GetDecoderAttrsA
+
+NAME
+	GetDecoderAttrsA -- Set object attributes for a decoder/encoder
+		object
+	GetDecoderAttrsA -- Varargs stub for GetDecoderAttrsA
+
+SYNOPSIS
+	value = GetDecoderAttrsA(decoder, tags)
+	D0					A0	 	A1
+
+	ULONG GetDecoderAttrsA(APTR decoder, struct TagItem *);
+
+	ULONG GetDecoderAttrs(APTR decoder, ULONG tag1, ...);
+
+FUNCTION
+	Gets attributes of the specified decoder/encoder object.
+
+INPUTS
+	decoder - Pointer to a decoder/encoder object
+	tags - An array of TagItems.
+
+TAGS
+	The only valid gettable tags are:  DECODERA_DestHandle,
+		DECODERA_DestFile, DECODERA_DestBuffer,
+		DECODERA_DestLen, DECODERA_Lines
+
+	See SetDecoderAttrsA() for details.
+
+RETURNS
+	value - Number of attributes successfully gotten.
+
+SEE ALSO
+	SetDecoderAttrsA(), CreateDecoderA()
+aml.library/GetFolderAttrsA                       aml.library/GetFolderAttrsA
+
+NAME
+	GetFolderAttrsA -- Get attributes for a folder object
+	GetFolderAttrs -- Varargs stub for GetFolderAttrsA
+
+SYNOPSIS
+	value = GetFolderAttrsA(folder, tags)
+	D0					A0	  A1
+
+	ULONG GetFolderAttrsA(APTR folder, struct TagItem *tags);
+
+	ULONG GetFolderAttrs(APTR folder, ULONG tag1, ...);
+
+FUNCTION
+	Gets the requested attributes of a folder object.
+
+INPUTS
+	folder - Pointer to a folder object
+	tags - An array of TagItems
+
+TAGS
+	Set SetFolderAttrsA() for details.  The following tags
+	are gettable only:
+
+		FOLDERA_Created (ULONG) - When the folder was created.
+		FOLDERA_Accessed (ULONG) - When the folder was
+			last accessed.
+		FOLDERA_MsgCount (ULONG) - The number of articles
+			in the folder.
+		FOLDERA_NumRead (ULONG) - The number of articles
+			in the folder that have been read, i.e., don't
+			have the NEW or UNREAD status set.
+		FOLDERA_LastRead (ULONG) - The ordinal number of
+			the last read article.
+
+RETURNS
+	value - The number of attributes successfully gotten.
+
+SEE ALSO
+	SetFolderAttrsA()
+aml.library/GetServerArticles                   aml.library/GetServerArticles
+
+NAME
+	GetServerArticles -- Get articles from a server
+
+SYNOPSIS
+	value = GetServerArticles(server, incoming, hook, flags);
+	D0					 A0		A1		A2	D0
+
+	LONG GetServerArticles(APTR server, APTR incoming,
+			struct Hook *hook, ULONG flags);
+
+FUNCTION
+	This function tells the server to retrieve its
+	articles.
+
+	If a hook is provided, it will be called for each article
+	retrieved, with the server object passed in A2 and an
+	ArticleDisposition structure in A1.  This gives the
+	application a chance to parse the article and determine its
+	final destination, by setting the ad_Folder pointer.  If this
+	pointer is NULL, or no hook is provided, the folder object
+	specified by incoming will be used as the destination.  If
+	that is not provided, the article is discarded.
+
+INPUTS
+	server - Pointer to a server object
+	incoming - Pointer to the default incoming folder object
+	hook - A hook used for progress callbacks
+	flags - One or more of the following:
+
+		SF_USESPOOL   - Receive messages to server spool vs. folder.
+		SF_DELARTICLE - Delete articles from the server
+			after successful retrieval.
+		SF_BYPASSHOOK - Don't use the progress hook.
+
+RETURNS
+	value - 0 for success, -1 or a DOS error code for failure
+
+SEE ALSO
+	GetServerHeaders(), CreateServerA()
+aml.library/GetServerAttrsA                       aml.library/GetServerAttrsA
+
+NAME
+	GetServerAttrsA -- Get attributes on a server object
+	GetServerAttrs -- Varargs stub for GetServerAttrs
+
+SYNOPSIS
+	value = GetServerAttrsA(server, tags);
+	D0					A0	   A1
+
+	ULONG GetServerAttrsA(APTR server, struct TagItem *tags);
+
+	ULONG GetServerAttrs(APTR server, ULONG tag1, ...);
+
+FUNCTION
+	This function allows you to query attributes of a server
+	object.
+
+INPUTS
+	server - Pointer to a server object to query
+	tags - An array of TagItems
+
+TAGS
+	See SetServerAttrsA() for details.
+
+RETURNS
+	value - The number of attributes successfully gotten.
+
+SEE ALSO
+	CreateServerA(), SetServerAttrsA()
+aml.library/GetServerHeaders                     aml.library/GetServerHeaders
+
+NAME
+	GetServerHeaders -- Gets the article headers for a server
+
+SYNOPSIS
+	value = GetServerHeaders(server, flags)
+	D0					A0	 	A1
+
+	ULONG GetServerHeaders(APTR server, ULONG flags);
+
+FUNCTION
+	This function tells the server to retrieve the
+	headers of the specified server.
+
+	Valid flag values are:
+
+	SF_BYPASSHOOK - Avoid using the server's
+		progress hook.
+	SF_DELARTICLE - Delete articles off the server
+		if it was successfully retrieved.
+
+INPUTS
+	server - Pointer to a server object
+	flags - See <libraries/aml.h> for valid flags
+
+RETURNS
+	value - 0 for success, -1 or a DOS error code
+		for failure.
+
+SEE ALSO
+	CreateServerA()
+aml.library/HuntAddressEntryA                   aml.library/HuntAddressEntryA
+
+NAME
+	HuntAddressEntryA -- Search for possible matching address entry
+		objects
+	HuntAddressEntry -- Varargs stub for HuntAddressEntryA
+
+SYNOPSIS
+	addr = HuntAddressEntryA(server, tags)
+	D0					A0	 	A1
+
+	APTR HuntAddressEntryA(APTR server, struct TagItem *tags);
+
+         APTR HuntAddressEntry(APTR server, ULONG tag1, ...);
+
+FUNCTION
+	Searches the address book server specified for an address
+	entry matching the criteria provided.  This function returns,
+	one per iteration, a matching address entry object.  Call
+	HuntAddressEntryA() repeatedly to get each possible matching
+	address entry object.  Returns NULL when no more matches are
+	found.
+
+TAGS
+	See FindAddressEntryA() for details
+
+RETURNS
+	addr - Pointer to an address entry object, or NULL for
+		no (more) match(es) found.  This is an allocated object,
+		and must be disposed properly via DisposeAddressEntry().
+
+SEE ALSO
+	FindAddressEntryA(), DisposeAddressEntry()
+aml.library/OpenAddressEntry                     aml.library/OpenAddressEntry
+
+NAME
+	OpenAddressEntry -- Open an existing address entry
+
+SYNOPSIS
+	addr = OpenAddressEntry(server, id)
+	D0					A0	   A1
+
+	APTR OpenAddressEntry(APTR server, ULONG id);
+
+FUNCTION
+	Opens the specified address entry from a server.
+
+INPUTS
+	server - Pointer to a server object
+	id - Ordinal number of the address entry object
+		to open, starting at 0.
+
+RETURNS
+	addr - Pointer to an address entry object.  This object
+		is allocated, and must be properly disposed via
+		DisposeAddressEntry().
+
+SEE ALSO
+	CreateAddressEntryA(), DisposeAddressEntry()
+aml.library/OpenArticle                               aml.library/OpenArticle
+
+NAME
+	OpenArticle -- Opens an existing article from disk or a server
+
+SYNOPSIS
+	article = OpenArticle(server, folder, msgid, flags)
+	D0					A0	 A1	   A2   	A3
+
+	APTR OpenArticle(APTR server, APTR folder, ULONG msgid,
+		ULONG flags)
+
+FUNCTION
+	Opens an existing article from disk or a server, depending
+	on the type of server passed in.  Currently, the only server
+	type supported is POP3.  This function only retrieves header
+	information for the article in question, as well as a breakdown
+	of the parts of the article.  To get actual data for each part,
+	consult the appropriate article part function.
+
+INPUTS
+	server - Pointer to a server object from which to retrieve
+		the article
+	folder - Pointer to a folder object which contains the article
+	msgid - The numeric ID of the message on the server
+	flags - Flags to control how the message is retrieve.  Should be
+		set to 0 for now.
+
+RETURNS
+	article - Pointer to an article object
+
+SEE ALSO
+	DisposeArticle, GetArticlePart, GetArticlePartData
+aml.library/OpenFolderA                               aml.library/OpenFolderA
+
+NAME
+	OpenFolderA -- Open an existing folder
+	OpenFolder -- Varargs stub for CreateFolderA
+
+SYNOPSIS
+	folder = OpenFolderA(server, tags)
+	D0					A0	 A1
+
+	APTR OpenFolderA(APTR server, struct TagItem *tags);
+
+	APTR OpenFolder(APTR server, ULONG tag1, ...);
+
+FUNCTION
+	Basically the same as CreateFolderA(), but this
+	function opens an existing folder.
+
+INPUTS
+	server - The server object, such as a POP server, to
+		associate with this object.  One server can be
+		assigned to multiple folder objects.  The server
+		object MUST remain valid for the life of the
+		folder object.
+	tags - An array of TagItems
+
+TAGS
+	See SetFolderAttrsA() for details.
+
+RETURNS
+	folder - Pointer to a folder object
+
+SEE ALSO
+	DisposeFolder(), SetFolderAttrsA
+aml.library/ReadFolderSpool                       aml.library/ReadFolderSpool
+
+NAME
+	ReadFolderSpool -- Reads a spool file into the folder
+
+SYNOPSIS
+	count = ReadFolderSpool(folder, importfile, flags)
+	D0					A0	 	A1		DO
+
+	ULONG ReadFolderSpool(APTR folder, STRPTR importfile, ULONG flags);
+
+FUNCTION
+	This function reads a spoolfile and imports each article
+	into the folder.  The function expects the file to be in
+	UNIX mailbox format, i.e., each article is preceded by a
+	"From " line, identifying the start of the article.  This
+	"From " line is discarded.
+
+INPUTS
+	folder - Pointer to a folder object
+	importfile - Filename of the spoolfile to import
+	flags - See <libraries/aml.h> for valid flags.
+
+RETURNS
+	count - The number of article read from the spool.
+
+SEE ALSO
+	WriteFolderSpool()
+aml.library/RemAddressEntry                       aml.library/RemAddressEntry
+
+NAME
+	RemAddressEntry -- Deletes an address entry object
+		from the server and disposes it.
+
+SYNOPSIS
+	success = RemAddressEntry(server, addr)
+	D0						A0	 A1
+
+	BOOL RemAddressEntry(APTR server, APTR addr);
+
+FUNCTION
+	This function does the same thing as DisposeAddressEntry(),
+	as well as deleting its entry from the server.
+
+INPUTS
+	server - Pointer to a server object
+	addr - Pointer to an address entry object to delete/dispose.
+
+RETURNS
+	success - 1 if the entry was successfully deleted, 0 otherwise.
+
+SEE ALSO
+	CreateAddressEntryA()
+aml.library/RemCustomField                         aml.library/RemCustomField
+
+NAME
+	RemCustomField -- Removes a custom field from an address
+		entry object
+
+SYNOPSIS
+	RemCustomField(addr, field)
+				A0	 A1
+
+	void RemCustomField(APTR addr, STRPTR field);
+
+FUNCTION
+	Removes the named custom field and its associated data
+	from the address entry object.
+
+SEE ALSO
+	AddCustomField(), GetCustomFieldData()
+aml.library/RemFolder                                   aml.library/RemFolder
+
+NAME
+	RemFolder -- Remove all traces of a folder
+
+SYNOPSIS
+	success = RemFolder(folder)
+	D0				A0
+
+	BOOL RemFolder(APTR folder);
+
+FUNCTION
+	This function deletes the entire contents of a folder
+	and then frees the folder object itself.
+
+INPUTS
+	folder - Pointer to a folder object
+
+RETURNS
+	success - 1 for successful deletion of the folder and all
+	its contents, 0 otherwise.
+
+SEE ALSO
+	CreateFolderA()
+aml.library/RemFolderArticle                     aml.library/RemFolderArticle
+
+NAME
+	RemFolderArticle -- Remove an article from a folder
+
+SYNOPSIS
+	success = RemFolderArticle(folder, article)
+	D0						A0	 A1
+
+	BOOL RemFolderArticle(APTR folder, APTR article);
+
+FUNCTION
+	This function will attempt to delete the specified
+	article from the specified folder.
+
+INPUTS
+	folder - Pointer to a folder object
+	article - Pointer to an article object
+
+RETURNS
+	success - 1 if successful, 0 otherwise
+
+SEE ALSO
+	AddFolderArticle()
+aml.library/SaveAddressEntry                     aml.library/SaveAddressEntry
+
+NAME
+	SaveAddressEntry -- Saves an address entry object.
+
+SYNOPSIS
+	error = SaveAddressEntry(server, addr)
+	D0					A0		A1
+
+	LONG SaveAddressEntry(APTR server, APTR addr);
+
+FUNCTION
+	Saves the address entry object to the address book
+	server.
+
+INPUTS
+	server - Pointer to a server object in which to
+		store the address entry data.
+	addr - Pointer to an address entry object to save.
+
+RETURNS
+	error - 0 for success, a DOS error code for failure.
+
+SEE ALSO
+	CreateAddressEntryA()
+aml.library/SaveFolder                                 aml.library/SaveFolder
+
+NAME
+	SaveFolder -- Saves a folder object
+
+SYNOPSIS
+	success = SaveFolder(folder)
+	D0				 A0
+
+	BOOL SaveFolder(APTR folder);
+
+FUNCTION
+	This function attempts to save the folder's data
+	to local disk or an associated server.
+
+INPUTS
+	folder - Pointer to a folder object
+
+RETURNS
+	success - 1 if successful, 0 otherwise.
+
+SEE ALSO
+	CreateFolderA()
+aml.library/ScanFolderIndex                       aml.library/ScanFolderIndex
+
+NAME
+	ScanFolderIndex -- Scan a folder's index
+
+SYNOPSIS
+	ScanFolderIndex(folder, hook, flags)
+	D0			  A0	 	A1	DO
+
+	void ScanFolderIndex(APTR folder, struct Hook *hook, ULONG flags);
+
+FUNCTION
+	Scans a folder index, calling the provided hook, so that
+	the application can display a progress bar and/or set
+	status flags on each item in the index.
+
+	The hook function will be passed the pointer to the folder
+	object in A2 and a FolderIndex structure in A1.  See
+	<libraries/aml.h> for details on the FolderIndex structure,
+	and any flags or status that may be set/checked in it.
+
+INPUTS
+	folder - Pointer to a folder object to scan
+	hook - Pointer to an initialized hook
+	flags - Currently should be NULL
+aml.library/SendArticle                               aml.library/SendArticle
+
+NAME
+	SendArticle -- Send an article
+
+SYNOPSIS
+	success = SendArticle(server, article, file)
+	D0				A0	 	A1	   A2
+
+	BOOL SendArticle(APTR server, APTR article, STRPTR file);
+
+FUNCTION
+	Sends the article to the specified server.  The article can
+	either be an article object, passed in the 'article' parameter,
+	or a disk file, passed in the 'file' parameter.
+
+INPUTS
+	server - Pointer to a server object
+	article - Pointer to an article object
+	file - Filename of an article to send
+
+RETURNS
+	success - 1 if successful, 0 otherwise.
+
+SEE ALSO
+	AddFolderArticle()
+aml.library/SetArticleAttrsA                     aml.library/SetArticleAttrsA
+
+NAME
+	SetArticleAttrsA -- Set article attributes
+	SetArticleAttrs -- Varargs stub for SetArticleAttrsA
+
+SYNOPSIS
+	value = SetArticleAttrsA(article, tags)
+	D0					A0		 A1
+
+	ULONG SetArticleAttrsA(APTR article, struct TagItem *)
+
+	ULONG SetArticleAttrs(APTR article, ULONG, ...)
+
+FUNCTION
+	Sets attributes on an article object
+
+INPUTS
+	article - The article object to set attributes on
+	tags - An array of TagItems containing attributes to set
+
+TAGS
+	ARTICLEA_To, ARTICLEA_Cc, ARTICLEA_Bcc, ARTICLEA_From,
+	ARTICLEA_ReplyTo, ARTICLEA_Subject, ARTICLEA_ContentType,
+	ARTICLEA_ContentSubType, ARTICLEA_ContentEncoding,
+	ARTICLEA_Groups, ARTICLEA_XFace, ARTICLEA_MessageID,
+	ARTICLEA_Reference, ARTICLEA_SigFile (all STRPTR) - Each tag
+		corresponds to an appropriate message/newsarticle header
+		as defined by RFC 822; 2045, et. al.  Note that these
+		tags are NOT cumulative, i.e., specifying the
+		ADDRESSA_To tag twice will not add the next address to
+		the "To" list, but replace it.  Please see the
+		appropriate RFC for details on the proper formation
+		of each header's data.
+
+	ARTICLEA_CustomHeaders (STRPTR) - A set of valid article headers,
+		each terminated by a "\r\n" sequence.
+
+	ARTICLEA_Date (STRPTR), ARTICLEA_DateVal (LONG) - Allows you to
+		set the Date: header using either a previous header's
+		value (_Date), or a 32-bit integer value based off the epoch
+		(_DateVal).
+
+	ARTICLEA_Flags (LONG) - Sets appropriate flags for the
+		article, like unread, reply, forward, etc. status.  See the
+		library's header file for valid values.
+
+	ARTICLEA_ReturnReceipt (BOOL) - Sets whether the appropriate
+		return receipt headers should be generated.  (Set only.)
+
+RETURNS
+	value - The number of attributes successfully set.
+
+SEE ALSO
+	libraries/aml.h
+aml.library/SetArticlePartDataA               aml.library/SetArticlePartDataA
+
+NAME
+	SetArticlePartDataA -- Sets an article part's data
+	SetArticlePartData -- Varargs stub for SetArticlePartDataA
+
+SYNOPSIS
+	success = SetArticlePartDataA(part, tags)
+	D0						A0	 A1
+
+	BOOL SetArticlePartDataA(APTR part, struct TagItem *tags);
+
+	BOOL SetArticlePartData(APTR part, ULONG tag1, ...);
+
+FUNCTION
+	Sets the data for the part object.  Data can be any of a number
+	of things, depending on the tag used to pass in the data.  The
+	data pointed to must remain valid for the life of the part
+	object.
+
+INPUTS
+	part - Pointer to the part object
+	tags - Array of TagItems.
+
+TAGS
+	PARTA_DataFilename (STRPTR) - A filename of the actual data
+		to add to the part.
+	PARTA_DataFile (BPTR) - A file pointer from a call to Open()
+	PARTA_DataString (STRPTR) - A string buffer, NULL-terminated
+		of the data.
+	PARTA_DataBuffer (APTR) - A generic buffer of data.  Must be
+		accompanied by the PARTA_DataLength tag.
+	PARTA_DataLength (ULONG) - Specifies how long the data buffer
+		is.  Only valid for PARTA_DataString and PARTA_DataBuffer.
+		It is required for PARTA_DataBuffer, and can be used
+		creatively for limiting the length of data passed via
+		PARTA_DataString.  This tag is ignored for other data
+		types.
+
+RETURNS
+	success - 1 if successful, 0 otherwise.
+aml.library/SetDecoderAttrsA                     aml.library/SetDecoderAttrsA
+
+NAME
+	SetDecoderAttrsA -- Set attributes for a de/encoder object
+	SetDecoderAttrs -- Varargs stub for SetDecoderAttrsA
+
+SYNOPSIS
+	value = SetDecoderAttrsA(decoder, tags)
+	D0					A0	 	A1
+
+	ULONG SetDecoderAttrsA(APTR decoder, struct TagItem *tags);
+
+	ULONG SetDecoderAttrs(APTR decoder, ULONG tag1, ...);
+
+FUNCTION
+	Sets attributes of the specified decoder/encoder object.
+
+INPUTS
+	decoder - Pointer to a decoder/encoder object.
+	tags - An array of TagItems.
+
+TAGS
+	DECODERA_SourceHandle (BPTR) - Pointer to a previously
+		opened file handle for the input stream.
+	DECODERA_SourceFile (STRPTR) - Filename of a file to
+		open for the input stream.
+	DECODERA_SourceBuffer (APTR) - Pointer to a buffer that
+		will be the source.
+	DECODERA_SourceLen (ULONG) - Length of the provided source
+		buffer.  MUST be provided for a source of type
+		DECODERA_SourceBuffer.
+	DECODERA_DestHandle (BPTR) - Pointer to a previously
+		opened file handle for the output stream.
+	DECODERA_DestFile (STRPTR) - Filename of a file to create
+		for the output stream.
+	DECODERA_DestBuffer (APTR) - Pointer to a buffer that will
+		be the destination.
+	DECODERA_DestLen (ULONG) - Maximum length of the destination
+		buffer.  MUST be provided for a destination type of
+		DECODERA_DestBuffer.
+	DECODERA_Lines (ULONG) - Number of lines.
+	DECODERA_Boundary (STRPTR) - String that specifies the MIME
+		boundary of a multipart or partial decode stream.
+		This will allow the decoder to intelligently stop
+		decoding certain media types.
+	DECODERA_Flags (ULONG) - Flags for the decoder/encoder
+		object.  See <libraries/aml.h> for valid flags.
+
+RETURNS
+	value - Number of attributes successfully set.
+
+SEE ALSO
+	CreateDecoderA(), GetDecoderAttrsA(), <libraries/aml.h>
+aml.library/SetFolderAttrsA                       aml.library/SetFolderAttrsA
+
+NAME
+	SetFolderAttrsA -- Set the attributes of a folder object
+	SetFolderAttrs -- Varargs stub for SetFolderAttrsA
+
+SYNOPSIS
+	count = SetFolderAttrsA(folder, tags)
+	D0					A0	 A1
+
+	ULONG SetFolderAttrsA(APTR folder, struct TagItem *tags);
+
+	ULONG SetFolderAttrs(APTR folder, ULONG tag1, ...);
+
+FUNCTION
+	This function sets the specified attributes for
+	a folder object.
+
+INPUTS
+	folder - Pointer to a folder object
+	tags - An array of TagItems
+
+TAGS
+	The following tags are valid:
+
+		FOLDERA_SpoolFile (STRPTR) - A file to be
+			check for possible new articles.
+
+		FOLDERA_Path (STRPTR) - Path that this folder
+			will be located.
+
+		FOLDERA_Name (STRPTR) - The actual name of
+			the folder.
+
+		FOLDERA_DefaultName (ULONG) - Used for setting
+			the name of a "default" folder, typical
+			for e-mail applications.  The following
+			values can be passed with this tag:
+
+				FOLDER_DEF_INBOX, FOLDER_DEF_OUTBOX,
+				FOLDER_DEF_DRAFTS, FOLDER_DEF_SAVED,
+				FOLDER_DEF_TRASH
+
+		FOLDERA_Flags (ULONG) - See <libraries/aml.h> for
+			details on the valid flag values.
+
+		FOLDERA_UserData (APTR) - User defined.
+
+		FOLDERA_FirstMsgID (ULONG) - An ordinal number
+			specifying the first valid article ID for
+			this folder.
+
+		FOLDERA_LastMsgID (ULONG) - An ordinal number
+			specifying the last valid article ID for
+			this folder.
+
+RETURNS
+	count - The number of attributes successfully set.
+
+SEE ALSO
+	DisposeFolder(), SetFolderAttrsA
+aml.library/SetServerAttrsA                       aml.library/SetServerAttrsA
+
+NAME
+	SetServerAttrsA -- Set attributes for a server object
+	SetServerAttrs -- Varargs stub for SetServerAttrs
+
+SYNOPSIS
+	value = SetServerAttrsA(server, tags)
+	D0					A0	  A1
+
+	ULONG SetServerAttrsA(APTR server, struct TagItem *tags);
+
+	ULONG SetServerAttrs(APTR server, ULONG tag1, ...);
+
+FUNCTION
+	This function allows you to set the attributes on
+	a server object.
+
+INPUTS
+	server - Pointer to a server object
+	tags - An array of TagItems
+
+TAGS
+	SERVERA_Type (ULONG) - This is the most important
+		tag, and is required at a minimum.  The valid types
+		are:
+
+		SVRTYPE_FILE - A "file" server.  This is the type of
+			server that must be specified to access an
+			addressbook.  See the SERVERA_Directory tag below.
+		SVRTYPE_SMTP - This creates a server for use with
+			sending e-mail messages.  If not specified via
+			SERVERA_HostPort, the port defaults to 25.
+		SVRTYPE_POP3 - This creates a server used for
+			retrieving e-mail messages from a POP3 server.
+			If not specified via SERVERA_HostPort, the port
+			defaults to 110.
+		SVRTYPE_NNTP - This creates a server use for
+			sending and receiving news articles.  If not
+			specified via SERVERA_HostPort, the port
+			defaults to 119.
+
+	SERVERA_Directory (STRPTR) - Use this tag to specify the
+		name of a directory that contains address entries
+		for an address book.
+
+	SERVERA_HostName (STRPTR) - This is the name or IP address
+		of the host machine that this server object will
+		connect to.
+
+	SERVERA_HostPort (ULONG) - This allows you to specify the
+		port number to use for the server object.  If not
+		specified, it will default to the appropriate value
+		for the type of server object.
+
+	SERVERA_UserName (STRPTR) - This is the username to use
+		when authenticating with the server.
+
+	SERVERA_PassWord (STRPTR) - This is the password the
+		server object will use when authenticating.
+
+	SERVERA_SpoolFile (STRPTR) - Filename of a file to use
+		when downloading articles from a server.  It is
+		recommended to use SERVERA_ProgressHook instead,
+		for better control of the destination of the
+		incoming articles.
+
+	SERVERA_ProgressHook (struct Hook *) - A hook to be called
+		when the server is sending/receiving articles.  This
+		allows the application to display a progress bar, as well
+		as specify the ultimate destination of incoming articles.
+
+		When the hook function is called, the server object is
+		passed in A2.  A1 will contain a ServerProgressData structure
+		for outgoing transactions, an ArticleDisposition structure for
+		incoming transactions.  See <libraries/aml.h> for details.
+
+	SERVERA_Flags (ULONG) - See <libraries/aml.h> for valid flags.
+
+	SERVERA_NewsGroup (STRPTR) - If the server is a news server, use
+		this tag to specify the name of the newsgroup to attach to.
+
+	SERVERA_LogFile (STRPTR) - This is a filename of a logfile for
+		the server to dump information to.
+
+	SERVERA_MaxSize (ULONG) - Maximum size in bytes for articles
+		that the server should retrieve.  If the article is larger
+		than this value, action is taken based upon the values for
+		the two tags below.
+
+	SERVERA_MaxLines (ULONG) - This tells the server object how many
+		 lines of an article to retrieve if the article exceeds the
+		 size limit specified by SERVERA_MaxSize.
+
+	SERVERA_MaxWarning (STRPTR) - If the article being retrieve is
+		larger than the requested maximum, after the number of
+		lines are retrieved specified by SERVERA_MaxLines, this
+		message will be appended to the article.
+
+	SERVERA_UserData (APTR) - User defined.
+
+RETURNS
+	value - The number of attributes successfully set.
+
+SEE ALSO
+	CreateServerA(), GetServerAttrsA()
+aml.library/WriteFolderSpool                     aml.library/WriteFolderSpool
+
+NAME
+	WriteFolderSpool -- Writes the folder to a UNIX style spool
+
+SYNOPSIS
+	count = WriteFolderSpool(folder, exportfile, flags)
+	D0					A0	 	A1		D0
+
+	ULONG WriteFolderSpool(APTR folder, STRPTR exportfile, ULONG flags);
+
+FUNCTION
+	Writes the contents of the specified folder out to a
+	UNIX-style mailbox format spool.  Each article is prepended
+	with a "From " line that allows another mail parser to detect
+	the beginning of each article.
+
+INPUTS
+	folder - Pointer to a folder object
+	exportfile - Filename of the spoolfile to create
+	flags - See <libraries/aml.h> for valid flags.
+
+RETURNS
+	count - The number of articles written to the spool file.
+
+SEE ALSO
+	ReadFolderSpool()
+aml.library/--rexxhost--                             aml.library/--rexxhost--
+
+ 	NOT IMPLEMENTED YET!
+aml.library/SetAddressEntryAttrsA           aml.library/SetAddressEntryAttrsA
+
+NAME
+	SetAddressEntryAttrsA -- Set attributes of an address entry object
+	SetAddressEntryAttrs -- Varargs stub for SetAddressEntryAttrsA
+
+SYNOPSIS
+	value = SetAddressEntryAttrsA(addr, tags)
+	D0						A0	 A1
+
+	ULONG SetAddressEntryAttrsA(APTR addr, struct TagItem *tags);
+
+	ULONG SetAddressEntryAttrs(APTR addr, ULONG tag1, ...);
+
+FUNCTION
+	Sets the requested attributes from the specified
+	address entry object.
+
+INPUTS
+	addr - Pointer to a previously-created address entry object.
+	tags - Pointer to an array of TagItems.
+
+TAGS
+	ADDRESSA_Group, ADDRESSA_Name, ADDRESSA_Address,
+	ADDRESSA_City, ADDRESSA_State, ADDRESSA_Zip,
+	ADDRESSA_Country, ADDRESSA_Phone, ADDRESSA_Fax,
+	ADDRESSA_Comments, ADDRESSA_URL, ADDRESSA_EMail,
+	ADDRESSA_Flags, ADDRESSA_ICQ, ADDRESSA_FTP,
+	ADDRESSA_Company, ADDRESSA_JobTitle, ADDRESSA_MobilePhone,
+	ADDRESSA_ImageFile (STRPTR)
+		The meanings of these tags should be obvious, we hope. :)
+
+	ADDRESSA_EntryType (ULONG)
+		What type of address entry this is; See <libraries/aml.h> for details.
+
+
+RETURNS
+	value - The number of attributes successfully set.
+
+SEE ALSO
+	GetAddressEntryAttrsA()
+

@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_2" NODE="2-4-2" TITLE="2 / The WAIT Instruction / Vertical Beam Position" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>2 / The WAIT Instruction / Vertical Beam Position</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node004C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node004E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+The vertical beam position can be resolved to one line, with a maximum
+value of 255. There are actually 262 NTSC (312 PAL) possible vertical
+positions. Some minor complications can occur if you want something to
+happen within these last six or seven scan lines. Because there are only
+eight bits of resolution for vertical beam position (allowing 256
+different positions), one of the simplest ways to handle this is shown
+below.
+
+     <a href="../Hardware_Manual_guide/node0049.html">Copper Instruction</a>           Explanation
+    --------------------          -----------
+     <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for position (0,255)   At this point, the vertical
+                                  counter appears to wrap to 0
+                                  because the comparison works
+                                  on the least significant bits
+                                  of the vertical count
+
+     <a href="../Hardware_Manual_guide/node004B.html">WAIT</a>  for any horizontal       Thus the total of 256 + 6 = 262
+    position with vertical        lines of video beam travel during
+    position 0 through 5,         which  <a href="../Hardware_Manual_guide/node0049.html">Copper instructions</a>  can be
+    covering the last 6 lines     executed
+    of the scan before
+     <a href="../Hardware_Manual_guide/node0169.html">vertical blanking</a>  occurs.
+
+
+    Note that the vertical is like the horizontal.
+    ----------------------------------------------
+    There are alternating long and short lines, there are also long and
+    short fields (interlace only). In NTSC, the fields are 262, then 263
+    lines and in PAL, 312, then 313 lines.  This alternation of lines and
+    fields produces the standard NTSC 4 field repeating pattern:
+
+          short field ending on short line
+          long  field ending on  long line
+          short field ending on  long line
+          long  field ending on short line
+          and back to the beginning...
+
+
+One horizontal count takes one cycle of the system clock (processor is
+twice this).
+
+          NTSC- 3,579,545 Hz
+          PAL - 3,546,895 Hz
+          genlocked- basic clock frequency plus or minus about 2%
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-5-2-2" TITLE="3 / / Horiz. Scrolling / Specifying the Modulo in Horizontal Scrolling" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / Horiz. Scrolling / Specifying the Modulo in Horizontal Scrolling</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node0089.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node008B.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+As always, the modulo is two counts less than the difference between the
+address of the next word you want to fetch and the address of the last
+word that was fetched. As an example for horizontal scrolling, let us
+assume a 40-byte display in an 80-byte &#034;big picture.&#034; Because horizontal
+<a name="line6">scrolling requires a data fetch of two extra bytes, the data for each line</a>
+will be 42 bytes long.
+
+       START                     START+38                    START+78
+          __________________________|___________________________
+         |                          |                           |
+         |                          |                           |
+         |&#060;--DISPLAY WINDOW width--&#062;|                           |
+         |                          |                           |
+         |                          |                           |
+         |                          |                           |
+         |                          |                           |
+         |&#060;----------------MEMORY PICTURE width----------------&#062;|
+         |                          |                           |
+         |                          |                           |
+
+        Figure 3-25: Memory Picture Larger Than the Display Window
+<a name="line23"></a>
+
+  _______________________________________________________________________
+ |                                                                       |
+ |   Data for line 1:                                                    |
+ |                                                                       |
+ | Location:     START        START+2      START+4    ...     START+40   |
+ |               -----        -------      -------            --------   |
+ |              leftmost     next word    next word         last display |
+ |            display word                                      word     |
+ |_______________________________________________________________________|
+
+           Figure 3-26: Data for Line 1 - Horizontal Scrolling
+
+
+At this point, the bitplane pointers contain the value START+42. Adding
+<a name="line39">the modulo of 38 gives the correct starting point for the next line.</a>
+
+  _______________________________________________________________________
+ |                                                                       |
+ |   Data for line 2:                                                    |
+ |                                                                       |
+ | Location:    START+80     START+82     START+84    ...     START+120  |
+ |              --------     --------     --------            ---------  |
+ |              leftmost     next word    next word         last display |
+ |            display word                                      word     |
+ |_______________________________________________________________________|
+
+           Figure 3-27: Data for Line 2 -- Horizontal Scrolling
+<a name="line52"></a>
+
+In the  <a href="../Hardware_Manual_guide/node0072.html#line108">BPLxMOD</a>  registers you set the modulo for each bitplane used.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

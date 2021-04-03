@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_C" NODE="C-2-4" TITLE="C / ECS Hardware Graphics Library / SuperHires 70ns Sprite Positioning" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>C / ECS Hardware Graphics Library / SuperHires 70ns Sprite Positioning</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node00A4.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node00A6.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+SuperHires mode has a finer granularity of sprite positioning than either
+Hires or Lores modes.  This allows for positioning the sprite every other
+SuperHires pixel on 70ns boundaries.  The ECS registers SPRxPOS and
+SPRxCTL work together as position, size and sprite feature control
+registers.  They are usually loaded by the sprite DMA channel, during
+horizontal blank, however they may be loaded by the processor.
+
+The two registers are defined as follows:
+
+
+   SPRxPOS W   A D     Sprite x vertical-horiz start position data
+
+        Bit      Use
+        ----     ----
+        15-08
+        07-00  SH8-SH1  Start horizontal value. Low bit (SH0) in SPRxCTL.
+
+
+   SPRxCTL W   A D     Sprite x position and control data
+
+        Bit      Use
+        ----     ----
+        15-08
+        07
+        06
+        05
+        04      SHSH1     Start horizontal (SHR mode) 70ns increment
+        03      SHSH0     Start horizontal (SHR mode) 35ns (unimplemented)
+        02
+        01
+        00      SH0       Start horiz. value Low bit 140 ns increment
+
+   Note: bits 3 and  4 are in the ECS chips only.
+
+   Warning:
+   --------
+   70ns sprite positions are only available in SuperHires mode.
+   Attempting to use 70ns sprite positioning with Hires mode under
+   the current system may lead to unpredictable results.
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

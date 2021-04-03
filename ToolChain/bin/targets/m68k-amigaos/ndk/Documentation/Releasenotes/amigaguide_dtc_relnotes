@@ -1,0 +1,256 @@
+amigaguide 44.1 (14.3.99)
+
+- A DTM_REMOVEDTOBJECT message now clears cached
+  rendering data. Otherwise, amigaguide.datatype would
+  crash on the next rendering call.
+
+- The printing command now translates foreground colour #1 to
+  ANSI colour #9 and background colour #0 to ANSI colour #9.
+  This selects default rendering colours instead of mapping
+  black text to red.
+
+- Masked rendering operations no longer directly fiddle with
+  the RastPort mask.
+
+- The routine that tries to find a named node in a list by
+  means of a case-insensitive comparison now uses
+  utility.library/Stricmp rather than a `roll your own'
+  comparison routine.
+
+- Fixed a bug in the library init code.
+
+- In word wrap mode, AmigaGuide could reference memory after freeing
+  it. This would happen after merging several lines into one. Fixed.
+
+- If the window was too small for the complete row of controller
+  buttons to fit, AmigaGuide would attempt to wrap the buttons around
+  and end up getting the actual size of the visible text area wrong.
+  Fixed.
+
+- Updated header files and autodocs.
+
+- Reimplemented the AGA_Secure feature introduced with AmigaGuide V41
+  back in 1996.
+
+- Replaced the old asyncio code with a bug-fixed and shorter version.
+
+- Replaced too many Seek(..,OFFSET_END)..Seek(..,OFFSET_BEGINNING)
+  calls with ExamineFH() calls.
+
+- Fixed a bug in the node reader which would open the file a node
+  was stored in, then continue to read exactly as many bytes as
+  there were in that file from the regular database file and
+  finally close the node file again. It was consistently reading
+  from the wrong file. Fixed. I'm curious to see what differences
+  this bug fix will bring.
+
+- Removed all dead and unused code.
+
+- AmigaGuide now rebuilds its rendering masks whenever
+  this is necessary. This should help to improve rendering
+  speed.
+
+- Switched over all file I/O done on the database to use
+  async I/O calls.
+
+- When triggered by MultiView a DTM_COPY action followed
+  by DTM_CLEARSELECT no longer leaves trash in the top
+  left corner of the display. I have removed the effect,
+  but not the root of the problem. This still remains to
+  be done...
+
+- When loading cross reference files, the loader would always
+  forget to add the last database entry in a section. Fixed.
+
+- The cross reference database expunge code would not release
+  any locks it had allocated. This only worked because the
+  way the library code was called no locks were ever allocated
+  and the expunge code was never called.
+
+- Completely redid the cross reference manager code which used
+  to be terribly inefficient. For every entry to go into the
+  database, it would check for duplicates by doing a linear
+  search. As the database would increase, the search times
+  would double, then quadruple, etc. The new code uses the
+  tree lists that worked so well for asl.library; this also
+  has the effect of greatly increasing database search speed.
+
+- The cross reference database now allocates all its entries
+  using memory pools.
+
+
+amigaguide 44.2 (15.3.99)
+
+- Moved over all cross reference database access routines from
+  amigaguide.library. The database now uses "black box" access
+  methods, at least as far as amigaguide.library is concerned.
+
+- Changed the way the cross reference database is maintained.
+  Tree nodes are no longer removed, but updated if possible.
+  This removes the need to rebuild the entire tree after a
+  remove operation. However, because the new code may fail
+  to update an existing node due to memory shortage, the
+  database may (in case of error) not be in the expected
+  state.
+
+- When expunging all cross reference databases, DeletePool()
+  is now preferred over freeing the individual database
+  entries. If this doesn't work because an empty replacement
+  pool is not available, the code still frees the individual
+  database entries.
+
+
+amigaguide 44.3 (15.3.99)
+
+- Fixed a race condition in database access.
+
+- Reduced the use of the data cached from the initial
+  layout call. Whenever necessary, the code now uses
+  data from the GadgetInfo passed to it.
+
+- Finally found out what the "reading from the wrong file"
+  bug fix did: dynamic hosts will now properly tell the
+  node loader which file to read.
+
+- The layout code could end up leaving MultiView in an
+  intermediate state if allocating and sending of the
+  layout message to the node host went wrong. Fixed.
+
+
+amigaguide 44.4 (19.3.99)
+
+- The tree node search had a comparison wired the
+  wrong way round. Fixed.
+
+
+amigaguide 44.5 (13.4.99)
+
+- Added more sanity checks to avoid rendering into stale
+  RastPorts.
+
+
+amigaguide 44.6 (13.4.99)
+
+- Fixed yet another Enforcer hit in the layout code. Will
+  this never end?
+
+
+amigaguide 44.7 (10.5.99)
+
+- Changed all __aligned attributes to a different method of
+  guaranteeing long word alignment.
+
+
+amigaguide 44.8 (8.6.99)
+
+- When trying to locate a file a link was pointing to, the code
+  now, as a last resort, looks into the drawer the database is
+  stored in the link came from.
+
+- No longer attempts to optimize the rendering masks for clearing
+  the display with. This fixes a bug where a previously displayed
+  picture would not get erased from the display.
+
+
+amigaguide 44.9 (17.7.99)
+
+- Control buttons are now rendered without presetting the button
+  label background colour.
+
+
+amigaguide 44.10 (1.8.99)
+
+- When locating a node, the library now tries to find the file
+  in question both relative to the file the link command originated
+  from and in the current directory of the calling process.
+
+
+amigaguide 44.11 (3.8.99)
+
+- Tweaked the node location code even further. The library now looks into
+  1) the calling process' current directory, 2) the parent directory
+  of the AmigaGuide file the first link came from, 3) the parent
+  directory of the AmigaGuide file the previous link came from. I found
+  that these three cases manage to cover all link scenarios we had
+  trouble with.
+
+  Now that this is done, I really don't want to touch this code ever,
+  ever again.
+
+- Changed altogether too many "pr_Result2 = .." references to call
+  SetIoErr() instead.
+
+
+amigaguide 44.12 (14.8.99)
+
+- Dumped all the CurrentDir(currentDir = CurrentDir(ZERO)) tricks and
+  switched them over to plain Lock("",SHARED_LOCK) calls.
+
+
+amigaguide 44.13 (7.11.1999)
+
+- The "SYSTEM" command, as used in hyperlinks, now launches the respective
+  programs with the current directory set to the drawer in which the
+  root document resides. The same is attempted for the "RX" and "RXS"
+  commands, but due to their asynchronous nature, it may not work
+  reliably.
+
+
+amigaguide 44.14 (22.6.2000)
+
+- The scanner did not recognize an '@endnode' command or any other command
+  like it, unless it was terminated with a line feed. The line feed is
+  no longer necessary, the end of the file will be sufficient [Stephan Rupprecht].
+
+
+amigaguide 44.15 (17.9.2000)
+
+- Worked around another bug in the scanner, fixing an Enforcer hit. The scanner
+  bug essentially stays the same though: link commands cannot be broken into
+  several lines [Jacob Laursen].
+
+
+amigaguide 45.1 (23.11.2000)
+
+- Found and fixed the bug that could cause the scanner to forget about
+  certain nodes [Thomas Richter].
+
+
+amigaguide 45.2 (15.2.2001)
+
+- The mechanism that allowed quote characters to be escaped in AmigaGuide
+  command strings worked to a certain extent only. It allowed for the
+  quotes to be escaped but failed to strip the escape characters from the
+  resulting strings. Fixed [Rolf Max Rotvel].
+
+- Fixed altogether far too many potential buffer overruns, including some
+  extremely weird cases of strings not getting terminated properly resulting
+  in really deadly and confusing buffer overruns.
+
+- The recursive page layout code only worked because of an astonishing
+  number of random events not happening most of the time. Basically, it
+  shouldn't have worked in the first place.
+
+- Removed the calls to 'stcgfn()', 'stcgfp()' and 'stci_d()' which were
+  absolutely redundant.
+
+
+amigaguide 45.3 (17.2.2001)
+
+- The new code to parse path and file names didn't work that well after
+  all. Fixed [David Rey].
+
+
+amigaguide 45.4 (21.2.2001)
+
+- The code to render the currently active button could leave a variable
+  uninitialized, which would lateron cause the button rendering code to
+  crash violently [Vit Sindlar].
+
+
+amigaguide 45.5 (22.2.2001)
+
+- Modified the code that renders links again not to assume that after
+  running off the end of the link list means that the currently active
+  line needs updating. This avoids lines being printed twice during
+  scrolling. Neat bug, eh? [Stefan Rupprecht].

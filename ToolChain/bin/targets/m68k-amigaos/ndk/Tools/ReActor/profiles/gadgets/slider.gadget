@@ -1,0 +1,15 @@
+slider.gadget
+LABEL "Slider"
+LIBRARY "gadgets/slider.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+INTEGER   0x85028001 (I···U) SLIDER_Min "Minimum" 0 -32768 32767
+INTEGER   0x85028002 (I···U) SLIDER_Max "Maximum" 0 -32768 32767
+INTEGER   0x85028003 (I··NU) SLIDER_Level "Level" 0 -32768 32767
+SELECT    0x85028004 (I····) SLIDER_Orientation "Orientation" 2 0x0002 0x0002 "Horizontal" 0x0004 "Vertical"
+INTEGER   0x85028006 (I····) SLIDER_Ticks "Ticks" 0 -32768 32768
+BOOLEAN   0x85028007 (I····) SLIDER_ShortTicks "Short Ticks" FALSE "Short Ticks"
+INTEGER   0x85028008 (I····) SLIDER_TickSize "Tick Size" 0 -32768 32767
+IMAGE     0x85028009 (I····) SLIDER_KnobImage "Knob Image"
+IMAGE     0x8502800B (I····) SLIDER_BodyImage "Body Image"
+BOOLEAN   0x8502800E (I····) SLIDER_Invert "Invert" FALSE "Flip Min/Max"
+END

@@ -1,0 +1,142 @@
+kickstart/fs
+
+    Added 64 bit support according to the new style device based
+    trackdisk64 standard. Notification should work well now for
+    SetComment, SetFileDate, SetProtection, and SetOwner.
+    Added UID/GID identification support via Envoy for symmetry.
+    Will use TD_ADDCHANGEINT instead of TD_REMOVE. This may help
+    some devices! I am not sure yet if we should ignore
+    non IOERR_NOCMD devices and simply try a query and
+    TD_GETGEOMETRY on the device. Handles cylinder numbers >64K for
+    special types of devices now. Reworked half a ton of signed
+    compares. Should no longer mess up on comment lengths or
+    filename lengths >=128. No longer sets the dircache pointer in
+    the root block for non dircache modes. There is a slight chance
+    that files could be sized from 0 to 4GB-2 bytes now. This has not
+    been tested and you must make sure that any SW trying to use
+    this checks for -1 as error code exactly as positions are
+    obviously unsigned in that case. Froze 43.11.
+    If there was an early startup problem, it didn't always fail
+    correctly. This should be better now. Note well that the V43
+    FFS tends to rely on the trackdisk device feature set defined
+    for >=V36, so with very old hardware and/or bad drivers, you
+    may have problems. Incidentally, none have been reported yet.
+    Froze 43.12.
+    In a low memory situation, the fs could set a wrong disk type.
+    Fixed a failure path that I had added in a messed up state and
+    a restart should work as expected again now. For an underlying
+    NSD device, FFS will use TD_GETGEOMETRY now if needed.
+    Currently, the NSD query is only activated for >4GB partitions.
+    Maybe this should change. This needs further research though.
+    Froze 43.13.
+    Envoy accounts support is only available if accounts.library is
+    already loaded.
+    Froze 43.14.
+    When Inhibit is turned on/off, the filesystem should now
+    try harder to trigger a disk change event as appropriate.
+    The validator and the standard bitmap check could report free
+    blocks that were different by one. The bit[map] for the last block
+    in the partition was not checked correctly and the disk could
+    have appeared to contain one more free block than was actually
+    there. This bug must have been in there for a long time.
+    Incidentally, it has not been found with a small partition,
+    but while using a 4.6GB partition. The NSD functionality was
+    not fully NSD conforming which caused NSDPatch to reject
+    certain FFS requests (correctly) with an error. Froze 43.18.
+    With a 512 byte block size, the upper unchecked(!) limit on
+    FFS file size was 2.25 GB due to internal extension block count
+    limitations. OFS had problems with files >32MB. The validator
+    did not clean up bad dircache entries correctly which could
+    confuse dircache management completely. Froze 43.19.
+    ACTION_END should now have the correct return value.
+    Froze 43.20.
+    NotifyRequests should now be freed correctly even if the volume
+    is not currently inserted. Notifications should also happen for
+    the parent dir on deletion and on dir creation of the dir did
+    not exist before. As it turns out, you have to support
+    ACTION_RENAME_DISK in inhibited form when you support
+    ACTION_SERIALIZE_DISK. This should work now to support
+    DiskCopy. Also notification on file creation with
+    MODE_READWRITE should work now.
+    Froze 43.21.
+    ACTION_FLUSH should wait now as required. It also has decent
+    return values now.
+    Froze 43.22.
+    As it turns out it is very tricky to do ACTION_FLUSH reasonably
+    correct without redoing parts of the fs. Behaviour is now as
+    follows. ACTION_FLUSH packets will only return if nothing is
+    pending anymore. Nothing, not even reads! Meaning that if
+    someone else keeps feeding the filesystem with actions, you may
+    have to wait a while for your ACTION_FLUSH to return. When it
+    returns, nothing is pending anymore and the disk has been
+    CMD_UPDATED. Obviously after the return someone may again
+    feed actions into the FFS, which makes this status somewhat
+    meaningless unless you try to do a controlled shutdown before
+    reboot. Also, flush packets that come in while a flush is
+    pending no longer return early. With a little bit of luck this
+    freeze fixes all the popular bugs in the FFS.
+    Froze 43.23.
+    Version bump to V45.1 No functional change.
+    Froze 45.1.
+    If you tried to create a file with a name referring to an
+    existing soft link, bad things happened.
+    Froze 45.2.
+    In calculating the basic partition parameters based on the
+    enironment of the DOS node, FFS would set up incorrect
+    partition data if any one of the following values would exceed
+    16 bit: SectorSize, SectorsPerBlock, Surfaces, SectorsPerTrack,
+    LowerCyl, SectorsPerTrack*Surfaces.
+    Froze 45.4.
+    The new init code broke 32KB block size by being a little bit
+    too paranoid about correct values.
+    Froze 45.5.
+    Minor but significant change. When creating a file/dir header
+    block, this block will now be forced out to the disk right
+    away, *before* the directory is set up to point to that block.
+    Due to the way things worked, the header could have been
+    written after the directory, which was probably the root
+    cause for invalidated partitions due to broken software
+    crashing right after file/dir/link creation. This change can
+    cause one redundant write on creation but should keep the disk
+    structure solid enough for validation even on a crash.
+    Froze 45.6.
+    As it turns out, the newly created header was forced out too
+    early. This could lead to a correct tree structure with empty
+    name information in the new header block if the machine
+    crashed right after file creation. Mea culpa. Even though
+    this is "better" than a non validatable disk, it is still
+    pretty broken. The right thing should happen now.
+    Froze 45.7.
+    I broke ACTION_INHIBIT in rather magic ways. Changing two lines
+    of code should fix things again. Also, notification on parent
+    dirs of changed nodes should work as expected now.
+    Froze 45.9.
+    DIRCACHE partitions did not validate safely if they had
+    directories beyond 6 levels deep. A stack overflow killed the
+    machine. A true fix is hard. There still is a limit, but
+    it is *much* higher now. Putting up error requesters should
+    also handle the stack correctly now.
+    Froze 45.10.
+    I made a mistake in working around the common stack overflow in
+    45.10 which incidentally made me aware of another really
+    annoying bug. If an errored block got put on the internal cache
+    list again, the error did not get cleared when using that block
+    again. This could confuse subsequent block handling and
+    possibly even lead to data messups. You would not have noticed
+    this under typical normal use, but under special circumstances
+    with delayed disk activity, you could have gotten trashed disks
+    if you actually had an error requester at the "right" time
+    before.
+    Froze 45.11.
+    Error handling is better now, hopefully. If a volume node is
+    not available, the device name will now be used in error
+    requesters. As it turned out, Envoy support was really pretty
+    much broken. Unfortunately ...
+    Froze 45.12.
+    Now rounds up bitmap memory allocation to a multiple of the
+    bitmap block size. Otherwise unallocated memory could be read
+    when copying the last bitmap block from memory into the actual
+    block.
+    Froze 45.13.
+
+

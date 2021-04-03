@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_3" NODE="3-2-5-1" TITLE="3 / / Coding For Correct Coloring / A One- or Two-Color Playfield" INDEX="Hardware/Hard_Index/MAIN" -->
+<head>
+<title>3 / / Coding For Correct Coloring / A One- or Two-Color Playfield</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<a href="../Hardware_Manual_guide/node0240.html"><img src="../images/index.gif" alt="[Index]" border=0></a>
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node006C.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node006E.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+For a one-color playfield, all you need do is write &#034;0&#034;s in all the bits
+of the single bitplane as shown in the example below. This code fills a
+low resolution bitplane with the background color ( <a href="../Hardware_Manual_guide/node0067.html#line26">COLOR00</a> ) by writing
+all &#034;0&#034;s into its memory area. The bitplane starts at $21000 and is 8,000
+bytes long.
+
+        LEA     $21000,a0       ; Point at bitplane
+        MOVE.W  #2000,d0        ; Write 2000 longwords = 8000 bytes
+LOOP:   MOVE.L  #0,(a0)+        ; Write out a zero
+        DBRA    d0,LOOP         ; Decrement counter and loop until done...
+
+For a two-color playfield, you define a bitplane that has &#034;0&#034;s where you
+want the background color and &#034;1&#034;s where you want the color in register 1.
+The following example code is identical to the last example, except the
+bitplane is filled with $FF00FF00 instead of all 0's. This will produce
+two colors.
+
+        LEA     $21000,a0        ; Point at bitplane
+        MOVE.W  #2000,d0         ; Write 2000 longwords = 8000 bytes
+LOOP:   MOVE.L  #$FF00FF00,(a0)+ ; Write out $FF00FF00
+        DBRA    d0,LOOP        	; Decrement counter and loop until done...
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

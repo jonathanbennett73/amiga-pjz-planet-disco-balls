@@ -1,0 +1,192 @@
+string.gadget 45.0 (04.10.00) - (20.10.00)
+
+- first release for os3.5 beta-testers [2000-10-04].
+
+- RAMIGA+q was implemented as RAMIGA+Q (see doc). if the
+  gadget doesn't understand a key (combination), the global
+  edit hook of intuition will be called. this way tools
+  like NewEdit, BetterString, StringSnip, etc. are supported
+  by this class. now reads env:sys/icontrol.prefs to check whether
+  the user has enabled the "Text Gadget Filter" option (see doc/
+  control keys). [2000-10-09].
+      
+- Fixed byte-read from #0 enforcer hit when initialising the gadget,
+  RAMIGA+TAB was interpreted as TAB <Mario Cattaneo> [2000-10-10]
+      
+- implemented simple undo and redo (RAMIGA+z/Z). the marked text
+  will be drawn using the FILLPEN and FILLTEXTPEN (blue and black),
+  now <Mario Cattaneo>. pressing CTRL/RAMIGA+TAB brings up a file
+  requester, now (no auto-completion yet). a few changes, not 
+  really worth to mention :) [2000-10-20]
+
+
+string.gadget 45.1 (27.10.00)
+
+- implemented filename completion. removed filerequester code, this
+  makes the code simpler and safer. 
+   
+- allocates memory from a memory pool, now.
+
+- added some additonal tags to the API that might be useful for
+  developers.
+  
+
+string.gadget 45.2 (01.11.00)
+
+- paste (RAMIGA+v) works even when the gadget is in password mode,
+  now <Mario Cattaneo>.
+
+- the bevel.image didn't erase its background, so that you could
+  see the backfill image of the window inside the gadget box.
+
+- when reaching the last matching name, the filename completion (FNC)
+  starts over (cycles back to the first match) <Allan Odgaard>.
+
+- the FNC sorts the list of matches, now. <Allan Odgaard>.
+
+- instead of acting on the entire word, ramiga-shift-g starts from
+  the cursor position <Allan Odgaard>.
+
+- if a number isn't under the cursor, ramiga +/- and ramiga $/# search
+  backward for the number <Allan Odgaard>.
+  
+- the FNC adds a space to the end of filenames, now <Allan Odggard>.
+
+- implemented SHK_HOTKEY hook for Doc. Richter. 
+
+- some numpad keys were filtered out by the gadget, fixed.
+
+- ramiga i/d can be used as an alternative to ramiga +/i, now <again Allan>.
+
+
+string.gadget 45.3 (05.11.00)
+
+- SHK_HOTKEY detects qualifiers (shift,alt,control,command), now.
+
+- deleting a block by pressing backspace didn't work when the cursor
+  was at the beginning of the string (an 'if' at the wrong place)
+  <Allan Odgaard>.
+
+- pressing backspace twice in a SHK_HOTKEY gadget deletes its contents.
+  <Allan Odgaard>.
+  
+- changed the SHK_PASSWORD hook to do nothing. the GM_RENDER method is 
+  responsible to hide the password, now. this is much easier than messing
+  around with the buffers.
+
+- pressing "ramiga shift c" appends the (marked) text to the clipboard 
+  <Allan Odgaard>.
+
+- when FNC is used and there's only one matching name, pressing ramiga/ctrl
+  and tab again will enter the directory <Allan Odgaard>.
+
+- ramiga+x doesn't copy the erased text to the clipboard anymore (as long
+  as it isn't marked) <Gabriele Favrin>.
+  
+- now places the cursor at the end of the string when the gadget is activated
+  by ActivateGadget() right after OM_NEW <Gabriele Favrin>.
+
+- no longer needs to read icontrol.prefs to see whether the user has enabled
+  the "Text Gadget Filter" option of IControl. Thanks to Olaf, the IPrefs
+  (>45.2) semaphore has this information handy.
+
+- the SHINEPEN is now used to draw the cursor <Allan Odgaard>.
+
+- as long as the programmer does not specify any other pens, the background
+  pen of the *active* gadget is the xen/HALFSHINE pen, now <Allan Odgaard>.
+
+- (wordwise) marking still worked even when it was requested to be disabled.
+
+
+string.gadget 45.4 (10.11.00)
+
+- quicksorts the FNC list, now.
+
+- implemented GM_CLIPRECT (based on the integer.gadget sources).
+
+- the cursor has the same width as the 'n' when it isn't over a character.
+  <Allan Odgaard>.
+
+- StringInfo->LongInt wasn't updated by every operation (paste, increase/decrease).
+
+- setting either STRINGA_TextVal or STRINGA_LongVal forces a refresh, now.
+  <Jochen Becher>
+
+- the GM_DOMAIN method takes care that BEVEL_VertSize is BEVEL_HorizSize and
+  that BEVEL_HorizSize is BEVEL_VertSize :) the fixes the problem that the
+  gadget was to tall (depending on the bevel style selected in ReAction prefs).
+  <Pavel Narozny>
+
+- the disabled pattern wasn't drawn at the right position and size
+  <Massimo Tantignone>.
+
+
+string.gadget 45.5 (15.11.00)
+
+- the GM_HANDLEINPUT method doesn't return GMR_NEXTACTIVE or GMR_PREVACTIVE
+  anymore when GFLG_TABCYCLE is not set.
+  
+
+string.gadget 45.6 (17.11.00)
+
+- fixed a few bugs in string editing.
+
+- the width returned by the GM_DOMAIN method is a bit larger, now.
+
+
+string.gadget 45.7 (22.11.00)
+
+- the inner spacing btw the left/right border and the text is 2 pixels, again.
+
+
+string.gadget 45.7 (27.11.00)
+
+- the version string contained the wrong revision number.
+
+
+string.gadget 45.8 (09.12.00)
+
+- the entire bevel.image is filled up with the bg colour, now.
+
+- the strncpy() function could copy one char more than allowed to
+  the buffer. Ouch!
+
+
+string.gadget 45.9 (26.12.00)
+
+- jumping to the next/previous word skips all delimiters between two
+  words, now <Allan Odgaard>.
+
+
+string.gadget 45.10 (05.03.01)
+
+- some small changes, nothing worth to mention ...
+
+
+string.gadget 45.11 (11.03.01)
+
+- can be used by listbrowser.gadget for node editing, now.
+
+
+string.gadget 45.12 (26.03.01)
+
+- added a Forbid()/Permit() where it was missing <Thomas Richter>.
+
+
+string.gadget 45.13 (15.03.01)
+
+- when activating the gadget via Activate(Layout)Gadget() while the
+  user holds down the left mouse button, no longer triggers cursor
+  movements.
+
+
+string.gadget 45.14 (06.08.01)
+
+- disabled notification of attributes changes done via OM_SET/UPDATE.
+  This matches the behaviour of the standard (ROM) BOOPSI classes.
+
+
+string.gadget 45.15 (06.10.01)
+
+- instead of treating the entire string as a pathname, the FNC
+  "grabs" the pathpart from the string and completes it <Mario Cattaneo>.

@@ -1,0 +1,37 @@
+IControl 44.4 (31.7.99)
+
+· added stack extension
+
+· changed label of SHIFT and LEFT AMIGA checkboxes
+
+IControl 44.6 (17.8.99)
+
+· added close gadget
+
+· added size gadget
+
+· change group layout
+
+· added seperator line
+
+· modified Save/Use/Cancel layout
+
+· the SHIFT glyph was a bit large
+
+IControl 44.8 (16.9.99)
+
+· added some nice glyphs from Matt
+
+· changed project icon name to def_icontrol_prefs
+
+IControl 45.1 (20.11.2000)
+
+· Added support for 1:1 aspect ratio
+
+Icontrol 45.2 (22.11.2000)
+
+· Added warning requester, if user has enabled the 1:1 aspect ratio.
+
+· Added option/tooltype USER that can be set to NOVICE, ADVANCED and
+  EXPERT. If it is set to ADVANCED or EXPERT, there will be no warning-
+  requester.

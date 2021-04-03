@@ -1,0 +1,9 @@
+radiobutton.gadget
+LABEL "Radiobutton"
+LIBRARY "gadgets/radiobutton.gadget" 0 PRIVATE
+INCLUDE "reaction.baseclass"
+LIST     0x85014001 (I···U) RADIOBUTTON_Labels "Labels" RADIOBUTTON
+INTEGER  0x85014003 (I···U) RADIOBUTTON_Spacing "Spacing" 0 0 32767
+INTEGER  0x85014004 (I··NU) RADIOBUTTON_Selected "Selected" 0 0 32767
+SELECT   0x85014005 (I···U) RADIOBUTTON_LabelPlace "Label Place" 2 0 0 "Left" 1 "Right"
+END

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hard_examples/sinewave.asm" NODE="MAIN" TITLE="Hard_examples/sinewave.asm" -->
+<head>
+<title>Hard_examples/sinewave.asm</title>
+</head>
+<body>
+<img src="../images/toc_d.gif" alt="[Contents]">
+<img src="../images/index_d.gif" alt="[Index]">
+<img src="../images/help_d.gif" alt="[Help]">
+<img src="../images/retrace_d.gif" alt="[Retrace]">
+<a href="../Hardware_Manual_guide/node02D8.html"><img src="../images/prev.gif" alt="[Browse &#060;]" border=0></a>
+<a href="../Hardware_Manual_guide/node02DA.html"><img src="../images/next.gif" alt="[Browse &#062;]" border=0></a>
+<hr>
+<pre>
+<!-- AG2HTML: BODY=START -->
+;
+; sinewave.asm
+;
+; In this example, which gathers together all of the program segments
+; from the Audio Hardware sections, a sine wave is played through
+; channel 0. The example assumes exclusive access to the Audio
+; hardware, and will not work directly in a multitasking environment.
+;
+MAIN:
+        LEA     CUSTOM,a0       ; Custom chip base address
+        LEA     SINEDATA(pc),a1 ;Address of data to
+                                ;  audio location register 0
+
+WHERE0DATA:
+        MOVE.L  a1,AUD0LCH(a0)  ;The 680x0 writes this as though it were a
+                                ;  32-bit register at the low-bits location
+                                ;  (common to all locations and pointer
+                                ;  registers in the system).
+
+SETAUD0LENGTH:
+        MOVE.W  #4,AUD0LEN(a0)  ;Set length in words
+
+SETAUD0VOLUME:
+        MOVE.W  #64,AUD0VOL(a0) ;Use maximum volume
+
+SETAUD0PERIOD:
+        MOVE.W  #447,AUD0PER(a0)
+
+BEGINCHAN0:
+        MOVE.W  #(DMAF_SETCLR!DMAF_AUD0!DMAF_MASTER),DMACON(a0)
+
+        RTS                     ; Return to main code...
+
+        DS.W    0               ; Be sure word-aligned
+
+SINEDATA:                       ; Audio data must be in Chip memory
+        DC.B    0, 90, 127, 90, 0, -90, -127, -90
+        END
+<!-- AG2HTML: BODY=END -->
+</pre>
+</body>
+</html>

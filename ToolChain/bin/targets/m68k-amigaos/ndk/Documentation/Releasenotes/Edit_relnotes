@@ -1,0 +1,9 @@
+workbench/c/edit
+
+    Moved over to SAS/C 6.58. Lots of warped K&R prototypes
+    not quite matching the implementation. Made some local stuff
+    static. Fixed some uninitialized variables which could have
+    lead to hits. Options PREVIOUS and WIDTH should be implemented
+    now.
+    Froze 44.1.
+

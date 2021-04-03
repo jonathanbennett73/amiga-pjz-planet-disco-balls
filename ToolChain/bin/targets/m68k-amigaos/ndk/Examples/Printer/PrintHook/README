@@ -1,0 +1,3 @@
+This drawer contains an example how to print using the new printer
+device source hook. This hook allows to print 24 bit data without
+using RTG software and opening a 24 bit true color screen.

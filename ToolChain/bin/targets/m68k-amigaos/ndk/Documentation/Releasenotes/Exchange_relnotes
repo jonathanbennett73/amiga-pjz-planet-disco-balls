@@ -1,0 +1,105 @@
+Exchange 44.4 (7.8.99)
+
+-  Corrected domain layout issue which would cause the information group to
+   overwrite the right window border.
+
+-  Corrected startup issue. Cx would notify that the arexx port could not be
+   created but yet would not cause the Cx if running to show itself.
+
+Exchange 44.5 (10.8.99)
+
+-  Corrected issue where the Cx would not remove itself.
+
+Exchange 44.6 (11.8.99)
+
+-  Tracked down and corrected multiple refresh issue. (Mario P.)
+   What was happening is that the window normally refreshes it's damaged
+   area (normal happenings) but, being a Cx it was also receiving a
+   CXM_COMMAND/CXCMD_LIST_CHG (don't ask me to explain why because I really
+   don't know..the Cx list hadn't changed) which was causing the 2nd refresh.
+
+-  Properly displays the selected LB item (if one was selected prior to closing
+   the window) will be shown.
+
+Exchange 44.7 (18.8.99)
+
+-  Removed window height lock
+
+-  changed appicon call to v44 icon.library function call
+
+-  Added 40 char domain to information display.
+
+-  If an item is selected from the LB that is the same as the current one
+   there will be no refresh of the display.
+
+Exchange 44.8 (20.8.99)
+
+-  Removed LB bevel group and label and replaced with LB ColumnTitle
+
+-  Removed Information bevel group text to close up the information group
+   and moved that text to it's own label above.
+
+Exchange 44.9 (26.8.99)
+
+-  Reduced the information domain by 5 chars. Seems to be an issue with
+   button.gadget and non-prop fonts whereas prop fonts work as described,
+   passed on relevant info to c.aldi
+
+-  Window now opens at bottom of screen titlebar.
+
+-  Fixed trouble where the listbrowser wasn't updating when commodities were
+   added or removed while the window was open.  Problem now is that MagicMenu
+   now continues to cause a refresh again (see rev .6 notes).  I'm at my wits
+   end with MagicMenu and whatever "magic" it's doing to the Cx list and why.
+
+Exchange 44.10 (10.9.99)
+
+- Added new tag for handling columninfo in the LB properly.
+
+Exchange 44.11 (17.9.99)
+
+- Removed weight from LB group and placed on information group
+
+Exchange 44.12 (25.9.99)
+
+- Fixed bug where Icon wouldn't be displayed if app was ran from CLI.
+- Replaced static app name for icon with dynamic determined on startup.
+
+Exchange 44.13 (29.9.99)
+
+- Recompile with full optimization.
+- Frozen.
+
+Exchange 44.14 (03.9.99)
+
+- GA_Underscore, NULL addition to eliminate "_" in title and description texts.
+- Frozen
+
+--- OS 3.5 release ---
+
+Exchange 44.15 (1.12.99)
+
+- new framework
+
+- much less flickering of GUI (especially MagicMenu friendly)
+
+- GUI layout changes
+
+Exchange 44.16 (8.12.99)
+
+- fixed a bug in framework: starting a commodity the second time threw 
+  enforcer hits very likely.
+
+Exchange 44.17 (21.12.99)
+
+- increased free space for info strings by 2
+
+- adding/removing commodities no longer scrolls to top of list
+
+--- OS 3.9 release ---
+
+Exchange 45.2 (15.12.2000)
+
+- Active/Inactive state change wasn't displayed correctly in user interface
+  as long as the commodities list wasn't modified (commodity added or
+  removed).
