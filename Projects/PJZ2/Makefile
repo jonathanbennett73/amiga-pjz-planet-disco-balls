@@ -6,7 +6,8 @@ VERBOSE	= 1
 NAME	= PJZ-PlanetDiscoBalls
 EXE	=$(NAME)
 EXEUNPACKED=$(NAME)Unpacked
-TARGET	= runa500
+#TARGET	= runa500
+TARGET	= runaros
 
 CONFIG	= +kick13
 OBJDIR	= Build

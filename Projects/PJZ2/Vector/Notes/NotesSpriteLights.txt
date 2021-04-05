@@ -1,13 +1,13 @@
 Sprite lights
 
-We use up to 3 sprites for 3 lights. Call them light 0,2,4 for parity with sprites.
+We use up to 4 sprites for 4 lights. Call them light 0,2,4,6 for parity with sprites.
 
-We use spr0, 2 and 4.
+We use spr0, 2, 4, and 6.
 
 The lights are sorted into z-order with the nearest light at the front. The lights
-are then assiged to spr0,2,4 in that order (spr0 is frontmost)
+are then assiged to spr0,2,4,6 in that order (spr0 is frontmost)
 
-Determine where the vector object sits in relation to the 3 sprites and set bplcon2 in the copper
+Determine where the vector object sits in relation to the 4 sprites and set bplcon2 in the copper
 
 ;bplcon2, pf2p2-0 are used when in single playfield mode
 ;000 PF   SPO1 SP23 SP45 SP67
@@ -20,7 +20,8 @@ This value for pf2p2-0 are the nnn values in this:
 %0000|0000|00nn|n000
 
 Valid values are
-PF -> SPR0 -> SPR2 -> SPR4 = %0000|0000|0000|0000 = $0000
-SPR0 -> PF -> SPR2 -> SPR4 = %0000|0000|0000|1000 = $0008
-SPR0 -> SPR2 -> PF -> SPR4 = %0000|0000|0001|0000 = $0010
-SPR0 -> SPR2 -> SPR4 -> PF = %0000|0000|0001|1000 = $0018
+PF->SPR0->SPR2->SPR4->SPR6 = %0000|0000|0000|0000 = $0000
+SPR0->PF->SPR2->SPR4->SPR6 = %0000|0000|0000|1000 = $0008
+SPR0->SPR2->PF->SPR4->SPR6 = %0000|0000|0001|0000 = $0010
+SPR0->SPR2->SPR4->PF->SPR6 = %0000|0000|0001|1000 = $0018
+SPR0->SPR2->SPR4->SPR6->PF = %0000|0000|0010|0000 = $0020
